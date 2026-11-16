@@ -11,14 +11,16 @@
 - Update docs/ARCHITECTURE.md and docs/DATA_MODEL.md when contracts change.
 
 ## Phase 0 — Baseline and inventory
-- Inventory current page sections, functions, global variables, DOM IDs, storage reads/writes and event handlers.
-- Record current user workflows and create synthetic fixtures from the documented data contract.
-- Verify the existing app can load and save the current format.
-- Identify dependencies before moving code.
-**Exit condition:** an inventory exists and baseline checks are repeatable.
+- [x] Static inventory of primary pages, HTML IDs, JavaScript functions, storage access points, script loading and CSS footprint. See `docs/BASELINE_INVENTORY.md`.
+- [x] Record current page-to-section mapping and identify current data-boundary violations that Phase 1 must resolve.
+- [ ] Create synthetic fixtures from the documented data contract.
+- [ ] Verify the existing app can load and save the current format without field loss.
+- [ ] Identify and test critical event-handler dependencies before moving code.
+**Status:** source-level inventory is recorded; functional baseline checks are still pending. No application code has been modularized yet.
+**Exit condition:** inventory exists and baseline checks are repeatable.
 
 ## Phase 1 — Data boundary first
-- Introduce `core/storage.js) as the only owner of application localStorage reads/writes.
+- Introduce `core/storage.js` as the only owner of application localStorage reads/writes.
 - Initially read and write the exact existing `spa-daily-v2` JSON structure.
 - Preserve unknown fields and legacy `spa-daily-v1` migration behavior.
 - Add safe validation and test fixtures before migrating page code.
@@ -27,7 +29,7 @@
 
 ## Phase 2 — Extract pure utilities
 - Move local date parsing/formatting into `core/dates.js`.
-- Move pure health-score and progress calculations into `services/health-calculations.js) or focused utility modules.
+- Move pure health-score and progress calculations into `services/health-calculations.js` or focused utility modules.
 - Keep calculations independent of the DOM and persistence.
 **Exit condition:** output matches legacy behavior for representative fixtures.
 
@@ -59,7 +61,7 @@ Each page owns its own rendering and event orchestration. Shared state and stora
 **Exit condition:** no unintended layout changes across mobile, desktop, light and dark themes.
 
 ## Phase 6 — Native ES module entry
-- Switch scripts to `type="module") only after the dependency graph is complete.
+- Switch scripts to `type="module"` only after the dependency graph is complete.
 - Use explicit imports/exports; remove implicit globals.
 - Verify relative paths under GitHub Pages project hosting.
 - Update service-worker shell entries and cache version for changed app-shell assets.
