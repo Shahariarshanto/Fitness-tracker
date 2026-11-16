@@ -86,3 +86,11 @@ Health information is sensitive. Keep it local by default. Never commit real use
 - Daily and 7-day cards are derived at render time; no duplicate Overview records are stored.
 - Movement minutes are an estimate based on completed exercise catalogue durations and recorded guided-session duration; the interface labels them as approximate.
 - The Overview medication card may update today’s existing `medication.dailyLogs[date][medicationId]` status to `taken` or `skipped` through the shared medication service. It does not add, edit, or archive medicine definitions; those actions live in Health → Medication Management.
+
+
+### Backup format — version 1
+- Export envelope: `{ app: "as-care", schemaVersion: 1, exportedAt: ISO-8601, state: <complete app state> }`.
+- Import accepts only this application identifier and schema version. It validates the envelope and state-domain shapes before calling the state store; invalid files are rejected before any state update.
+- Import replaces the current application state after explicit confirmation. Export is a user-triggered JSON download.
+- Google Drive uses the same envelope and the narrow `drive.file` OAuth scope. Each manual sync creates a timestamped backup file; previous versions are not overwritten. Restore selects the newest matching version and replaces local state only after validation and confirmation.
+- OAuth access tokens exist only in memory. They are not stored in localStorage, app state, or backup files. Reconnect may be required after reload or token expiry.
