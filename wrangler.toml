@@ -1,6 +1,6 @@
 name = "fitnesstracker"
 main = "worker/index.js"
-compatibility_date = "2026-11-17"
+compatibility_date = "2026-11-16"
 
 [[d1_databases]]
 binding = "DB"
