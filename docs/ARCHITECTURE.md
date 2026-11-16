@@ -35,7 +35,6 @@ Only these event categories are approved:
 - `workout:finished`
 - `toast:show`
 - `theme:changed`
-- `drive:sync-status`
 
 Adding another event requires an explicit architecture reason and plan update. Prefer state subscriptions.
 
