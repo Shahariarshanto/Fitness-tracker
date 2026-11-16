@@ -60,15 +60,16 @@ function startApp() {
 
   var driveReady = import("./services/drive.js").then(function (drive) { return drive.initializeDrive(); }).catch(function (error) { console.warn("Google Drive initialization failed; cached data remains available.", error); });
 
-  Promise.all([
-    driveReady,
+  driveReady.then(function () {
+    return Promise.all([
     loadFeature("./features/settings/index.js", "Settings", "[data-settings-content]", "initSettings"),
     loadFeature("./features/medication/index.js", "Medication", "[data-medication-content]", "initMedication"),
     loadFeature("./features/overview/index.js", "Overview", "[data-overview-content]", "initOverview"),
     loadFeature("./features/movement/index.js", "Movement", "[data-movement-content]", "initMovement"),
     loadFeature("./features/insights/index.js", "Insights", "[data-insights-content]", "initInsights"),
     loadFeature("./features/health/index.js", "Health", "[data-health-content]", "initHealth")
-  ]).then(function () {
+    ]);
+  }).then(function () {
     return Promise.all([
       import("./core/state.js"),
       import("./core/events.js")
