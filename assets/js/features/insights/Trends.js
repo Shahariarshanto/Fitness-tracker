@@ -25,7 +25,7 @@ export function renderTrends(state, period=30) {
   const goalDays=recent.filter(x=>x.minutes>=goal).length;
   let streak=0;
   for(let day=today;day>=addDays(today,-365);day=addDays(day,-1)){const item=dayData(state,day);if(item.exercises||item.sessions)streak++;else if(streak)break;}
-  const labels=data.map((x,i)=>period<=7?x.day.slice(8):i%5===0||i===period-1?x.day.slice(8):"");
+  const labels=data.map(x=>x.day.slice(5));
   const painSeries=data.map(x=>x.pain), symptomSeries=data.map(x=>x.symptom);
   const chart=renderLineChart({labels,series:[{name:"ব্যথা",values:painSeries},{name:"উপসর্গের গড়",values:symptomSeries}],max:10,suffix:"/১০"});
   const bars=renderBarChart(data.slice(-14).map(x=>({label:x.day.slice(8),value:x.minutes})),goal);
