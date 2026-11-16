@@ -119,11 +119,11 @@ export async function syncDrive() {
 
 async function loadCloudState() {
   const meta = getDriveSyncMeta();
-  const file = await findBackup();
   if (meta.pending) {
     status("syncing", "আগের অসম্পূর্ণ পরিবর্তন Drive-এ সেভ হচ্ছে…");
     return syncDrive();
   }
+  const file = await findBackup();
   if (!file) return syncDrive();
   status("syncing", "Google Drive থেকে আগের তথ্য লোড হচ্ছে…");
   const payload = await readBackup(file);
@@ -177,7 +177,8 @@ export async function initializeDrive() {
 
 export async function connectDrive() {
   status("syncing", "Google Account সংযুক্ত হচ্ছে…");
-  await requestToken("consent");
+  try { await requestToken(""); }
+  catch { await requestToken("consent"); }
   hydrating = true;
   try {
     updateState(state => ({ ...state, preferences: { ...state.preferences, driveEnabled: true } }));
