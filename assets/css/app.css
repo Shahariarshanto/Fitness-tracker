@@ -386,3 +386,9 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 #p1:not([hidden]){display:flex;flex-direction:column;gap:16px}
 #p1[hidden]{display:none!important}
 #p1>.overview-hero,#p1>.overview-pain-card,#p1>#dailyHabits,#p1>#overviewInsights,#p1>#overviewMovement,#p1>.medication-home,#p1>.overview-next{width:100%;min-width:0}
+
+/* Enforce page visibility even if older layout rules set section display */
+section[id^="p"][hidden]{display:none!important}
+section[id^="p"][aria-hidden="true"]{display:none!important}
+section[id^="p"][aria-hidden="false"]{display:block}
+section#p1[aria-hidden="false"]{display:flex}
