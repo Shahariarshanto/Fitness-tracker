@@ -55,7 +55,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 ## 5. Cloud data contract
 - D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
 - The Worker validates the application identifier, schema version, required state domains and payload size before writing.
-- D1 is the primary database. A scheduled Worker writes daily snapshots to the R2 bucket; backup operation must be verified after deployment.
+- D1 is the primary database. A scheduled Worker writes daily snapshots to the R2 bucket and retains every snapshot indefinitely; no automatic cleanup is configured. Backup operation must be verified after deployment.
 - Cloudflare Worker API currently permits requests from the GitHub Pages site origin; CORS origin checks are not authentication and do not protect health data from non-browser callers.
 ## 6. Privacy
 Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
