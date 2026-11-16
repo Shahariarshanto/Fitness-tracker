@@ -39,3 +39,27 @@ h1 { max-width: 620px; margin-bottom: 8px; font-size: clamp(27px,6vw,42px); line
   .nav-item { flex-direction: row; justify-content: center; gap: 8px; font-size: 13px; }
   .page-panel { padding: 30px; }
 }
+
+
+/* Full-height app layout with persistent bottom navigation */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+}
+#app-main { flex: 1 0 auto; }
+.primary-nav {
+  position: fixed;
+  right: auto;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 10;
+  width: min(calc(100% - 32px), var(--content-width));
+  margin: 0;
+  transform: translateX(-50%);
+  box-shadow: 0 8px 28px rgba(20, 40, 28, .14);
+}
+.app-footer {
+  padding-bottom: calc(104px + env(safe-area-inset-bottom));
+}
