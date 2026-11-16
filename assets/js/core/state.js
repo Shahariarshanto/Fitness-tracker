@@ -24,7 +24,7 @@ function oneRecordPerDate(records) {
 }
 
 function normalizeState(saved) {
-  const stored = saved;
+  const { labs: _retiredLabRecords, ...stored } = saved;
   const medication = saved.medication || {};
   return {
     ...clone(INITIAL_STATE),
