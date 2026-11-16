@@ -1,7 +1,7 @@
 import { loadState, saveState } from "./storage.js";
 
 const INITIAL_STATE = {
-  preferences: { theme: "system", language: "bn", dailyGoal: 20 },
+  preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
   dailyActivity: {}, painLogs: {},
   medication: { items: [], dailyLogs: {} },
   symptoms: {}, healthScores: { basdai: [], asdas: [] },
