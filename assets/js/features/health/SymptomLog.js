@@ -1,5 +1,4 @@
 import { dateKey } from "../../core/dates.js";
-import { HEALTH_METRICS } from "../../data/health-data.js";
 
 const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fields = [
