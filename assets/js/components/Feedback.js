@@ -1,8 +1,13 @@
 import { emit } from "../core/events.js";
+import { getState } from "../core/state.js";
+import { playFeedbackSound, vibrateFeedback } from "../services/notifications.js";
 
 export function showToast(message, type = "info") {
   const text = String(message ?? "").trim();
   if (!text) return false;
+  const preferences = getState().preferences;
+  if (preferences.sound) playFeedbackSound();
+  if (preferences.vibration) vibrateFeedback();
   emit("toast:show", { message: text, type });
   return true;
 }
@@ -36,11 +41,7 @@ export function createConfirmDialog({ title = "নিশ্চিত করু�
   dialog.append(heading, body, actions);
   document.body.append(dialog);
   return new Promise(resolve => {
-    const finish = value => {
-      dialog.close();
-      dialog.remove();
-      resolve(value);
-    };
+    const finish = value => { dialog.close(); dialog.remove(); resolve(value); };
     cancel.addEventListener("click", () => finish(false), { once: true });
     confirm.addEventListener("click", () => finish(true), { once: true });
     dialog.addEventListener("cancel", event => { event.preventDefault(); finish(false); }, { once: true });
