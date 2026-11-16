@@ -81,8 +81,8 @@ Health information is sensitive. Keep it local by default. Never commit real use
 - Insights is read-only and does not create or modify clinical records.
 
 
-### Overview (derived, not persisted)
+### Overview (derived summaries and medication quick action)
 - Overview reads `dailyActivity`, `workoutSessions`, `painLogs`, `symptoms.daily`, `medication.items`, `medication.dailyLogs`, `healthScores`, and `preferences.dailyGoal`.
 - Daily and 7-day cards are derived at render time; no duplicate Overview records are stored.
 - Movement minutes are an estimate based on completed exercise catalogue durations and recorded guided-session duration; the interface labels them as approximate.
-- Overview is read-only. Quick actions navigate to the owning feature; they do not mutate feature data.
+- The Overview medication card may update today’s existing `medication.dailyLogs[date][medicationId]` status to `taken` or `skipped` through the shared medication service. It does not add, edit, or archive medicine definitions; those actions live in Health → Medication Management.
