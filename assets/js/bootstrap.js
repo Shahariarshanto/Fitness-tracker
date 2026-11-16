@@ -60,7 +60,8 @@ function startApp() {
 
   Promise.all([
     loadFeature("./features/settings/index.js", "Settings", "[data-settings-content]", "initSettings"),
-    loadFeature("./features/medication/index.js", "Medication", "[data-medication-content]", "initMedication"),\n    loadFeature("./features/overview/index.js", "Overview", "[data-overview-content]", "initOverview"),
+    loadFeature("./features/medication/index.js", "Medication", "[data-medication-content]", "initMedication"),
+    loadFeature("./features/overview/index.js", "Overview", "[data-overview-content]", "initOverview"),
     loadFeature("./features/movement/index.js", "Movement", "[data-movement-content]", "initMovement"),
     loadFeature("./features/insights/index.js", "Insights", "[data-insights-content]", "initInsights"),
     loadFeature("./features/health/index.js", "Health", "[data-health-content]", "initHealth")
