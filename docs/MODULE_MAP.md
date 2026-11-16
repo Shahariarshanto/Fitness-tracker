@@ -24,3 +24,15 @@ Update this file whenever a module is added, removed, or changes ownership. The 
 
 ## Temporary entry-point note
 The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `assets/js/bootstrap.js`. The HTML loads only `bootstrap.js`; the old `app.js` is not loaded or cached as an active runtime. At Step 10, the verified bootstrap is moved into `app.js` and the old monolith is removed.
+
+## Step 2 — Static data and shared components
+
+| Module | Responsibility | Imports |
+|---|---|---|
+| `assets/js/data/exercises.js` | Bengali/English exercise catalogue, groups, instructions, timing metadata, body-region mapping and ID lookup | none |
+| `assets/js/data/health-data.js` | Body-region labels, self-tracking metric definitions and lab field labels | none |
+| `assets/js/components/Navigation.js` | Keyboard navigation and selected-tab helper for the shell tablist | none |
+| `assets/js/components/Feedback.js` | Toast event helper, inline status message and confirmation dialog | core events |
+| `assets/js/components/Progress.js` | Reusable progress bar, ring and donut markup | none |
+| `assets/js/components/FormControls.js` | Escaped reusable text, number, range and textarea field markup | none |
+| `assets/css/components.css` | Shared component styling | design tokens |
