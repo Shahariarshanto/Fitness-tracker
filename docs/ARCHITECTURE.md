@@ -46,9 +46,9 @@ Target 40–50 application/runtime files. Aim for ≤150 lines per ordinary func
 Use relative paths for GitHub Pages deployment under `/Fitness-tracker/`. Every runtime JavaScript module must appear in the `sw.js` shell inventory. Bump the cache version and test offline behavior whenever the shell changes.
 
 ## 8. Security and clinical boundaries
-- Keep health data local by default.
+- Google Drive is the primary user-controlled data store; localStorage is only a temporary cache/outbox.
 - Never commit OAuth secrets, access tokens, private keys, or personal health exports.
-- Keep Drive access tokens in memory; require user-driven reconnect when authorization expires.
+- Keep Drive access tokens in memory; the app attempts silent token renewal on startup and requires user-driven reconnect when Google requires interaction.
 - Prefer the narrow `drive.file` scope.
 - This app is for self-monitoring, not diagnosis, prescribing, or emergency care.
 - Clinical guidance changes require appropriate review.
