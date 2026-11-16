@@ -219,3 +219,15 @@
  .overview-medication-card .medication-summary{background:#393322}
  .overview-medication-card .overview-med-actions button{background:#29271f}
 }
+
+:root[data-theme="dark"] .overview-movement-card{background:linear-gradient(135deg,#1c3829,#203d2e);color:#edf7ef}
+:root[data-theme="dark"] .overview-movement-card .overview-kicker,:root[data-theme="dark"] .overview-movement-card .movement-stats span,:root[data-theme="dark"] .overview-movement-card .overview-goal-label{color:#a9c4b0}
+:root[data-theme="dark"] .overview-movement-card .overview-icon-movement,:root[data-theme="dark"] .overview-movement-card .overview-tag{background:#2b5038;color:#c4e8ce}
+:root[data-theme="dark"] .overview-movement-card .movement-ring{background:conic-gradient(#86c99a var(--ring-progress),#365342 0)}
+:root[data-theme="dark"] .overview-movement-card .movement-ring>div{background:#1c3829}
+:root[data-theme="dark"] .overview-movement-card .movement-ring strong,:root[data-theme="dark"] .overview-movement-card .movement-stats strong,:root[data-theme="dark"] .overview-movement-card .overview-goal-label strong{color:#eff9f0}
+:root[data-theme="dark"] .overview-movement-card .overview-progress{background:#365342}
+:root[data-theme="dark"] .overview-movement-card .overview-link{color:#a7d9b5}
+:root[data-theme="dark"] .overview-medication-card{border-color:#574b31;background:linear-gradient(145deg,#29271f,#302c21)}
+:root[data-theme="dark"] .overview-medication-card .medication-summary{background:#393322}
+:root[data-theme="dark"] .overview-medication-card .overview-med-actions button{background:#29271f}
