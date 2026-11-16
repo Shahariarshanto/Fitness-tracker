@@ -2,7 +2,7 @@ import { getState, subscribe, updateState } from "../../core/state.js";
 import { dateKey } from "../../core/dates.js";
 import { showToast, createConfirmDialog } from "../../components/Feedback.js";
 import { renderMedication } from "./MedicationPanel.js";
-import { setMedicationStatus } from "./MedicationActions.js";
+import { setMedicationStatus } from "../../services/medication.js";
 
 export function initMedication({ root = document.querySelector("[data-medication-content]") } = {}) {
   if (!root) return () => {};
