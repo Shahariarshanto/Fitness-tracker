@@ -26,7 +26,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
   dailyActivity: {},
   painLogs: {},
-  medication: { items: [], dailyLogs: {} },
+  medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
   symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
   healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
   healthEvents: [{ id, title, date, note }],
@@ -57,3 +57,10 @@ The new backup format will be documented when the backup service is implemented.
 
 ## 6. Privacy
 Health information is sensitive. Keep it local by default. Never commit real user records, exports, tokens, or secrets to Git.
+
+
+### Medication records
+- Medication definitions are stored in `medication.items` with user-entered name, dose text, schedule, optional local time, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
+- Daily adherence is stored under `medication.dailyLogs[YYYY-MM-DD][medicationId]`. Each medicine has at most one status per date; changing the status updates that same date/medicine entry.
+- Status values are `taken` or `skipped`; absence means not yet recorded. Archiving sets `active: false` and retains prior daily logs for history.
+- Medication records remain local. Automatic notifications are not part of Step 5.
