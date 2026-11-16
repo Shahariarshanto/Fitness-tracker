@@ -36,8 +36,11 @@ function medicationCard(state, today) {
   const taken = active.filter(item => logs[item.id]?.status === "taken").length;
   const skipped = active.filter(item => logs[item.id]?.status === "skipped").length;
   const pending = active.length - taken - skipped;
-  const names = active.slice(0,3).map(item => `<li>${esc(item.name)} <span>${logs[item.id]?.status === "taken" ? "গ্রহণ করা হয়েছে" : logs[item.id]?.status === "skipped" ? "খাওয়া হয়নি" : "নথিভুক্ত নয়"}</span></li>`).join("");
-  return `<article class="overview-card"><div class="overview-card-head"><span class="overview-icon">＋</span><span class="overview-kicker">MEDICATION</span></div><div class="overview-med-count"><strong>${taken}</strong><span>গ্রহণ</span><strong>${pending}</strong><span>রেকর্ড নেই</span><strong>${skipped}</strong><span>বাদ</span></div>${active.length ? `<ul class="overview-med-list">${names}</ul>` : '<p class="overview-muted">এখনো কোনো সক্রিয় ওষুধ যোগ করা হয়নি।</p>'}${active.length > 3 ? `<p class="overview-muted">আরও ${active.length - 3}টি ওষুধ</p>` : ""}<p class="overview-card-foot">${active.length}টি সক্রিয় ওষুধ</p></article>`;
+  const names = active.slice(0,3).map(item => {
+    const status = logs[item.id]?.status;
+    return `<li><strong>${esc(item.name)}</strong><span>${status === "taken" ? "গ্রহণ করা হয়েছে" : status === "skipped" ? "খাওয়া হয়নি" : "এখনো রেকর্ড হয়নি"}</span><div class="overview-med-actions"><button type="button" data-med-status="taken" data-med-id="${esc(item.id)}" aria-pressed="${status === "taken"}" class="${status === "taken" ? "is-selected" : ""}">খেয়েছি</button><button type="button" data-med-status="skipped" data-med-id="${esc(item.id)}" aria-pressed="${status === "skipped"}" class="${status === "skipped" ? "is-selected is-skipped" : ""}">খাইনি</button></div></li>`;
+  }).join("");
+  return `<article class="overview-card"><div class="overview-card-head"><span class="overview-icon">＋</span><span class="overview-kicker">MEDICATION</span></div><div class="overview-med-count"><strong>${taken}</strong><span>গ্রহণ</span><strong>${pending}</strong><span>রেকর্ড নেই</span><strong>${skipped}</strong><span>বাদ</span></div>${active.length ? `<ul class="overview-med-list">${names}</ul>` : '<p class="overview-muted">এখনো কোনো সক্রিয় ওষুধ যোগ করা হয়নি।</p>'}${active.length > 3 ? `<p class="overview-muted">আরও ${active.length - 3}টি ওষুধ</p>` : ""}<button type="button" class="overview-link" data-page="health">ওষুধ ব্যবস্থাপনা <span>→</span></button></article>`;
 }
 
 function weekCard(state, today) {
