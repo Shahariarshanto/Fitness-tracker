@@ -207,3 +207,16 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Insights modules load with the updated service-worker version.
 
 **Verification note:** Repository source and static checks only; live browser, Android-device, clipboard, offline, and deployment tests remain for the user.
+
+
+### Step 7 visual analytics redesign — regression checks
+- [ ] Insights opens with a visual dashboard rather than text-only summary blocks.
+- [ ] 7/30/90-day controls redraw symptom and activity charts.
+- [ ] Pain and symptom charts omit missing dates rather than plotting them as zero.
+- [ ] Activity bars use recorded activity/session duration and show a genuine empty state when no activity exists.
+- [ ] BASDAI and ASDAS-CRP histories show only saved assessments with their dates.
+- [ ] Calendar selection, month navigation, doctor-summary date range and copy action still work.
+- [ ] Chart layout has no horizontal overflow on narrow Android screens.
+- [ ] New chart modules are present in the service-worker inventory and cache version increments.
+
+**Verification note:** Source changes and static review only. Live deployment, Android rendering, chart interaction and data accuracy still require user testing.
