@@ -33,7 +33,7 @@ Gradually split assets/js/app.js into native ES modules by feature. Start by cen
 
 ## Google Drive integration
 - Each end user authorizes their own Google account; never ask for their password.
-- The OAuth Web Client ID identifies the app and is configured by the app owner. It is not a client secret.
+- The shared OAuth Web Client ID is configured in assets/js/app.js by the app owner. It is public app configuration, not a client secret.
 - Never store access tokens in localStorage or commit OAuth secrets.
 - Keep Drive scope minimal (drive.file); do not broaden to full Drive access without an explicit security review.
 - Test connect, upload, restore/conflict, token expiry/re-authorize, disconnect/revoke, and two different Google accounts.
