@@ -4,14 +4,17 @@ A Bengali-first, mobile-friendly tracker focused on axial spondyloarthritis / an
 
 ## Current modules
 
+- Five-section responsive navigation (Overview, Movement, Insights, Health, Settings)
 - Daily mobility and exercise completion tracking
 - Pain, night-mobility, morning-stiffness, fatigue and sleep diary
 - Monthly BASDAI self-assessment
 - ASDAS-CRP calculator (CRP must be entered in mg/L)
-- CRP, ESR and other laboratory history
+- User-entered laboratory history (CRP with mg/L or mg/dL, ESR, Hb, ALT, creatinine); lab-specific reference ranges are not inferred
 - Doctor-ready summary
 - JSON export/import backup
 - Google Drive backup integration (requires the app owner's OAuth client ID)
+- Personal event/date tracker
+- Symptom trend range selector (7, 14, 30 or 90 days)
 - Installable PWA shell and basic offline caching
 
 ## Clinical-use note
