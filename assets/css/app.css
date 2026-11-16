@@ -379,3 +379,9 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .exercise-how{font-size:10px!important;font-weight:800;color:var(--ac)!important;letter-spacing:.2px}.exercise-en{font-size:10px!important;opacity:.85}
 @media(max-width:700px){.overview-insight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-analysis-grid{grid-template-columns:1fr}.overview-movement-grid{grid-template-columns:1fr}.overview-move-card{align-items:center}.movement-exercise{grid-template-columns:25px 19px 54px minmax(0,1fr)}.movement-demo{width:54px;height:52px}.movement-demo svg{width:52px;height:48px}.movement-status{grid-column:4}.overview-insights,.overview-movement{padding:14px;border-radius:18px}}
 @media(prefers-reduced-motion:reduce){.fg *{animation:none!important;transition:none!important}}
+
+/* Prevent empty dashboard placeholders from appearing as floating blank circles */
+#dailyHabits:empty,#overviewInsights:empty,#overviewMovement:empty{display:none!important}
+#p1{display:flex!important;flex-direction:column!important;gap:16px!important}
+#p1>.overview-hero,#p1>.overview-pain-card,#p1>#dailyHabits,#p1>#overviewInsights,#p1>#overviewMovement,#p1>.medication-home,#p1>.overview-next{display:block;width:100%;min-width:0;grid-column:1/-1}
+#p1>[hidden]{display:none!important}
