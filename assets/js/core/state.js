@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   medication: { items: [], dailyLogs: {} },
   symptoms: { daily: {} },
   healthScores: { basdai: [], asdas: [] },
-  labs: [], healthEvents: [],
+  healthEvents: [],
   flarePlan: { warningSigns: "", actions: "", contacts: "" },
   workoutSessions: []
 };
@@ -24,7 +24,6 @@ function normalizeState(saved) {
     symptoms: { ...INITIAL_STATE.symptoms, ...(saved.symptoms || {}), daily: { ...(saved.symptoms?.daily || {}) } },
     healthScores: { ...INITIAL_STATE.healthScores, ...(saved.healthScores || {}) },
     flarePlan: { ...INITIAL_STATE.flarePlan, ...(saved.flarePlan || {}) },
-    labs: Array.isArray(saved.labs) ? saved.labs : [],
     healthEvents: Array.isArray(saved.healthEvents) ? saved.healthEvents : [],
     workoutSessions: Array.isArray(saved.workoutSessions) ? saved.workoutSessions : []
   };
