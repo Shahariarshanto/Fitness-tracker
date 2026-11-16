@@ -62,6 +62,7 @@ function startApp() {
     loadFeature("./features/settings/index.js", "Settings", "[data-settings-content]", "initSettings"),
     loadFeature("./features/medication/index.js", "Medication", "[data-medication-content]", "initMedication"),
     loadFeature("./features/movement/index.js", "Movement", "[data-movement-content]", "initMovement"),
+    loadFeature("./features/insights/index.js", "Insights", "[data-insights-content]", "initInsights"),
     loadFeature("./features/health/index.js", "Health", "[data-health-content]", "initHealth")
   ]).then(function () {
     return Promise.all([
