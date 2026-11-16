@@ -353,3 +353,29 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 #dailyHabits .habit-message{margin-top:12px}
 .progress-donut,.progress-ring{display:block;max-width:100%;height:auto}
 @media(max-width:390px){.overview-pain-card .pain{gap:3px}.overview-pain-card .pain button{height:35px;font-size:12px}.overview-metric{display:grid;justify-items:start;gap:5px;padding:9px 7px}.overview-metric b{font-size:15px}.overview-hero,.overview-pain-card,#dailyHabits{padding:15px}}
+
+
+.overview-insights,.overview-movement{margin:16px 0;padding:18px;border:1px solid var(--bd);border-radius:22px;background:var(--card);box-shadow:0 8px 24px rgba(20,35,28,.035)}
+.overview-section-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.overview-section-heading h2{font-size:20px;margin:3px 0}.overview-section-heading .mu{font-size:12px;margin:3px 0}
+.overview-period{flex:none;padding:6px 10px;border-radius:20px;background:var(--bg);color:var(--mu);font-size:11px;font-weight:700}
+.overview-insight-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.overview-insight-card{min-width:0;display:grid;gap:5px;padding:12px;border-radius:15px;background:var(--bg);border:1px solid var(--bd)}
+.overview-insight-card small{font-size:11px;color:var(--mu)}.overview-insight-card strong{font-size:20px;line-height:1.2}.overview-insight-card>span:last-child{font-size:10px;color:var(--mu)}
+.insight-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:var(--ac2);color:var(--ac);font-size:17px}
+.overview-analysis-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:10px;margin-top:12px}
+.overview-analysis-card{min-width:0;padding:13px;border:1px solid var(--bd);border-radius:16px;background:var(--bg)}
+.overview-analysis-card>b{font-size:14px}.overview-analysis-card>.mu{font-size:11px;margin:4px 0 8px}
+.overview-chart-legend{display:flex;gap:16px;justify-content:center;font-size:11px;color:var(--mu)}.overview-chart-legend span{display:flex;align-items:center;gap:5px}.overview-chart-legend i,.overview-pie-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}.pain-dot{background:#2767e8}.stiff-dot{background:#c98a0b}
+.overview-pie-row{display:flex;align-items:center;gap:8px}.overview-pie-row>svg{width:112px;flex:none}.overview-pie-legend{display:grid;gap:6px;min-width:0;font-size:10px;color:var(--mu)}.overview-pie-legend span{display:flex;align-items:center;gap:5px}
+.overview-latest{margin-top:12px;padding:14px;border:1px solid var(--bd);border-radius:16px}.overview-latest>b{font-size:14px}.overview-latest>div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--bd);font-size:12px}.overview-latest>div:last-of-type{border:0}.overview-latest>div span{color:var(--mu)}.overview-latest>div strong{text-align:right;font-size:12px}.overview-latest>.mu{font-size:10px;margin:8px 0 0}
+.overview-movement-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.overview-move-card{min-width:0;display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--bd);border-radius:16px;background:var(--bg)}
+.overview-move-visual{width:72px;height:66px;flex:none;display:grid;place-items:center;border-radius:12px;background:var(--ac2);overflow:hidden}.overview-move-visual svg{width:70px;height:58px}
+.overview-move-copy{min-width:0;display:grid;gap:4px}.overview-move-copy small,.overview-move-copy>span{font-size:10px;color:var(--mu)}.overview-move-copy b{font-size:13px;line-height:1.4}.overview-move-copy p{font-size:11px;line-height:1.5;color:var(--mu);margin:0}
+.overview-all-moves{margin-top:12px;width:100%}
+.movement-exercise{grid-template-columns:26px 20px 68px minmax(0,1fr) auto}
+.movement-demo{width:68px;height:58px;display:grid;place-items:center;border-radius:12px;background:var(--ac2);overflow:hidden}.movement-demo svg{width:66px;height:54px}
+.exercise-how{font-size:10px!important;font-weight:800;color:var(--ac)!important;letter-spacing:.2px}.exercise-en{font-size:10px!important;opacity:.85}
+@media(max-width:700px){.overview-insight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-analysis-grid{grid-template-columns:1fr}.overview-movement-grid{grid-template-columns:1fr}.overview-move-card{align-items:center}.movement-exercise{grid-template-columns:25px 19px 54px minmax(0,1fr)}.movement-demo{width:54px;height:52px}.movement-demo svg{width:52px;height:48px}.movement-status{grid-column:4}.overview-insights,.overview-movement{padding:14px;border-radius:18px}}
+@media(prefers-reduced-motion:reduce){.fg *{animation:none!important;transition:none!important}}
