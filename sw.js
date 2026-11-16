@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v74";
+const CACHE_NAME = "as-care-shell-v75";
 const SHELL = [
   "./",
   "./index.html",
@@ -12,7 +12,7 @@ const SHELL = [
 const RUNTIME_MODULES = [
   "./assets/js/core/state.js", "./assets/js/core/events.js", "./assets/js/core/storage.js",
   "./assets/js/core/dates.js", "./assets/js/core/router.js",
-  "./assets/js/services/medication.js",
+  "./assets/js/services/medication.js", "./assets/js/services/backup.js", "./assets/js/services/drive.js", "./assets/js/services/notifications.js",
   "./assets/js/data/exercises.js", "./assets/js/data/health-data.js",
   "./assets/js/components/Navigation.js", "./assets/js/components/Feedback.js",
   "./assets/js/components/Progress.js", "./assets/js/components/FormControls.js",
