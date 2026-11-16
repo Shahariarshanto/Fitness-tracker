@@ -1,47 +1,53 @@
 # AS Care
 
-AS Care is a mobile-first personal tracking PWA for people managing routines related to axial spondyloarthritis (AS / axSpA). It helps track movement, medication adherence, symptoms, progress, health records, and backups.
+AS Care is a mobile-first personal tracking PWA for people managing routines related to axial spondyloarthritis (AS / axSpA). It helps track movement, medication, symptoms, progress and health records.
 
-> **Clinical boundary:** AS Care is a self-monitoring companion, not a diagnostic, prescribing, or emergency-care device.
+> **Clinical boundary:** AS Care is a self-monitoring companion, not a diagnostic, prescribing or emergency-care device.
 
-## Quick start
-1. Open the GitHub Pages app: https://shahariarshanto.github.io/Fitness-tracker/
-2. On Android Chrome, use **Add to Home screen** to install the PWA.
-3. The app automatically loads and saves its primary data through Cloudflare D1. No Google Drive connection or sign-in is used.
+## Open the app
 
-No build step or package manager is currently required. Local environment files are excluded by `.gitignore`; see `.env.example`. Cloudflare Worker source is in `worker/`; D1 schema is in `worker/migrations/`. The site is deployed from the main branch.
+https://shahariarshanto.github.io/Fitness-tracker/
+
+The app is designed for Android Chrome and desktop browsers and can be installed as a PWA. Application data is persisted through the Cloudflare Worker API to Cloudflare D1. The browser also keeps a temporary cache and offline pending changes.
+
+## Data and backup
+
+- Cloudflare D1 is the permanent primary data store.
+- Local browser storage is used as a cache and offline pending queue.
+- Changes are sent to the Worker automatically when connectivity is available.
+- Manual JSON export/import is the independent backup and restore method.
+- D1 is the primary database, not a backup. Keep exported JSON copies somewhere safe.
+- The current Worker API has no login or authentication. CORS restrictions are not authentication; the public endpoint must not be considered private. Do not enter information that requires confidentiality.
+
+Old test data does not require a migration or preservation project. Important personal records are expected to be entered once the app is ready for regular use.
 
 ## Repository map
-- index.html — semantic page shell and navigation
-- assets/css/app.css — application styles
-- assets/js/app.js — application behavior (currently one legacy JS entry)
-- assets/js/core/storage.js — centralized localStorage boundary (classic script; first extracted core module)
-- sw.js — offline cache and service worker
-- manifest.webmanifest, icon.svg — PWA metadata and icon
-- AI_CONTEXT.md — instructions for AI coding agents
-- CONTRIBUTING.md — development workflow and validation
-- docs/BASELINE_INVENTORY.md — current-code inventory and verified baseline facts
-- docs/ARCHITECTURE.md — architecture and design boundaries
-- docs/DATA_MODEL.md — storage and compatibility contracts
-- docs/ROADMAP.md — phased implementation plan for the approved modular architecture
+
+- `index.html` — application shell and navigation.
+- `assets/css/` — application styles.
+- `assets/js/bootstrap.js` — modular application entry point.
+- `assets/js/core/` — shared state, storage and application utilities.
+- `assets/js/features/` — Overview, Movement, Insights, Health, Medication and Settings.
+- `assets/js/services/backup.js` — manual JSON export/import.
+- `assets/js/services/cloudflare.js` — Worker API and D1 persistence integration.
+- `worker/` — Cloudflare Worker API and D1 migrations.
+- `sw.js` — PWA service worker and offline cache.
+- `manifest.webmanifest`, `icon.svg` — PWA metadata and icon.
+- `AI_CONTEXT.md`, `CONTRIBUTING.md` — development guidance.
+- `docs/` — architecture, data model, module map, tests and rebuild plan.
 
 ## Before making changes
-Read AI_CONTEXT.md, CONTRIBUTING.md, docs/BASELINE_INVENTORY.md, docs/ARCHITECTURE.md, docs/DATA_MODEL.md, and docs/ROADMAP.md. Preserve the existing storage key and exercise IDs. Fetch the latest main-branch files before editing.
 
-## Current feature areas
-Overview, Movement, Insights, Health, Settings. Details and known limitations are documented in docs/ARCHITECTURE.md.
-
-## Important implementation note
-CSS and JavaScript have been extracted from index.html into dedicated files. The rebuilt application uses modular ES modules. Cloudflare D1 is the primary data source; browser storage is retained only for temporary cache and offline pending edits.
+Read `AI_CONTEXT.md`, `CONTRIBUTING.md`, and the relevant documents in `docs/`. Fetch the latest `main` branch files before editing. Follow `docs/REBUILD_PLAN.md` for the current implementation roadmap.
 
 ## Deployment
-- GitHub Pages serves the static app under /Fitness-tracker/. Use relative asset paths such as ./assets/js/app.js. When app-shell files change, update the service worker shell list and cache version.
-- Cloudflare Workers builds the API from the repository's `main` branch. The Worker entry point is `worker/index.js`; `wrangler.toml` defines the `DB` D1 binding and migration directory.
-- Cloudflare Build configuration: leave **Build command** empty (None), set **Root directory** to `/`, and use this **Deploy command**: `npx wrangler d1 migrations apply as-care-auth --remote && npx wrangler deploy`.
-- The deploy command applies pending D1 migrations before publishing the Worker.
+
+- GitHub Pages serves the static app under `/Fitness-tracker/`. Use relative asset paths.
+- Cloudflare Workers provides the API. The Worker entry point is `worker/index.js`; `wrangler.toml` defines the D1 binding and migration directory.
+- The current Cloudflare deployment command applies pending D1 migrations before deploying the Worker:
+  `npx wrangler d1 migrations apply as-care-auth --remote && npx wrangler deploy`
+- Do not add paid services, billing, account/login flows or extra storage infrastructure without an explicit product decision.
 
 ## Testing
-Syntax checks and file-reference checks are useful but are not browser tests. Always test mobile, desktop, saved-data compatibility, and offline behavior before calling a release complete.
 
-
-The current Cloudflare Worker API has no login/authentication at the user's request. CORS origin restrictions are not authentication; the public endpoint must not be considered private.
+Syntax checks and file-reference checks are not browser tests. Verify the deployed app, data persistence, JSON export/import, mobile layout and offline recovery before calling a release complete. Report only tests actually performed.
