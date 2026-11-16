@@ -58,14 +58,14 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
       if (type === "basdai") {
         const v = basdaiFields.map(([key]) => Number(data.get(key)));
         const score = (v[0]+v[1]+v[2]+v[3]+(v[4]+v[5])/2)/5;
-        return { ...state, healthScores: { ...state.healthScores, basdai: [...state.healthScores.basdai, { id: crypto.randomUUID(), date: today, score: Number(score.toFixed(2)) }] } };
+        return { ...state, healthScores: { ...state.healthScores, basdai: [...state.healthScores.basdai.filter(item => item.date !== today), { id: crypto.randomUUID(), date: today, score: Number(score.toFixed(2)) }] } };
       }
       if (type === "asdas") {
         const v = asdasFields.map(([key]) => Number(data.get(key)));
         const crp = Number(data.get("crp"));
         if (!Number.isFinite(crp) || crp < 0) return state;
         const score = 0.12*v[0]+0.06*v[1]+0.11*v[2]+0.07*v[3]+0.58*Math.log(crp+1);
-        return { ...state, healthScores: { ...state.healthScores, asdas: [...state.healthScores.asdas, { id: crypto.randomUUID(), date: today, inputs: v, crp, score: Number(score.toFixed(2)) }] } };
+        return { ...state, healthScores: { ...state.healthScores, asdas: [...state.healthScores.asdas.filter(item => item.date !== today), { id: crypto.randomUUID(), date: today, inputs: v, crp, score: Number(score.toFixed(2)) }] } };
       }
       if (type === "event") {
         const title = String(data.get("title") || "").trim();
