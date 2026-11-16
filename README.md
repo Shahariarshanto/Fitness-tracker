@@ -39,7 +39,7 @@ Never put a Google client secret in this public repository. A browser OAuth clie
 
 ### Sync limitation
 
-This is a static GitHub Pages app. Automatic sync can run while the app is open and the Google access token is valid; the app can also attempt a silent token refresh after the user's prior consent. A static website cannot guarantee a scheduled sync while the browser/app is fully closed. True unattended background sync requires a secure backend that stores and refreshes OAuth tokens safely.
+This is a static GitHub Pages app. Automatic sync can run while the app is open and the Google access token is valid. Google Identity Services browser access tokens are short-lived and must be requested from a user-driven event when they expire, so the user may need to reconnect before the next daily sync. A static website cannot guarantee a scheduled sync while the browser/app is fully closed. True unattended background sync requires a secure backend using the OAuth authorization-code flow and securely stored refresh tokens.
 
 ## Data and privacy
 
