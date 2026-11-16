@@ -94,3 +94,16 @@ Medication is mounted within Overview to preserve the five approved primary navi
 | `assets/css/movement.css` | Responsive Movement-specific layout and controls | design tokens/components | Styles only |
 
 Movement uses the existing `dailyActivity` and `workoutSessions` state domains. Only `workout:started` and `workout:finished` are emitted; ordinary checklist changes use state subscriptions. The legacy exercise catalogue is explicitly unreviewed clinical reference material. No exercise-specific animation or prescribed positioning has been added without reviewed source media/instructions.
+
+
+## Step 7 — Insights feature
+
+| Module | Responsibility | Imports | State/DOM ownership |
+|---|---|---|---|
+| `assets/js/features/insights/index.js` | Owns calendar selection/month navigation, summary date range, copy action and state subscription | core state, dates, Feedback, Insights renderers | Owns `data-insights-content`; read-only state consumer |
+| `assets/js/features/insights/Calendar.js` | Renders monthly calendar markers and selected-day activity, symptom, medication and score details | core dates | Pure rendering |
+| `assets/js/features/insights/Trends.js` | Calculates and renders 7/30-day summaries, exercise minutes, active days, streak, pain and symptom trends | core dates, exercise catalogue | Pure calculation/rendering |
+| `assets/js/features/insights/DoctorSummary.js` | Builds date-range text summary from saved health, medication and movement records | core dates | Pure rendering and text generation |
+| `assets/css/pages.css` | Responsive Insights calendar, trend cards, and report preview | design tokens | Styles only |
+
+Insights is read-only: it does not mutate Health, Medication, or Movement records. Missing data is shown as unavailable rather than interpreted as zero. Doctor summaries are generated from local records and copied only on user action.
