@@ -244,35 +244,41 @@ Add focused module-level and feature-level tests in the same step that implement
 **Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.
 
 
-## Step 9 — Backup, Drive and notifications
+## Step 9 — Drive-first data and notifications
 
 ### Static checks
-- [ ] Backup envelope identifies `app: "as-care"` and `schemaVersion: 1`.
-- [ ] Backup validation checks required state domains and rejects malformed JSON/schema before state mutation.
-- [ ] Import applies the complete validated state through `updateState()`; no service accesses localStorage directly.
-- [ ] Drive OAuth uses only the `drive.file` scope; tokens remain memory-only.
-- [ ] Drive sync creates timestamped version files and does not overwrite prior snapshots.
-- [ ] Drive restore selects the newest matching version and validates it before state replacement.
-- [ ] Only the approved `drive:sync-status` event is used.
-- [ ] Sound, speech and vibration helpers degrade safely when unsupported or disabled.
-- [ ] New runtime services are listed in `sw.js` and cache version is incremented.
+- [ ] Drive uses only the drive.file OAuth scope; access tokens remain memory-only.
+- [ ] driveEnabled is a preference, not a stored credential.
+- [ ] Drive startup initialization completes before feature modules mount.
+- [ ] A valid canonical AS Care Data.json file is read and validated before state hydration.
+- [ ] A missing cloud file is created from current state only after explicit Google connection.
+- [ ] Updates are debounced and update the canonical file rather than creating timestamped files.
+- [ ] Edits made during an upload remain pending and are uploaded in a subsequent batch.
+- [ ] Failed/offline writes retain a pending outbox in the temporary local cache.
+- [ ] On startup, pending local edits upload before cloud hydration; otherwise Drive replaces the cache.
+- [ ] Malformed cloud snapshots are rejected before state mutation.
+- [ ] Drive status uses only the approved drive:sync-status event.
+- [ ] New modules are listed in sw.js and cache version is incremented.
 - [ ] No client secret, access token, health export or personal record is committed.
 
 ### Browser checks
-- [ ] Export downloads a valid JSON backup.
-- [ ] Import accepts a valid version-1 backup after confirmation.
-- [ ] Invalid JSON, unsupported versions and malformed state are rejected without changing local data.
-- [ ] Drive connect and consent work on the deployed HTTPS origin.
-- [ ] Manual Drive sync creates a new timestamped file.
-- [ ] Drive restore shows confirmation and replaces local data only after validation.
-- [ ] Token expiry/reload requires a user-driven reconnect.
-- [ ] Sound and vibration follow Settings preferences.
-- [ ] Voice Guidance announces the selected exercise only when enabled.
+- [ ] First-time Google connection creates the canonical Drive data file if none exists.
+- [ ] If a Drive file already exists, connecting loads it instead of replacing it with local cache.
+- [ ] Refreshing the app loads the latest Drive data before Overview/Health/Insights render.
+- [ ] Editing pain, symptoms, BASDAI, ASDAS, medication or movement eventually updates the same Drive file.
+- [ ] Rapid consecutive edits are batched into one upload.
+- [ ] An edit made while an upload is in progress is not lost and triggers a later upload.
+- [ ] A failed upload leaves pending data and reports the failure.
+- [ ] Reopening after a pending failed/offline edit uploads that edit before reading the cloud snapshot.
+- [ ] A new device can connect to the same Google Account and load the saved history.
+- [ ] Token expiry/reload shows a clear reconnect path without deleting cached or Drive data.
+- [ ] Disconnecting stops automatic cloud sync but does not delete the Drive file.
+- [ ] Sound, vibration and Voice Guidance continue to follow their preferences.
 
 ### Device/PWA checks
-- [ ] Backup controls fit narrow Android screens.
-- [ ] Google sign-in popup works in Android Chrome and installed PWA.
-- [ ] Exported file can be found in Android Downloads and re-imported.
-- [ ] Offline local tracking remains usable; Drive actions report unavailable network cleanly.
+- [ ] Google sign-in works on Android Chrome and installed PWA.
+- [ ] Drive data loads before feature pages appear.
+- [ ] Offline edits remain available in the temporary cache and sync after connectivity returns.
+- [ ] Narrow Android Settings layout remains usable.
 
-**Verification note:** Repository implementation and static source review only. Live export/import, Google OAuth/Drive, Android-device, audio, vibration, speech, offline, and deployed-browser tests remain for the user.
+Verification note: Repository source changes and documentation only. Live Google OAuth, Drive read/write, Android-device, offline, and deployed-browser tests have not been performed by the assistant.
