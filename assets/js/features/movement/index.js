@@ -2,6 +2,7 @@ import { getState, subscribe, updateState } from "../../core/state.js";
 import { dateKey } from "../../core/dates.js";
 import { emit } from "../../core/events.js";
 import { showToast } from "../../components/Feedback.js";
+import { speakGuidance, stopGuidance } from "../../services/notifications.js";
 import { EXERCISES } from "../../data/exercises.js";
 import { renderChecklist } from "./Checklist.js";
 import { renderExerciseDetails } from "./ExerciseDetails.js";
@@ -13,6 +14,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
   let selected = [], region = "", session = null, tick = null;
   const today = () => dateKey();
   const activity = () => getState().dailyActivity[today()] || {};
+  const announceCurrent = () => { if (getState().preferences.voiceGuidance) { const item = EXERCISES.find(x => x.id === session?.exerciseIds[session.index]); if (item) speakGuidance(item.name); } };
   const draw = () => {
     const state = getState(), completed = activity().completedExerciseIds || [];
     root.innerHTML = `<div class="movement-dashboard"><section class="movement-progress"><div><p class="eyebrow">TODAY'S PROGRESS</p><strong>${completed.length} / ${EXERCISES.length}</strong><span>অনুশীলন সম্পন্ন</span></div><div class="movement-progress-track"><span style="width:${Math.min(100,completed.length/EXERCISES.length*100)}%"></span></div></section><div class="movement-tools">${renderBodyMap(region)}${renderGuidedSession(session)}</div><section class="movement-checklist"><div class="movement-section-heading"><div><p class="eyebrow">EXERCISE LIBRARY</p><h3>অনুশীলনের তালিকা</h3></div><span>${selected.length}টি নির্বাচিত</span></div>${renderChecklist(today(),activity(),selected)}</section>${renderSessionHistory(state.workoutSessions)}</div>`;
@@ -56,17 +58,17 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     if(target.dataset.bodyRegion){region=region===target.dataset.bodyRegion?"":target.dataset.bodyRegion;draw();return;}
     if(target.hasAttribute("data-session-start")){start();return;}
     if(!session)return;
-    if(target.hasAttribute("data-session-pause")){session.paused=!session.paused;runClock();draw();return;}
-    if(target.hasAttribute("data-session-prev")){session.index=Math.max(0,session.index-1);session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;session.remainingMs=session.remaining*1000;runClock();draw();return;}
+    if(target.hasAttribute("data-session-pause")){session.paused=!session.paused;if(session.paused)stopGuidance();runClock();draw();if(!session.paused)announceCurrent();return;}
+    if(target.hasAttribute("data-session-prev")){session.index=Math.max(0,session.index-1);session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;session.remainingMs=session.remaining*1000;runClock();draw();announceCurrent();return;}
     if(target.hasAttribute("data-session-next")||target.hasAttribute("data-session-skip")){
       const id=session.exerciseIds[session.index];if(target.hasAttribute("data-session-skip")){session.completed=session.completed.filter(item=>item!==id);session.skipped=[...new Set([...session.skipped,id])];}else{session.skipped=session.skipped.filter(item=>item!==id);session.completed=[...new Set([...session.completed,id])];}
       if(session.index>=session.exerciseIds.length-1){finish();return;}
-      session.index++;session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;session.remainingMs=session.remaining*1000;runClock();draw();return;
+      session.index++;session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;session.remainingMs=session.remaining*1000;runClock();draw();announceCurrent();return;
     }
     if(target.hasAttribute("data-session-finish"))finish();
-    if(target.hasAttribute("data-session-close")){session=null;draw();}
+    if(target.hasAttribute("data-session-close")){stopGuidance();session=null;draw();}
   }
   root.addEventListener("click",click);root.addEventListener("change",click);draw();
   const unsubscribe=subscribe(draw);
-  return()=>{unsubscribe();clearInterval(tick);root.removeEventListener("click",click);root.removeEventListener("change",click);};
+  return()=>{unsubscribe();stopGuidance();clearInterval(tick);root.removeEventListener("click",click);root.removeEventListener("change",click);};
 }
