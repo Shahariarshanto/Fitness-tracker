@@ -58,7 +58,10 @@ function startApp() {
     console.error("Navigation failed", error);
   });
 
+  var driveReady = import("./services/drive.js").then(function (drive) { return drive.initializeDrive(); }).catch(function (error) { console.warn("Google Drive initialization failed; cached data remains available.", error); });
+
   Promise.all([
+    driveReady,
     loadFeature("./features/settings/index.js", "Settings", "[data-settings-content]", "initSettings"),
     loadFeature("./features/medication/index.js", "Medication", "[data-medication-content]", "initMedication"),
     loadFeature("./features/overview/index.js", "Overview", "[data-overview-content]", "initOverview"),
