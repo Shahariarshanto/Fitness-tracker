@@ -9,7 +9,7 @@ let status = { state: "starting", message: "Cloudflare থেকে তথ্য
 function setStatus(state, message) { status = { state, message }; }
 
 function recordTime(value) {
-  const raw = value && (value.updatedAt || value.endedAt || value.createdAt);
+  const raw = value && (value.deletedAt || value.updatedAt || value.endedAt || value.createdAt);
   const time = raw ? Date.parse(raw) : NaN;
   return Number.isFinite(time) ? time : 0;
 }
