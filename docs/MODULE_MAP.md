@@ -58,10 +58,10 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/health/index.js` | Self-contained Health Journal dashboard: daily check-in, BASDAI, ASDAS-CRP, laboratory records, event timeline, personal flare plan; handles render and delegated interactions | core state, core dates, Feedback | Subscribes to state; owns Health content root |
+| `assets/js/features/health/index.js` | Self-contained Health Journal dashboard: daily check-in, BASDAI, ASDAS-CRP, event timeline, personal flare plan; handles render and delegated interactions | core state, core dates, Feedback | Subscribes to state; owns Health content root |
 | `assets/css/pages.css` | Health journal overview, cards, forms, score history and mobile layout | design tokens | Styles only |
 
-The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Lab-report file storage is not part of this feature. Health records remain in local application storage.
+The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Health records remain in local application storage.
 
 
 ## Step 5 — Medication feature
@@ -133,8 +133,3 @@ Overview reads the shared state only. Medication remains independently mounted a
 | `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
 
 D1 is the permanent primary cloud source. R2 and paid storage are not used. Manual JSON export is the independent backup method. Google Drive and Google OAuth are removed. The Worker has no login/authentication; origin checks are CORS policy only and are not a security boundary.
-
-
-### Health laboratory records — current implementation
-- `healthEvents` and `labs` are separate state collections. Lab records store test name, numeric result, reported unit, date and optional note.
-- Lab entries are managed in the Health Journal and flow through the shared state store, Local Storage cache, Cloudflare D1 snapshot and JSON backup envelope.
