@@ -8,7 +8,7 @@ The rebuild starts with a clean schema because there is no existing user data to
 ## 2. State domains
 | Domain | Purpose |
 |---|---|
-| `preferences` | Theme, language, daily goal, interaction preferences |
+| `preferences` | Theme, language, daily goal, medication reminder, sound, voice, vibration preferences |
 | `dailyActivity` | Date-keyed exercise completion and daily activity |
 | `painLogs` | Date-keyed pain ratings |
 | `medication` | Medication definitions and date-keyed adherence |
@@ -24,7 +24,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
 
 ```js
 {
-  preferences: { theme: "system", language: "bn", dailyGoal: 20 },
+  preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
   dailyActivity: {},
   painLogs: {},
   medication: { items: [], dailyLogs: {} },
