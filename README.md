@@ -7,6 +7,7 @@ A Bengali-first, mobile-friendly tracker focused on axial spondyloarthritis / an
 - Five-section responsive navigation (Overview, Movement, Insights, Health, Settings)
 - Daily mobility and exercise completion tracking
 - Pain, night-mobility, morning-stiffness, fatigue and sleep diary
+- Customizable medication tracker name and two editable time-slot labels (tracking only; not dosing advice)
 - Monthly BASDAI self-assessment
 - ASDAS-CRP calculator (CRP must be entered in mg/L)
 - User-entered laboratory history (CRP with mg/L or mg/dL, ESR, Hb, ALT, creatinine); lab-specific reference ranges are not inferred
