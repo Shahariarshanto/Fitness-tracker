@@ -465,5 +465,5 @@ renderToday=function(){
  }
 };
 
-load();fix();if(!ASStorage.hasCurrentAppData())save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();tab(1);
+load();fix();if(!ASStorage.hasCurrentAppData())save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();tab(1);try{renderAll()}catch(err){console.error("AS Care initial dashboard render failed:",err)}
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
