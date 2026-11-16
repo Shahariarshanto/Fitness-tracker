@@ -17,7 +17,7 @@ export function initInsights({ root = document.querySelector("[data-insights-con
     const range = summaryRange();
     const preview = root.querySelector("[data-summary-preview]");
     const button = root.querySelector("[data-summary-copy]");
-    if (range.start > range.end) {
+    if (!range.start || !range.end || range.start > range.end) {
       preview.textContent = "শুরুর তারিখ শেষের তারিখের পরে হতে পারবে না।";
       button.disabled = true;
     } else {
@@ -38,7 +38,7 @@ export function initInsights({ root = document.querySelector("[data-insights-con
     }
     if (event.target.closest("[data-summary-copy]")) {
       const range = summaryRange();
-      if (range.start > range.end) return;
+      if (!range.start || !range.end || range.start > range.end) return;
       const text = buildDoctorSummary(getState(),range.start,range.end);
       if (navigator.clipboard?.writeText) {
         navigator.clipboard.writeText(text).then(()=>showToast("চিকিৎসকের সারাংশ কপি হয়েছে।","success")).catch(()=>fallbackCopy(text));
