@@ -1,172 +1,115 @@
-# AS Care — Fresh Rebuild & Modular Architecture Plan
+# AS Care — Rebuild & Modular Architecture Plan
 
-> **Status:** Approved implementation baseline  
 > **Repository:** `Shahariarshanto/Fitness-tracker`  
-> **Target branch:** `main`  
-> **Architecture:** Native JavaScript ES Modules  
-> **Strategy:** Fresh rebuild, feature by feature  
-> **Target size:** Approximately 40–50 application/runtime files  
-> **Execution rule:** One implementation step at a time; stop for the user's phone test and explicit `step done` approval before proceeding.
+> **Branch:** `main`  
+> **Runtime:** Native JavaScript ES Modules  
+> **Deployment:** GitHub Pages + Cloudflare Worker + Cloudflare D1  
+> **Principle:** One implementation step at a time; preserve working features and avoid unnecessary complexity.
 
 ---
 
-## 1. Project decision and source of truth
+## 1. Project decisions and source of truth
 
-AS Care will be rebuilt as a new application. There is **no existing user data that needs to be preserved**. The existing application is not a runtime foundation and must not be repaired or executed alongside the new application.
+AS Care is a personal axSpA (ankylosing spondylitis) companion for tracking movement, symptoms, medication, health scores, laboratory results and progress.
 
-The current monolithic `app.js` is known to be broken (including unresolved identifiers such as `cst`, `IT`, and `add`). It is **not to be run, imported, wrapped, bridged, or used in parallel** with the new application.
+The rebuilt application uses a clean modular architecture. The old monolithic `assets/js/app.js` may be consulted as a temporary functional reference while features are being checked, but it must not be imported into or run alongside the modular application. Remove it only after confirming that no required feature or reference is still needed.
 
-The old application is used only as a **functional specification**: inspect its UI and behavior to understand which features should exist. Reimplement those features cleanly using new native ES modules. Once the replacement is complete and verified, remove the old monolithic JavaScript and obsolete references.
+### Data and persistence decisions
 
-### Explicitly rejected approaches
+- **Cloudflare D1 is the permanent primary data store.**
+- The Cloudflare Worker provides the application API and validates/stores the app state.
+- **Local Storage is a local cache and offline pending queue**, not the permanent source of truth.
+- When offline, changes should remain locally queued and sync when connectivity returns.
+- **Manual JSON export/import is the independent user-controlled backup method.**
+- No automatic third-party backup service is part of the plan.
+- Old test data is not important and does not need a preservation or migration project. Important personal records will be entered after the app is ready for regular use.
+- Do not clear browser storage, delete current records, or perform destructive schema changes without an explicit reason and a safe, clearly explained plan.
 
-Do not reintroduce any of the following:
+### Explicitly excluded
 
-- A preliminary data-preservation or backup-safety migration step.
-- Compatibility with `spa-daily-v2` or `spa-daily-v1`.
-- Preservation of old exercise IDs as a migration requirement.
-- Import support for multiple legacy backup formats.
-- `legacy-app.js`, `legacy-bridge.js`, or any legacy runtime adapter.
-- Running the old and new applications together.
-- Repairing old undefined functions as a prerequisite to the rebuild.
-- Creating a large number of one-use files when related responsibilities can be combined.
+Do not add or reintroduce:
+- Google Drive integration, Google Identity Services, Google OAuth or Drive scopes.
+- Google Apps Script or Google Drive backup files.
+- Cloudflare R2 snapshots or R2 backup configuration.
+- Login, user accounts, passwords or an account-management flow.
+- Paid services, paid plans, billing or payment methods.
+- Visible sync controls or complicated backup workflows.
+- Legacy data migration solely to preserve unimportant test records.
+- Legacy runtime adapters or running the old and new applications together.
 
-The new application may define a clean new data schema, new identifiers, and a new backup format.
+The app should remain straightforward to use. Persistence should work in the background; manual JSON export/import is available as a separate recovery option.
 
 ---
 
 ## 2. Architecture principles
 
-1. **Native ES modules only.** Use explicit `import` and `export`; no monolithic global application runtime.
-2. **Feature ownership.** Each page/feature owns its own rendering and interactions.
-3. **No feature-to-feature imports.** Features communicate through the shared state store; only the explicitly approved cross-cutting notifications use the event bus.
-4. **Single source of truth.** `core/state.js` owns in-memory application state and exposes controlled updates and subscriptions.
-5. **State subscriptions for normal updates.** Use `state.subscribe()` for ordinary data changes and UI refresh. Do not create events for routine CRUD or rendering updates.
-6. **Minimal event bus.** Keep only workout start, workout finish, toast, theme change notifications.
-7. **Centralized persistence.** Only `core/storage.js` accesses browser local storage. Features use the state API.
-8. **Services are UI-independent.** Backup, Drive, calculations, and notifications do not own page DOM.
-9. **Static data is separate.** Data modules do not import features, components, or services.
-10. **Small review surface.** Aim for 150 lines or fewer per ordinary functional module and fewer than 100 lines in `app.js`. Merge closely related single-use pieces instead of splitting files artificially.
-11. **Document every module.** Keep the module map, event contract, data model, and test checklist in sync with implementation.
-12. **Offline correctness.** Every JavaScript module must be listed in the service worker shell inventory.
+1. **Native ES modules.** Use explicit `import` and `export`; avoid a monolithic global runtime.
+2. **Feature ownership.** Each feature owns its rendering and interactions.
+3. **Shared state.** The central state store owns in-memory application state and exposes controlled updates/subscriptions.
+4. **Centralized persistence.** Feature modules do not access Local Storage or call persistence APIs directly.
+5. **Cloud service boundary.** The Cloudflare service handles D1 hydration, persistence, retry and offline queue behavior; it does not own page DOM.
+6. **Backup separation.** JSON export/import is handled by the backup service and is independent of Cloudflare sync.
+7. **Minimal event bus.** Use events only for cross-cutting notifications that genuinely require them. Ordinary data changes use state subscriptions.
+8. **Static data is separate.** Data modules do not import features, components or services.
+9. **Offline correctness.** Every runtime JavaScript dependency must be included in the service-worker shell inventory.
+10. **Small review surface.** Prefer cohesive modules; do not create one-use files merely to reduce line counts.
+11. **Documentation stays current.** Architecture, data model, module map and test checklist must reflect the actual code.
+12. **No unnecessary infrastructure.** Do not add R2, OAuth, accounts or other services without a new explicit product decision.
 
 ### 2.1 Dependency direction
 
-Allowed dependency direction:
+Allowed:
+- App/bootstrap → core and feature entry points.
+- Features → core, shared components, services and static data.
+- Components → core only where needed.
+- Services → core and static data where justified.
+- Core → other core modules and static data where justified.
+- Data → no application-layer imports.
 
-- `app.js` → core and feature entry points.
-- `features/*` → core, shared components, services, and static data.
-- `components/*` → core only where needed.
-- `services/*` → core and static data where needed.
-- `core/*` → other core modules and static data only where justified.
-- `data/*` → no application-layer imports.
-
-Forbidden:
-
+Avoid:
 - Core importing a feature.
 - One feature importing another feature.
 - Shared components importing feature modules.
-- Services directly manipulating page DOM.
+- Services manipulating page DOM.
 - Data modules depending on UI or application services.
 
-### 2.2 State and event communication
-
-Normal state change flow:
+### 2.2 State update flow
 
 1. A feature receives user input.
-2. It calls a narrow state action/update method.
-3. The state store updates the in-memory state and persists through the storage layer.
-4. Subscribers receive the updated state or change notification.
-5. Each interested feature refreshes only its own UI.
+2. It calls a controlled state update/action.
+3. The state store updates in-memory state.
+4. The persistence layer stores the change locally and queues it for remote persistence as appropriate.
+5. Subscribers refresh the relevant UI.
+6. The Cloudflare service sends queued changes to the Worker when online.
 
-The event bus is reserved for these five event categories:
-
-| Event | Purpose |
-|---|---|
-| `workout:started` | A guided workout session begins |
-| `workout:finished` | A guided workout session finishes |
-| `toast:show` | Request a global toast notification |
-| `theme:changed` | Notify the app that the selected theme changed |
-
-Do not add events for ordinary exercise toggles, symptom edits, medication toggles, calendar navigation, or routine state updates. Those use state subscriptions.
+Do not create events for routine CRUD, symptom edits, medication toggles, calendar navigation or ordinary UI refreshes.
 
 ---
 
-## 3. Target repository structure
+## 3. Application structure
 
-Target approximately 47 application/runtime files (root files + CSS + JavaScript). Documentation files are additional and are not counted in the runtime target.
+The exact file tree must follow the current repository rather than forcing the project into a fixed file count. Keep modules grouped by responsibility.
+
+Expected areas:
 
 ```text
 Fitness-tracker/
-│
 ├── index.html
 ├── sw.js
 ├── manifest.webmanifest
 ├── icon.svg
-│
 ├── assets/
-│   └── css/
-│       ├── tokens.css
-│       ├── base.css
-│       ├── components.css
-│       ├── overview.css
-│       ├── movement.css
-│       └── pages.css
-│
-├── assets/js/
-│   ├── app.js
-│   │
-│   ├── core/
-│   │   ├── state.js
-│   │   ├── events.js
-│   │   ├── storage.js
-│   │   ├── dates.js
-│   │   └── router.js
-│   │
-│   ├── data/
-│   │   ├── exercises.js
-│   │   └── health-data.js
-│   │
-│   ├── services/
-│   │   ├── backup.js
-│   │   ├── drive.js
-│   │   ├── calculations.js
-│   │   └── notifications.js
-│   │
-│   ├── components/
-│   │   ├── Navigation.js
-│   │   ├── Feedback.js
-│   │   ├── Progress.js
-│   │   └── FormControls.js
-│   │
-│   └── features/
-│       ├── overview/
-│       │   ├── index.js
-│       │   └── OverviewCards.js
-│       ├── movement/
-│       │   ├── index.js
-│       │   ├── Checklist.js
-│       │   ├── ExerciseDetails.js
-│       │   ├── BodyMap.js
-│       │   └── GuidedSession.js
-│       ├── medication/
-│       │   ├── index.js
-│       │   └── MedicationPanel.js
-│       ├── insights/
-│       │   ├── index.js
-│       │   ├── Calendar.js
-│       │   ├── Trends.js
-│       ├── health/
-│       │   ├── index.js
-│       │   ├── SymptomLog.js
-│       │   ├── BASDAI.js
-│       │   ├── ASDAS.js
-│       │   ├── LabEvents.js
-│       │   └── FlarePlan.js
-│       └── settings/
-│           ├── index.js
-│           └── Preferences.js
-│
+│   ├── css/
+│   └── js/
+│       ├── bootstrap.js
+│       ├── core/
+│       ├── data/
+│       ├── services/
+│       │   ├── backup.js
+│       │   └── cloudflare.js
+│       ├── components/
+│       └── features/
+├── worker/
 └── docs/
     ├── AI_CONTEXT.md
     ├── ARCHITECTURE.md
@@ -177,494 +120,295 @@ Fitness-tracker/
     └── REBUILD_PLAN.md
 ```
 
-### 3.1 File consolidation decisions
+### 3.1 Service responsibilities
 
-- Four symptom-specific modules (night mobility, stiffness, fatigue, sleep) become one `SymptomLog.js`.
-- Backup export/import/validation/format helpers are consolidated into `services/backup.js`.
-- Cloudflare D1 hydration, debounced sync and offline retry are consolidated into `services/cloudflare.js`.
-- BASDAI, ASDAS, streak, progress, and statistics calculations are consolidated into `services/calculations.js`.
-- Exercise catalogue, groups, instructions, positions, animation metadata, and related exercise definitions are consolidated into `data/exercises.js`.
-- Body-region and health-related static mappings are consolidated into `data/health-data.js`.
-- Toast, modal, and confirmation UI are consolidated into `components/Feedback.js`.
-- Progress ring, bar, and chart primitives are consolidated into `components/Progress.js`.
-- Related form controls are consolidated into `components/FormControls.js`.
+- `services/backup.js`: JSON export, import, validation and format/version handling.
+- `services/cloudflare.js`: Worker API communication, initial D1 hydration, local pending queue, debounced sync and retry behavior.
+- Core state/storage modules: canonical in-memory state and local cache responsibilities.
+- Feature modules: user-facing health, medication, movement, overview, insights and settings functionality.
 
-Keep the feature boundaries clear even when related components share a file. Do not merge unrelated feature responsibilities merely to reduce the file count.
-
-### 3.2 Module size policy
-
-- Ordinary module target: ≤150 lines where practical.
-- `app.js`: <100 lines.
-- If a module grows, split by cohesive responsibility, not arbitrary line count.
-- Do not create one-use micro-files when a cohesive module is clearer.
-- Document any justified exception.
+Do not create a Drive service or R2 snapshot service.
 
 ---
 
-## 4. New data and storage model
+## 4. Data model and persistence
 
-The rebuilt application starts with a clean schema. It does not need to preserve the old local-storage object, old storage keys, old exercise IDs, or old backup envelopes.
+The canonical app state covers the data actually used by the application. Expected domains include:
 
-The new `docs/DATA_MODEL.md` must define the canonical state shape before feature implementation depends on it.
-
-Expected data domains:
-
-| Domain | Data |
+| Domain | Examples |
 |---|---|
-| Preferences | Theme, language, daily goal, interaction preferences |
-| Daily activity | Date-keyed exercise completion and daily progress |
-| Pain tracking | Daily pain score and relevant notes |
-| Medication | Medicine names, schedules, taken status, history |
-| Symptoms | Night mobility, stiffness, fatigue, sleep |
-| Health scores | BASDAI and ASDAS inputs, results, history |
-| Laboratory | Lab values, units, dates, notes |
-| Health events | Flare and other relevant health events |
+| Preferences | Theme, language, daily goal and interaction preferences |
+| Daily activity | Date-keyed exercise completion and progress |
+| Pain tracking | Daily pain score and notes |
+| Medication | Medicine details, schedule, taken status and history |
+| Symptoms | Stiffness, night mobility, fatigue and sleep |
+| Health scores | BASDAI/ASDAS inputs, results and history |
+| Laboratory | Test values, units, dates and notes |
+| Health events | Flares and other relevant health events |
 | Flare plan | User-editable action plan |
-| Workout sessions | Start/end, duration, selected/completed/skipped exercises |
-| Settings | Voice, sound, vibration, theme and other preferences |
+| Sessions | Start/end, duration and completed/skipped exercises |
 
-Storage rules:
+### Persistence rules
 
-- `core/storage.js` is the only module that accesses localStorage.
-- Features read and update data through the state store.
-- Define a clear initial state and validation rules.
-- Persistence must be predictable and must not silently discard unrelated state.
-- Backup uses only the new schema and a clearly identified new format.
-- Validate imported data before applying it.
-- Do not implement legacy backup compatibility.
+- Cloudflare D1 is the permanent primary data source.
+- The Worker validates incoming state and stores it in D1.
+- Local Storage supports fast startup, local continuity and a durable offline pending queue.
+- On startup, reconcile local pending changes with remote state carefully; never overwrite pending local edits with an older remote snapshot.
+- When offline, preserve changes locally and retry when connectivity returns.
+- Handle request failures without silently discarding local pending changes.
+- Do not claim that D1 itself is a backup.
+- No R2 snapshots or automated cloud backup are planned.
+- The endpoint currently has no user authentication by design. Do not describe CORS as authentication or as a security boundary.
+- Do not store credentials, tokens or secrets in the repository.
+
+### Manual JSON backup
+
+- The user can export the app state to a JSON file.
+- The user can import a previously exported, valid JSON backup.
+- Validate the file and schema before applying imported state.
+- Explain clearly when an import will replace current app data.
+- Keep this workflow independent of Cloudflare sync.
+- Test export/import with representative data before considering the feature complete.
 
 ---
 
-## 5. Ordered implementation roadmap
+## 5. Implementation roadmap
 
-Each step is a separate, reviewable unit of work. Complete the step, update documentation and service-worker inventory, commit and deploy it, then stop for the user's phone test. Proceed only after the user explicitly says **`step done`**. If the user reports a defect, fix and redeploy the current step; do not advance.
+Work in small, reviewable steps. Before changing code, inspect the current implementation and the relevant documentation. Do not assume that an older roadmap status still reflects the current repository.
 
-### Step 1 — New application foundation
+### Step 1 — Application foundation
 
-**Purpose:** Establish the new runtime without executing the old application.
+- HTML entry point and modular bootstrap.
+- Core state, subscriptions and controlled updates.
+- Centralized local cache/storage.
+- Date helpers and navigation/router.
+- Application shell, loading/error handling and base styles.
+- Service-worker shell inventory and cache-version strategy.
 
-Files:
-- `index.html`
-- `assets/js/bootstrap.js` (temporary clean entry point for Step 1; it does not import or execute the old `app.js`)
-- `assets/js/core/state.js`
-- `assets/js/core/events.js`
-- `assets/js/core/storage.js`
-- `assets/js/core/dates.js`
-- `assets/js/core/router.js`
-- `sw.js`
-- `assets/css/tokens.css`
-- `assets/css/base.css`
-
-Work:
-- Set up a clean HTML entry point and native ES module bootstrap.
-- Define initial state and controlled update API.
-- Implement `state.subscribe()` for normal updates.
-- Implement the minimal event bus with only the five approved event categories.
-- Centralize local-storage access.
-- Add date helpers and page routing.
-- Establish application shell, loading/error handling, and base CSS.
-- Establish service-worker shell inventory and cache-version strategy.
-- Do not import, execute, wrap, or bridge the old `app.js`.
-
-Tests:
-- App starts without console errors.
-- All primary navigation routes work.
-- State update and subscription work.
-- State persists and reloads.
-- Date helpers behave correctly.
-- Service worker installs and updates.
-- Offline shell loads.
-
-Exit gate: Do not start feature work until the new foundation works independently.
+**Verification:** app starts, navigation works, state updates and persists locally, reload works, service worker installs and the offline shell loads.
 
 ### Step 2 — Static data and shared components
 
-Files:
-- `data/exercises.js`
-- `data/health-data.js`
-- `components/Navigation.js`
-- `components/Feedback.js`
-- `components/Progress.js`
-- `components/FormControls.js`
-- `assets/css/components.css`
+- Exercise and health static data.
+- Shared navigation, feedback, progress and form controls.
+- Reusable UI styles.
 
-Work:
-- Define exercise catalogue, groups, positions, instructions, animation metadata, and related definitions.
-- Define body-region and health mapping data.
-- Build reusable navigation, feedback, progress, and form-control components.
-- Keep data independent from UI and features.
+**Verification:** imports resolve, components render and respond, mobile layout works, no dependency cycles.
 
-Tests:
-- Static data imports correctly.
-- Exercise groups and labels render.
-- Shared components render and respond to interaction.
-- Mobile layout works.
-- No dependency cycles.
+### Step 3 — Settings
 
-Exit gate: Data and shared UI are independently usable by features.
+- Theme and language preferences where supported.
+- Daily goal and interaction preferences.
+- Sound, voice and vibration preferences where implemented.
+- Relevant app/storage information.
 
-### Step 3 — Settings feature
+**Verification:** settings update, persist after reload and apply consistently.
 
-Files:
-- `features/settings/index.js`
-- `features/settings/Preferences.js`
-- `assets/css/pages.css`
+### Step 4 — Health
 
-Work:
-- Theme selection.
-- Language preference where supported by the app.
-- Daily goal.
-- Medication preferences.
-- Sound, voice, and vibration preferences.
-- PWA status and local storage information.
+- Symptom journal and history.
+- BASDAI and ASDAS input, calculation, result and history.
+- Laboratory entries and health events.
+- Editable flare plan.
 
-Tests:
-- Preferences change correctly.
-- Settings persist after reload.
-- Theme applies consistently.
-- Interaction preferences are respected.
-- No settings state is duplicated in another feature.
+**Verification:** data entry/history work, calculations match known test cases, incomplete inputs are handled safely.
 
-### Step 4 — Health feature
+### Step 5 — Medication
 
-Files:
-- `features/health/index.js`
-- `features/health/SymptomLog.js`
-- `features/health/BASDAI.js`
-- `features/health/ASDAS.js`
-- `features/health/LabEvents.js`
-- `features/health/FlarePlan.js`
-
-Work:
-- One symptom log module covering night mobility, stiffness, fatigue, sleep, and history.
-- BASDAI questionnaire, calculation integration, result, and history.
-- ASDAS inputs, calculation integration, result, and history.
-- Lab entry/history and health event entry/list.
-- Editable flare action plan.
-
-Tests:
-- Each symptom can be entered and retrieved.
-- BASDAI and ASDAS calculations are checked against known test cases.
-- Invalid or incomplete inputs are handled.
-- Histories render correctly.
-- Lab/event add and delete work.
-- Flare plan persists.
-
-### Step 5 — Medication feature
-
-Files:
-- `features/medication/index.js`
-- `features/medication/MedicationPanel.js`
-
-Work:
-- Medication cards and schedule.
-- Taken/not-taken interaction.
-- Medication history.
+- Medication list and schedules.
+- Taken/not-taken interaction and history.
 - Daily medication summary.
-- Settings integration.
 
-Tests:
-- Medication entries and schedule work.
-- Toggle updates state.
-- Data persists after reload.
-- Overview and insights can read the same medication state.
-- Medication feature remains the sole owner of medication mutations.
+**Verification:** entries and toggles work, persist and are reflected in relevant views.
 
-### Step 6 — Movement feature
+### Step 6 — Movement
 
-Files:
-- `features/movement/index.js`
-- `features/movement/Checklist.js`
-- `features/movement/ExerciseDetails.js`
-- `features/movement/BodyMap.js`
-- `features/movement/GuidedSession.js`
-- `assets/css/movement.css`
+- Exercise checklist, groups and daily progress.
+- Exercise instructions and details.
+- Body-region visualization where implemented.
+- Guided session controls and summary.
 
-Work:
-- Exercise checklist, grouping, completion, and daily progress.
-- Exercise instructions, animation, and position information.
-- Body-region visualization and activity mapping.
-- Guided session start, timer, pause/resume, next/previous, skip, finish, and summary.
-- Emit only the approved workout start/finish events.
+**Verification:** completion, timer, pause/resume, skip and finish behavior work; state survives reload.
 
-Tests:
-- Exercise list and grouping render.
-- Completion and progress update.
-- Details and animation work.
-- Body map renders.
-- Session timer is accurate.
-- Pause/resume/skip/finish work.
-- Session summary and history are correct.
-- State survives reload.
+### Step 7 — Insights
 
-### Step 7 — Insights feature
+- Calendar and day details.
+- Pain, movement, medication and symptom trends.
+- Weekly/monthly summaries and goal progress.
 
-Files:
-- `features/insights/index.js`
-- `features/insights/Calendar.js`
-- `features/insights/Trends.js`
+**Verification:** navigation, empty/populated states and statistics are correct.
+
+### Step 8 — Overview
+
+- Daily progress and quick actions.
+- Pain and movement summaries.
+- Medication and health snapshots.
+- Weekly insights and goal progress.
+
+Overview reads shared state; it does not become the owner of health, medication or movement data.
+
+**Verification:** cards update from state changes, quick actions navigate correctly and mobile layout works.
+
+### Step 9 — Cloud persistence, JSON backup and notifications
+
+Relevant modules may include:
+- `services/cloudflare.js`
+- `services/backup.js`
+- Notification helpers, if required
+- Core state/storage and bootstrap integration
+- Worker API and D1 schema/migrations
+- `sw.js`
 
 Work:
-- Monthly calendar, day status, day details, and month navigation.
-- Pain, exercise, medication, and symptom trends.
-- Weekly/monthly summaries, streaks, and goal progress.
+- Verify initial D1 hydration and local cache behavior.
+- Verify that new state changes reach the Worker and are stored in D1.
+- Verify offline edits remain queued locally and sync after reconnection.
+- Verify retry behavior does not lose or duplicate changes.
+- Verify a pending local edit is not overwritten by stale remote state.
+- Verify JSON export and validated import independently of cloud sync.
+- Keep sync in the background; do not add a visible sync dashboard.
+- Keep the user-facing backup flow simple.
+- Implement notification helpers only where the app requires them and where browser support permits.
 
-Tests:
-- Month navigation and day selection.
-- Empty and populated states.
-- Statistics checked against known sample data.
-- Charts and summaries update from state subscriptions.
+**Verification:**
+- Existing local state is not unexpectedly cleared during initialization.
+- Remote state loads correctly when there are no pending local edits.
+- Pending local changes are preserved and reconciled correctly.
+- Successful edits persist remotely.
+- Failed/offline requests retain pending changes.
+- Exported JSON can be imported and restores the expected data.
+- Invalid JSON is rejected without partially changing app state.
+- No Google Drive, OAuth, R2 or account flow exists in the runtime or UI.
 
-### Step 8 — Overview feature
+### Step 10 — Integration, cleanup and final verification
 
-Files:
-- `features/overview/index.js`
-- `features/overview/OverviewCards.js`
-- `assets/css/overview.css`
+- Verify all feature entry points and initialization order.
+- Check state ownership and subscriptions.
+- Check event usage and dependency direction.
+- Remove obsolete code only after confirming it is unused and no longer needed as a reference.
+- Remove dead imports, stale assets and outdated documentation.
+- Audit runtime imports against the service-worker inventory.
+- Bump the service-worker cache version when required.
+- Verify GitHub Pages subpath paths and Worker API integration.
+- Run regression checks on Android Chrome and desktop.
+- Verify offline launch and recovery behavior.
 
-Work:
-- Daily progress.
-- Pain check-in.
-- Today's movement summary.
-- Medication snapshot.
-- Health snapshot.
-- Weekly insights.
-- Goal progress and quick actions.
-
-Overview is a read-oriented aggregation feature. It does not become the owner of exercise, medication, or health data. It subscribes to state and reads the relevant domains.
-
-Tests:
-- Empty and populated dashboard states.
-- Exercise, pain, medication, and health updates refresh the appropriate cards.
-- Quick actions navigate correctly.
-- Mobile layout and card interactions work.
-
-### Step 9 — Drive-first data and notifications services
-
-Files:
-- assets/js/services/backup.js
-- assets/js/services/drive.js
-- assets/js/services/notifications.js
-- assets/js/core/storage.js
-- assets/js/core/state.js
-- assets/js/features/settings/index.js
-- assets/js/features/settings/Preferences.js
-- assets/js/bootstrap.js
-- sw.js
-
-Work:
-- Make Google Drive the primary and authoritative data source for the complete app state.
-- Connect the user's Google Account using Google Identity Services and the narrow drive.file scope.
-- On app startup, attempt Drive authorization and load the latest validated cloud state before mounting feature pages.
-- Maintain one canonical app-owned file named AS Care Data.json; update it instead of creating a new snapshot for every edit.
-- Batch rapid state changes with a short debounce. If a new edit happens during an upload, keep it pending and send another batch.
-- Use Local Storage only as a temporary cache and offline outbox. A pending local edit must upload before a cloud snapshot is loaded.
-- When offline or authorization expires, preserve pending edits locally and show a clear reconnect/sync status.
-- Never replace or clear the existing Drive file until the replacement upload succeeds.
-- Keep OAuth access tokens memory-only and never commit credentials or personal health data.
-- Keep the optional sound, voice and vibration helpers.
-- Remove the previous manual export/import and manual sync/restore controls from Settings.
-
-Tests:
-- First connection creates the canonical file if Drive has no AS Care data.
-- Existing Drive data is loaded instead of overwritten by the local cache.
-- App startup hydrates Drive data before feature pages render.
-- Every type of state edit eventually updates the canonical Drive file.
-- Rapid edits are batched; edits during an upload are not lost.
-- Offline edits remain pending and upload after reconnect/online.
-- Invalid cloud snapshots are rejected without applying partial state.
-- Token expiry/reconnect behavior is clear and does not delete data.
-- Sound, voice and vibration helpers continue to work.
-
-Static GitHub Pages cannot guarantee background sync while the app is closed. Cloud synchronization occurs while the app is open; an expired Google token may require the user to reconnect.
- 
-### Step 10 — Final integration, verification, and old-code removal
-
-Work:
-1. Verify all feature entry points and initialization order.
-2. Verify state subscriptions and ensure there is no duplicate state ownership.
-3. Verify only the five approved event categories are used.
-4. Keep `app.js` as a small bootstrap/router coordinator (<100 lines).
-5. Remove the old monolithic `assets/js/app.js` implementation and obsolete `drive-backup.js` once the new app is the only runtime.
-6. Remove obsolete script references, unused CSS, and dead assets.
-7. Update all documentation and module maps.
-8. Audit every JavaScript import against the service-worker shell list.
-9. Bump the service-worker cache version and test update behavior.
-10. Deploy and perform final regression tests.
-
-Final tests:
-- All five main tabs and all feature interactions.
-- Forms and calculations.
-- Backup export/import.
-- Google Drive connect/sync/restore.
-- PWA installation and offline launch.
-- Android Chrome and desktop browser.
-- GitHub Pages subpath deployment.
-- No unresolved imports or console errors.
-- No old application runtime remains.
-
-Exit gate: The new ES module application is the only runtime and all acceptance criteria pass.
+**Exit gate:** the modular app is the only runtime, core features pass their checks, and no obsolete integration remains.
 
 ---
 
-## 6. Service worker policy — mandatory for every step
+## 6. Service worker policy
 
-Every JavaScript module created or retained for runtime must be listed by its exact path in `sw.js`. This is not optional and must be checked in every implementation step, not postponed until final integration.
+Every runtime JavaScript module and required static asset must be available through the service-worker shell strategy.
 
-For each step:
-- Add every new JS module to the shell inventory.
-- Add required CSS and static assets.
-- Check relative import paths under GitHub Pages' `/Fitness-tracker/` base path.
-- Bump the cache version for the deployment.
-- Verify installation, update, and offline loading.
-- Confirm that the complete imported module graph is available offline.
+For each implementation change:
+- Add new runtime dependencies to the shell inventory.
+- Check relative paths under the GitHub Pages `/Fitness-tracker/` base path.
+- Bump the cache version when deploying changed assets.
+- Verify installation, update and offline loading.
+- Confirm the complete imported module graph is available offline.
 
-A step is not complete if a JavaScript module is missing from `sw.js`.
-
----
-
-## 7. Retained risks and mitigations
-
-Only the following three previously identified risks are retained in this plan.
-
-### Risk 6 — DOM dependencies
-
-The existing HTML and scripts contain many DOM IDs and selector relationships. Reusing old markup blindly can carry accidental coupling into the new architecture.
-
-Mitigation:
-- Treat old DOM as a behavioral reference, not a mandatory contract.
-- Define new HTML and DOM ownership intentionally.
-- Keep selectors local to the owning feature/component.
-- Handle missing elements safely.
-- Do not preserve old IDs unless there is a clear reason.
-
-### Risk 9 — Service worker module-cache completeness
-
-A native ES module can fail offline if any imported dependency is absent from the service-worker shell cache.
-
-Mitigation:
-- List every runtime JavaScript module in `sw.js`.
-- Update the inventory in the same step that creates a module.
-- Bump cache version for each deployment.
-- Test the complete app offline after each step.
-- Block step completion when any module is missing.
-
-### Risk 10 — Google OAuth token lifecycle
-
-Access tokens expire and may not survive a browser reload. Drive sync can fail until the user reconnects.
-
-Mitigation:
-- Keep access tokens memory-only.
-- Use a clear user-driven reconnect flow.
-- Request only the required Drive scope (prefer `drive.file` where suitable).
-- Report sync status and failures clearly.
-- Keep local app functionality available when Drive is disconnected or offline.
-- Never commit a client secret or other secret credential to the repository.
+Do not mark a step complete if a required runtime module is missing from the service-worker inventory.
 
 ---
 
-## 8. Documentation that must be maintained
+## 7. Risks and mitigations
 
-Create/update these project documents as implementation proceeds:
+### Remote persistence and offline conflicts
+**Risk:** A stale remote state or failed request could overwrite or lose newer local edits.
 
-| Document | Required contents |
+**Mitigation:** Keep a durable local pending queue, reconcile pending edits before remote hydration can replace state, validate server responses and retain pending changes until a confirmed successful write.
+
+### No authentication
+**Risk:** The current Worker endpoint has no user authentication. CORS is not an access-control substitute.
+
+**Mitigation:** Do not put secrets or sensitive credentials in client code. Keep the endpoint's current limitations documented and avoid claiming that the database is private or access-controlled by authentication.
+
+### Service-worker cache completeness
+**Risk:** A module missing from the shell cache can break offline startup.
+
+**Mitigation:** Update the inventory with every runtime change and test offline behavior.
+
+### Manual backup mistakes
+**Risk:** An invalid or older JSON file could replace current records.
+
+**Mitigation:** Validate before import, clearly identify the import action and test the restore behavior. The user should export a current JSON file before importing another one if current records matter.
+
+---
+
+## 8. Documentation to maintain
+
+| Document | Responsibility |
 |---|---|
-| `AI_CONTEXT.md` | Project purpose, current state, constraints, AI instructions |
-| `ARCHITECTURE.md` | Layers, dependency direction, state/event rules |
-| `DATA_MODEL.md` | New state schema, validation, persistence |
-| `MODULE_MAP.md` | Every module, responsibility, exports, dependencies, subscriptions, DOM ownership |
-| `EVENTS.md` | The five approved event contracts only |
-| `TESTS.md` | Module-level and feature-level manual test checklists |
-| `REBUILD_PLAN.md` | This approved plan and step/approval protocol |
+| `AI_CONTEXT.md` | Project purpose, current state, constraints and instructions |
+| `ARCHITECTURE.md` | Layers, dependency direction and state/persistence rules |
+| `DATA_MODEL.md` | Canonical state schema, validation and persistence |
+| `MODULE_MAP.md` | Module responsibilities, exports, dependencies and DOM ownership |
+| `EVENTS.md` | Supported event contracts |
+| `TESTS.md` | Module-level and feature-level test checklist |
+| `REBUILD_PLAN.md` | This roadmap and collaboration protocol |
 
-Update the module map and test checklist in the same implementation step that changes the corresponding module. Do not leave documentation until the end.
+Update relevant documentation in the same work step as the implementation change. Remove obsolete references rather than leaving contradictory historical instructions in active project guidance.
 
 ---
 
-## 9. Step-by-step collaboration protocol
+## 9. Collaboration protocol
 
-For every step:
+For each implementation step:
 
-1. Read the relevant current repository files and the applicable parts of this plan.
-2. Confirm the exact scope and files for the current step.
-3. Implement only that step; do not start later steps early.
-4. Update documentation and the service-worker inventory.
-5. Review imports, file sizes, dependency direction, and console/runtime risks.
-6. Commit the completed step to the agreed branch.
-7. Deploy if the repository's deployment configuration supports it.
-8. Give the user the exact changes and concise phone test instructions.
-9. Stop and wait for the user's explicit **`step done`**.
-10. If defects are reported, fix only the current step, redeploy, and wait again.
+1. Inspect the current repository and relevant documentation.
+2. Identify the exact scope and files to change.
+3. Implement only the agreed scope.
+4. Update documentation and service-worker inventory where applicable.
+5. Review imports, data flow and likely runtime risks.
+6. Commit changes to the agreed branch.
+7. Deploy when the repository configuration supports it.
+8. Report what changed and give concise phone-test instructions when a real device test is needed.
+9. Stop for the user's feedback before moving to the next step.
+10. Fix reported defects within the current scope before advancing.
 
-Do not claim a browser, phone, offline, or deployment test passed unless it was actually run and verified. Clearly distinguish code review from live testing.
+Never claim a phone, browser, offline or deployment test passed unless it was actually run and verified. Distinguish code inspection from live testing.
 
 ---
 
 ## 10. Final acceptance checklist
 
-### Architecture
-- [ ] Approximately 40–50 application/runtime files.
-- [ ] Native ES modules only.
-- [ ] No legacy runtime or bridge.
-- [ ] No feature-to-feature imports.
-- [ ] State store is the single source of truth.
-- [ ] Normal updates use `state.subscribe()`.
-- [ ] Event bus contains only the five approved event categories.
-- [ ] Shared components are reusable and feature-agnostic.
-- [ ] Ordinary modules aim for ≤150 lines.
-- [ ] `app.js` is under 100 lines.
+### Architecture and data
+- [ ] Modular ES module runtime.
+- [ ] Clear state ownership and controlled updates.
+- [ ] Cloudflare D1 is the permanent primary data store.
+- [ ] Local cache and offline pending queue preserve edits.
+- [ ] Manual JSON export/import validates and restores data.
+- [ ] No Google Drive, Google OAuth, Google Apps Script or R2 integration.
+- [ ] No login/account/password flow.
+- [ ] No paid service dependency.
 
-### Functionality
-- [ ] Overview complete.
-- [ ] Movement complete.
-- [ ] Medication complete.
-- [ ] Insights complete.
-- [ ] Health complete.
-- [ ] Settings complete.
-- [ ] New-format backup export/import works.
-- [ ] Google Drive sync/restore works.
-- [ ] PWA behavior works.
+### Features
+- [ ] Overview.
+- [ ] Movement.
+- [ ] Medication.
+- [ ] Insights.
+- [ ] Health.
+- [ ] Settings.
+- [ ] Cloud persistence and offline recovery.
+- [ ] JSON backup export/import.
+- [ ] PWA installation and offline launch.
 
 ### Quality and deployment
-- [ ] No undefined functions or unresolved imports.
-- [ ] No accidental global variables.
-- [ ] No duplicate state ownership.
-- [ ] No console errors in verified test paths.
-- [ ] Every module is documented in `MODULE_MAP.md`.
-- [ ] Module and feature tests are documented in `TESTS.md`.
-- [ ] Every runtime JavaScript module is listed in `sw.js`.
-- [ ] Cache version is bumped on each deployment.
-- [ ] GitHub Pages `/Fitness-tracker/` paths work.
-- [ ] Android Chrome test completed.
-- [ ] Desktop browser test completed.
-- [ ] Offline/PWA test completed.
-- [ ] Old monolithic runtime and obsolete references removed.
+- [ ] No unresolved imports or runtime errors in verified test paths.
+- [ ] No accidental duplicate state ownership.
+- [ ] Documentation matches the implementation.
+- [ ] Every runtime module is included in the service-worker inventory.
+- [ ] GitHub Pages subpath paths work.
+- [ ] Worker/D1 integration is verified.
+- [ ] Android Chrome and desktop checks completed.
+- [ ] Offline recovery checked.
+- [ ] Obsolete code and references removed after verification.
 
 ---
 
-## 11. Current execution status
+## 11. Current status
 
-- [x] Revised rebuild strategy and architecture decisions documented here.
-- [ ] Plan committed to the repository.
-- [ ] Step 1 — New application foundation (code committed; awaiting verification and user's phone test).
-- [ ] Step 2 — Static data and shared components.
-- [x] Step 3 — Settings (user phone-tested and approved).
-- [ ] Step 4 — Health (implementation committed; awaiting user's phone test and explicit approval).
-- [ ] Step 5 — Medication.
-- [ ] Step 6 — Movement.
-- [x] Step 7 — Insights (visual dashboard implemented; doctor summary intentionally excluded; user accepted).
-- [ ] Step 8 — Overview (implementation committed; awaiting user phone test and explicit approval).
-- [ ] Step 9 — Backup, Drive, and notifications.
-- [ ] Step 10 — Final integration and old-code removal.
+This document describes the intended architecture and acceptance criteria; it does not by itself certify that a feature or test is complete.
 
-**Important:** Saving this plan does not mean implementation has begun or that any step has passed testing. Implementation proceeds one step at a time with the user's explicit approval between steps.
-
-
-## Persistence implementation note — Cloudflare-first implementation
-
-- Cloudflare D1 is the permanent primary data source; the Worker validates and stores the complete AS Care state.
-- Local Storage is only a temporary cache and durable offline pending queue.
-- Google Drive, Google OAuth, Drive settings and Drive runtime code are removed.
-- The Worker is configured to create daily R2 snapshots and retain 30 days; R2 bucket creation and deployment remain pending.
-- The endpoint has no authentication at the user's request. CORS is not a security boundary.
-- Browser/device acceptance checks remain pending. Do not mark persistence complete until deployment, migration, R2 backups and user testing are verified.
+Update the feature checklist and current implementation status only after inspecting the latest repository and verifying the relevant behavior. Old test data does not need a migration or preservation phase. The important data-entry period begins when the app is ready for regular use.
