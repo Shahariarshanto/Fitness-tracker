@@ -309,3 +309,108 @@
  .overview-week-card .overview-week-bars{column-gap:5px}
  .overview-week-card .overview-week-bars small{font-size:7px}
 }
+
+
+/* Unified modern indigo palette for all Overview feature accents. */
+.overview-welcome {
+  border-color: #4653a8;
+  background: radial-gradient(circle at 82% 50%, #ffffff18 0 2px, transparent 3px 100%),
+    linear-gradient(125deg, #17234b 0%, #34458f 55%, #5865c8 100%);
+  box-shadow: 0 16px 35px rgba(43, 55, 130, .22);
+}
+.overview-welcome-label { color: #cbd2ff; }
+.overview-welcome-copy > p:last-child { color: #e0e5ff; }
+.welcome-leaf { color: #e2e5ff; }
+.overview-icon-movement { background: #e7eaff; color: #4d5cc5; }
+.overview-icon-health { background: #fce9f0; color: #b64f78; }
+.overview-icon-medication { background: #e8f3ff; color: #3675b8; }
+.overview-icon-week { background: #eeeaff; color: #6956bd; }
+.overview-movement-card {
+  border: 1px solid #dce3ff;
+  background: linear-gradient(135deg, #edf0ff 0%, #f8f9ff 72%, #e5eaff 100%);
+  color: #202b56;
+}
+.overview-movement-card .overview-kicker,
+.overview-movement-card .movement-stats span,
+.overview-movement-card .overview-goal-label { color: #68749e; }
+.overview-movement-card .overview-icon-movement,
+.overview-movement-card .overview-tag { background: #dfe5ff; color: #4656b5; }
+.overview-movement-card .movement-ring {
+  background: conic-gradient(#5b63d6 var(--ring-progress), #dce2fb 0);
+  box-shadow: 0 5px 16px rgba(62, 73, 165, .10);
+}
+.overview-movement-card .movement-ring > div { background: #f8f9ff; }
+.overview-movement-card .movement-ring strong,
+.overview-movement-card .movement-stats strong,
+.overview-movement-card .overview-goal-label strong { color: #273568; }
+.overview-movement-card .overview-progress { background: #dce2fb; }
+.overview-movement-card .overview-progress i { background: linear-gradient(90deg, #535bd0, #8794f2); }
+.overview-movement-card .overview-link { color: #4d58bd; }
+.overview-medication-card {
+  border-color: #dce6f5;
+  background: linear-gradient(145deg, #ffffff, #f0f5ff);
+}
+.overview-medication-card .overview-icon-medication { background: #e4efff; color: #3978bd; }
+.overview-medication-card .medication-summary { background: #e8effb; }
+.overview-medication-card .medication-summary > div { border-color: #d4e0f2; }
+.overview-medication-card .overview-med-actions button { background: #fff; }
+.overview-medication-card .overview-med-actions button.is-selected { background: #5b5bd6; }
+.overview-week-card .overview-icon-week { background: #eeeaff; color: #6956bd; }
+.overview-week-card .overview-week-bars i { background: #dce3f4; }
+.overview-week-card .overview-week-bars .has-activity i { background: linear-gradient(180deg, #9aa4f4, #555dcc); }
+.overview-quick-actions button:first-child .quick-action-icon { background: #e7eaff; color: #4d5cc5; }
+.overview-quick-actions button:nth-child(2) .quick-action-icon { background: #fce9f0; color: #b64f78; }
+.overview-quick-actions button:nth-child(3) .quick-action-icon { background: #eeeaff; color: #6956bd; }
+
+:root[data-theme="dark"] .overview-movement-card {
+  border-color: #354477;
+  background: linear-gradient(135deg, #1c2850, #202e59);
+  color: #edf0ff;
+}
+:root[data-theme="dark"] .overview-movement-card .overview-kicker,
+:root[data-theme="dark"] .overview-movement-card .movement-stats span,
+:root[data-theme="dark"] .overview-movement-card .overview-goal-label { color: #b0bce8; }
+:root[data-theme="dark"] .overview-movement-card .overview-icon-movement,
+:root[data-theme="dark"] .overview-movement-card .overview-tag { background: #303e70; color: #d5dcff; }
+:root[data-theme="dark"] .overview-movement-card .movement-ring { background: conic-gradient(#9b9cff var(--ring-progress), #354477 0); }
+:root[data-theme="dark"] .overview-movement-card .movement-ring > div { background: #1c2850; }
+:root[data-theme="dark"] .overview-movement-card .movement-ring strong,
+:root[data-theme="dark"] .overview-movement-card .movement-stats strong,
+:root[data-theme="dark"] .overview-movement-card .overview-goal-label strong { color: #f0f2ff; }
+:root[data-theme="dark"] .overview-movement-card .overview-progress { background: #354477; }
+:root[data-theme="dark"] .overview-movement-card .overview-progress i { background: linear-gradient(90deg, #8588f5, #b1b4ff); }
+:root[data-theme="dark"] .overview-movement-card .overview-link { color: #c0c3ff; }
+:root[data-theme="dark"] .overview-medication-card {
+  border-color: #30445f;
+  background: linear-gradient(145deg, #17253b, #1b2b43);
+}
+:root[data-theme="dark"] .overview-medication-card .medication-summary { background: #20334e; }
+:root[data-theme="dark"] .overview-medication-card .medication-summary > div { border-color: #344b68; }
+:root[data-theme="dark"] .overview-medication-card .overview-med-actions button { background: #17253b; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .overview-movement-card {
+    border-color: #354477;
+    background: linear-gradient(135deg, #1c2850, #202e59);
+    color: #edf0ff;
+  }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-kicker,
+  :root:not([data-theme="light"]) .overview-movement-card .movement-stats span,
+  :root:not([data-theme="light"]) .overview-movement-card .overview-goal-label { color: #b0bce8; }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-icon-movement,
+  :root:not([data-theme="light"]) .overview-movement-card .overview-tag { background: #303e70; color: #d5dcff; }
+  :root:not([data-theme="light"]) .overview-movement-card .movement-ring { background: conic-gradient(#9b9cff var(--ring-progress), #354477 0); }
+  :root:not([data-theme="light"]) .overview-movement-card .movement-ring > div { background: #1c2850; }
+  :root:not([data-theme="light"]) .overview-movement-card .movement-ring strong,
+  :root:not([data-theme="light"]) .overview-movement-card .movement-stats strong,
+  :root:not([data-theme="light"]) .overview-movement-card .overview-goal-label strong { color: #f0f2ff; }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-progress { background: #354477; }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-progress i { background: linear-gradient(90deg, #8588f5, #b1b4ff); }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-link { color: #c0c3ff; }
+  :root:not([data-theme="light"]) .overview-medication-card {
+    border-color: #30445f;
+    background: linear-gradient(145deg, #17253b, #1b2b43);
+  }
+  :root:not([data-theme="light"]) .overview-medication-card .medication-summary { background: #20334e; }
+  :root:not([data-theme="light"]) .overview-medication-card .medication-summary > div { border-color: #344b68; }
+  :root:not([data-theme="light"]) .overview-medication-card .overview-med-actions button { background: #17253b; }
+}
