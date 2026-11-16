@@ -6,7 +6,7 @@ Update this file whenever a module is added, removed, or changes ownership. The 
 
 | Module | Responsibility | Imports | State/events |
 |---|---|---|---|
-| `assets/js/bootstrap.js` | Initializes Drive data before mounting feature pages, then starts router, theme, date label, toast listener and service worker | core state, router, dates, events | Subscribes to state; listens to theme and toast |
+| `assets/js/bootstrap.js` | Initializes Cloudflare D1 state before mounting feature pages, then starts router, theme, date label, toast listener and service worker | core state, router, dates, events, Cloudflare service | Subscribes to state; listens to theme and toast |
 | `core/state.js` | Owns in-memory state and subscriber notifications | core storage | Publishes ordinary state changes through `subscribe()` |
 | `core/storage.js` | Reads/writes new app state | none | Namespace: `as-care-state-v1` |
 | `core/events.js` | Minimal typed event bus | none | Five approved event categories |
@@ -122,17 +122,14 @@ Insights is read-only: it does not mutate Health, Medication, or Movement record
 Overview reads the shared state only. Medication remains independently mounted and owns its own records; Overview can record today’s taken/skipped status through the shared medication service. All ordinary updates arrive through `state.subscribe()`. No Overview-specific data is persisted.
 
 
-## Step 9 — Drive-first data and notifications services
+## Cloudflare-first persistence and notifications
 
 | Module | Responsibility | Imports | State/events |
 |---|---|---|---|
-| assets/js/services/backup.js | Creates and validates complete version-1 cloud snapshots; applies a validated snapshot through the state store | core state | No DOM or direct storage |
-| assets/js/services/drive.js | Google OAuth, startup cloud hydration, canonical Drive file read/update, debounced batch sync, offline retry and sync status | backup, core state, core storage, core events | Memory-only token; emits drive:sync-status; subscribes to state changes |
-| assets/js/core/storage.js | Stores temporary state cache and Drive pending/sync metadata | none | Sole localStorage owner |
-| assets/js/features/settings/index.js | Connects/reconnects or disconnects Google Drive and displays live sync status | Drive, core state/events, Feedback | No manual import/export or manual sync controls |
-| assets/js/features/settings/Preferences.js | Renders Drive-first storage explanation and connection controls with other preferences | core state, core events | No direct storage access |
-| assets/js/services/notifications.js | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
-| assets/js/components/Feedback.js | Applies saved sound/vibration preferences to toast feedback | core state, notifications | Existing toast event only |
-| assets/js/features/movement/index.js | Announces current guided exercise when Voice Guidance is enabled | notifications, core state | No new event category |
+| `assets/js/services/cloudflare.js` | Loads validated D1 state before feature mount, debounces writes, preserves offline pending changes, retries failed writes and refreshes newer cloud versions | core state, core storage | Subscribes to state; no UI controls |
+| `worker/index.js` | Validates and serves the single primary state snapshot; creates scheduled daily R2 backups and prunes backups older than 30 days | D1 binding, R2 binding | Public single-user API by explicit user decision |
+| `worker/migrations/0001_app_state.sql` | Creates the D1 primary state table | D1 | One canonical state row |
+| `assets/js/core/storage.js` | Stores temporary local cache and durable pending marker | none | Sole localStorage owner |
+| `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
 
-Google Drive is the primary source of truth. The app hydrates state from Drive before mounting feature pages. Edits are batched and update one app-owned AS Care Data.json file. Local Storage is only a temporary cache/outbox for offline continuity and unsynchronized edits. Tokens remain memory-only; reconnect may be required after token expiry.
+D1 is the permanent primary source. R2 is the independent daily backup destination. Google Drive and Google OAuth are removed. The Worker has no login/authentication; origin checks are CORS policy only and are not a security boundary.
