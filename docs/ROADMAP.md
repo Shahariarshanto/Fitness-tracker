@@ -26,6 +26,7 @@
 - [x] Preserve the existing `spa-daily-v2` JSON structure and legacy `spa-daily-v1` read/mapping behavior.
 - [x] Add basic storage API checks for round-trip, unknown root/nested fields, invalid-write safety and legacy data mapping (run in an isolated mock-storage environment).
 - [ ] Add repeatable test fixtures/scripts to the repository and test malformed, partial and unusual legacy inputs.
+- [x] Add remembered Drive-connection preference and attempt silent Google token renewal when the app opens or a token expires.
 - [ ] Verify full app workflows and Drive restore/conflict in a real browser before treating this phase as complete.
 - [ ] Introduce `core/state.js` with controlled state access/update/subscribe APIs after storage behavior is verified.
 **Status:** the central storage boundary is implemented and basic isolated checks pass. Browser-level integration and state API work remain pending.
