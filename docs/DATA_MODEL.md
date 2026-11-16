@@ -37,3 +37,9 @@ This document records the existing browser-side persistence contract. Users may 
 
 ## Future improvement
 A versioned envelope such as { schemaVersion: 3, ... } is recommended only as a separate migration project. First implement a reader for the current unversioned spa-daily-v2 structure, then migrate and test. Do not mix this with unrelated UI work.
+
+
+## Google Drive configuration and tokens
+- The Web OAuth Client ID is app configuration, not a secret. It may be stored per browser in localStorage under asCareDriveClientId until the app owner configures a shared value in source.
+- Never store Google access tokens or client secrets in localStorage, app state, exports, or Git.
+- Drive backup payload wraps the application state with schemaVersion and updatedAt metadata. Keep restore validation and conflict confirmation before replacing local data.
