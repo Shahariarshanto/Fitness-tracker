@@ -1,4 +1,5 @@
 const STORAGE_KEY = "as-care-state-v1";
+const CLOUD_PENDING_KEY = "as-care-cloud-pending-v1";
 
 export function loadState(fallbackState) {
   try {
@@ -12,12 +13,10 @@ export function loadState(fallbackState) {
     return fallbackState;
   }
 }
-
 export function hasCachedState() {
   try { return window.localStorage.getItem(STORAGE_KEY) !== null; }
   catch { return false; }
 }
-
 export function saveState(state) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -27,7 +26,18 @@ export function saveState(state) {
     return false;
   }
 }
-
+export function markCloudPending() {
+  try { window.localStorage.setItem(CLOUD_PENDING_KEY, "1"); return true; }
+  catch { return false; }
+}
+export function hasCloudPending() {
+  try { return window.localStorage.getItem(CLOUD_PENDING_KEY) === "1"; }
+  catch { return false; }
+}
+export function clearCloudPending() {
+  try { window.localStorage.removeItem(CLOUD_PENDING_KEY); return true; }
+  catch { return false; }
+}
 export function getStorageInfo() {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY) || "";
