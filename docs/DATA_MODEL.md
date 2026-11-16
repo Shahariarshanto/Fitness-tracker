@@ -43,21 +43,24 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - BASDAI and ASDAS keep exactly one result per calendar day. Recalculation on the same date updates the existing record, including questionnaire inputs; ASDAS also updates CRP in mg/L. Previous dates remain in history. On state load, duplicate same-day score records are normalized to the last saved record for that date, then sorted by date. BASDAI and ASDAS range controls are prefilled from the saved same-day inputs.
 - Health events and the user-authored flare plan are personal notes. The app does not prescribe medication or treatment.
 
-## 4. Persistence
-- New localStorage namespace: `as-care-state-v1`.
-- `core/storage.js` is the only module allowed to access localStorage for app state.
-- State updates pass through `core/state.js`.
-- Validate incoming state and imported backup data.
-- Do not silently accept malformed structures.
-- Do not store derived statistics when they can be calculated from source records.
-- Do not store OAuth access tokens in application state or backups.
+## 4. Persistence and source of truth
+- Google Drive is the primary and authoritative store for the complete AS Care state.
+- On app startup, the app attempts Google authorization and loads the latest validated Drive snapshot before mounting feature pages.
+- core/state.js remains the in-memory state API used by every feature. core/storage.js is the only module allowed to access localStorage.
+- Local Storage is a temporary cache and offline outbox only; it is not the authoritative record. It retains the last loaded state and pending changes until Drive confirms a successful save.
+- State changes are batched after a short quiet period and written into one app-owned Drive file named AS Care Data.json. Updates during an in-flight upload remain pending and trigger another upload.
+- When offline or when Drive authorization is unavailable, edits remain cached and marked pending. The app retries when connectivity returns or the user reconnects.
+- A pending local outbox is uploaded before loading cloud state, so unsynchronized edits are not silently overwritten. Otherwise, the latest validated Drive snapshot replaces the local cache.
+- Never clear the existing Drive file before a replacement upload succeeds. OAuth access tokens remain memory-only.
 
-## 5. Backup contract
-The new backup format will be documented when the backup service is implemented. It will contain the complete new application state and explicit format metadata. Only the new format is required. Validate the complete payload before applying it. Do not implement old raw JSON, old Drive envelope, or legacy schema import.
+## 5. Cloud data contract
+- Drive stores the complete version-1 envelope: app identifier, schema version, export timestamp and complete app state.
+- The app updates one canonical Drive file rather than creating a new timestamped file for every save. Existing timestamped AS Care backups can be read and migrated into the canonical file.
+- Validate the complete payload before applying it to the in-memory state.
+- The driveEnabled preference records whether this browser should attempt Drive initialization. It is not an OAuth credential.
 
 ## 6. Privacy
-Health information is sensitive. Keep it local by default. Never commit real user records, exports, tokens, or secrets to Git.
-
+Health information is sensitive. The user explicitly connects their Google Account and grants the narrow drive.file scope. The app-created data file is stored in that user's Drive. Never commit real user records, exports, tokens, client secrets, or private credentials to Git.
 
 ### Medication records
 - Medication definitions are stored in `medication.items` with user-entered name, dose text, schedule, optional local time, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
