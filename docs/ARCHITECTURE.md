@@ -11,7 +11,7 @@ There is no existing user data to preserve. The new application defines a clean 
 - **Application entry:** bootstrap and high-level initialization only.
 - **Core:** state, events, storage, dates, router.
 - **Data:** static exercise and health mappings.
-- **Services:** backup, Google Drive, calculations, notifications.
+- **Services:** Cloudflare persistence, manual backup export/import, calculations, notifications.
 - **Components:** reusable, feature-agnostic UI.
 - **Features:** Overview, Movement, Medication, Insights, Health, Settings.
 
@@ -45,9 +45,9 @@ Target 40–50 application/runtime files. Aim for ≤150 lines per ordinary func
 Use relative paths for GitHub Pages deployment under `/Fitness-tracker/`. Every runtime JavaScript module must appear in the `sw.js` shell inventory. Bump the cache version and test offline behavior whenever the shell changes.
 
 ## 8. Security and clinical boundaries
-- Google Drive is the primary user-controlled data store; localStorage is only a temporary cache/outbox.
-- Never commit OAuth secrets, access tokens, private keys, or personal health exports.
-- Keep Drive access tokens in memory; the app attempts silent token renewal on startup and requires user-driven reconnect when Google requires interaction.
-- Prefer the narrow `drive.file` scope.
+- Cloudflare D1 is the primary cloud data store; localStorage is only a temporary cache/outbox.
+- Do not configure R2, paid storage, billing, or scheduled cloud backups.
+- Manual JSON export/import is the independent backup method; remind users that D1 is not itself a backup.
+- Never commit access tokens, private keys, or personal health exports.
 - This app is for self-monitoring, not diagnosis, prescribing, or emergency care.
 - Clinical guidance changes require appropriate review.
