@@ -9,13 +9,11 @@ export function initInsights({ root = document.querySelector("[data-insights-con
   if (!root) return () => {};
   const today = dateKey();
   let month = today.slice(0,7), selected = today;
-  const summaryRange = () => ({
-    start: root.querySelector("[data-summary-start]")?.value || addDays(today,-29),
-    end: root.querySelector("[data-summary-end]")?.value || today
-  });
+  let summaryStart = addDays(today,-29), summaryEnd = today;
+  const summaryRange = () => ({ start: summaryStart, end: summaryEnd });
   const draw = () => {
     const state = getState();
-    root.innerHTML = renderCalendar(state,month,selected) + renderTrends(state) + renderDoctorSummary();
+    root.innerHTML = renderCalendar(state,month,selected) + renderTrends(state) + renderDoctorSummary(summaryStart,summaryEnd);
     const range = summaryRange();
     const preview = root.querySelector("[data-summary-preview]");
     const button = root.querySelector("[data-summary-copy]");
@@ -58,6 +56,7 @@ export function initInsights({ root = document.querySelector("[data-insights-con
     if (event.target.matches("[data-summary-start],[data-summary-end]")) {
       const start = root.querySelector("[data-summary-start]").value;
       const end = root.querySelector("[data-summary-end]").value;
+      summaryStart = start; summaryEnd = end;
       const preview = root.querySelector("[data-summary-preview]");
       const button = root.querySelector("[data-summary-copy]");
       if (start && end && start <= end) {
