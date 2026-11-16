@@ -24,7 +24,7 @@ var G=[
 ["e2","নড়াচড়ার বিরতি","প্রতি ঘণ্টায় উঠে ২ মিনিট হাঁটুন বা সোজা হয়ে দাঁড়ান"],
 ["e3","শক্তির ব্যায়াম (সপ্তাহে ২ দিন)","স্কোয়াট ১০ বার ও দেওয়ালে পুশ-আপ ১০ বার · ২ সেট"]]}
 ];
-var D={days:{},goal:20},TOTAL=0,cd=null,demoMode=false,demoOriginalData=null;
+var D={days:{},goal:20},TOTAL=0,cd=null,demoMode=false;
 function cur(){return cd||ds(new Date())}
 G.forEach(function(g){TOTAL+=g.i.length});
 var THR=Math.ceil(TOTAL*0.7),vy,vm;
@@ -352,65 +352,6 @@ var _r6=renderToday;renderToday=function(){_r6();qsr()};
 cst("Google Drive সংযোগ করতে অ্যাপ মালিকের OAuth Client ID প্রয়োজন।");
 
 
-function buildDemoData(){
- var now=new Date(),days={},pain=[7,6,5,6,4,5,3,6,5,4,6,5,4,3],stiff=[8,7,7,6,6,5,5,7,6,5,6,5,4,4],fatigue=[7,6,6,5,5,4,4,6,5,4,5,4,4,3];
- for(var n=13;n>=0;n--){
-  var date=new Date(now);date.setDate(date.getDate()-n);
-  var idx=13-n,key=ds(date),count=[14,18,16,20,17,19,18,13,16,21,18,20,15,19][idx],done=[];
-  for(var j=0;j<Math.min(count,exerciseIds.length);j++)done.push(exerciseIds[(j+idx*3)%exerciseIds.length]);
-  days[key]={d:done,p:pain[idx],stiff:stiff[idx],fatigue:fatigue[idx],sleep:[5,6,6,7,6,7,8,6,7,8,7,8,7,8][idx],m1:idx%5!==1,m2:idx%4!==0,m:idx%5!==1||idx%4!==0};
- }
- function dateAgo(n){var d=new Date(now);d.setDate(d.getDate()-n);return ds(d)}
- return {days:days,goal:20,medName:"ডেমো: নির্ধারিত ওষুধ",medTime1:"সকাল",medTime2:"রাত",
-  bas:[{d:dateAgo(8),v:5.6,answers:{fatigue:6,back:7,joint:4,enthesis:5,stiffSeverity:6,stiffDuration:6}},{d:dateAgo(1),v:4.8,answers:{fatigue:5,back:6,joint:4,enthesis:4,stiffSeverity:5,stiffDuration:5}}],
-  asdas:[{d:dateAgo(8),v:2.65,back:7,stiff:6,global:6,peripheral:2,crp:12},{d:dateAgo(1),v:2.31,back:6,stiff:5,global:5,peripheral:2,crp:8}],
-  labRecords:[{date:dateAgo(9),crp:12,crpUnit:"mg/L",esr:34,hb:13.6,alt:26,creat:0.92},{date:dateAgo(2),crp:8,crpUnit:"mg/L",esr:27,hb:13.8,alt:24,creat:0.90}],
-  events:[{name:"ডেমো: Rheumatology follow-up",date:dateAgo(-12)}],ev:{},
-  flare:{signs:"ডেমো উপসর্গের নোট",care:"ডেমো self-care plan",contact:"ডেমো জরুরি যোগাযোগ"}};
-}
-function auditOverviewDemo(){
- var p=$("p1"),checks=[
-  ["Overview প্রথমেই দৃশ্যমান",!!p&&!p.hidden&&getComputedStyle(p).display!=="none"],
-  ["আজকের অগ্রগতি কার্ড",!!$("cnt")&&!!$("fill")&&!!$("msg")],
-  ["ব্যথা নির্বাচন (০–১০)",!!$("pain")&&$("pain").querySelectorAll("button[data-p]").length===11],
-  ["দৈনিক সারসংক্ষেপ",!!$("dailyHabits")&&!!$("dailyHabits").querySelector(".overview-metrics")&&!!$("dailyHabits").querySelector(".overview-dual-progress")],
-  ["৭ দিনের চার্ট ও স্বাস্থ্য বিশ্লেষণ",!!$("overviewInsights")&&$("overviewInsights").querySelectorAll(".overview-insight-card").length>=4&&!!$("overviewInsights").querySelector(".overview-analysis-grid")],
-  ["সর্বশেষ ল্যাব ও রোগ-স্কোর",!!$("overviewInsights")&&!!$("overviewInsights").querySelector(".overview-latest")&&$("overviewInsights").querySelectorAll(".overview-latest>div").length>=4],
-  ["ব্যায়াম প্রিভিউ ও গাইড বাটন",!!$("overviewMovement")&&$("overviewMovement").querySelectorAll(".overview-move-card").length===3&&!!$("overviewOpenMovement")&&typeof $("overviewOpenMovement").onclick==="function"],
-  ["ওষুধ ট্র্যাকার ও পরবর্তী ধাপ",!!$("doseHome")&&$("doseHome").querySelectorAll("[data-m]").length===2&&!!$("openMovement")&&typeof $("openMovement").onclick==="function"]
- ];
- var originalPain=D.days[today()].p,painWorks=false;
- try{var painButton=$("pain").querySelector('button[data-p="4"]');if(painButton){painButton.click();painWorks=D.days[today()].p===4}}catch(e){}
- D.days[today()].p=originalPain;try{renderToday()}catch(e){}
- checks.push(["ব্যথা ইনপুট সেভ ও UI আপডেট",painWorks]);
- var originalMed=!!D.days[today()].m1,medWorks=false;
- try{var medButton=$("doseHome").querySelector('[data-m="1"]');if(medButton){medButton.click();medWorks=!!D.days[today()].m1!==originalMed}}catch(e){}
- D.days[today()].m1=originalMed;D.days[today()].m=!!(D.days[today()].m1||D.days[today()].m2);try{dose();renderHabitDashboard()}catch(e){}
- checks.push(["ওষুধের টিক কাজ করে",medWorks]);
- var movementWorks=false;
- try{var movementButton=$("overviewOpenMovement");if(movementButton){movementButton.click();movementWorks=$("p5").classList.contains("active-page")&&!$("p5").hidden}}catch(e){}
- try{tab(1)}catch(e){}
- checks.push(["Movement-এ যাওয়া ও Overview-এ ফেরা",movementWorks]);
- var failed=checks.filter(function(x){return !x[1]}),out=$("demoAudit");
- if(out){out.textContent=failed.length?"ড্যাশবোর্ড পরীক্ষা: "+(checks.length-failed.length)+"/"+checks.length+" সফল · সমস্যা: "+failed.map(function(x){return x[0]}).join(", "):"ড্যাশবোর্ড পরীক্ষা: "+checks.length+"/"+checks.length+" সফল — সব কার্ড ও পরীক্ষিত বাটন কাজ করছে।";out.setAttribute("data-status",failed.length?"warning":"ok")}
- return {passed:checks.length-failed.length,total:checks.length,failed:failed.map(function(x){return x[0]})};
-}
-function startDemoPreview(){
- if(demoMode)return;
- demoOriginalData=D;D=buildDemoData();demoMode=true;
- var banner=$("demoBanner");if(banner)banner.hidden=false;
- try{tab(1)}catch(err){console.error("AS Care demo overview render failed:",err)}
- auditOverviewDemo();
-}
-function stopDemoPreview(){
- if(!demoMode)return;
- D=demoOriginalData;demoOriginalData=null;demoMode=false;
- var banner=$("demoBanner");if(banner)banner.hidden=true;
- try{tab(1)}catch(err){console.error("AS Care overview restore failed:",err)}
-}
-$("loadDemoData").addEventListener("click",startDemoPreview);
-$("exitDemo").addEventListener("click",stopDemoPreview);
-
 function renderSettings(){
  var bytes=ASStorage.getAppDataSizeBytes();
  $("localDataStatus").textContent="এই browser-এ সংরক্ষিত অ্যাপ ডেটা: "+(bytes?Math.max(1,Math.round(bytes/1024))+" KB":"এখনো ডেটা নেই");
@@ -525,5 +466,5 @@ renderToday=function(){
  }
 };
 
-load();fix();if(!ASStorage.hasCurrentAppData())save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();tab(1);try{renderAll()}catch(err){console.error("AS Care initial dashboard render failed:",err)}
+load();fix();if(new URLSearchParams(window.location.search).get("demo")==="1"){if(typeof window.AS_BUILD_DEMO_DATA!=="function")throw new Error("Demo data module did not load");D=window.AS_BUILD_DEMO_DATA();demoMode=true;}if(!ASStorage.hasCurrentAppData())save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();tab(1);try{renderAll()}catch(err){console.error("AS Care initial dashboard render failed:",err)}
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
