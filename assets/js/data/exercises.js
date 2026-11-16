@@ -38,7 +38,7 @@ const records = [
 
 export const EXERCISES = Object.freeze(records.map(([id,name,instructions,nameEn,instructionsEn,durationSeconds,bodyRegions]) =>
   Object.freeze({ id, name, instructions, nameEn, instructionsEn, durationSeconds, bodyRegions: Object.freeze(bodyRegions), reviewStatus: "legacy-reference-unreviewed" })
-)));
+));
 
 export const EXERCISE_BY_ID = Object.freeze(Object.fromEntries(EXERCISES.map(item => [item.id, item])));
 export const getExerciseGroup = id => EXERCISE_GROUPS.find(group => group.exerciseIds.includes(id)) || null;
