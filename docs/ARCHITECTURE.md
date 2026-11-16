@@ -20,7 +20,7 @@ Main workflows:
 - Public app path: https://shahariarshanto.github.io/Fitness-tracker/
 - PWA files: manifest.webmanifest, sw.js, icon.svg.
 - Local persistence: browser localStorage.
-- Optional cloud backup: Google Identity Services / Google Drive API; requires OAuth configuration and end-to-end testing.
+- Optional cloud backup: Google Identity Services / Google Drive API. Each user authorizes their own Google Account. The app owner configures a shared Web OAuth Client ID; end-user tokens are held in memory only.
 
 ## 3. Repository structure
 ```text
@@ -108,6 +108,18 @@ See DATA_MODEL.md. Do not change the storage key or field meanings without a doc
 - Do not claim cloud backup is active until authentication and upload success are verified.
 - Do not diagnose, prescribe, or silently change exercise/medication guidance.
 - Individual exercise suitability must be checked with the user's treating clinician/physiotherapist.
+
+## Google Drive setup and behavior
+- Configure a Google Cloud OAuth 2.0 Client ID for a Web application.
+- Authorized JavaScript origin for GitHub Pages: https://shahariarshanto.github.io (origin only; no repository path).
+- Enable Google Drive API and configure the OAuth consent screen / test users as appropriate.
+- Request only https://www.googleapis.com/auth/drive.file. The app creates/updates its own backup file in the user's Drive.
+- Each user clicks Connect and grants consent for their own Google account. The app does not receive or store the user's Google password.
+- The access token is held in memory only; it is not written to localStorage. Token expiry requires reauthorization.
+- A user may optionally enter a Web Client ID in the advanced setup area if the app owner has not deployed one. Never enter a client secret.
+- Disconnect revokes the current token when the Google library supports it and clears in-memory authorization.
+- Daily sync is best-effort only while the app is open and authorization remains valid; static GitHub Pages cannot run a reliable closed-app background job.
+- Verify Google Cloud OAuth settings and test a real upload/restore before claiming the feature is production-ready.
 
 ## 10. Planned modular JavaScript architecture
 Current reality: assets/js/app.js is one legacy module. The following is a target, not a claim about files already created.
