@@ -2,8 +2,15 @@ name = "fitnesstracker"
 main = "worker/index.js"
 compatibility_date = "2026-11-17"
 
+[triggers]
+crons = ["0 18 * * *"]
+
 [[d1_databases]]
 binding = "DB"
 database_name = "as-care-auth"
 database_id = "b6287b0f-27bc-4e3c-a84a-b88322037043"
 migrations_dir = "worker/migrations"
+
+[[r2_buckets]]
+binding = "BACKUPS"
+bucket_name = "as-care-backups"
