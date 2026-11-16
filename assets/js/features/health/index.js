@@ -3,7 +3,7 @@ import { showToast } from "../../components/Feedback.js";
 import { renderSymptoms, saveSymptoms, updateRangeOutput } from "./SymptomLog.js";
 import { renderBASDAI, saveBASDAI, updateBASDAIOutput } from "./BASDAI.js";
 import { renderASDAS, saveASDAS, updateASDASOutput } from "./ASDAS.js";
-import { renderLabEvents, saveLabEvent, deleteHealthRecord } from "./LabEvents.js";
+import { renderHealthEvents, saveHealthEvent, deleteHealthEvent } from "./HealthEvents.js";
 import { renderFlarePlan, saveFlarePlan } from "./FlarePlan.js";
 
 export function initHealth({ root = document.querySelector('[data-page-panel="health"]') } = {}) {
@@ -14,7 +14,7 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
     const state = getState();
     content.innerHTML = '<p class="health-disclaimer">ব্যক্তিগত তথ্য নথিবদ্ধ ও নিজের পরিবর্তন পর্যবেক্ষণের জন্য। এটি রোগ নির্ণয়, চিকিৎসা বা জরুরি পরামর্শের বিকল্প নয়।</p>' + [
       renderSymptoms(state), renderBASDAI(state), renderASDAS(state),
-      renderLabEvents(state), renderFlarePlan(state)
+      renderHealthEvents(state), renderFlarePlan(state)
     ].join("");
   };
   function handleSubmit(event) {
@@ -26,7 +26,7 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
     const next = type === "symptoms" ? saveSymptoms(form,state)
       : type === "basdai" ? saveBASDAI(form,state)
       : type === "asdas" ? saveASDAS(form,state)
-      : type === "lab" || type === "event" ? saveLabEvent(form,state,type)
+      : type === "event" ? saveHealthEvent(form,state)
       : type === "flare" ? saveFlarePlan(form,state) : null;
     if (!next) { showToast("তথ্য যাচাই করুন; মানগুলো সঠিকভাবে দিন।","error"); return; }
     updateState(() => next);
@@ -42,7 +42,7 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
   function handleClick(event) {
     const button = event.target.closest("[data-delete-health]");
     if (!button) return;
-    const next = deleteHealthRecord(getState(),button.dataset.deleteHealth,button.dataset.id);
+    const next = deleteHealthEvent(getState(),button.dataset.id);
     updateState(() => next);
     showToast("রেকর্ড মুছে ফেলা হয়েছে।","success");
   }
