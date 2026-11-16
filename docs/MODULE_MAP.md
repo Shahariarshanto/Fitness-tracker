@@ -52,3 +52,18 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 - `assets/js/bootstrap.js`: toast feedback now replaces any pending toast and auto-dismisses after 2.6 seconds.
 - `assets/js/features/settings/Preferences.js`: removed the disabled language selector; clearly states that only Bengali is currently available.
 - `assets/css/base.css`: toast is positioned above the bottom navigation rather than overlapping it.
+
+
+## Step 4 — Health feature
+
+| Module | Responsibility | Imports | State/DOM ownership |
+|---|---|---|---|
+| `assets/js/features/health/index.js` | Mounts Health sections; delegates submit/input/delete interactions | core state, Feedback, five Health modules | Subscribes to state; owns Health page content root |
+| `assets/js/features/health/SymptomLog.js` | Daily pain, night mobility, stiffness, fatigue and sleep check-in | core dates, health data | Writes `painLogs` and `symptoms.daily` through caller-provided state |
+| `assets/js/features/health/BASDAI.js` | Six-question BASDAI form, pure score calculation and history rendering | core dates | Writes `healthScores.basdai` through caller-provided state |
+| `assets/js/features/health/ASDAS.js` | ASDAS-CRP inputs, pure score calculation and history rendering | core dates | Writes `healthScores.asdas` through caller-provided state |
+| `assets/js/features/health/LabEvents.js` | Lab result and health-event forms, history, deletion | core dates, health data | Owns `labs` and `healthEvents` mutations through caller-provided state |
+| `assets/js/features/health/FlarePlan.js` | User-editable flare action-plan notes | none | Owns `flarePlan` mutations through caller-provided state |
+| `assets/css/pages.css` | Health cards, forms, score histories and mobile layout | design tokens | Styles only |
+
+Health features do not import one another. The Health entry point composes them and uses the shared state store for persistence. All health records remain in local application storage by default.
