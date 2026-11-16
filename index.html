@@ -140,6 +140,7 @@ table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:po
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
 </head>
 <body>
 <main>
@@ -503,6 +504,7 @@ $("assave").onclick=function(){var v=asdasCalc();if(v===null)return;D.asdas=D.as
 var _rh_asdas=renderHealth;renderHealth=function(){_rh_asdas();drawAsdas()};
 
 load();fix();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
 </script>
 </body>
 </html>
