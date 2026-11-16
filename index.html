@@ -292,9 +292,10 @@ var EV=[["start","টোফাসিটিনিব শুরু"],["fu","ডা
 var BQ=["ক্লান্তি বা অবসাদ কতটা ছিল?","ঘাড়, পিঠ বা কোমরের ব্যথা কতটা?","অন্য জয়েন্টে ব্যথা বা ফোলা কতটা?","স্পর্শ বা চাপে ব্যথা কতটা?","ঘুম থেকে উঠে জড়তা কতটা তীব্র?","জড়তা কতক্ষণ থাকে? (১০ = ২ ঘণ্টা বা বেশি)"];
 function fix(){D.ev=D.ev||{};if(D.ev.fu===undefined)D.ev.fu="2026-12-17";if(D.ev.pn23===undefined)D.ev.pn23="2027-01-05";["start","bt","hb"].forEach(function(k){if(D.ev[k]===undefined)D.ev[k]=""});
 if(!Array.isArray(D.labs)||!D.labs.length)D.labs=[{d:"2026-10-29",crp:2.1,esr:62,hb:12.9,alt:12,cr:0.97}];if(!Array.isArray(D.bas))D.bas=[];if(!Array.isArray(D.asdas))D.asdas=[]}
-function xs(s,t){var d=pk(s),a=0,ac=0,md=0;for(;ds(d)<=t;d.setDate(d.getDate()+1)){var o=D.days[ds(d)];if(o){if(o.s!=null&&o.s!==""){a+=(+o.s>0?1:0);ac++}md+=(o.m1?1:0)+(o.m2?1:0)}}
+function xs(s,t){var d=pk(s),a=0,ac=0,md=0,ss=0,sn=0,ff=0,fn=0,sl=0,sln=0;for(;ds(d)<=t;d.setDate(d.getDate()+1)){var o=D.days[ds(d)];if(o){if(o.s!=null&&o.s!==""){a+=(+o.s>0?1:0);ac++}md+=(o.m1?1:0)+(o.m2?1:0);if(o.stiff!=null){ss+=+o.stiff;sn++}if(o.fatigue!=null){ff+=+o.fatigue;fn++}if(o.sleep!=null){sl+=+o.sleep;sln++}}}
 var r="\nরাতে নড়তে সমস্যা: "+(ac?bn(a)+" দিন ("+bn(ac)+" দিনের মধ্যে)":"লেখা নেই")+"। টোফাসিটিনিব ডোজ নেওয়া (সকাল+রাত): "+bn(md)+"টি।";
-var b=D.bas[D.bas.length-1];if(b)r+="\nBASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";
+if(sn||fn||sln)r+="\nদৈনিক লগের গড়: সকালের জড়তা "+(sn?bn((ss/sn).toFixed(1))+"/১০":"লেখা নেই")+", ক্লান্তি "+(fn?bn((ff/fn).toFixed(1))+"/১০":"লেখা নেই")+", ঘুমের মান "+(sln?bn((sl/sln).toFixed(1))+"/১০":"লেখা নেই")+"।";
+var b=D.bas[D.bas.length-1];if(b)r+="\nBASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";var as=D.asdas&&D.asdas[D.asdas.length-1];if(as)r+="\nASDAS-CRP: "+Number(as.v).toFixed(2)+" ("+fmt(as.d)+")।";
 var l=D.labs[D.labs.length-1];if(l)r+="\nসর্বশেষ ল্যাব ("+fmt(l.d)+"): CRP "+nz(l.crp)+", ESR "+nz(l.esr)+", Hb "+nz(l.hb)+"।";return r}
 function bval(){var q=document.querySelectorAll("#bq input"),v=[];for(var i=0;i<q.length;i++){if(q[i].getAttribute("data-answered")!=="1")return null;v.push(+q[i].value)}return Math.round((v[0]+v[1]+v[2]+v[3]+(v[4]+v[5])/2)/5*10)/10}
 function bshow(){var v=bval();$("bres").textContent=v===null?"স্কোর পেতে ৬টি প্রশ্নেরই উত্তর দিন।":"BASDAI: "+bn(v)+"/১০"+(v>=4?" · উচ্চ স্কোর—চিকিৎসকের সঙ্গে আলোচনা করুন":"");$("bsave").disabled=v===null}
