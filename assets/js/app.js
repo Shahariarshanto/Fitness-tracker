@@ -359,7 +359,7 @@ function renderOverviewInsights(){
  for(var n=6;n>=0;n--){var dt=new Date(end);dt.setDate(dt.getDate()-n);var key=ds(dt),o=D.days[key]||{};week.push({key:key,o:o});if(o.p!=null)painVals.push(Number(o.p));if(o.stiff!=null)stiffVals.push(Number(o.stiff));doneWeek+=(o.d||[]).length;medWeek+=(o.m1?1:0)+(o.m2?1:0)}
  var avg=function(a){return a.length?(a.reduce(function(x,y){return x+y},0)/a.length).toFixed(1):"—"};
  var colors=["var(--dn)","var(--am)","var(--ac)","#7b83c9","#4c9a91","#bd7b9d"];
- var groups=G.map(function(g){var ids=g.i.map(function(x){return x[0]});return {name:g.t.replace(/^\d+\.\s*/,""),count:week.reduce(function(sum,x){return sum+x.o.d.filter(function(id){return ids.indexOf(id)>-1}).length},0)}});
+ var groups=G.map(function(g){var ids=g.i.map(function(x){return x[0]});return {name:g.t.replace(/^\d+\.\s*/,""),count:week.reduce(function(sum,x){return sum+(x.o.d||[]).filter(function(id){return ids.indexOf(id)>-1}).length},0)}});
  var pie=donut(groups.map(function(x,i){return [x.count,colors[i%colors.length]]}),132,bn(doneWeek),"গত ৭ দিনে");
  var latest=(D.labRecords||[]).slice().sort(function(a,b){return a.date<b.date?1:-1})[0],lastAsdas=(D.asdas||[]).slice(-1)[0];
  var chart='<svg viewBox="0 0 320 126" role="img" aria-label="গত ৭ দিনের ব্যথা ও জড়তার চার্ট" style="width:100%;height:auto;display:block">';
