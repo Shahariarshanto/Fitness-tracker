@@ -96,3 +96,11 @@ Continue **Phase 1 — Data boundary first**:
 2. Test the full app bootstrap/save path and Drive backup/restore/conflict path in a browser.
 3. Add `core/state.js` only after storage integration is verified, keeping the existing object shape unchanged.
 4. Keep `spa-daily-v2`, `spa-daily-v1` compatibility and exercise IDs unchanged.
+
+
+## 8. Overview refresh fix — 2026-11-16
+- The application startup previously ended with `renderAll()` but did not activate a page through `tab(1)`. Since the CSS globally hides `main > section[id^="p"]` except the active page, the Overview could be rendered into a hidden section after a refresh.
+- Startup now calls `tab(1)` after initial data/render setup, making the Overview the explicit initial active page.
+- The Overview latest-health panel now includes BASDAI and available Hb, ALT and creatinine values in addition to CRP, ESR and ASDAS-CRP.
+- App asset query and service-worker cache are bumped to `as-care-shell-v30`.
+- Browser visual verification remains pending; static validation must not be described as a browser test.
