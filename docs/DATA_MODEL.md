@@ -23,7 +23,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
 
 ```js
 {
-  preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
+  preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false, driveEnabled: false },
   dailyActivity: {},
   painLogs: {},
   medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
