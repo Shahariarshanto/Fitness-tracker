@@ -47,3 +47,17 @@ This is a static GitHub Pages app. Automatic sync can run while the app is open 
 - The current implementation sends Drive API requests directly from the browser; no app-owned server is used for the backup transfer.
 - Do not use a shared/public device for sensitive health records. Export and keep a separate backup before restoring data from another device.
 - A newer Drive backup is not silently overwritten; the user is asked before replacing local data.
+
+
+## Interface redesign (AS Care v2)
+
+The interface is being rebuilt as a disease-focused mobility and health companion rather than a generic fitness tracker.
+
+- New warm-neutral / charcoal / botanical-green visual system with light and dark themes.
+- Desktop sidebar navigation and compact mobile bottom navigation.
+- Overview, movement, insights, health records and settings entry points.
+- Searchable and category-filterable movement library.
+- Existing exercise completion, guided timer, symptom tracking, BASDAI, ASDAS-CRP, lab history, doctor summary and backup flows are retained.
+- The app remains Bengali-first and responsive.
+
+The redesign is being implemented in stages. JavaScript syntax checks do not replace browser-based functional and accessibility testing.
