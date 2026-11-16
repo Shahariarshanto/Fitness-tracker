@@ -77,7 +77,6 @@ export async function initializeCloud() {
     if (localPending) {
       pending = true;
       await upload();
-      version = remote.version || version;
     } else if (remote.state) {
       hydrating = true;
       try { updateState(() => remote.state); clearCloudPending(); }
@@ -95,15 +94,21 @@ export async function initializeCloud() {
     queueRetry();
   }
   subscribe(scheduleUpload);
-  window.addEventListener("online", () => {
-    if (pending) upload().catch(() => {});
-    else api().then(remote => {
+  async function refreshRemote() {
+    if (pending || inFlight || !navigator.onLine) return;
+    try {
+      const remote = await api();
       if (remote.state && remote.version > version) {
         hydrating = true;
-        try { updateState(() => remote.state); version = remote.version; }
+        try { updateState(() => remote.state); clearCloudPending(); version = remote.version; }
         finally { hydrating = false; }
       }
-    }).catch(() => {});
+    } catch (_) {}
+  }
+  window.addEventListener("online", () => {
+    if (pending) upload().catch(() => {});
+    else refreshRemote();
   });
+  window.setInterval(refreshRemote, 20000);
   return true;
 }
