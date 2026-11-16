@@ -115,7 +115,9 @@ See DATA_MODEL.md. Do not change the storage key or field meanings without a doc
 - Enable Google Drive API and configure the OAuth consent screen / test users as appropriate.
 - Request only https://www.googleapis.com/auth/drive.file. The app creates/updates its own backup file in the user's Drive.
 - Each user clicks Connect and grants consent for their own Google account. The app does not receive or store the user's Google password.
-- The access token is held in memory only; it is not written to localStorage. Token expiry requires reauthorization.
+- The access token is held in memory only; it is not written to localStorage. Token expiry requires a user-driven authorization action again (the browser token model does not issue a refresh token).
+- Drive backups use a versioned JSON envelope. Restore checks the expected data structure before touching localStorage; malformed remote data stops sync rather than overwriting local data.
+- Sync compares the backup timestamp with the local state and asks before restoring a newer remote backup. A declined conflict is left untouched; background auto-sync never overwrites a newer remote backup.
 - A user may optionally enter a Web Client ID in the advanced setup area if the app owner has not deployed one. Never enter a client secret.
 - Disconnect revokes the current token when the Google library supports it and clears in-memory authorization.
 - Daily sync is best-effort only while the app is open and authorization remains valid; static GitHub Pages cannot run a reliable closed-app background job.
