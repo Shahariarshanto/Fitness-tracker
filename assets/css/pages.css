@@ -61,3 +61,40 @@
 .health-card .health-history { margin-top: 12px; }
 .health-card .health-history li { align-items: center; }
 @media (max-width: 360px) { .health-overview { gap: 6px; } .health-overview article { padding: 10px 8px; } .health-overview strong { font-size: 18px; } }
+
+
+/* Medication tracker */
+.medication-section { display: grid; gap: 15px; margin-top: 18px; }
+.medication-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.medication-heading h3 { margin: 4px 0 0; font-size: 19px; }
+.medication-date { color: var(--muted); font-size: 11px; }
+.medication-summary { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+.medication-summary article { min-width: 0; display: grid; gap: 5px; padding: 12px 9px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.medication-summary strong { color: var(--accent); font-size: 22px; font-variant-numeric: tabular-nums; }
+.medication-summary span { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.medication-form, .medication-item { padding: 16px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.medication-form h4, .medication-list > h4, .medication-history > h4 { margin: 0 0 13px; font-size: 15px; }
+.medication-form .button-primary, .medication-edit .button-primary { width: 100%; }
+.medication-list { display: grid; gap: 10px; }
+.medication-list > h4 { margin-bottom: 0; }
+.medication-item { min-width: 0; padding: 14px; }
+.medication-item-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.medication-item-head h4 { margin: 0 0 4px; font-size: 16px; overflow-wrap: anywhere; }
+.medication-item-head p { margin: 0; color: var(--muted); font-size: 13px; }
+.medication-status { flex: 0 0 auto; padding: 5px 8px; border-radius: 99px; background: var(--surface-soft); color: var(--muted); font-size: 11px; }
+.medication-status[data-status="taken"] { background: color-mix(in srgb, var(--accent) 14%, var(--surface)); color: var(--accent); }
+.medication-status[data-status="skipped"] { color: #a34b35; }
+.medication-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 11px; color: var(--muted); font-size: 12px; }
+.medication-instructions { margin: 9px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.medication-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; margin-top: 13px; }
+.medication-actions button { min-width: 0; padding: 8px 9px; font-size: 12px; }
+.medication-actions button:disabled { opacity: .55; cursor: default; }
+.medication-edit { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.medication-edit summary, .medication-history summary { color: var(--accent); cursor: pointer; font-size: 13px; }
+.medication-edit form { margin-top: 12px; }
+.medication-history { display: grid; gap: 8px; padding: 15px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.medication-history > h4 { margin-bottom: 0; }
+.medication-history details { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.medication-history details > div { display: grid; gap: 5px; padding: 9px 0 0; color: var(--muted); font-size: 12px; }
+.medication-disclaimer { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+@media (max-width: 360px) { .medication-summary { gap: 5px; } .medication-summary article { padding: 10px 7px; } .medication-summary strong { font-size: 19px; } .medication-form, .medication-item { padding: 12px; } }
