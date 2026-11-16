@@ -98,3 +98,8 @@
 .medication-history details > div { display: grid; gap: 5px; padding: 9px 0 0; color: var(--muted); font-size: 12px; }
 .medication-disclaimer { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
 @media (max-width: 360px) { .medication-summary { gap: 5px; } .medication-summary article { padding: 10px 7px; } .medication-summary strong { font-size: 19px; } .medication-form, .medication-item { padding: 12px; } }
+
+/* Medication adherence toggle: clearly highlight the current selection. */
+.medication-actions button.is-selected { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 700; box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent); }
+.medication-actions button.is-selected.is-skipped { border-color: #a34b35; background: #a34b35; color: #fff; box-shadow: 0 0 0 2px rgb(163 75 53 / 18%); }
+.medication-actions button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
