@@ -84,3 +84,37 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Save/update toast disappears automatically after about 2.6 seconds.
 - [ ] Repeated preference changes replace the prior toast without leaving it stuck.
 - [ ] Toast appears above, not over, the bottom navigation.
+
+
+## Step 4 — Health feature
+
+### Static checks
+- [ ] Health entry point and all five modules are loaded through the bootstrap import graph.
+- [ ] Every Health runtime module is listed in the service-worker shell inventory.
+- [ ] Health feature imports no other feature and does not access localStorage directly.
+- [ ] Initial state and data-model documentation include all Health domains.
+- [ ] BASDAI calculation test cases match hand-calculated reference cases.
+- [ ] ASDAS-CRP calculation test cases match the published formula, with CRP in mg/L.
+- [ ] All Health modules remain within the ordinary module-size target.
+
+### Browser checks
+- [ ] Daily pain, night mobility, stiffness, fatigue and sleep values save and re-render.
+- [ ] Symptom and pain records remain after reload and use the local calendar date.
+- [ ] BASDAI six-question form validates, calculates and saves a dated history entry.
+- [ ] ASDAS-CRP form validates symptom inputs and CRP, calculates and saves a dated history entry.
+- [ ] Empty, negative, non-numeric and out-of-range values are rejected.
+- [ ] Lab results accept only units valid for the selected test and can be deleted.
+- [ ] Health events can be added and deleted.
+- [ ] Flare plan notes save and remain after reload.
+- [ ] Health page renders empty and populated histories without errors.
+
+### Clinical and privacy checks
+- [ ] UI explains that scores are tracking aids, not a diagnosis or treatment instruction.
+- [ ] ASDAS CRP unit conversion guidance is visible; calculation expects mg/L.
+- [ ] No medication dose or treatment recommendation is generated.
+- [ ] No real health data is committed to the repository.
+
+### Device/PWA checks
+- [ ] Health forms and range controls fit narrow Android screens.
+- [ ] All Health modules load from the service-worker cache after installation.
+- [ ] Health data persists after closing and reopening the PWA.
