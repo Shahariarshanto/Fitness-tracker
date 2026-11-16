@@ -8,7 +8,7 @@ const SCOPE = "https://www.googleapis.com/auth/drive.file";
 const BACKUP_NAME = "AS Care Data.json";
 const LEGACY_PREFIX = "as-care-backup-v1-";
 let token = null, tokenExpiresAt = 0, tokenClient = null;
-let initialized = false, hydrating = false, syncTimer = null, syncPromise = null;
+let initialized = false, hydrating = false, syncTimer = null, syncPromise = null, changeRevision = 0;
 
 function status(state, message) { emit("drive:sync-status", { status: state, message }); }
 
@@ -96,13 +96,16 @@ async function writeBackup(fileId = null) {
 export async function syncDrive() {
   if (syncPromise) return syncPromise;
   syncPromise = (async () => {
+    const revisionAtStart = changeRevision;
     status("syncing", "Google Drive-এ পরিবর্তন সেভ হচ্ছে…");
     setDriveSyncMeta({ pending: true });
     try {
       const file = await findBackup();
       await writeBackup(file?.id || null);
-      setDriveSyncMeta({ pending: false, syncedAt: new Date().toISOString() });
-      status("success", "Google Drive-এ সব পরিবর্তন সেভ হয়েছে।");
+      const changedDuringUpload = revisionAtStart !== changeRevision;
+      setDriveSyncMeta({ pending: changedDuringUpload, syncedAt: new Date().toISOString() });
+      status("success", changedDuringUpload ? "নতুন পরিবর্তনও সেভ করা হচ্ছে…" : "Google Drive-এ সব পরিবর্তন সেভ হয়েছে।");
+      if (changedDuringUpload) setTimeout(() => syncDrive().catch(() => {}), 500);
       return true;
     } catch (error) {
       status("error", "Drive-এ সেভ হয়নি: " + error.message);
@@ -132,6 +135,7 @@ async function loadCloudState() {
 
 function scheduleSync() {
   if (hydrating || !getState().preferences.driveEnabled) return;
+  changeRevision += 1;
   setDriveSyncMeta({ pending: true });
   clearTimeout(syncTimer);
   syncTimer = setTimeout(() => {
