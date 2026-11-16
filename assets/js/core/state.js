@@ -18,7 +18,7 @@ function clone(value) {
 function oneRecordPerDate(records) {
   const byDate = new Map();
   (Array.isArray(records) ? records : []).forEach(item => {
-    if (item && /^\\d{4}-\\d{2}-\\d{2}$/.test(item.date)) byDate.set(item.date, item);
+    if (item && /^\d{4}-\d{2}-\d{2}$/.test(item.date)) byDate.set(item.date, item);
   });
   return [...byDate.values()].sort((a,b) => a.date.localeCompare(b.date));
 }
