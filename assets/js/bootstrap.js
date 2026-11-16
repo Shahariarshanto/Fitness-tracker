@@ -4,6 +4,7 @@ import { dateKey, formatDate } from "./core/dates.js";
 import { on } from "./core/events.js";
 import { initNavigation } from "./components/Navigation.js";
 import { initSettings } from "./features/settings/index.js";
+import { initHealth } from "./features/health/index.js";
 
 const dateLabel = document.querySelector("#today-label");
 const toast = document.querySelector("#toast");
@@ -13,6 +14,7 @@ if (dateLabel) dateLabel.textContent = formatDate(dateKey());
 const router = initRouter({ initialPage: "overview" });
 const destroyNavigation = initNavigation();
 const destroySettings = initSettings();
+const destroyHealth = initHealth();
 
 function applyTheme(theme) {
   if (theme === "system") delete document.documentElement.dataset.theme;
@@ -38,4 +40,5 @@ window.addEventListener("pagehide", () => {
   router.destroy();
   destroyNavigation();
   destroySettings();
+  destroyHealth();
 }, { once: true });
