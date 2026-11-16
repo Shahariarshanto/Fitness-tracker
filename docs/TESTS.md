@@ -186,10 +186,8 @@ Add focused module-level and feature-level tests in the same step that implement
 ### Static checks
 - [ ] Insights modules import only core state/date helpers, shared feedback and static exercise data.
 - [ ] Insights does not access localStorage or mutate source feature records.
-- [ ] Calendar, trends and doctor-summary modules are listed in the service-worker cache policy.
+- [ ] Calendar, trends and chart modules are listed in the service-worker cache policy.
 - [ ] Empty data is handled without treating missing values as zero.
-- [ ] Date-range summary includes only records within the selected inclusive range.
-- [ ] Doctor summary output escapes values in HTML preview and preserves plain text when copied.
 
 ### Browser checks
 - [ ] Month navigation moves backward/forward correctly, including year boundaries.
@@ -198,8 +196,6 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Weekly/monthly summaries match source records.
 - [ ] Pain and symptom averages exclude dates without entries.
 - [ ] Current activity streak stops at the first inactive day.
-- [ ] Doctor summary updates when start/end dates change and rejects reversed ranges.
-- [ ] Copy action provides success/failure feedback.
 
 ### Device/PWA checks
 - [ ] Calendar and trend cards fit narrow Android screens without horizontal overflow.
@@ -215,7 +211,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Pain and symptom charts omit missing dates rather than plotting them as zero.
 - [ ] Activity bars use recorded activity/session duration and show a genuine empty state when no activity exists.
 - [ ] BASDAI and ASDAS-CRP histories show only saved assessments with their dates.
-- [ ] Calendar selection, month navigation, doctor-summary date range and copy action still work.
+- [ ] Calendar selection and month navigation still work.
 - [ ] Chart layout has no horizontal overflow on narrow Android screens.
 - [ ] New chart modules are present in the service-worker inventory and cache version increments.
 
