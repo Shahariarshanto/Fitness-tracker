@@ -179,3 +179,31 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline Movement tab loads after the shell has been cached.
 
 **Clinical limitation:** Catalogue text is legacy reference material and is not clinically reviewed. Exercise animations and personalized position recommendations are intentionally not fabricated. Assistant static review does not substitute for the user's live phone/browser test.
+
+
+## Step 7 — Insights feature
+
+### Static checks
+- [ ] Insights modules import only core state/date helpers, shared feedback and static exercise data.
+- [ ] Insights does not access localStorage or mutate source feature records.
+- [ ] Calendar, trends and doctor-summary modules are listed in the service-worker cache policy.
+- [ ] Empty data is handled without treating missing values as zero.
+- [ ] Date-range summary includes only records within the selected inclusive range.
+- [ ] Doctor summary output escapes values in HTML preview and preserves plain text when copied.
+
+### Browser checks
+- [ ] Month navigation moves backward/forward correctly, including year boundaries.
+- [ ] Days with any saved activity/health/medication/session data show a marker.
+- [ ] Selecting a day shows that date's available records.
+- [ ] Weekly/monthly summaries match source records.
+- [ ] Pain and symptom averages exclude dates without entries.
+- [ ] Current activity streak stops at the first inactive day.
+- [ ] Doctor summary updates when start/end dates change and rejects reversed ranges.
+- [ ] Copy action provides success/failure feedback.
+
+### Device/PWA checks
+- [ ] Calendar and trend cards fit narrow Android screens without horizontal overflow.
+- [ ] Date controls and copy action remain reachable above bottom navigation.
+- [ ] Insights modules load with the updated service-worker version.
+
+**Verification note:** Repository source and static checks only; live browser, Android-device, clipboard, offline, and deployment tests remain for the user.
