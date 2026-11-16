@@ -2,14 +2,16 @@ import { getState, subscribe } from "./core/state.js";
 import { initRouter } from "./core/router.js";
 import { dateKey, formatDate } from "./core/dates.js";
 import { on } from "./core/events.js";
-import { initNavigation } from "./components/Navigation.js";\nimport { initSettings } from "./features/settings/index.js";
+import { initNavigation } from "./components/Navigation.js";
+import { initSettings } from "./features/settings/index.js";
 
 const dateLabel = document.querySelector("#today-label");
 const toast = document.querySelector("#toast");
 if (dateLabel) dateLabel.textContent = formatDate(dateKey());
 
 const router = initRouter({ initialPage: "overview" });
-const destroyNavigation = initNavigation();\nconst destroySettings = initSettings();
+const destroyNavigation = initNavigation();
+const destroySettings = initSettings();
 
 function applyTheme(theme) {
   if (theme === "system") delete document.documentElement.dataset.theme;
@@ -31,5 +33,6 @@ if ("serviceWorker" in navigator) {
 }
 window.addEventListener("pagehide", () => {
   router.destroy();
-  destroyNavigation();\n  destroySettings();
+  destroyNavigation();
+  destroySettings();
 }, { once: true });
