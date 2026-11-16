@@ -36,3 +36,5 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 | `assets/js/components/Progress.js` | Reusable progress bar, ring and donut markup | none |
 | `assets/js/components/FormControls.js` | Escaped reusable text, number, range and textarea field markup | none |
 | `assets/css/components.css` | Shared component styling | design tokens |
+
+\n## Step 3 — Settings feature\n\n| Module | Responsibility | Imports | State/events |\n|---|---|---|---|\n| `assets/js/features/settings/index.js` | Mounts Settings UI, handles preference input, reports PWA status | core state, Preferences, Feedback | Subscribes to state; writes preferences through state API |\n| `assets/js/features/settings/Preferences.js` | Renders settings controls, validates and saves preferences, reads storage summary | core state, core storage, core events | Owns no duplicate state; emits approved theme event |\n| `assets/css/pages.css` | Responsive page-level Settings layout | design tokens | Styles only |\n
