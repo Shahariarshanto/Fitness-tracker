@@ -23,7 +23,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
 
 ```js
 {
-  preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false, driveEnabled: false },
+  preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
   dailyActivity: {},
   painLogs: {},
   medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
@@ -55,7 +55,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 ## 5. Cloud data contract
 - D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
 - The Worker validates the application identifier, schema version, required state domains and payload size before writing.
-- D1 is the primary database. Separate scheduled backups must be implemented before describing the system as independently backed up.
+- D1 is the primary database. A scheduled Worker writes daily snapshots to the R2 bucket; backup operation must be verified after deployment.
 - Cloudflare Worker API currently permits requests from the GitHub Pages site origin; CORS origin checks are not authentication and do not protect health data from non-browser callers.
 ## 6. Privacy
 Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
@@ -93,5 +93,4 @@ Health information is sensitive. The current single-user endpoint has no login o
 - Export envelope: `{ app: "as-care", schemaVersion: 1, exportedAt: ISO-8601, state: <complete app state> }`.
 - Import accepts only this application identifier and schema version. It validates the envelope and state-domain shapes before calling the state store; invalid files are rejected before any state update.
 - Import replaces the current application state after explicit confirmation. Export is a user-triggered JSON download.
-- Google Drive uses the same envelope and the narrow `drive.file` OAuth scope. Each manual sync creates a timestamped backup file; previous versions are not overwritten. Restore selects the newest matching version and replaces local state only after validation and confirmation.
-- OAuth access tokens exist only in memory. They are not stored in localStorage, app state, or backup files. Reconnect may be required after reload or token expiry.
+- Cloudflare Worker writes daily snapshots of the D1 primary state into the `as-care-backups` R2 bucket at 00:00 Bangladesh time. The Worker retains the most recent 30 days and prunes older snapshots. This backup schedule is only active after the R2 bucket is created and the Worker deployment succeeds.
