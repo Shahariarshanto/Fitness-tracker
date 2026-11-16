@@ -6,7 +6,7 @@ Record actual results for each implementation step. Do not mark unrun tests as p
 
 ### Static checks
 - [ ] New HTML references only the clean module entry point.
-- [ ] No legacy app script or Drive script is loaded.
+- [ ] No obsolete legacy runtime script is loaded.
 - [ ] All relative asset paths exist.
 - [ ] All imports resolve.
 - [ ] JavaScript syntax checks pass.
@@ -257,7 +257,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Failed writes retain a durable local pending marker across reloads.
 - [ ] Pending local edits are uploaded before cloud hydration.
 - [ ] Cloudflare service and all modules are listed in `sw.js`; cache version increments.
-- [ ] No Google Drive or OAuth runtime module is imported.
+- [ ] No third-party account or cloud-drive integration is imported.
 - [ ] Manual JSON export downloads a complete valid state envelope.
 - [ ] Import validates the JSON envelope before replacing state.
 
@@ -277,4 +277,4 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline shell remains available; cloud-dependent data status is handled gracefully.
 - [ ] No duplicate or missing records after reload and multi-device edits.
 
-Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. R2 and scheduled cloud backups are intentionally excluded.
+Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. Automated cloud snapshots are intentionally excluded; JSON export is the independent backup method.
