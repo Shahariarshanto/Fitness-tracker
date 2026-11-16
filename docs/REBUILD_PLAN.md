@@ -647,3 +647,11 @@ Do not claim a browser, phone, offline, or deployment test passed unless it was 
 - [ ] Step 10 — Final integration and old-code removal.
 
 **Important:** Saving this plan does not mean implementation has begun or that any step has passed testing. Implementation proceeds one step at a time with the user's explicit approval between steps.
+
+
+## Step 9 implementation note — current implementation
+
+- Local Backup uses a versioned `as-care` JSON envelope and full state-domain validation. Import is explicit and replaces the current state only after user confirmation.
+- Google Drive uses Google Identity Services with the public OAuth Client ID and `drive.file` scope. Tokens are memory-only. Sync is user-triggered and creates timestamped snapshots rather than overwriting an existing snapshot; Restore selects the newest matching snapshot and requires confirmation.
+- Notification helpers provide optional toast sound/vibration and optional Bengali speech prompts during guided movement.
+- Browser/device acceptance checks remain pending. Do not mark Step 9 complete until the user tests the deployed app and explicitly approves the step.
