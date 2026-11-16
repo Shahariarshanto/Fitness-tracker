@@ -26,26 +26,26 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <li>Health measurements and laboratory values that you choose to enter, such as CRP, ESR, haemoglobin, ALT and creatinine;</li>
 <li>Personal dates, notes and other information you choose to record in the App.</li>
 </ul>
-<p>This information may be sensitive health-related information. Do not enter information you do not want stored in the Cloudflare D1 database or its R2 backup copies.</p>
+<p>This information may be sensitive health-related information. Do not enter information you do not want stored in the Cloudflare D1 database.</p>
 <h2>2. Where information is stored</h2>
 <p><strong>Cloudflare D1 (primary storage):</strong> The App sends the complete AS Care state to a Cloudflare Worker, which stores it in a D1 database. The App loads the latest database state when it starts and automatically sends changes after a short delay.</p>
-<p><strong>Cloudflare R2 (scheduled backup):</strong> The Worker is configured to save a daily snapshot of the D1 state to an R2 bucket. Backups are retained indefinitely; the Worker does not automatically delete older backups. This backup process only operates after the bucket and Worker deployment are configured successfully.</p>
+<p><strong>Backups:</strong> No R2 bucket or scheduled cloud backup is configured. The App provides a manual JSON export; you should periodically download and keep a copy separately. D1 is the primary database, not an independent backup.</p>
 <p><strong>On your device:</strong> The browser keeps a temporary cache and a pending-change marker so edits can be retried after an interruption. D1 remains the primary source when available.</p>
 <h2>3. Access and security</h2>
-<p>At the user's request, the current single-user API has no login, password or authentication. The Worker restricts browser CORS to the GitHub Pages origin, but CORS is not authentication and does not block direct API requests. Therefore, the health information stored in D1 and R2 must not be considered private or protected from third-party access. Do not store information here that requires confidentiality unless an access-control layer is added.</p>
+<p>At the user's request, the current single-user API has no login, password or authentication. The Worker restricts browser CORS to the GitHub Pages origin, but CORS is not authentication and does not block direct API requests. Therefore, the health information stored in D1 must not be considered private or protected from third-party access. Do not store information here that requires confidentiality unless an access-control layer is added.</p>
 <p>Cloudflare provides the infrastructure and is subject to its own applicable terms and privacy policy. The App does not use Google Drive or Google OAuth for data storage.</p>
 <h2>4. How information is used</h2>
-<p>Your entries are used within the App to display your activity history, progress, symptom summaries and other features you request, and to load and synchronize your data with Google Drive when connected. The App operator does not sell your personal information or use your health entries for advertising. The App does not provide your entries to the App operator for profiling or independent analysis.</p>
+<p>Your entries are used within the App to display your activity history, progress, symptom summaries and other features you request, and to load and synchronize your data with the Cloudflare D1 database. The App operator does not sell your personal information or use your health entries for advertising. The App does not provide your entries to the App operator for profiling or independent analysis.</p>
 <h2>5. Sharing and third-party services</h2>
 <p>Your Drive data file is stored in the Google Account you select and is subject to Google's service terms and privacy practices. The website also loads Google Identity Services for sign-in and Google Fonts for typography. Those services may receive technical information such as browser and network data when your browser connects to them; their handling of that information is governed by their respective policies. The App operator does not otherwise disclose your entries to third parties.</p>
 <h2>6. Retention and deletion</h2>
 <ul>
 <li><strong>Temporary local cache:</strong> remains in your browser until you clear the website's storage or remove/reset the browser data. Pending edits not yet uploaded to Drive may be lost if you clear it.</li>
-<li><strong>Drive data:</strong> remains in your Google Drive until you delete the AS Care Data.json file directly in Drive. Disconnecting the App or revoking Google access stops future access but does not delete the file.</li>
+
 </ul>
-<p>To stop future Drive access, use "Disconnect" in the App and, if desired, review or revoke the App's access in your Google Account security settings. To delete cloud data, delete the <em>AS Care Data.json</em> file directly in Google Drive.</p>
+<p>To remove cloud data, use the relevant Cloudflare database controls. Export your data before making destructive changes.</p>
 <h2>7. Security</h2>
-<p>The App uses Google's OAuth authorization flow and limits Drive access to the <code>drive.file</code> scope. No internet service can guarantee absolute security. Protect your device and Google Account with a screen lock and strong account security. Avoid using the App on shared or public devices, and do not share downloaded backups because they may contain sensitive health information.</p>
+<p>No internet service can guarantee absolute security. Protect your device, avoid shared or public devices, and keep downloaded JSON exports in a safe location because they may contain sensitive health information.</p>
 <h2>8. Children</h2>
 <p>AS Care is not designed specifically for children and is not intended to knowingly collect personal information from children without appropriate permission from a parent or guardian.</p>
 <h2>9. Changes to this policy</h2>
