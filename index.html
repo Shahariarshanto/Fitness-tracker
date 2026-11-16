@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0e6f8a">
-<title>ব্যায়াম ট্র্যাকার</title>
+<meta name="theme-color" content="#245fbe">
+<title>AS Care — Mobility & Health Tracker</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap">
 <style>
 :root{--bg:#eef3f6;--card:#fff;--tx:#14262e;--mu:#53656e;--ac:#0e6f8a;--ac2:#d7ecf3;--bd:#d3dee4;--done:#e6f4ee;--dn:#1c7a52;--am:#c98a0b;--rd:#c9483f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -107,6 +107,37 @@ body{background:radial-gradient(900px 420px at 50% -160px,rgba(31,157,120,.16),t
 .zt{display:block;font-size:12px;color:var(--dn);margin-top:2px}
 .tg,.tgon{font:inherit;padding:6px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--mu)}.tgon{background:var(--ac);color:var(--card);border-color:var(--ac)}
 .bp{margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:12px}
+
+/* AS Care — premium mobile-first visual system */
+:root{--bg:#f4f7fb;--card:#fff;--tx:#152331;--mu:#647486;--ac:#2767e8;--ac2:#e8efff;--bd:#e4eaf2;--done:#e8f7ef;--dn:#16865b;--am:#b97812;--rd:#c74747;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#121e30;--tx:#e8eef8;--mu:#a0aec0;--ac:#78a5ff;--ac2:#1d3153;--bd:#26354b;--done:#15392d;--dn:#6bd5a5;--am:#e8b65f;--rd:#ff8585;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#121e30;--tx:#e8eef8;--mu:#a0aec0;--ac:#78a5ff;--ac2:#1d3153;--bd:#26354b;--done:#15392d;--dn:#6bd5a5;--am:#e8b65f;--rd:#ff8585;color-scheme:dark}}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Display","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;background:radial-gradient(900px 420px at 85% -180px,rgba(39,103,232,.13),transparent),var(--bg);letter-spacing:-.12px}
+main{max-width:760px;padding:0 18px 112px}
+.hero{margin:0 -18px;padding:calc(24px + env(safe-area-inset-top,0px)) 22px 28px;border-radius:0 0 30px 30px;background:linear-gradient(135deg,#142c52 0%,#245fbe 54%,#3c91d8 100%);box-shadow:0 14px 38px rgba(31,83,158,.22)}
+.hero h1{font-size:26px;font-weight:750;letter-spacing:-.5px}.hero p{font-size:14px;opacity:.86}
+.fl{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.14);backdrop-filter:blur(14px);border-radius:16px;padding:8px 12px;font-size:14px}
+.quote{padding:8px 2px 2px;font-size:14px}
+.tabs{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:8px;background:color-mix(in srgb,var(--card) 88%,transparent);border:1px solid var(--bd);border-radius:22px;box-shadow:0 12px 40px rgba(14,28,48,.16);backdrop-filter:blur(22px);max-width:720px;margin:0 auto}
+.tabs button{min-height:54px;border-radius:15px;font-size:12px;font-weight:650;color:var(--mu);transition:background .2s ease,color .2s ease,transform .2s ease}
+.tabs button[aria-selected=true]{background:var(--ac2);color:var(--ac)}.tabs button:active{transform:scale(.96)}
+.card,.slot{border:1px solid color-mix(in srgb,var(--bd) 76%,transparent);border-radius:22px;box-shadow:0 5px 22px rgba(25,45,75,.055);padding:17px;margin-bottom:14px;animation:card-in .42s both}
+.slot{padding:16px;margin-bottom:14px}
+@keyframes card-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+h2{font-size:17px;letter-spacing:-.2px;margin:18px 2px 4px}.mu{font-size:13px;color:var(--mu)}
+.it{border:1px solid var(--bd);background:color-mix(in srgb,var(--bg) 76%,var(--card));border-radius:16px;padding:12px;transition:background .2s,border-color .2s,transform .2s}
+.it:active{transform:scale(.99)}.it.on{background:var(--done);border:1px solid color-mix(in srgb,var(--dn) 30%,var(--bd))}
+.it input{width:23px;height:23px}.slot header .em{border-radius:17px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.st{border-radius:17px;padding:14px;border:1px solid var(--bd)}.st b{font-size:25px;letter-spacing:-.6px}
+.bar{height:8px;border-radius:99px;background:var(--ac2);overflow:hidden}.bar i{border-radius:99px;background:linear-gradient(90deg,var(--ac),#59a8e8);transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.btn,.nav button,.tg,.tgon,.dz,.dzon,.sb,.sbp{border-radius:14px;font-weight:600;transition:transform .18s,filter .18s}
+.btn:active,.nav button:active,.tg:active,.tgon:active,.dz:active,.dzon:active{transform:scale(.97)}
+.pain button{border-radius:13px;min-width:39px}.note{border:1px solid var(--bd);border-left:4px solid var(--ac);background:var(--card);border-radius:18px;padding:15px;line-height:1.65}
+textarea,input.f,input.g{border-radius:13px}#bq input[type=range]{accent-color:var(--ac)}#bsave:disabled{opacity:.45;cursor:not-allowed}
+table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:pointer}button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--ac) 60%,transparent);outline-offset:3px}
+@media(min-width:700px){main{padding-left:24px;padding-right:24px}.hero{margin-left:-24px;margin-right:-24px;padding-left:30px;padding-right:30px}.tabs{bottom:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -120,7 +151,7 @@ body{background:radial-gradient(900px 420px at 50% -160px,rgba(31,157,120,.16),t
 <div class="card"><b>আজ ব্যথা কেমন?</b><p class="mu" style="margin:0">০ = ব্যথা নেই, ১০ = সবচেয়ে বেশি</p><div class="pain" id="pain"></div></div>
 <div class="card" id="dose"></div>
 <div id="list"></div>
-<div class="note"><b>ব্যায়ামের নিয়ম</b> (SAA, NASS, NICE ও EULAR-এর পরামর্শ অনুযায়ী): প্রতিদিন নমনীয়তা ও শ্বাসের ব্যায়াম, সপ্তাহে ২–৪ দিন কোর ও শক্তির কাজ, সপ্তাহে ১৫০ মিনিট হাঁটা। স্ট্রেচে টান লাগবে, তীব্র ব্যথা নয়। ব্যথা বা জড়তা বাড়লে হালকা করুন; দৌড়, লাফ ও কনট্যাক্ট স্পোর্টস এড়ান। সংখ্যাগুলো শুরুর ধারণা। মেরুদণ্ড জোড়া লাগার (ফিউশন) থাকলে বা ফ্লেয়ারের সময় ফিজিওথেরাপিস্টকে জিজ্ঞেস করে নিন।</div>
+<div class="note"><b>AS-নিরাপদ নড়াচড়ার নীতি</b><br>ASAS–EULAR, NICE ও ACR/SAA/SPARTAN নির্দেশনায় নিয়মিত ব্যায়াম, রোগী-শিক্ষা এবং ব্যক্তিভিত্তিক ফিজিওথেরাপিকে গুরুত্ব দেওয়া হয়েছে। রুটিনে নমনীয়তা, posture, spinal mobility, গভীর শ্বাস, শক্তিবর্ধক ও aerobic activity রাখা হয়েছে। <b>এটি সবার জন্য নির্দিষ্ট প্রেসক্রিপশন নয়</b>—ব্যায়ামের ধরন ও মাত্রা রোগের সক্রিয়তা, সক্ষমতা, osteoporosis/মেরুদণ্ডে fusion ও পূর্বের আঘাত অনুযায়ী ফিজিওথেরাপিস্টের সঙ্গে ঠিক করুন। তীব্র/নতুন ব্যথা, মাথা ঘোরা, অসাড়তা বা দুর্বলতা হলে থামুন। মেরুদণ্ডে fusion বা fracture risk থাকলে জোরে সামনে ঝোঁকা, মোচড়, ঝাঁকুনি ও high-impact ব্যায়াম নিজে থেকে করবেন না।</div>
 </section>
 
 <section id="p2" hidden>
@@ -145,7 +176,7 @@ body{background:radial-gradient(900px 420px at 50% -160px,rgba(31,157,120,.16),t
 <input type="checkbox" id="med" hidden></div>
 <div class="card"><b>গুরুত্বপূর্ণ তারিখ</b><p class="mu">তারিখ ডাক্তারের সঙ্গে নিশ্চিত করে বদলে নিন।</p><div id="ev"></div></div>
 <div class="card"><b>মাসিক BASDAI</b><p class="mu">গত ১ সপ্তাহ কেমন ছিল? ০ = নেই, ১০ = সবচেয়ে বেশি।</p><div id="bq"></div><p id="bres" style="font-weight:600;margin:8px 0"></p><button class="btn" id="bsave" type="button">স্কোর সেভ করুন</button><p class="mu" id="bh"></p></div>
-<div class="card"><b>ল্যাব রিপোর্ট</b><p class="mu">লাল মানে স্বাভাবিকের বাইরে। ২৯ অক্টোবরের রিপোর্ট দেওয়া আছে।</p><div id="lt" style="overflow-x:auto"></div>
+<div class="card"><b>ল্যাব রিপোর্ট</b><p class="mu">মানের ব্যাখ্যার জন্য সংশ্লিষ্ট ল্যাবের নিজস্ব reference range দেখুন। ২৯ অক্টোবরের রিপোর্টের মানগুলো নমুনা হিসেবে আছে।</p><div id="lt" style="overflow-x:auto"></div>
 <div class="row"><input class="f" type="date" id="ld"><input class="f" id="lcrp" type="number" step="any" placeholder="CRP" style="width:76px"><input class="f" id="lesr" type="number" step="any" placeholder="ESR" style="width:76px"><input class="f" id="lhb" type="number" step="any" placeholder="Hb" style="width:76px"><input class="f" id="lalt" type="number" step="any" placeholder="ALT" style="width:76px"><input class="f" id="lcr" type="number" step="any" placeholder="ক্রি." style="width:76px"></div><button class="btn" id="ladd" type="button">রিপোর্ট যোগ করুন</button></div>
 <div class="note"><b class="warn">এখনই ডাক্তার দেখান:</b> জ্বর, লেগে থাকা কাশি, ফোসকাওয়ালা ফুসকুড়ি, লাল ও ব্যথার চোখ বা দৃষ্টিতে সমস্যা। <b class="warn">জরুরি চিকিৎসা:</b> হঠাৎ বুকে ব্যথা, শ্বাসকষ্ট, একটি পা ফুলে ব্যথা।</div>
 </section>
@@ -267,9 +298,9 @@ function xs(s,t){var d=pk(s),a=0,ac=0,md=0;for(;ds(d)<=t;d.setDate(d.getDate()+1
 var r="\nরাতে নড়তে সমস্যা: "+(ac?bn(a)+" দিন ("+bn(ac)+" দিনের মধ্যে)":"লেখা নেই")+"। টোফাসিটিনিব ডোজ নেওয়া (সকাল+রাত): "+bn(md)+"টি।";
 var b=D.bas[D.bas.length-1];if(b)r+="\nBASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";
 var l=D.labs[D.labs.length-1];if(l)r+="\nসর্বশেষ ল্যাব ("+fmt(l.d)+"): CRP "+nz(l.crp)+", ESR "+nz(l.esr)+", Hb "+nz(l.hb)+"।";return r}
-function bval(){var q=document.querySelectorAll("#bq input"),v=[];for(var i=0;i<q.length;i++)v.push(+q[i].value);return Math.round((v[0]+v[1]+v[2]+v[3]+(v[4]+v[5])/2)/5*10)/10}
-function bshow(){var v=bval();$("bres").textContent="BASDAI: "+bn(v)+"/১০"+(v>=4?" · সক্রিয় রোগের ইঙ্গিত, ডাক্তারকে জানান":"")}
-function lc(v,bad){return '<td'+(v!==""&&v!=null&&bad?' class="warn"':"")+'>'+nz(v)+"</td>"}
+function bval(){var q=document.querySelectorAll("#bq input"),v=[];for(var i=0;i<q.length;i++){if(q[i].getAttribute("data-answered")!=="1")return null;v.push(+q[i].value)}return Math.round((v[0]+v[1]+v[2]+v[3]+(v[4]+v[5])/2)/5*10)/10}
+function bshow(){var v=bval();$("bres").textContent=v===null?"স্কোর পেতে ৬টি প্রশ্নেরই উত্তর দিন।":"BASDAI: "+bn(v)+"/১০"+(v>=4?" · উচ্চ স্কোর—চিকিৎসকের সঙ্গে আলোচনা করুন":"");$("bsave").disabled=v===null}
+function lc(v,bad){return "<td>"+nz(v)+"</td>"}
 function renderHealth(){
 var h="";EV.forEach(function(x){var v=D.ev[x[0]]||"";h+='<div class="row"><span style="flex:1 1 100%">'+x[1]+'</span><input class="f" type="date" data-ev="'+x[0]+'" value="'+v+'"><span class="mu" style="margin:0">'+dleft(v)+"</span></div>"});
 $("ev").innerHTML=h;
@@ -281,12 +312,12 @@ $("lt").innerHTML=t+"</table>";if(!$("ld").value)$("ld").value=today()}
 $("ev").addEventListener("change",function(e){var k=e.target.getAttribute("data-ev");if(!k)return;D.ev[k]=e.target.value;if(k==="start"&&e.target.value&&!D.ev.bt)D.ev.bt=add(e.target.value,28);save();renderHealth()});
 $("stf").onchange=function(){day(today()).s=this.value===""?null:+this.value;save()};
 $("med").onchange=function(){day(today()).m=this.checked;save()};
-$("bsave").onclick=function(){var d=today(),v=bval();D.bas=D.bas.filter(function(x){return x.d!==d});D.bas.push({d:d,v:v});save();renderHealth()};
+$("bsave").onclick=function(){var d=today(),v=bval();if(v===null)return;D.bas=D.bas.filter(function(x){return x.d!==d});D.bas.push({d:d,v:v});save();renderHealth()};
 $("ladd").onclick=function(){var d=$("ld").value;if(!d)return;var g=function(i){var v=$(i).value;return v===""?"":+v};
 D.labs=D.labs.filter(function(l){return l.d!==d});D.labs.push({d:d,crp:g("lcrp"),esr:g("lesr"),hb:g("lhb"),alt:g("lalt"),cr:g("lcr")});D.labs.sort(function(a,b){return a.d<b.d?-1:1});save();["lcrp","lesr","lhb","lalt","lcr"].forEach(function(i){$(i).value=""});renderHealth()};
 $("det").addEventListener("click",function(e){var k=e.target.getAttribute("data-e");if(k){cd=k;tab(1)}});
-var bq="";BQ.forEach(function(q){bq+='<label style="display:block;margin:8px 0">'+q+' <b>৫</b><input type="range" min="0" max="10" value="5" style="width:100%"></label>'});$("bq").innerHTML=bq;
-$("bq").addEventListener("input",function(e){e.target.parentNode.querySelector("b").textContent=bn(e.target.value);bshow()});bshow();
+var bq="";BQ.forEach(function(q){bq+='<label style="display:block;margin:8px 0">'+q+' <b>০</b><input type="range" min="0" max="10" value="0" data-answered="0" style="width:100%"></label>'});$("bq").innerHTML=bq;
+$("bq").addEventListener("input",function(e){if(e.target.matches("input[type=range]"))e.target.setAttribute("data-answered","1");e.target.parentNode.querySelector("b").textContent=bn(e.target.value);bshow()});bshow();
 var SL=[["m","🌅","সকাল","গোসলের পর · ঘাড় ও মেরুদণ্ড",["a1","b1","b2","b3","c1","c4","d1","d2"]],["a","☀️","বিকাল","হাঁটা ও শক্তির কাজ",["e1","e2","b4","b5","c2","c3","e3"]],["n","🌙","রাত","ঘুমের আগে · পা ও কোমর",["c5","d3","d4","d5"]]];
 var IT={},QT=["ছোট ছোট অভ্যাসই বড় পরিবর্তন আনে।","আজকের ব্যায়াম আগামীকালের নমনীয়তা।","নিয়মিত নড়াচড়াই মেরুদণ্ডের সেরা বন্ধু।","একদিন বাদ গেলে ক্ষতি নেই, থেমে যাওয়াই ক্ষতি।","ধীরে চলুন, কিন্তু প্রতিদিন চলুন।","আপনার শরীর আপনার যত্নের অপেক্ষায়।","প্রতিটি স্ট্রেচ আপনাকে সুস্থতার দিকে নেয়।"];
 G.forEach(function(g){g.i.forEach(function(x){IT[x[0]]=x})});
