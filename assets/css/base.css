@@ -41,33 +41,51 @@ h1 { max-width: 620px; margin-bottom: 8px; font-size: clamp(27px,6vw,42px); line
 }
 
 
-/* Full-height app layout with persistent bottom navigation */
-.app-shell {
-  display: flex;
-  min-height: 100vh;
-  min-height: 100svh;
-  flex-direction: column;
+/* Viewport layout: content scrolls in its own area; navigation owns the bottom row. */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
-#app-main { flex: 1 0 auto; }
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.app-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  width: min(100%, var(--content-width));
+  height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  min-height: 0;
+  margin: 0 auto;
+}
 #app-main {
-  padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 16px;
 }
 .primary-nav {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 10;
+  position: relative;
+  inset: auto;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
   width: 100%;
   margin: 0;
-  padding: 8px max(16px, calc((100% - var(--content-width)) / 2)) calc(8px + env(safe-area-inset-bottom));
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-radius: 18px 18px 0 0;
+  padding: 8px 7px calc(8px + env(safe-area-inset-bottom));
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 17px 17px 0 0;
   background: var(--surface);
-  box-shadow: 0 -8px 28px rgba(20, 40, 28, .10);
+  box-shadow: 0 -8px 28px rgba(20, 40, 28, .08);
   transform: none;
 }
 .app-footer {
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  padding: 10px 4px;
+}
+@media (min-width: 700px) {
+  .app-shell { border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
 }
