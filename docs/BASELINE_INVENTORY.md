@@ -7,10 +7,11 @@
 | Area | Current state |
 |---|---|
 | HTML | One `index.html` app shell containing five primary page sections |
-| JavaScript | `assets/js/app.js` is a classic deferred script, approximately 65.6 KB, with 68 declared functions |
-| Drive integration | `assets/js/drive-backup.js` is a separate classic deferred script / IIFE, approximately 7.6 KB |
+| JavaScript | `assets/js/app.js` remains a classic deferred legacy script, approximately 65.3 KB, with 68 declared functions |
+| Storage | `assets/js/core/storage.js` is a new classic-script storage boundary, approximately 2.3 KB |
+| Drive integration | `assets/js/drive-backup.js` is a separate classic deferred script / IIFE, approximately 7.5 KB; it now uses `ASStorage` |
 | CSS | `assets/css/app.css` is one stylesheet, approximately 46.4 KB, with 19 media-query blocks |
-| Modules | No native JavaScript `import` / `export` architecture is in use yet |
+| Modules | No native JavaScript `import` / `export` architecture is in use yet; files are loaded as ordered classic scripts |
 | Build | No build step or package manager is required |
 | PWA | `sw.js` caches the app shell; current cache label observed: `as-care-shell-v27` |
 
@@ -50,15 +51,15 @@ The current global function/variable design means extraction must account for cr
 - Primary key: `spa-daily-v2`.
 - Legacy key read during bootstrap: `spa-daily-v1`.
 - Main state variable: global `D`.
-- `app.js` currently reads and writes `spa-daily-v2` directly in `load()` and `save()`.
-- The settings/theme implementation also reads, writes and removes `asCareTheme` directly in `app.js`.
-- The current Settings view reads the raw application-data string to display approximate storage usage.
+- `assets/js/core/storage.js` now reads and writes `spa-daily-v2` and reads legacy `spa-daily-v1`.
+- `app.js` uses `ASStorage` for app load/save, theme preference and storage-size display; it no longer accesses localStorage directly.
+- `drive-backup.js` uses `ASStorage` for backup data, restore writes and last-sync timestamp; it no longer accesses localStorage directly.
 
 ### Google Drive integration
 
-- `drive-backup.js` is separate from the main app script, but currently reads and writes `spa-daily-v2` directly during backup/restore.
-- This means the target rule “storage module is the only owner of application localStorage” is **not yet true**.
-- Phase 1 must introduce a single storage boundary and route app bootstrap/save plus Drive backup/restore through it. Do not simply move the key constant while leaving duplicate direct writes behind.
+- The storage boundary is now the only application file containing direct `localStorage` calls. Static scans confirmed no direct localStorage access remains in `app.js` or `drive-backup.js`.
+- The API preserves the existing JSON data object and unknown fields; basic isolated mock-storage checks passed for round-trip, invalid writes and legacy mapping.
+- Full browser workflow, Drive restore/conflict and offline behavior are still unverified.
 - Keep Drive authorization tokens memory-only; do not move tokens into application storage.
 
 ### Implications
@@ -90,10 +91,8 @@ A static source inventory is not proof that the app works in a browser. Report u
 
 ## 7. Next safe engineering step
 
-Proceed with **Phase 1 — Data boundary first**:
-1. Inspect the complete load/save and Drive backup/restore call graph.
-2. Define a small storage API that reads/writes the exact existing format and preserves unknown fields.
-3. Build synthetic fixtures for valid, empty, malformed, partial and unknown-field data.
-4. Verify round-trip and failure safety before switching existing callers.
-5. Route both app and Drive persistence through that API.
-6. Keep `spa-daily-v2`, `spa-daily-v1` compatibility and exercise IDs unchanged.
+Continue **Phase 1 — Data boundary first**:
+1. Add repeatable storage fixtures/tests to the repository for valid, empty, malformed, partial and unknown-field data.
+2. Test the full app bootstrap/save path and Drive backup/restore/conflict path in a browser.
+3. Add `core/state.js` only after storage integration is verified, keeping the existing object shape unchanged.
+4. Keep `spa-daily-v2`, `spa-daily-v1` compatibility and exercise IDs unchanged.
