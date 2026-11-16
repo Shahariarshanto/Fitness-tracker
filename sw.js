@@ -8,7 +8,8 @@ const SHELL = [
   "./assets/js/core/router.js",
   "./assets/js/data/exercises.js", "./assets/js/data/health-data.js",
   "./assets/js/components/Navigation.js", "./assets/js/components/Feedback.js",
-  "./assets/js/components/Progress.js", "./assets/js/components/FormControls.js",\n  "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
+  "./assets/js/components/Progress.js", "./assets/js/components/FormControls.js",
+  "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
   "./manifest.webmanifest", "./icon.svg"
 ];
 
