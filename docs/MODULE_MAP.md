@@ -127,7 +127,7 @@ Overview reads the shared state only. Medication remains independently mounted a
 | Module | Responsibility | Imports | State/events |
 |---|---|---|---|
 | `assets/js/services/cloudflare.js` | Loads validated D1 state before feature mount, debounces writes, preserves offline pending changes, retries failed writes and refreshes newer cloud versions | core state, core storage | Subscribes to state; no UI controls |
-| `worker/index.js` | Validates and serves the single primary D1 state snapshot | D1 binding, R2 binding | Public single-user API by explicit user decision |
+| `worker/index.js` | Validates and serves the single primary D1 state snapshot | D1 binding | Public single-user API by explicit user decision |
 | `worker/migrations/0001_app_state.sql` | Creates the D1 primary state table | D1 | One canonical state row |
 | `assets/js/core/storage.js` | Stores temporary local cache and durable pending marker | none | Sole localStorage owner |
 | `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
