@@ -21,10 +21,11 @@ import("./features/health/index.js").then(({ initHealth }) => {
   const content = document.querySelector("[data-health-content]");
   if (content) {
     const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    const safeDetail = detail.replace(/[&<>"']/g, character => ({
+    const trace = error && error.stack ? String(error.stack) : "No JavaScript stack was provided by the browser.";
+    const safe = value => value.replace(/[&<>"']/g, character => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     }[character]));
-    content.innerHTML = `<section class="health-card"><h3>Health ফিচার লোড হয়নি</h3><p class="health-note">${safeDetail}</p><p class="health-note">এই error-টি দেখে সমস্যার কারণ শনাক্ত করা যাবে।</p></section>`;
+    content.innerHTML = `<section class="health-card"><h3>Health ফিচার লোড হয়নি</h3><p class="health-note">${safe(detail)}</p><details open><summary>Technical diagnostic</summary><pre class="health-diagnostic">${safe(trace)}</pre></details></section>`;
   }
 });
 
