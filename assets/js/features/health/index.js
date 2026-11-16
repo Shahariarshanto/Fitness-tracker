@@ -12,7 +12,7 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
   if (!content) return () => {};
   const render = () => {
     const state = getState();
-    content.innerHTML = [
+    content.innerHTML = '<p class="health-disclaimer">ব্যক্তিগত তথ্য নথিবদ্ধ ও নিজের পরিবর্তন পর্যবেক্ষণের জন্য। এটি রোগ নির্ণয়, চিকিৎসা বা জরুরি পরামর্শের বিকল্প নয়।</p>' + [
       renderSymptoms(state), renderBASDAI(state), renderASDAS(state),
       renderLabEvents(state), renderFlarePlan(state)
     ].join("");
