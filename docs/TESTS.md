@@ -104,7 +104,6 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] BASDAI six-question form validates, calculates and saves a dated history entry.
 - [ ] ASDAS-CRP form validates symptom inputs and CRP, calculates and saves a dated history entry.
 - [ ] Empty, negative, non-numeric and out-of-range values are rejected.
-- [ ] Lab results accept only units valid for the selected test and can be deleted.
 - [ ] Health events can be added and deleted.
 - [ ] Flare plan notes save and remain after reload.
 - [ ] Health page renders empty and populated histories without errors.
