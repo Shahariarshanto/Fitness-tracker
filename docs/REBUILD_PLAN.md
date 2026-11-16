@@ -157,7 +157,6 @@ Fitness-tracker/
 │       │   ├── index.js
 │       │   ├── Calendar.js
 │       │   ├── Trends.js
-│       │   └── DoctorSummary.js
 │       ├── health/
 │       │   ├── index.js
 │       │   ├── SymptomLog.js
@@ -405,20 +404,17 @@ Files:
 - `features/insights/index.js`
 - `features/insights/Calendar.js`
 - `features/insights/Trends.js`
-- `features/insights/DoctorSummary.js`
 
 Work:
 - Monthly calendar, day status, day details, and month navigation.
 - Pain, exercise, medication, and symptom trends.
 - Weekly/monthly summaries, streaks, and goal progress.
-- Doctor-ready summary for a selected date range.
 
 Tests:
 - Month navigation and day selection.
 - Empty and populated states.
 - Statistics checked against known sample data.
 - Charts and summaries update from state subscriptions.
-- Doctor summary uses the selected range and can be copied/exported as designed.
 
 ### Step 8 — Overview feature
 
