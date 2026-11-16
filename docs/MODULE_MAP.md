@@ -73,3 +73,10 @@ The previous five Health submodules were removed from the runtime and service-wo
 | `assets/css/pages.css` | Responsive medication tracker cards, forms, status and history styles | design tokens | Styles only |
 
 Medication is mounted within Overview to preserve the five approved primary navigation tabs. The module is independent and later Overview integration can aggregate its read-only summary. Archiving hides a medicine from the active list but retains its past adherence history.
+
+### Step 5 follow-up — Overview and adherence controls
+
+- `index.html`: removed the temporary “AS Care তৈরি হচ্ছে” placeholder from Overview; the medication tracker now occupies the active Overview content area.
+- `MedicationPanel.js`: both adherence choices remain clickable; the saved choice is exposed with `aria-pressed` and a selected-state class.
+- `assets/css/pages.css`: selected `খেয়েছি` and `খাইনি` controls receive distinct visible active styling.
+- `sw.js`: shell cache advanced to v54 so installed PWAs fetch the updated markup, module, and styles.
