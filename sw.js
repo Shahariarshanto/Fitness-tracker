@@ -1,7 +1,7 @@
-const CACHE_NAME = "as-care-shell-v54";
+const CACHE_NAME = "as-care-shell-v55";
 const SHELL = [
   "./", "./index.html",
-  "./assets/css/tokens.css", "./assets/css/base.css", "./assets/css/components.css", "./assets/css/pages.css",
+  "./assets/css/tokens.css", "./assets/css/base.css", "./assets/css/components.css", "./assets/css/pages.css", "./assets/css/movement.css",
   "./assets/js/bootstrap.js",
   "./assets/js/core/state.js", "./assets/js/core/events.js",
   "./assets/js/core/storage.js", "./assets/js/core/dates.js",
@@ -12,6 +12,9 @@ const SHELL = [
   "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
   "./assets/js/features/health/index.js",
   "./assets/js/features/medication/index.js", "./assets/js/features/medication/MedicationPanel.js",
+  "./assets/js/features/movement/index.js", "./assets/js/features/movement/Checklist.js",
+  "./assets/js/features/movement/ExerciseDetails.js", "./assets/js/features/movement/BodyMap.js",
+  "./assets/js/features/movement/GuidedSession.js",
   "./manifest.webmanifest", "./icon.svg"
 ];
 
