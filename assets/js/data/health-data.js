@@ -18,12 +18,5 @@ export const HEALTH_METRICS = Object.freeze({
   sleep: { label: "ঘুমের মান", scale: { min: 0, max: 10 }, unit: "/১০" }
 });
 
-export const LAB_FIELDS = Object.freeze([
-  { id: "crp", label: "CRP", unitOptions: ["mg/L", "mg/dL"] },
-  { id: "esr", label: "ESR", unitOptions: ["mm/hr"] },
-  { id: "hemoglobin", label: "Hemoglobin", unitOptions: ["g/dL"] },
-  { id: "alt", label: "ALT", unitOptions: ["U/L"] },
-  { id: "creatinine", label: "Creatinine", unitOptions: ["mg/dL", "µmol/L"] }
-]);
 
 export const BODY_REGION_BY_ID = Object.freeze(Object.fromEntries(BODY_REGIONS.map(item => [item.id, item])));
