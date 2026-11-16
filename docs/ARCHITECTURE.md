@@ -30,10 +30,12 @@ The browser OAuth flow uses a public Web Client ID and does not require a Client
 **Current implementation (do not misrepresent):**
 - index.html contains the app shell and page sections.
 - assets/css/app.css is currently a single stylesheet.
-- assets/js/app.js is currently a legacy monolithic JavaScript entry point.
-- assets/js/drive-backup.js is a separate Drive integration script.
-- sw.js owns the service-worker cache lifecycle.
+- assets/js/app.js is still a legacy monolithic JavaScript entry point.
+- assets/js/core/storage.js is now a centralized classic-script storage boundary loaded before app.js; it owns application-data, theme-preference and Drive-sync timestamp localStorage access.
+- assets/js/drive-backup.js remains a separate Drive integration IIFE and now calls the storage API instead of accessing localStorage directly.
+- sw.js owns the service-worker cache lifecycle and now precaches core/storage.js.
 - Existing pages are sections in one HTML document; they are not yet independent page components/modules.
+- Native ES module imports/exports and core/state.js have not been introduced yet.
 
 **Approved target architecture (the direction all future refactors must follow):**
 ```text
