@@ -1,5 +1,4 @@
 import { getState, updateState } from "../../core/state.js";
-import { getStorageInfo } from "../../core/storage.js";
 import { emit } from "../../core/events.js";
 
 const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c]);
@@ -11,42 +10,32 @@ const preferenceOptions = [
   ["vibration","ভাইব্রেশন","সমর্থিত ডিভাইসে হালকা কম্পন।"]
 ];
 
-export function renderPreferences() {
+export function renderPreferences(driveStatus = "অবস্থা যাচাই হচ্ছে…") {
   const { preferences } = getState();
-  const storage = getStorageInfo();
-  const themeOptions = themes.map(([value,label]) => `<option value="${value}" ${preferences.theme === value ? "selected" : ""}>${label}</option>`).join("");
-  const toggles = preferenceOptions.map(([key,label,description]) => `
-    <label class="setting-toggle" for="pref-${key}">
-      <span><strong>${label}</strong><small>${description}</small></span>
-      <input id="pref-${key}" type="checkbox" data-preference="${key}" ${preferences[key] ? "checked" : ""}>
-    </label>`).join("");
-  return `
+  const themeOptions = themes.map(([value,label]) => '<option value="' + value + '" ' + (preferences.theme === value ? "selected" : "") + '>' + label + '</option>').join("");
+  const toggles = preferenceOptions.map(([key,label,description]) => \`
+    <label class="setting-toggle" for="pref-\${key}">
+      <span><strong>\${label}</strong><small>\${description}</small></span>
+      <input id="pref-\${key}" type="checkbox" data-preference="\${key}" \${preferences[key] ? "checked" : ""}>
+    </label>\`).join("");
+  return \`
     <section class="settings-section">
       <h3>চেহারা ও ব্যবহার</h3>
-      <label class="settings-field" for="pref-theme"><span>অ্যাপের থিম</span><select id="pref-theme" data-preference="theme">${themeOptions}</select></label>
+      <label class="settings-field" for="pref-theme"><span>অ্যাপের থিম</span><select id="pref-theme" data-preference="theme">\${themeOptions}</select></label>
       <p class="settings-note">বর্তমানে অ্যাপের ভাষা বাংলা। অন্যান্য ভাষা এখনো যোগ করা হয়নি।</p>
-      <label class="settings-field" for="pref-dailyGoal"><span>দৈনিক ব্যায়ামের লক্ষ্য (মিনিট)</span><input id="pref-dailyGoal" data-preference="dailyGoal" type="number" inputmode="numeric" min="1" max="240" step="1" value="${escapeHTML(preferences.dailyGoal)}"></label>
+      <label class="settings-field" for="pref-dailyGoal"><span>দৈনিক ব্যায়ামের লক্ষ্য (মিনিট)</span><input id="pref-dailyGoal" data-preference="dailyGoal" type="number" inputmode="numeric" min="1" max="240" step="1" value="\${escapeHTML(preferences.dailyGoal)}"></label>
     </section>
-    <section class="settings-section"><h3>রিমাইন্ডার ও ইন্টারঅ্যাকশন</h3>${toggles}<p class="settings-note">এই পছন্দগুলো সংরক্ষিত হচ্ছে। সংশ্লিষ্ট রিমাইন্ডার/মিডিয়া ফিচার পরবর্তী ধাপে সক্রিয় হবে।</p></section>
+    <section class="settings-section"><h3>রিমাইন্ডার ও ইন্টারঅ্যাকশন</h3>\${toggles}<p class="settings-note">এই পছন্দগুলো সংরক্ষিত হচ্ছে।</p></section>
     <section class="settings-section">
-      <h3>অ্যাপ ও ডেটা</h3>
-      <div class="settings-info"><span>অ্যাপ ইনস্টল</span><strong id="pwa-install-status">পরীক্ষা করা হচ্ছে…</strong></div>
-      <div class="settings-info"><span>Service worker</span><strong id="pwa-worker-status">পরীক্ষা করা হচ্ছে…</strong></div>
-      <div class="settings-info"><span>লোকাল ডেটার আকার</span><strong>${storage.available ? (storage.bytes / 1024).toFixed(1) + " KB" : "পড়া যাচ্ছে না"}</strong></div>
-      <p class="settings-note">স্বাস্থ্যসংক্রান্ত তথ্য এই ব্রাউজারের লোকাল স্টোরেজে থাকে। নিয়মিত Backup রাখুন।</p>
-    </section>
-    <section class="settings-section">
-      <h3>লোকাল Backup</h3>
-      <p class="settings-note">সব স্বাস্থ্য, ওষুধ, ব্যায়াম ও সেটিংসের তথ্য একটি JSON ফাইলে Export হবে। Import করলে বর্তমান অ্যাপের তথ্য Backup দিয়ে প্রতিস্থাপিত হবে।</p>
-      <div class="settings-actions"><button type="button" class="button-primary" data-backup-export>Backup Export</button><button type="button" data-backup-import>Backup Import</button></div>
-      <input type="file" accept="application/json,.json" data-backup-file hidden>
-    </section>
-    <section class="settings-section">
-      <h3>Google Drive Backup</h3>
-      <p class="settings-note">Google Account অনুমতি দিলে AS Care একটি Backup ফাইল Drive-এ রাখবে। Sync কেবল আপনার চাপলে হবে; Drive Restore করলে বর্তমান লোকাল তথ্য প্রতিস্থাপিত হবে।</p>
-      <div class="settings-info"><span>সংযোগ / Sync অবস্থা</span><strong data-drive-status>সংযুক্ত নয়</strong></div>
-      <div class="settings-actions"><button type="button" data-drive-connect>Google সংযুক্ত করুন</button><button type="button" data-drive-sync>এখন Sync করুন</button><button type="button" data-drive-restore>Drive থেকে Restore</button><button type="button" data-drive-disconnect>বিচ্ছিন্ন করুন</button></div>
-    </section>`;
+      <h3>Google Drive — মূল ডেটা</h3>
+      <p class="settings-note">AS Care-এর মূল তথ্য Google Drive-এ থাকবে। অ্যাপ চালু হলে Drive থেকে সর্বশেষ তথ্য লোড হবে। কোনো তথ্য পরিবর্তন করলে কিছুক্ষণ পর পরিবর্তনগুলো একসঙ্গে Drive-এ সেভ হবে। ইন্টারনেট না থাকলে সাময়িকভাবে ফোনে জমা থাকবে এবং সংযোগ ফিরলে পাঠানো হবে।</p>
+      <div class="settings-info"><span>Drive অবস্থা</span><strong data-drive-status>\${escapeHTML(driveStatus)}</strong></div>
+      <div class="settings-actions">
+        <button type="button" class="button-primary" data-drive-connect>\${preferences.driveEnabled ? "Google Drive পুনরায় সংযুক্ত করুন" : "Google Drive সংযুক্ত করুন"}</button>
+        \${preferences.driveEnabled ? '<button type="button" data-drive-disconnect>বিচ্ছিন্ন করুন</button>' : ""}
+      </div>
+      <p class="settings-note">Google অনুমতির মেয়াদ শেষ হলে পুনরায় সংযুক্ত করতে হতে পারে। Drive-এর তথ্য মুছে ফেলার কোনো বাটন এখানে নেই।</p>
+    </section>\`;
 }
 
 export function savePreference(key, rawValue) {
