@@ -7,7 +7,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 ## Quick start
 1. Open the GitHub Pages app: https://shahariarshanto.github.io/Fitness-tracker/
 2. On Android Chrome, use **Add to Home screen** to install the PWA.
-3. User data is stored locally in the browser. Export a JSON backup regularly.
+3. User data is stored locally in the browser. Export a JSON backup regularly. Optional Google Drive backup lets each user authorize their own Google Account; the app owner must configure one Web OAuth Client ID first. See docs/ARCHITECTURE.md for setup and security details.
 
 No build step or package manager is currently required. The site is deployed from the main branch.
 
