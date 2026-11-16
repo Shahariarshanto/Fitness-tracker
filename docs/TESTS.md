@@ -93,7 +93,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Obsolete Health submodules are removed from the runtime and service-worker inventory.
 - [ ] Health entry module is listed in the service-worker shell.
 - [ ] Health feature does not access localStorage directly.
-- [ ] Daily pain, symptom, BASDAI, ASDAS-CRP, event and flare-plan state domains match the data model.
+- [ ] Daily pain, symptom, BASDAI, ASDAS-CRP, laboratory, event and flare-plan state domains match the data model.
 - [ ] BASDAI and ASDAS-CRP calculations are checked against independent reference cases.
 
 ### Browser checks
@@ -102,6 +102,8 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] BASDAI six-question form calculates and saves dated history.
 - [ ] ASDAS-CRP form calculates with CRP in mg/L and saves dated history.
 - [ ] Health events can be added and deleted.
+- [ ] Lab reports can be added, listed newest-first and deleted individually.
+- [ ] Lab records survive reload and appear in JSON export/import and D1 state.
 - [ ] Flare plan notes save and remain after reload.
 - [ ] Invalid and empty inputs are handled without breaking the page.
 
@@ -252,6 +254,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] App loads D1 state before mounting feature pages.
 - [ ] Empty D1 is seeded from existing local cache exactly once.
 - [ ] Existing D1 state is never overwritten by a fresh empty cache.
+- [ ] A failed initial D1 read never triggers an automatic PUT; retry performs a GET first.
 - [ ] State edits are debounced and saved to D1.
 - [ ] Edits during an in-flight upload are sent in a subsequent batch.
 - [ ] Failed writes retain a durable local pending marker across reloads.
