@@ -43,8 +43,12 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Report only tests actually performed; distinguish syntax checks from live browser/device testing.
 
 
-## Step 9 services
-- `services/backup.js` owns versioned JSON backup validation and state restore.
-- `services/drive.js` owns Google OAuth and manual timestamped Drive snapshots; tokens must remain memory-only.
-- `services/notifications.js` owns optional sound, speech and vibration helpers.
-- Settings exposes local export/import and manual Drive controls. Never overwrite previous Drive snapshots or import without confirmation.
+## Step 9 — Drive-first data
+- Google Drive is the primary and authoritative data store for the complete AS Care state.
+- The app attempts Drive initialization before feature pages mount. If this browser has a saved Drive connection preference, it requests a fresh token silently and loads the latest validated cloud snapshot.
+- The app maintains one canonical app-owned Drive file named AS Care Data.json; state edits are debounced and update that file in batches.
+- Local Storage is only a temporary cache and offline outbox. It is not the primary data source. Pending edits must be uploaded before a cloud snapshot is loaded, so unsynchronized edits are never silently overwritten.
+- If a Drive upload fails or the device is offline, keep pending edits in the cache and retry when online or after reconnect.
+- OAuth tokens remain memory-only. Use only the drive.file scope; never store tokens or client secrets in localStorage, app state, backup payloads, or Git.
+- Static GitHub Pages cannot guarantee background sync while the app is closed. GIS token renewal may require the user to reconnect after expiry.
+- Settings should expose only Google Drive connect/reconnect/disconnect and current sync status; do not restore the old manual snapshot/export/import UI unless the user explicitly asks.
