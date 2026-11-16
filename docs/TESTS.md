@@ -32,3 +32,25 @@ Record actual results for each implementation step. Do not mark unrun tests as p
 - [ ] Service-worker update replaces the prior cache.
 
 Add focused module-level and feature-level tests in the same step that implements each feature.
+
+## Step 2 — Static data and shared components
+
+### Static checks
+- [ ] Exercise catalogue contains all groups and unique IDs.
+- [ ] Every group ID resolves to an exercise record.
+- [ ] Health mapping IDs are unique and exercise body-region references resolve.
+- [ ] Shared modules import only approved dependencies.
+- [ ] Component styles are loaded by the shell.
+- [ ] All new runtime modules are listed in the service-worker shell.
+- [ ] No runtime import points to the legacy monolith.
+
+### Browser checks
+- [ ] Keyboard navigation supports left/right arrows, Home and End.
+- [ ] Toast helper emits only the approved toast event.
+- [ ] Confirmation dialog resolves true/false and closes accessibly.
+- [ ] Progress components display 0%, partial and 100% values correctly.
+- [ ] Form controls render escaped labels, values and hints.
+
+### Device/PWA checks
+- [ ] Shared controls fit a narrow mobile viewport.
+- [ ] Offline shell includes all Step 2 modules and CSS.
