@@ -93,7 +93,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Obsolete Health submodules are removed from the runtime and service-worker inventory.
 - [ ] Health entry module is listed in the service-worker shell.
 - [ ] Health feature does not access localStorage directly.
-- [ ] Daily pain, symptom, BASDAI, ASDAS-CRP, laboratory, event and flare-plan state domains match the data model.
+- [ ] Daily pain, symptom, BASDAI, ASDAS-CRP, event and flare-plan state domains match the data model.
 - [ ] BASDAI and ASDAS-CRP calculations are checked against independent reference cases.
 
 ### Browser checks
@@ -102,8 +102,6 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] BASDAI six-question form calculates and saves dated history.
 - [ ] ASDAS-CRP form calculates with CRP in mg/L and saves dated history.
 - [ ] Health events can be added and deleted.
-- [ ] Lab reports can be added, listed newest-first and deleted individually.
-- [ ] Lab records survive reload and appear in JSON export/import and D1 state.
 - [ ] Flare plan notes save and remain after reload.
 - [ ] Invalid and empty inputs are handled without breaking the page.
 
@@ -282,12 +280,3 @@ Add focused module-level and feature-level tests in the same step that implement
 
 Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. Automated cloud snapshots are intentionally excluded; JSON export is the independent backup method.
 
-
-## Health feature — laboratory records
-- [ ] Add a lab record with test name, numeric value, unit, date and optional note.
-- [ ] Lab records render newest first and display the saved value and unit exactly.
-- [ ] Delete removes only the selected lab record.
-- [ ] Lab records survive reload and are present in Cloudflare D1 state.
-- [ ] JSON export includes the labs array; valid import restores it.
-- [ ] Older D1 state without a labs property loads with an empty labs array.
-- [ ] Invalid numeric values, missing units and invalid dates are rejected.
