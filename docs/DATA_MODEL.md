@@ -52,7 +52,8 @@ Known daily symptom/wellbeing field names in the current project include `s`, `s
 ## 6. Data ownership and current storage boundary
 - `assets/js/core/storage.js` is now the sole owner of localStorage access used by the application, including the `spa-daily-v2` and legacy `spa-daily-v1` records, the `asCareTheme` preference, and the `asCareDriveLast` timestamp.
 - `assets/js/app.js` and `assets/js/drive-backup.js` must use the `ASStorage` API; they must not access localStorage directly.
-- The storage API currently exposes `readAppData`, `writeAppData`, `hasCurrentAppData`, `getAppDataSizeBytes`, theme preference accessors, and `setDriveLastSync`.
+- The storage API currently exposes `readAppData`, `writeAppData`, `hasCurrentAppData`, `getAppDataSizeBytes`, theme preference accessors, `setDriveLastSync`, and `getDriveConnected` / `setDriveConnected`.
+- `asCareDriveConnected` stores only the user's boolean preference to reconnect Drive. Never store Google access tokens or client secrets in localStorage.
 - The storage boundary is implemented, but full browser-level compatibility and Drive restore testing remain pending.
 
 When additional modules are extracted:
