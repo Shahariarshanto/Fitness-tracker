@@ -26,7 +26,7 @@ function loadGoogleIdentity() {
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true; script.defer = true; script.dataset.googleIdentity = "true";
     script.onload = resolve;
-    script.onerror = () => reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি।"));
+    script.onerror = () => { script.remove(); reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি।")); };
     document.head.append(script);
   });
   return ready.then(() => {
