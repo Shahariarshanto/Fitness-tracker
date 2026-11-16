@@ -16,7 +16,21 @@ const router = initRouter({ initialPage: "overview" });
 const destroyNavigation = initNavigation();
 const destroySettings = initSettings();
 const destroyMedication = initMedication();
-const destroyMovement = initMovement();
+let destroyMovement = () => {};
+try {
+  destroyMovement = initMovement();
+} catch (error) {
+  console.error("AS Care Movement module failed to initialize.", error);
+  const content = document.querySelector("[data-movement-content]");
+  if (content) {
+    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+    const trace = error && error.stack ? String(error.stack) : "No JavaScript stack was provided by the browser.";
+    const safe = value => value.replace(/[&<>"']/g, character => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[character]));
+    content.innerHTML = `<section class="health-card"><h3>Movement ফিচার লোড হয়নি</h3><p class="health-note">${safe(detail)}</p><details open><summary>Technical diagnostic</summary><pre class="health-diagnostic">${safe(trace)}</pre></details></section>`;
+  }
+}
 let destroyHealth = () => {};
 import("./features/health/index.js").then(({ initHealth }) => {
   destroyHealth = initHealth();
