@@ -287,7 +287,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
 .settings-card{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:18px;border:1px solid var(--bd);border-radius:20px;background:var(--card)}
 .settings-icon{width:38px;height:38px;border-radius:13px;background:var(--ac2);color:var(--ac);display:grid;place-items:center;font-size:22px}
-.settings-card .row{margin-top:auto}
+.settings-card .row{margin-top:auto}.medication-settings{margin-bottom:16px}.setting-label{display:flex;flex-direction:column;gap:5px;width:100%;font-size:13px;color:var(--mu)}.setting-times{width:100%;gap:10px}.setting-times .setting-label{flex:1;min-width:0}
 .exercise-caution{display:block;margin-top:6px;padding:7px 9px;border-radius:9px;background:color-mix(in srgb,var(--am) 12%,var(--card));color:var(--am);font-size:12px;line-height:1.45}
 .lab-field{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mu)}
 .lab-field select{font-size:12px;padding:5px}
@@ -353,6 +353,10 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 <div class="settings-card"><span class="settings-icon">▣</span><div><b>App & offline use</b><p class="mu">হোম স্ক্রিনে যোগ করলে অ্যাপের মতো ব্যবহার করা যায়। অফলাইন সুবিধা আগে খোলা পেজ ও ক্যাশ করা ফাইলের ওপর নির্ভর করে।</p></div><p class="mu" id="pwaStatus">PWA support পরীক্ষা করা হচ্ছে…</p></div>
 <div class="settings-card"><span class="settings-icon">⌁</span><div><b>Privacy & local data</b><p class="mu">স্বাস্থ্যতথ্য এই ডিভাইসের browser storage-এ থাকে। ব্রাউজারের data clear করলে backup ছাড়া তথ্য হারাতে পারেন।</p></div><p class="mu" id="localDataStatus"></p></div>
 </div>
+<div class="settings-card medication-settings"><span class="settings-icon">♡</span><div><b>Medication tracker labels</b><p class="mu">এটি শুধু নেওয়ার সময়গুলো টিক করার ট্র্যাকার; ওষুধ বা ডোজের পরামর্শ নয়। আপনার prescribed schedule অনুযায়ী নাম ও দুইটি সময়ের label বদলান।</p></div>
+<label class="setting-label">ওষুধের নাম<input class="f" id="medName" type="text" maxlength="60" placeholder="যেমন: আমার নির্ধারিত ওষুধ"></label>
+<div class="row setting-times"><label class="setting-label">প্রথম সময়ের নাম<input class="f" id="medTime1" maxlength="24" placeholder="সকাল"></label><label class="setting-label">দ্বিতীয় সময়ের নাম<input class="f" id="medTime2" maxlength="24" placeholder="রাত"></label></div>
+<button class="btn" type="button" id="saveMedSettings">লেবেল সেভ করুন</button><p class="mu" id="medSettingsMsg"></p></div>
 <details class="card" id="backupPanel" open><summary>Google Drive ব্যাকআপ ও সিঙ্ক</summary><p class="mu" id="cl">Google Drive সংযোগ করা হয়নি।</p><div class="row" style="gap:8px"><button type="button" class="tg" id="cb">☁️ Google Drive সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>↻ এখনই সিঙ্ক</button></div><label class="row" style="gap:8px"><input type="checkbox" id="dauto" style="width:20px;height:20px"> প্রতিদিন স্বয়ংক্রিয় সিঙ্ক (অ্যাপ চালু থাকলে)</label><p class="mu">আপনার ডেটা আপনার নিজের Google Drive-এর AS Care Backups ফোল্ডারে রাখা হবে। অ্যাপ খোলা ও Google অনুমতি বৈধ থাকলে অটো-সিঙ্ক চলবে; access token-এর মেয়াদ শেষ হলে আবার সংযুক্ত করতে হবে। অ্যাপ বন্ধ থাকলে GitHub Pages একা নির্দিষ্ট সময়ে ব্যাকগ্রাউন্ড সিঙ্ক চালাতে পারে না।</p><p class="mu" id="dsetup">অ্যাপ মালিককে একবার Google Cloud OAuth Client ID সেট করতে হবে।</p><div class="row"><button class="btn" id="fb" type="button">⬇️ JSON ফাইলে সেভ</button></div><p class="mu">জরুরি বিকল্প ব্যাকআপ: JSON কপি করুন বা আগে ডাউনলোড করা ফাইল থেকে ফিরিয়ে আনুন।</p><input type="file" id="backupFile" accept=".json,application/json" class="f" style="width:100%;margin-bottom:8px"><textarea id="bk" placeholder="ব্যাকআপ JSON এখানে থাকবে"></textarea><div class="row"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p>
 <div class="note"><b>Clinical safety</b><br>AS Care একটি self-monitoring companion; diagnosis বা treatment device নয়। স্কোর দেখে নিজে ওষুধ শুরু, বন্ধ বা dose পরিবর্তন করবেন না।</div>
 </section>
@@ -541,8 +545,8 @@ PS.f3=[[38,6,38,14,38,32,43,24,48,36,43,25,49,37,50,40,52,54,30,50,20,52],[43,10
 PS.f4=[[40,9,40,16,40,35,44,23,52,21,44,24,52,22,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,34,22,42,20,34,23,42,21,38,45,38,54,42,45,42,54]];
 PS.f5=[[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,33,22,27,24,47,22,53,24,38,45,38,54,47,40,41,47]];
 EN.f1=['Wall Posture Stand','Heels, bottom, shoulders, head touch wall · 20–30s ×5'];EN.f2=['Plank (Core)','On forearms and knees, body straight · 10–20s ×3'];EN.f3=['Hip Flexor Stretch (Kneeling Lunge)','Push hips forward gently · 15s ×2 each side'];EN.f4=['Shoulder Blade Squeeze','Elbows back, squeeze shoulder blades · 5s ×10'];EN.f5=['Single-Leg Balance','Hold wall or chair · 20s ×2 each leg'];
-function dose(){var o=D.days[cur()]||{},h='<b>টোফাসিটিনিব</b><span class=mu style=margin-left:8px>দিনে ২ বার</span><div class=row style=gap:10px;flex-wrap:nowrap;margin-top:8px>';
-[['1','sun','সকাল'],['2','moon','রাত']].forEach(function(x){var on=o['m'+x[0]];h+='<button type=button class='+(on?'dzon':'dz')+' data-m='+x[0]+'>'+ic(x[1],22)+'<span>'+x[2]+(on?' · খেয়েছি':' · বাকি')+'</span></button>'});
+function dose(){var o=D.days[cur()]||{},h='<b>'+(D.medName||'আমার নির্ধারিত ওষুধ')+'</b><span class=mu style=margin-left:8px>নির্ধারিত সময়ের ট্র্যাকার</span><div class=row style=gap:10px;flex-wrap:nowrap;margin-top:8px>';
+[['1','sun',D.medTime1||'সকাল'],['2','moon',D.medTime2||'রাত']].forEach(function(x){var on=o['m'+x[0]];h+='<button type=button class='+(on?'dzon':'dz')+' data-m='+x[0]+'>'+ic(x[1],22)+'<span>'+x[2]+(on?' · নেওয়া হয়েছে':' · বাকি')+'</span></button>'});
 $('dose').innerHTML=h+'</div>'}
 $('dose').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;var o=day(cur()),k='m'+b.getAttribute('data-m');o[k]=!o[k];o.m=!!(o.m1||o.m2);save();dose()});
 var _r4=renderToday;renderToday=function(){_r4();dose()};
@@ -635,8 +639,10 @@ cst("Google Drive সংযোগ করতে অ্যাপ মালিক�
 function renderSettings(){
  var bytes=0;try{var raw=localStorage.getItem(KEY)||"";bytes=new Blob([raw]).size}catch(e){}
  $("localDataStatus").textContent="এই browser-এ সংরক্ষিত অ্যাপ ডেটা: "+(bytes?Math.max(1,Math.round(bytes/1024))+" KB":"এখনো ডেটা নেই");
+ $("medName").value=D.medName||"";$("medTime1").value=D.medTime1||"সকাল";$("medTime2").value=D.medTime2||"রাত";
  $("pwaStatus").textContent=("serviceWorker" in navigator)?"এই browser-এ offline/PWA support পাওয়া যাচ্ছে।":"এই browser-এ Service Worker support নেই।";
 }
+$("saveMedSettings").onclick=function(){D.medName=$("medName").value.trim().slice(0,60)||"আমার নির্ধারিত ওষুধ";D.medTime1=$("medTime1").value.trim().slice(0,24)||"প্রথম সময়";D.medTime2=$("medTime2").value.trim().slice(0,24)||"দ্বিতীয় সময়";save();dose();$("medSettingsMsg").textContent="ওষুধের নাম ও সময়ের label সেভ হয়েছে।"};
 document.querySelectorAll("[data-theme-choice]").forEach(function(b){b.onclick=function(){var v=b.getAttribute("data-theme-choice");if(v==="system"){document.documentElement.removeAttribute("data-theme");localStorage.removeItem("asCareTheme")}else{document.documentElement.setAttribute("data-theme",v);localStorage.setItem("asCareTheme",v)}document.querySelectorAll("[data-theme-choice]").forEach(function(x){x.classList.toggle("tgon",x===b)})}});
 function asdasCalc(){var ids=["asbp","asst","aspg","aspp","ascrp"],v=ids.map(function(id){var x=$(id).value;return x===""?null:Number(x)});if(v.some(function(x){return x===null||!isFinite(x)})||v.slice(0,4).some(function(x){return x<0||x>10})||v[4]<0)return null;return Math.round((.12*v[0]+.06*v[1]+.11*v[2]+.07*v[3]+.58*Math.log(v[4]+1))*100)/100}
 function asdasLevel(v){return v<1.3?"নিষ্ক্রিয় রোগের কার্যকলাপ":v<2.1?"কম কার্যকলাপ":v<=3.5?"উচ্চ কার্যকলাপ":"অতি উচ্চ কার্যকলাপ"}
