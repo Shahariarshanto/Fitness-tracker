@@ -1,7 +1,8 @@
 import { getState, updateState } from "../../core/state.js";
 import { emit } from "../../core/events.js";
 
-const escapeHTML = value => String(value ?? "").replace(/[&<>"\']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"' :"&quot;", "\'":"&#39;" })[c]);
+const HTML_ESCAPES = { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"' :"&quot;", "\'":"&#39;" };
+const escapeHTML = value => String(value ?? "").replace(/[&<>"\']/g, c => HTML_ESCAPES[c]);
 const themes = [["system","ডিভাইসের থিম"],["light","লাইট"],["dark","ডার্ক"]];
 const preferenceOptions = [
   ["medicationReminders","মেডিকেশন রিমাইন্ডার","নির্ধারিত সময়ে ওষুধের কথা মনে করিয়ে দেওয়ার পছন্দ।"],
