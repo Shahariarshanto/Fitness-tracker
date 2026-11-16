@@ -4,7 +4,6 @@ import { dateKey, formatDate } from "./core/dates.js";
 import { on } from "./core/events.js";
 import { initNavigation } from "./components/Navigation.js";
 import { initSettings } from "./features/settings/index.js";
-import { initHealth } from "./features/health/index.js";
 
 const dateLabel = document.querySelector("#today-label");
 const toast = document.querySelector("#toast");
@@ -14,7 +13,14 @@ if (dateLabel) dateLabel.textContent = formatDate(dateKey());
 const router = initRouter({ initialPage: "overview" });
 const destroyNavigation = initNavigation();
 const destroySettings = initSettings();
-const destroyHealth = initHealth();
+let destroyHealth = () => {};
+import("./features/health/index.js").then(({ initHealth }) => {
+  destroyHealth = initHealth();
+}).catch(error => {
+  console.error("AS Care Health module failed to load.", error);
+  const content = document.querySelector("[data-health-content]");
+  if (content) content.innerHTML = '<section class="health-card"><h3>Health ফিচার লোড হয়নি</h3><p class="health-note">অ্যাপের এই অংশটি চালু করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।</p></section>';
+});
 
 function applyTheme(theme) {
   if (theme === "system") delete document.documentElement.dataset.theme;
