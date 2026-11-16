@@ -149,7 +149,7 @@ $("pain").addEventListener("click",function(e){
  var o=day(cur());o.p=n;save();
  $("pain").querySelectorAll("button[data-p]").forEach(function(x){x.classList.toggle("on",Number(x.getAttribute("data-p"))===n);x.setAttribute("aria-pressed",Number(x.getAttribute("data-p"))===n?"true":"false")});
  var note=$("painSummary");if(note)note.textContent="আজকের ব্যথার মাত্রা: "+bn(n)+"/১০ · সেভ হয়েছে";
- renderMonth();
+ renderMonth();renderOverviewInsights();
 });
 
 $("list").addEventListener("change",function(e){var b=e.target.closest('input[type="checkbox"][data-id]');if(!b)return;var id=b.getAttribute("data-id"),o=day(cur()),i=o.d.indexOf(id);if(b.checked&&i<0)o.d.push(id);if(!b.checked&&i>-1)o.d.splice(i,1);save();renderToday()});
@@ -158,7 +158,7 @@ $("chart").closest(".card").insertAdjacentHTML("beforebegin",'<div class="card" 
 function showNt(){var t=D.days[today()]||{},v=t.s==null||t.s===""?-1:(+t.s>0?1:0);document.querySelectorAll("#nt button").forEach(function(b){b.classList.toggle("on",+b.getAttribute("data-n")===v)});$("dsStiff").value=t.stiff==null?"":t.stiff;$("dsFatigue").value=t.fatigue==null?"":t.fatigue;$("dsSleep").value=t.sleep==null?"":t.sleep}
 var _rt=renderToday;renderToday=function(){_rt();showNt()};
 $("nt").addEventListener("click",function(e){var n=e.target.getAttribute("data-n");if(n===null)return;var o=day(today());o.s=(o.s!=null&&o.s!==""&&((+o.s>0?1:0)===+n))?null:+n;save();showNt()});
-$("dsSave").onclick=function(){var o=day(today()),ids=[["dsStiff","stiff"],["dsFatigue","fatigue"],["dsSleep","sleep"]];ids.forEach(function(x){var v=$(x[0]).value;if(v==="")delete o[x[1]];else{var n=Number(v);if(n>=0&&n<=10)o[x[1]]=n}});save();$("dsMsg").textContent="আজকের উপসর্গ সেভ হয়েছে।";};
+$("dsSave").onclick=function(){var o=day(today()),ids=[["dsStiff","stiff"],["dsFatigue","fatigue"],["dsSleep","sleep"]];ids.forEach(function(x){var v=$(x[0]).value;if(v==="")delete o[x[1]];else{var n=Number(v);if(n>=0&&n<=10)o[x[1]]=n}});save();$("dsMsg").textContent="আজকের উপসর্গ সেভ হয়েছে।";renderOverviewInsights();};
 function ic(n,s){var P={sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',sunrise:'<path d="M12 2v6M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M8 6l4-4 4 4M16 18a4 4 0 0 0-8 0"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',today:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/>',chart:'<path d="M3 3v18h18"/><path d="M7 16V9M12 16V5M17 16v-4"/>',heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',check:'<path d="M20 6 9 17l-5-5"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'};return '<svg viewBox="0 0 24 24" width="'+(s||24)+'" height="'+(s||24)+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>'}
 SL[0][1]=ic("sunrise",26);SL[1][1]=ic("sun",26);SL[2][1]=ic("moon",26);
 [["t1","today","Overview"],["t5","sun","Movement"],["t2","chart","Insights"],["t3","heart","Health"],["t4","lock","Settings"]].forEach(function(x){$(x[0]).innerHTML=ic(x[1])+"<span>"+x[2]+"</span>"});
