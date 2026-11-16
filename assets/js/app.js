@@ -237,7 +237,7 @@ $('bm').insertAdjacentHTML('afterend','<div id=wk2></div>');
 $('bm').addEventListener('click',function(e){var b=e.target.closest('[data-bm]');if(b){bm=+b.getAttribute('data-bm');drawBm();return}var z=e.target.closest('[data-z]');if(z){var v=z.getAttribute('data-z');bz=bz===v?null:v;drawBm()}});
 var _rm4=renderMonth;renderMonth=function(){_rm4();drawBm()};
 /* Google Drive backup: per-user file, OAuth token held in memory only. */
-var DRIVE_CLIENT_ID=localStorage.getItem("asCareDriveClientId")||"";
+var DRIVE_CLIENT_ID="1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com";
 var DR={token:null,expires:0,folder:null,file:null,client:null,resolve:null,reject:null,auto:false,last:+(localStorage.getItem("asCareDriveLast")||0)};
 function cst(s){var e=$("cl");if(e)e.textContent=s}
 function dvalid(){return !!(DR.token&&Date.now()<DR.expires-60000)}
