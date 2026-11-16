@@ -33,7 +33,19 @@ export function renderPreferences() {
       <div class="settings-info"><span>অ্যাপ ইনস্টল</span><strong id="pwa-install-status">পরীক্ষা করা হচ্ছে…</strong></div>
       <div class="settings-info"><span>Service worker</span><strong id="pwa-worker-status">পরীক্ষা করা হচ্ছে…</strong></div>
       <div class="settings-info"><span>লোকাল ডেটার আকার</span><strong>${storage.available ? (storage.bytes / 1024).toFixed(1) + " KB" : "পড়া যাচ্ছে না"}</strong></div>
-      <p class="settings-note">আপনার স্বাস্থ্যসংক্রান্ত তথ্য এই ব্রাউজারের লোকাল স্টোরেজে থাকে। ব্রাউজারের ডেটা মুছে গেলে তথ্য হারাতে পারে। Backup সুবিধা আলাদা ধাপে যোগ হবে।</p>
+      <p class="settings-note">স্বাস্থ্যসংক্রান্ত তথ্য এই ব্রাউজারের লোকাল স্টোরেজে থাকে। নিয়মিত Backup রাখুন।</p>
+    </section>
+    <section class="settings-section">
+      <h3>লোকাল Backup</h3>
+      <p class="settings-note">সব স্বাস্থ্য, ওষুধ, ব্যায়াম ও সেটিংসের তথ্য একটি JSON ফাইলে Export হবে। Import করলে বর্তমান অ্যাপের তথ্য Backup দিয়ে প্রতিস্থাপিত হবে।</p>
+      <div class="settings-actions"><button type="button" class="button-primary" data-backup-export>Backup Export</button><button type="button" data-backup-import>Backup Import</button></div>
+      <input type="file" accept="application/json,.json" data-backup-file hidden>
+    </section>
+    <section class="settings-section">
+      <h3>Google Drive Backup</h3>
+      <p class="settings-note">Google Account অনুমতি দিলে AS Care একটি Backup ফাইল Drive-এ রাখবে। Sync কেবল আপনার চাপলে হবে; Drive Restore করলে বর্তমান লোকাল তথ্য প্রতিস্থাপিত হবে।</p>
+      <div class="settings-info"><span>সংযোগ / Sync অবস্থা</span><strong data-drive-status>সংযুক্ত নয়</strong></div>
+      <div class="settings-actions"><button type="button" data-drive-connect>Google সংযুক্ত করুন</button><button type="button" data-drive-sync>এখন Sync করুন</button><button type="button" data-drive-restore>Drive থেকে Restore</button><button type="button" data-drive-disconnect>বিচ্ছিন্ন করুন</button></div>
     </section>`;
 }
 
