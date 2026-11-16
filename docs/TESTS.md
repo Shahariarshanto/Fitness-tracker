@@ -138,3 +138,13 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] No overlap with the bottom navigation or toast.
 
 **Verification note:** Static repository review only; live browser, Android-device, offline, and notification tests have not been performed by the assistant. Automatic medication reminders are not implemented in this step.
+
+### Step 5 follow-up regression checks
+- [ ] Overview no longer displays the temporary “AS Care তৈরি হচ্ছে” placeholder.
+- [ ] Selecting `খেয়েছি` highlights only that button and updates the status summary.
+- [ ] Selecting `খাইনি` switches the highlight to that button and updates the status summary.
+- [ ] Both status buttons remain clickable so the user can change the selection.
+- [ ] The selected status and highlight remain correct after reload.
+- [ ] The five Settings/navigation panels remain structurally valid after the Overview markup change.
+
+**Verification note:** Source updates and static markup checks only; no live browser or Android-device interaction was performed by the assistant.
