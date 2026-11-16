@@ -258,7 +258,7 @@ function drequest(interactive){return new Promise(function(resolve,reject){
    if(done)done(DR.token);
   },error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(new Error(e.message||"Google authorization বাতিল হয়েছে"));}});
  }
- try{DR.client.requestAccessToken({prompt:""})}catch(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(e)}
+ try{DR.client.requestAccessToken()}catch(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(e)}
 })}
 async function dapi(url,opt){
  var r=await fetch(url,opt||{});
