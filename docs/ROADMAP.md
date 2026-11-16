@@ -86,3 +86,11 @@ Each page owns its own rendering and event orchestration. Shared state and stora
 - Changing exercise/medication advice.
 - Adding analytics or new third-party data transfer.
 - Replacing the backup system without a compatibility plan.
+
+
+## Overview stabilization — 2026-11-16
+- [x] Ensure the Overview page is explicitly activated after initial data loading and first render. Previously the app rendered data but never called `tab(1)` at startup, while the global page CSS hid all inactive sections; a full page refresh could therefore show a blank page.
+- [x] Extend the Overview latest-health snapshot to include the latest BASDAI and available Hb, ALT and creatinine values alongside CRP, ESR and ASDAS-CRP.
+- [x] Bump the app asset query and service-worker cache version to invalidate stale cached shell files.
+- [ ] Verify Overview visually on Android Chrome and desktop, including empty and populated user datasets.
+- [ ] Verify all Overview cards against a real backup/restore dataset before moving to another tab.
