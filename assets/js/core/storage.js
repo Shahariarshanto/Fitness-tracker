@@ -34,6 +34,8 @@ function getThemePreference(){try{return localStorage.getItem("asCareTheme")}cat
 function setThemePreference(value){try{localStorage.setItem("asCareTheme",String(value));return true}catch(e){return false}}
 function removeThemePreference(){try{localStorage.removeItem("asCareTheme");return true}catch(e){return false}}
 function setDriveLastSync(timestamp){try{localStorage.setItem("asCareDriveLast",String(timestamp));return true}catch(e){return false}}
+function getDriveConnected(){try{return localStorage.getItem("asCareDriveConnected")==="1"}catch(e){return false}}
+function setDriveConnected(value){try{if(value)localStorage.setItem("asCareDriveConnected","1");else localStorage.removeItem("asCareDriveConnected");return true}catch(e){return false}}
 global.ASStorage={
  readAppData:readAppData,
  writeAppData:writeAppData,
@@ -42,6 +44,8 @@ global.ASStorage={
  getThemePreference:getThemePreference,
  setThemePreference:setThemePreference,
  removeThemePreference:removeThemePreference,
- setDriveLastSync:setDriveLastSync
+ setDriveLastSync:setDriveLastSync,
+ getDriveConnected:getDriveConnected,
+ setDriveConnected:setDriveConnected
 };
 })(window);
