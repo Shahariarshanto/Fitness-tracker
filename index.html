@@ -151,16 +151,130 @@ table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:po
 .welcome-copy{position:relative;z-index:1}.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.3px;color:var(--ac)}.welcome h2{font-size:19px;line-height:1.35;margin:5px 0 3px;max-width:440px}.welcome p{font-size:13px;color:var(--mu);margin:0}
 .quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;position:relative;z-index:1}.quick-actions button{min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 5px;border:1px solid var(--bd);border-radius:13px;background:var(--card);color:var(--tx);font-size:12px;font-weight:600;font-family:inherit;box-shadow:0 2px 7px rgba(25,45,75,.04)}.quick-actions button span{font-size:16px;color:var(--ac)}.quick-actions button:active{transform:scale(.97)}
 @media(max-width:390px){.hero-main{align-items:flex-start}.hero h1{font-size:26px}.fl{font-size:12px;padding:6px 9px}.quick-actions{gap:5px}.quick-actions button{font-size:11px;gap:3px}}
+
+/* AS CARE / V2 — complete visual system */
+:root{--bg:#f5f5ef;--card:#fffefa;--tx:#20251f;--mu:#73786f;--ac:#456b4c;--ac2:#e8efdf;--bd:#e5e7dc;--done:#e8f2e5;--dn:#3d7950;--am:#aa7832;--rd:#b9574c;--ink:#20251f;--lime:#c7e58b;--surface:#eeefe7;color-scheme:light}
+:root[data-theme="dark"]{--bg:#141a17;--card:#1d2621;--tx:#edf2e8;--mu:#aab5a6;--ac:#b9dc8b;--ac2:#293b2b;--bd:#334239;--done:#23382a;--dn:#9dd49c;--am:#e3bd72;--rd:#f08e83;--ink:#edf2e8;--surface:#202a24;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a17;--card:#1d2621;--tx:#edf2e8;--mu:#aab5a6;--ac:#b9dc8b;--ac2:#293b2b;--bd:#334239;--done:#23382a;--dn:#9dd49c;--am:#e3bd72;--rd:#f08e83;--ink:#edf2e8;--surface:#202a24;color-scheme:dark}}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--tx);font-family:Inter,"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;font-size:15px;letter-spacing:-.12px;line-height:1.55;padding-bottom:100px}
+main{max-width:1040px;margin:0 auto;padding:0 28px 70px}
+.app-topbar{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);margin-bottom:34px}
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tx);font-size:21px;font-weight:800;letter-spacing:-1px}
+.wordmark>span:last-child>span{color:var(--ac)}
+.mark{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--ink);color:var(--lime);font-size:23px;font-weight:800;font-family:Georgia,serif}
+.topbar-meta{display:flex;align-items:center;gap:13px;color:var(--mu);font-size:13px}
+.streak-pill{padding:7px 12px;border-radius:30px;background:var(--ac2);color:var(--ac);font-weight:700}
+.theme-toggle{width:36px;height:36px;border-radius:50%;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:19px}
+.workspace-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.kicker{font-size:10px;font-weight:800;letter-spacing:1.8px;color:var(--ac)}
+.workspace-heading h1{font-size:34px;line-height:1.2;letter-spacing:-1.2px;margin:8px 0 5px;color:var(--tx)}
+.workspace-sub{margin:0;color:var(--mu);font-size:14px}
+.heading-decoration{width:74px;height:74px;border-radius:25px;background:var(--ac2);display:grid;place-items:center;color:var(--ac);font-size:39px;transform:rotate(-8deg)}
+.quote{color:var(--mu);font-size:13px;margin:12px 0 18px}
+.tabs{position:sticky;top:8px;z-index:20;display:flex;gap:7px;justify-content:flex-start;margin:0 0 24px;padding:6px;border:1px solid var(--bd);border-radius:16px;background:color-mix(in srgb,var(--card) 92%,transparent);box-shadow:0 8px 24px rgba(30,40,30,.045);backdrop-filter:blur(18px)}
+.tabs button{flex:0 0 auto;display:flex;align-items:center;gap:9px;min-width:112px;padding:10px 14px;border:0;border-radius:11px;background:transparent;color:var(--mu);font:600 13px Inter,"Hind Siliguri",sans-serif}
+.tabs button[aria-selected=true],.tabs button.active{background:var(--ink);color:var(--lime)}
+.nav-icon{font-size:18px;line-height:1}
+section{min-width:0}
+#p1{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;align-items:start}
+#p1>.card:first-child{display:block;grid-column:span 5;min-height:145px}
+#p1>.card:nth-child(2){grid-column:span 7;min-height:145px}
+#dose{grid-column:span 12;order:0}
+#list{grid-column:span 12;order:1}
+#p1>.note{grid-column:span 12}
+.card,.slot{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:19px;box-shadow:0 3px 14px rgba(35,45,35,.035);margin-bottom:0}
+h2{font-size:18px;letter-spacing:-.4px;margin:0 0 6px}
+.card>b{font-size:16px}
+.mu{color:var(--mu);font-size:13px}
+.bar{height:7px;border-radius:99px;background:var(--surface);margin-top:12px}
+.bar i{border-radius:99px;background:var(--ac)}
+.pain{gap:7px}
+.pain button{width:38px;height:38px;border-radius:12px;background:var(--surface);border:1px solid var(--bd);font-size:13px;font-weight:650}
+.pain button.on{background:var(--ink);color:var(--lime);border-color:var(--ink);transform:none;box-shadow:none}
+.slot{padding:18px;margin-bottom:13px}
+.slot header{margin-bottom:13px}
+.slot header .em{width:45px;height:45px;border-radius:14px}
+.it{background:var(--surface);border:1px solid var(--bd);border-radius:13px;padding:12px 14px;margin-bottom:8px}
+.it input{width:21px;height:21px}
+.en{font-size:14px}
+.it .d{font-size:13px}
+.fg{width:78px;height:60px}
+.all{border-radius:10px;background:var(--ac2);color:var(--ac);font-weight:700}
+.grid{gap:12px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:17px}
+.st b{font-size:27px}
+.nav{margin-bottom:14px}
+.nav button,.btn,.tg,.tgon,.dz,.dzon{border-radius:11px;font-size:13px}
+.btn,.tg,.tgon{background:var(--ink);color:var(--lime);border:1px solid var(--ink);padding:10px 15px}
+.btn:disabled{opacity:.4}
+input.f,textarea,input.g{background:var(--surface);border:1px solid var(--bd);border-radius:10px;color:var(--tx);padding:10px;font:inherit}
+textarea{min-height:100px}
+.note{background:var(--ac2);border:0;border-radius:14px;padding:15px;color:var(--tx);font-size:13px}
+details.card{margin-bottom:14px}
+details summary{font-size:15px;padding:2px 0}
+table{font-size:13px}
+th,td{padding:9px 7px}
+#p2>.card,#p2>details,#p3>.card{margin-bottom:14px}
+#p2 .chart{height:190px}
+#p3 .row{gap:12px}
+#p3 label{font-size:13px}
+#p3 .pain button{width:auto;min-width:90px}
+#p3 .pain button.on{background:var(--ink);color:var(--lime)}
+#p3 .card>label{display:block;margin:12px 0}
+#p3 .card>label textarea{display:block;margin-top:6px}
+#p3 .card .row input.f{min-width:0}
+#p3 .card .row label{min-width:0}
+#asresult{padding:13px;border-radius:12px;background:var(--ac2)}
+#flareCard{border-left:3px solid var(--am)}
+[hidden]{display:none!important}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+@media(min-width:900px){body{padding-bottom:24px}main{padding-left:36px;padding-right:36px}.tabs{max-width:100%}}
+@media(max-width:650px){
+ body{font-size:14px;padding-bottom:90px}
+ main{padding:0 16px 105px}
+ .app-topbar{height:60px;margin-bottom:24px}
+ .wordmark{font-size:19px}.mark{width:31px;height:31px}
+ .topbar-meta{gap:7px;font-size:11px}.streak-pill{padding:6px 9px}.theme-toggle{width:32px;height:32px}
+ .workspace-heading h1{font-size:28px}.workspace-sub{font-size:12px}.heading-decoration{width:54px;height:54px;border-radius:18px;font-size:30px}
+ .tabs{position:fixed;top:auto;bottom:calc(9px + env(safe-area-inset-bottom,0px));left:10px;right:10px;margin:0;padding:6px;gap:2px;border-radius:18px;box-shadow:0 10px 34px rgba(20,30,20,.17)}
+ .tabs button{flex:1;min-width:0;flex-direction:column;justify-content:center;gap:3px;padding:8px 2px;font-size:10px}
+ .nav-icon{font-size:17px}
+ #p1{display:flex;flex-direction:column;gap:11px}
+ #p1>.card:first-child,#p1>.card:nth-child(2),#dose,#list{width:100%;min-height:0}
+ .card,.slot{padding:15px;border-radius:16px}
+ .slot{margin-bottom:10px}
+ .slot header .em{width:40px;height:40px;border-radius:12px}
+ .it{padding:10px;border-radius:12px;gap:9px}
+ .it input{width:20px;height:20px}
+ .en{font-size:13px}.it .d{font-size:12px}.ec{font-size:11px}
+ .pain{gap:5px}.pain button{width:34px;height:36px;border-radius:10px}
+ .grid{grid-template-columns:1fr 1fr}
+ #p3 .row{align-items:stretch;flex-wrap:wrap}
+ #p3 .card .row label{flex:1 1 100%}
+ #p3 .card .row input.f{width:100%!important}
+ #p3 .card .row>.f{flex:1 1 28%;width:auto!important}
+ #p3 .card .row>button{width:100%}
+ #p3 .pain button{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
 </head>
 <body>
 <main>
-<div class="hero"><div class="brand"><span class="brand-mark">✦</span><span>AS CARE</span><span class="brand-tag">PERSONAL HEALTH</span></div><div class="hero-main"><div><h1 id="gr">আজকের যত্ন</h1><p id="date"></p><p class="hero-sub">নড়াচড়া • উপসর্গ • সুস্থতার অগ্রগতি</p></div><div class="fl" id="fl"></div></div></div>
-<div class="welcome"><div class="welcome-copy"><span class="eyebrow">YOUR DAILY WELLNESS SPACE</span><h2>প্রতিদিন একটু যত্ন, দীর্ঘমেয়াদে ভালো থাকা</h2><p>ব্যায়াম, ব্যথা ও স্বাস্থ্য-তথ্য এক জায়গায় রাখুন।</p></div><div class="quick-actions"><button type="button" data-tabjump="1"><span>☀️</span> আজকের রুটিন</button><button type="button" data-tabjump="3"><span>♡</span> স্বাস্থ্য লগ</button><button type="button" data-tabjump="2"><span>↗</span> অগ্রগতি</button></div></div>
+<header class="app-topbar"><a class="wordmark" href="./" aria-label="AS Care home"><span class="mark">a</span><span>as<span>care</span></span></a><div class="topbar-meta"><span class="top-date" id="date"></span><span class="streak-pill" id="fl"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="থিম পরিবর্তন">◐</button></div></header>
+<div class="workspace-heading"><div><span class="kicker">YOUR PERSONAL AXSpA COMPANION</span><h1 id="gr">আজকের যত্ন</h1><p class="workspace-sub">ছোট ছোট নিয়মিত পদক্ষেপ, দীর্ঘমেয়াদে ভালো থাকা।</p></div><div class="heading-decoration" aria-hidden="true"><span>✳</span></div></div>
 <p class="quote" id="qt"></p>
-<div class="tabs" role="tablist"><button id="t1" role="tab" aria-selected="true">☀️ আজ</button><button id="t2" role="tab" aria-selected="false">📊 অগ্রগতি</button><button id="t3" role="tab" aria-selected="false">❤️ স্বাস্থ্য</button></div>
+<nav class="tabs" role="tablist" aria-label="প্রধান নেভিগেশন">
+<button id="t1" role="tab" aria-selected="true"><span class="nav-icon">⌂</span><span>Overview</span></button>
+<button id="tMove" type="button" class="nav-shortcut"><span class="nav-icon">↗</span><span>Movement</span></button>
+<button id="t2" role="tab" aria-selected="false"><span class="nav-icon">◫</span><span>Insights</span></button>
+<button id="t3" role="tab" aria-selected="false"><span class="nav-icon">♡</span><span>Health</span></button>
+<button id="tSettings" type="button" class="nav-shortcut"><span class="nav-icon">⚙</span><span>Settings</span></button>
+</nav>
 
 <section id="p1">
 <div class="card"><b id="cnt" style="font-size:22px"></b> টি শেষ<div class="bar"><i id="fill" style="width:0"></i></div><p id="msg" style="margin:8px 0 0;color:var(--dn);font-weight:600;min-height:1.6em"></p></div>
@@ -180,7 +294,7 @@ table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:po
 <div class="bar"><i id="gfill" style="width:0"></i></div><p class="mu" id="gtxt" style="margin:6px 0 0"></p></div>
 <div class="card"><b>ডাক্তারের জন্য সারাংশ</b><p class="mu">গত ৪২ দিন (৬ সপ্তাহ), ফলো-আপে দেখানোর জন্য।</p>
 <textarea id="sum" readonly></textarea><button class="btn" id="copy" type="button" style="margin-top:8px">কপি করুন</button></div>
-<details class="card" open><summary>Google Drive ব্যাকআপ ও সিঙ্ক</summary><p class="mu" id="cl">Google Drive সংযোগ করা হয়নি।</p><div class="row" style="gap:8px"><button type="button" class="tg" id="cb">☁️ Google Drive সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>↻ এখনই সিঙ্ক</button></div><label class="row" style="gap:8px"><input type="checkbox" id="dauto" style="width:20px;height:20px"> প্রতিদিন স্বয়ংক্রিয় সিঙ্ক (অ্যাপ চালু থাকলে)</label><p class="mu">আপনার ডেটা আপনার নিজের Google Drive-এর AS Care Backups ফোল্ডারে রাখা হবে। অ্যাপ খোলা ও Google অনুমতি বৈধ থাকলে অটো-সিঙ্ক চলবে; access token-এর মেয়াদ শেষ হলে আবার সংযুক্ত করতে হবে। অ্যাপ বন্ধ থাকলে GitHub Pages একা নির্দিষ্ট সময়ে ব্যাকগ্রাউন্ড সিঙ্ক চালাতে পারে না।</p><p class="mu" id="dsetup">অ্যাপ মালিককে একবার Google Cloud OAuth Client ID সেট করতে হবে।</p><div class="row"><button class="btn" id="fb" type="button">⬇️ JSON ফাইলে সেভ</button></div><p class="mu">জরুরি বিকল্প ব্যাকআপ: JSON কপি করুন বা আগে ডাউনলোড করা ফাইল থেকে ফিরিয়ে আনুন।</p><input type="file" id="backupFile" accept=".json,application/json" class="f" style="width:100%;margin-bottom:8px"><textarea id="bk" placeholder="ব্যাকআপ JSON এখানে থাকবে"></textarea><div class="row"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p></details>
+<details class="card" id="backupPanel" open><summary>Google Drive ব্যাকআপ ও সিঙ্ক</summary><p class="mu" id="cl">Google Drive সংযোগ করা হয়নি।</p><div class="row" style="gap:8px"><button type="button" class="tg" id="cb">☁️ Google Drive সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>↻ এখনই সিঙ্ক</button></div><label class="row" style="gap:8px"><input type="checkbox" id="dauto" style="width:20px;height:20px"> প্রতিদিন স্বয়ংক্রিয় সিঙ্ক (অ্যাপ চালু থাকলে)</label><p class="mu">আপনার ডেটা আপনার নিজের Google Drive-এর AS Care Backups ফোল্ডারে রাখা হবে। অ্যাপ খোলা ও Google অনুমতি বৈধ থাকলে অটো-সিঙ্ক চলবে; access token-এর মেয়াদ শেষ হলে আবার সংযুক্ত করতে হবে। অ্যাপ বন্ধ থাকলে GitHub Pages একা নির্দিষ্ট সময়ে ব্যাকগ্রাউন্ড সিঙ্ক চালাতে পারে না।</p><p class="mu" id="dsetup">অ্যাপ মালিককে একবার Google Cloud OAuth Client ID সেট করতে হবে।</p><div class="row"><button class="btn" id="fb" type="button">⬇️ JSON ফাইলে সেভ</button></div><p class="mu">জরুরি বিকল্প ব্যাকআপ: JSON কপি করুন বা আগে ডাউনলোড করা ফাইল থেকে ফিরিয়ে আনুন।</p><input type="file" id="backupFile" accept=".json,application/json" class="f" style="width:100%;margin-bottom:8px"><textarea id="bk" placeholder="ব্যাকআপ JSON এখানে থাকবে"></textarea><div class="row"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p></details>
 <div class="note">সম্পন্ন দিন মানে ৭০% বা বেশি কাজ শেষ। কিছু করলে কিন্তু কম হলে আংশিক। কিছুই না করলে বাদ।</div>
 </section>
 
@@ -284,8 +398,14 @@ $("sum").value="ব্যায়ামের সারাংশ ("+fmt(s)+" �
 function renderAll(){renderToday();renderMonth();summary();$("bk").value=JSON.stringify(D)}
 function tab(n){for(var i=1;i<=3;i++){$("p"+i).hidden=n!==i;$("t"+i).setAttribute("aria-selected",n===i)}
 if(n===1)renderToday();if(n===2){var d=new Date();vy=d.getFullYear();vm=d.getMonth();renderAll()}if(n===3)renderHealth()}
-$("t1").onclick=function(){cd=null;tab(1)};$("t2").onclick=function(){tab(2)};$("t3").onclick=function(){tab(3)};
-document.querySelectorAll("[data-tabjump]").forEach(function(b){b.addEventListener("click",function(){var n=+b.getAttribute("data-tabjump");if(n===1)cd=null;tab(n);document.querySelector(".tabs").scrollIntoView({block:"nearest",behavior:"smooth"})})});
+$("t1").onclick=function(){cd=null;tab(1);$("tMove").classList.remove("active");$("tSettings").classList.remove("active")};
+$("t2").onclick=function(){tab(2);$("tMove").classList.remove("active");$("tSettings").classList.remove("active")};
+$("t3").onclick=function(){tab(3);$("tMove").classList.remove("active");$("tSettings").classList.remove("active")};
+$("tMove").onclick=function(){tab(1);$("t1").setAttribute("aria-selected","false");$("tMove").classList.add("active");$("list").scrollIntoView({behavior:"smooth",block:"start"})};
+$("tSettings").onclick=function(){tab(2);$("t2").setAttribute("aria-selected","false");$("tSettings").classList.add("active");$("backupPanel").scrollIntoView({behavior:"smooth",block:"start"})};
+$("themeToggle").onclick=function(){var dark=document.documentElement.getAttribute("data-theme")==="dark";document.documentElement.setAttribute("data-theme",dark?"light":"dark");localStorage.setItem("asCareTheme",dark?"light":"dark")};
+(function(){var saved=localStorage.getItem("asCareTheme");if(saved)document.documentElement.setAttribute("data-theme",saved)})();
+
 $("list").addEventListener("change",function(e){var id=e.target.getAttribute("data-id");if(!id)return;
 var o=day(cur()),i=o.d.indexOf(id);
 if(e.target.checked){if(i<0)o.d.push(id)}else if(i>-1)o.d.splice(i,1);
