@@ -7,6 +7,23 @@ const SHELL = [
   "./icon.svg"
 ];
 
+// Exact active runtime module inventory; successful fetches are cached lazily.
+const RUNTIME_MODULES = [
+  "./assets/js/core/state.js", "./assets/js/core/events.js", "./assets/js/core/storage.js",
+  "./assets/js/core/dates.js", "./assets/js/core/router.js",
+  "./assets/js/data/exercises.js", "./assets/js/data/health-data.js",
+  "./assets/js/components/Navigation.js", "./assets/js/components/Feedback.js",
+  "./assets/js/components/Progress.js", "./assets/js/components/FormControls.js",
+  "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
+  "./assets/js/features/health/index.js",
+  "./assets/js/features/medication/index.js", "./assets/js/features/medication/MedicationPanel.js",
+  "./assets/js/features/movement/index.js", "./assets/js/features/movement/Checklist.js",
+  "./assets/js/features/movement/ExerciseDetails.js", "./assets/js/features/movement/BodyMap.js",
+  "./assets/js/features/movement/GuidedSession.js",
+  "./assets/js/features/insights/index.js", "./assets/js/features/insights/Calendar.js",
+  "./assets/js/features/insights/Trends.js", "./assets/js/features/insights/DoctorSummary.js"
+];
+
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
