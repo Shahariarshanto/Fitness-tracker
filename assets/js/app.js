@@ -375,7 +375,7 @@ function renderOverviewInsights(){
  var go=$("overviewOpenMovement");if(go)go.onclick=function(){tab(5)};frame(0);
 }
 
-var _habitRender=renderToday;renderToday=function(){_habitRender();renderHabitDashboard();dose()};
+var _habitRender=renderToday;renderToday=function(){_habitRender();renderHabitDashboard();dose();renderOverviewInsights()};
 
 load();fix();if(!localStorage.getItem(KEY))save();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
