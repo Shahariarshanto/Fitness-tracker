@@ -69,6 +69,34 @@
       }, true);
     })();
   </script>
-  <script type="module" src="./assets/js/bootstrap.js"></script>
+  <script>
+    // Classic-script loader catches module download, MIME, and parse failures visibly.
+    (() => {
+      const showLoadError = error => {
+        const host = document.querySelector("[data-medication-content]");
+        if (!host) return;
+        const card = document.createElement("section");
+        card.className = "health-card";
+        const title = document.createElement("h3");
+        title.textContent = "অ্যাপের JavaScript চালু হয়নি";
+        const message = document.createElement("p");
+        message.textContent = error && error.message ? error.message : String(error);
+        const help = document.createElement("p");
+        help.textContent = "Technical diagnostic নিচে দেওয়া হলো। এই লেখাটি কপি করে পাঠান।";
+        const details = document.createElement("details");
+        details.open = true;
+        const summary = document.createElement("summary");
+        summary.textContent = "Technical diagnostic";
+        const trace = document.createElement("pre");
+        trace.style.whiteSpace = "pre-wrap";
+        trace.style.overflowWrap = "anywhere";
+        trace.textContent = error && error.stack ? String(error.stack) : String(error);
+        details.append(summary, trace);
+        card.append(title, message, help, details);
+        host.replaceChildren(card);
+      };
+      import("./assets/js/bootstrap.js").catch(showLoadError);
+    })();
+  </script>
 </body>
 </html>
