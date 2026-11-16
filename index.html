@@ -267,6 +267,13 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
  .tabs button .nav-icon{width:22px;text-align:center}
  .app-topbar{margin-bottom:30px}
 }
+
+.exercise-tools{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:10px 0 13px;grid-column:span 12}
+.exercise-tools h2{font-size:21px;margin:4px 0}.exercise-filters{display:flex;gap:8px;min-width:0}
+.exercise-filters input{width:190px}.exercise-filters select{max-width:170px}
+.exercise-group{margin-bottom:16px}.exercise-group>h2{font-size:17px;margin:15px 2px 3px}
+.exercise-group>.mu{margin:0 2px 9px}
+@media(max-width:650px){.exercise-tools{display:block;margin:6px 0 8px}.exercise-tools h2{font-size:19px}.exercise-filters{display:grid;grid-template-columns:1fr 1fr;margin-top:12px}.exercise-filters input,.exercise-filters select{width:100%;min-width:0}.exercise-group{margin-bottom:13px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
@@ -288,7 +295,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 <div class="card"><b id="cnt" style="font-size:22px"></b> টি শেষ<div class="bar"><i id="fill" style="width:0"></i></div><p id="msg" style="margin:8px 0 0;color:var(--dn);font-weight:600;min-height:1.6em"></p></div>
 <div class="card"><b>আজ ব্যথা কেমন?</b><p class="mu" style="margin:0">০ = ব্যথা নেই, ১০ = সবচেয়ে বেশি</p><div class="pain" id="pain"></div></div>
 <div class="card" id="dose"></div>
-<div id="list"></div>
+<div class="exercise-tools"><div><span class="kicker">MOVE LIBRARY</span><h2>আজকের মুভমেন্ট প্ল্যান</h2><p class="mu">নিজের সক্ষমতা অনুযায়ী ধীরে ধীরে করুন।</p></div><div class="exercise-filters"><input id="exerciseSearch" class="f" type="search" placeholder="ব্যায়াম খুঁজুন…" aria-label="ব্যায়াম খুঁজুন"><select id="exerciseFilter" class="f" aria-label="ব্যায়ামের বিভাগ"><option value="all">সব বিভাগ</option><option value="0">শ্বাস-প্রশ্বাস</option><option value="1">ঘাড় ও কাঁধ</option><option value="2">মেরুদণ্ড</option><option value="3">কোমর ও পা</option><option value="4">দৈনন্দিন নড়াচড়া</option></select></div></div><div id="list"></div>
 <div class="note"><b>AS-নিরাপদ নড়াচড়ার নীতি</b><br>ASAS–EULAR, NICE ও ACR/SAA/SPARTAN নির্দেশনায় নিয়মিত ব্যায়াম, রোগী-শিক্ষা এবং ব্যক্তিভিত্তিক ফিজিওথেরাপিকে গুরুত্ব দেওয়া হয়েছে। রুটিনে নমনীয়তা, posture, spinal mobility, গভীর শ্বাস, শক্তিবর্ধক ও aerobic activity রাখা হয়েছে। <b>এটি সবার জন্য নির্দিষ্ট প্রেসক্রিপশন নয়</b>—ব্যায়ামের ধরন ও মাত্রা রোগের সক্রিয়তা, সক্ষমতা, osteoporosis/মেরুদণ্ডে fusion ও পূর্বের আঘাত অনুযায়ী ফিজিওথেরাপিস্টের সঙ্গে ঠিক করুন। তীব্র/নতুন ব্যথা, মাথা ঘোরা, অসাড়তা বা দুর্বলতা হলে থামুন। মেরুদণ্ডে fusion বা fracture risk থাকলে জোরে সামনে ঝোঁকা, মোচড়, ঝাঁকুনি ও high-impact ব্যায়াম নিজে থেকে করবেন না।</div>
 </section>
 
@@ -363,10 +370,7 @@ function day(k){return D.days[k]||(D.days[k]={d:[],p:null})}
 function today(){return ds(new Date())}
 function renderToday(){
 var k=cur(),o=D.days[k]||{d:[],p:null},h="";
-G.forEach(function(g){h+="<h2>"+g.t+"</h2>"+(g.s?'<p class="mu">'+g.s+"</p>":"");
-g.i.forEach(function(x){var on=o.d.indexOf(x[0])>-1;
-h+='<label class="it'+(on?" on":"")+'"><input type="checkbox" data-id="'+x[0]+'"'+(on?" checked":"")+'><span><span class="t">'+x[1]+'</span><span class="d">'+x[2]+"</span></span></label>"})});
-$("list").innerHTML=h;
+G.forEach(function(g,gi){h+='<div class="exercise-group" data-group="'+gi+'"><h2>'+g.t+'</h2>'+(g.s?'<p class="mu">'+g.s+'</p>':'');g.i.forEach(function(x){var on=o.d.indexOf(x[0])>-1;h+='<label class="it'+(on?" on":"")+'" data-group="'+gi+'"><input type="checkbox" data-id="'+x[0]+'"'+(on?" checked":"")+'><span><span class="t">'+x[1]+'</span><span class="d">'+x[2]+'</span></span></label>'});h+='</div>'});$("list").innerHTML=h;
 var p="";for(var i=0;i<=10;i++)p+='<button type="button" data-p="'+i+'" class="'+(o.p===i?"on":"")+'">'+bn(i)+"</button>";
 $("pain").innerHTML=p;$("date").textContent=fmt(k,{weekday:"long",day:"numeric",month:"long"})+(cd?" (পুরনো দিন সম্পাদনা)":"");updToday()}
 function updToday(){var o=D.days[cur()]||{d:[]},n=o.d.length;
@@ -414,6 +418,8 @@ $("tSettings").onclick=function(){tab(2);$("t2").setAttribute("aria-selected","f
 $("themeToggle").onclick=function(){var dark=document.documentElement.getAttribute("data-theme")==="dark";document.documentElement.setAttribute("data-theme",dark?"light":"dark");localStorage.setItem("asCareTheme",dark?"light":"dark")};
 (function(){var saved=localStorage.getItem("asCareTheme");if(saved)document.documentElement.setAttribute("data-theme",saved)})();
 
+function filterExercises(){var q=($("exerciseSearch").value||"").toLowerCase().trim(),g=$("exerciseFilter").value;document.querySelectorAll("#list .exercise-group").forEach(function(group){var gi=group.getAttribute("data-group"),matchGroup=g==="all"||g===gi,any=false;group.querySelectorAll(".it").forEach(function(item){var ok=matchGroup&&(!q||item.textContent.toLowerCase().indexOf(q)>-1);item.hidden=!ok;if(ok)any=true});group.hidden=!any})}
+$("exerciseSearch").addEventListener("input",filterExercises);$("exerciseFilter").addEventListener("change",filterExercises);
 $("list").addEventListener("change",function(e){var id=e.target.getAttribute("data-id");if(!id)return;
 var o=day(cur()),i=o.d.indexOf(id);
 if(e.target.checked){if(i<0)o.d.push(id)}else if(i>-1)o.d.splice(i,1);
