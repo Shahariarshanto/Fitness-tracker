@@ -256,9 +256,9 @@ function drequest(interactive){return new Promise(function(resolve,reject){
    if(!r.access_token){if(fail)fail(new Error("Google কোনো access token দেয়নি।"));return}
    DR.token=r.access_token;DR.expires=Date.now()+(Number(r.expires_in)||3600)*1000;
    if(done)done(DR.token);
-  },error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(new Error(e.message||"Google authorization বাতিল হয়েছে"));}});
+  },error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;var msg=e&&e.type==="popup_failed_to_open"?"Google-এর account window খুলতে পারেনি। Chrome browser-এ খুলে pop-up অনুমতি দিন।":e&&e.type==="popup_closed"?"Google account window বন্ধ করা হয়েছে।":"Google authorization ব্যর্থ: "+((e&&e.message)||((e&&e.type)||"অজানা সমস্যা"));cst(msg);if(fail)fail(new Error(msg));}});
  }
- try{DR.client.requestAccessToken()}catch(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(e)}
+ try{cst("Google Account নির্বাচন করার পেজ খোলা হচ্ছে…");DR.client.requestAccessToken({prompt:"select_account"})}catch(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;cst("Google sign-in শুরু করা যায়নি: "+e.message);if(fail)fail(e)}
 })}
 async function dapi(url,opt){
  var r=await fetch(url,opt||{});
