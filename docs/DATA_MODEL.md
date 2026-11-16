@@ -79,3 +79,4 @@ Health information is sensitive. Keep it local by default. Never commit real use
 - Weekly and monthly summaries are derived at render time; no duplicate analytics data is stored.
 - Pain and symptom averages exclude missing days. Activity streaks use dates with a recorded completed exercise or guided session.
 - Insights is read-only and does not create or modify clinical records.
+\n\n### Overview (derived, not persisted)\n- Overview reads `dailyActivity`, `workoutSessions`, `painLogs`, `symptoms.daily`, `medication.items`, `medication.dailyLogs`, `healthScores`, and `preferences.dailyGoal`.\n- Daily and 7-day cards are derived at render time; no duplicate Overview records are stored.\n- Movement minutes are an estimate based on completed exercise catalogue durations and recorded guided-session duration; the interface labels them as approximate.\n- Overview is read-only. Quick actions navigate to the owning feature; they do not mutate feature data.\n
