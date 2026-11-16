@@ -397,3 +397,11 @@ section#p1[aria-hidden="false"]{display:flex}
 main>section[id^="p"]{display:none!important}
 main>section[id^="p"].active-page{display:block!important}
 main>section#p1.active-page{display:flex!important;flex-direction:column}
+
+/* Functional overview cards */
+.overview-hero{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.overview-hero:active{transform:scale(.995)}
+.overview-pain-card .pain button{touch-action:manipulation;cursor:pointer}
+.overview-pain-card .pain button:focus-visible,.habit-open-movement:focus-visible{outline:3px solid var(--dn);outline-offset:3px}
+.habit-open-movement{margin-top:12px;width:100%;text-align:center}
+#dailyHabits:empty,#overviewInsights:empty,#overviewMovement:empty{display:none!important}
