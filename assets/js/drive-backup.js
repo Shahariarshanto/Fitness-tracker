@@ -44,11 +44,13 @@
           if (response && response.error) {
             busy = false;
             status("Google অনুমতি দেয়নি: " + (response.error_description || response.error), "error");
+            setButtons(false);
             return;
           }
           if (!response || !response.access_token) {
             busy = false;
             status("Google থেকে অনুমোদনের token পাওয়া যায়নি। আবার চেষ্টা করুন।", "error");
+            setButtons(false);
             return;
           }
           token = response.access_token;
