@@ -43,12 +43,12 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Report only tests actually performed; distinguish syntax checks from live browser/device testing.
 
 
-## Step 9 — Drive-first data
-- Google Drive is the primary and authoritative data store for the complete AS Care state.
-- The app attempts Drive initialization before feature pages mount. If this browser has a saved Drive connection preference, it requests a fresh token silently and loads the latest validated cloud snapshot.
-- The app maintains one canonical app-owned Drive file named AS Care Data.json; state edits are debounced and update that file in batches.
-- Local Storage is only a temporary cache and offline outbox. It is not the primary data source. Pending edits must be uploaded before a cloud snapshot is loaded, so unsynchronized edits are never silently overwritten.
-- If a Drive upload fails or the device is offline, keep pending edits in the cache and retry when online or after reconnect.
-- OAuth tokens remain memory-only. Use only the drive.file scope; never store tokens or client secrets in localStorage, app state, backup payloads, or Git.
-- Static GitHub Pages cannot guarantee background sync while the app is closed. GIS token renewal may require the user to reconnect after expiry.
-- Settings should expose only Google Drive connect/reconnect/disconnect and current sync status; do not restore the old manual snapshot/export/import UI unless the user explicitly asks.
+## Cloudflare-first persistence
+- Cloudflare D1 is the permanent primary source of truth for the complete AS Care state.
+- The Cloudflare Worker endpoint is configured in `assets/js/services/cloudflare.js`.
+- The app must load validated D1 state before mounting feature pages. Local Storage is only a temporary cache/offline pending queue.
+- On first deployment only, if D1 is empty, initialize it from the existing device cache. Never overwrite an existing cloud state with an empty local state.
+- All state edits are debounced and sent automatically; failed writes remain cached and retry when online.
+- Google Drive, Google OAuth, Drive preferences, and Drive UI are removed. Do not reintroduce them.
+- The current API has no authentication because the user explicitly requested no login. CORS is not authentication; the endpoint is publicly callable and this privacy risk must be disclosed.
+- D1 is primary storage, not a backup. Implement and verify independent scheduled backups before claiming backup coverage.
