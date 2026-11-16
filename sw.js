@@ -1,5 +1,5 @@
-const CACHE_NAME = "as-care-shell-v7";
-const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
+const CACHE_NAME = "as-care-shell-v8";
+const SHELL = ["./", "./index.html", "./assets/css/app.css", "./assets/js/app.js", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
 });
