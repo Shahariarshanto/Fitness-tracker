@@ -285,7 +285,7 @@ $("goal").onchange=function(){var v=parseInt(this.value,10);if(v>0&&v<=31){D.goa
 function cp(id,btn){var el=$(id);el.select();var done=function(){var t=btn.textContent;btn.textContent="কপি হয়েছে";setTimeout(function(){btn.textContent=t},1500)};
 try{navigator.clipboard.writeText(el.value).then(done,function(){try{document.execCommand("copy");done()}catch(x){}})}catch(e){try{document.execCommand("copy");done()}catch(x){}}}
 $("copy").onclick=function(){cp("sum",this)};$("bkc").onclick=function(){cp("bk",this)};
-$("bkr").onclick=function(){try{var o=JSON.parse($("bk").value);if(!o||typeof o.days!=="object")throw 0;D=o;if(!D.goal)D.goal=20;fix();save();renderAll();$("bkm").textContent="পুনরুদ্ধার হয়েছে।"}catch(e){$("bkm").textContent="লেখাটি ঠিক নেই। পুরো ব্যাকআপ লেখা পেস্ট করুন।"}};
+$("bkr").onclick=function(){try{var o=JSON.parse($("bk").value);if(o&&o.appData)o=o.appData;if(!o||typeof o.days!=="object")throw 0;D=o;if(!D.goal)D.goal=20;fix();save();renderAll();$("bkm").textContent="পুনরুদ্ধার হয়েছে।"}catch(e){$("bkm").textContent="লেখাটি ঠিক নেই। পুরো ব্যাকআপ লেখা পেস্ট করুন।"}};
 function nz(v){return v===""||v==null||isNaN(v)?"–":bn(v)}
 function add(k,n){var d=pk(k);d.setDate(d.getDate()+n);return ds(d)}
 function dleft(k){if(!k)return"";var n=Math.round((pk(k)-pk(today()))/864e5);return n>0?bn(n)+" দিন বাকি":n===0?"আজ":bn(-n)+" দিন আগে"}
