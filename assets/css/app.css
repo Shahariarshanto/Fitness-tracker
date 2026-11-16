@@ -392,3 +392,8 @@ section[id^="p"][hidden]{display:none!important}
 section[id^="p"][aria-hidden="true"]{display:none!important}
 section[id^="p"][aria-hidden="false"]{display:block}
 section#p1[aria-hidden="false"]{display:flex}
+
+/* Single-page tab system: exactly one top-level page can be visible */
+main>section[id^="p"]{display:none!important}
+main>section[id^="p"].active-page{display:block!important}
+main>section#p1.active-page{display:flex!important;flex-direction:column}
