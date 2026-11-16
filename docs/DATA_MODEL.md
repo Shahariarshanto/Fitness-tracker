@@ -39,7 +39,8 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 
 ### Health feature records
 - Daily symptom values (night mobility, stiffness, fatigue, sleep) are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`. The Health Journal combines these into one daily check-in UI.
-- BASDAI and ASDAS keep one result per calendar day: recalculating on the same date replaces that day's previous result; results from earlier dates remain in history. Records retain date and calculated score. ASDAS entries also retain questionnaire inputs and CRP in mg/L. The Health Journal presents the latest scores and recent history.
+- Daily Check-in uses date-keyed records: saving again on the same date modifies that date's symptom values; other dates remain unchanged. Pain and the remaining symptom values are presented together as one daily entry.
+- BASDAI and ASDAS keep exactly one result per calendar day. Recalculation on the same date updates the existing record, including questionnaire inputs; ASDAS also updates CRP in mg/L. Previous dates remain in history. On state load, duplicate same-day score records are normalized to the last saved record for that date, then sorted by date. BASDAI and ASDAS range controls are prefilled from the saved same-day inputs.
 - Health events and the user-authored flare plan are personal notes. The app does not prescribe medication or treatment.
 
 ## 4. Persistence
