@@ -120,3 +120,18 @@ Insights is read-only: it does not mutate Health, Medication, or Movement record
 | `assets/css/overview.css` | Responsive Overview cards, progress bars and quick actions | design tokens | Styles only |
 
 Overview reads the shared state only. Medication remains independently mounted and owns its own records; Overview can record today’s taken/skipped status through the shared medication service. All ordinary updates arrive through `state.subscribe()`. No Overview-specific data is persisted.
+
+
+## Step 9 — Backup, Drive and notifications services
+
+| Module | Responsibility | Imports | State/events |
+|---|---|---|---|
+| `assets/js/services/backup.js` | Creates, validates, parses and restores version-1 JSON backup envelopes | core state | Applies a complete validated state through `updateState()`; no DOM or direct storage |
+| `assets/js/services/drive.js` | Google Identity Services OAuth, Drive file discovery, timestamped upload and latest-backup restore | backup service, core events | Access token is memory-only; emits approved `drive:sync-status` |
+| `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
+| `assets/js/components/Feedback.js` | Applies saved sound/vibration preferences to toast feedback | core state, notifications | Existing toast event only |
+| `assets/js/features/settings/index.js` | Local JSON export/import and manual Drive connect/sync/restore/disconnect controls | backup, Drive, core events, Feedback | State updates use state store; Drive status listens to approved event |
+| `assets/js/features/movement/index.js` | Announces current guided exercise when Voice Guidance is enabled | notifications, core state | No new event category |
+| `assets/css/pages.css` | Responsive backup/Drive controls | design tokens | Styles only |
+
+Drive sync is manual and creates timestamped snapshots rather than overwriting prior backups. Restoring replaces local state only after a confirmation dialog. Google access tokens are not persisted.
