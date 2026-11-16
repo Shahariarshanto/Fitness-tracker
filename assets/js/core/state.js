@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   medication: { items: [], dailyLogs: {} },
   symptoms: { daily: {} },
   healthScores: { basdai: [], asdas: [] },
-  healthEvents: [],
+  healthEvents: [], labs: [],
   flarePlan: { warningSigns: "", actions: "", contacts: "" },
   workoutSessions: []
 };
@@ -24,7 +24,7 @@ function oneRecordPerDate(records) {
 }
 
 function normalizeState(saved) {
-  const { labs: _unusedLabs, ...stored } = saved;
+  const stored = saved;
   const medication = saved.medication || {};
   return {
     ...clone(INITIAL_STATE),
@@ -41,6 +41,7 @@ function normalizeState(saved) {
     },
     flarePlan: { ...INITIAL_STATE.flarePlan, ...(saved.flarePlan || {}) },
     healthEvents: Array.isArray(saved.healthEvents) ? saved.healthEvents : [],
+    labs: Array.isArray(saved.labs) ? saved.labs.filter(item => item && typeof item === "object" && !Array.isArray(item)) : [],
     workoutSessions: Array.isArray(saved.workoutSessions) ? saved.workoutSessions : []
   };
 }
