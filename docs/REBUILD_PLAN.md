@@ -661,12 +661,11 @@ Do not claim a browser, phone, offline, or deployment test passed unless it was 
 **Important:** Saving this plan does not mean implementation has begun or that any step has passed testing. Implementation proceeds one step at a time with the user's explicit approval between steps.
 
 
-## Step 9 implementation note — Drive-first implementation
+## Persistence implementation note — Cloudflare-first implementation
 
-- Google Drive is the primary data store. One canonical AS Care Data.json file is created and updated in batches.
-- The app attempts to load validated Drive state before feature pages mount when Drive is enabled for that browser.
-- Local Storage is retained only as a temporary cache and offline outbox. Pending changes are uploaded before cloud hydration.
-- Drive access tokens remain memory-only. Reconnection may be required after token expiry.
-- Settings now exposes Drive connect/reconnect/disconnect and sync status; the previous manual import/export/sync/restore controls have been removed.
-- Notification helpers remain part of this step.
-- Browser/device acceptance checks remain pending. Do not mark Step 9 complete until the user tests the deployed app and explicitly approves the step.
+- Cloudflare D1 is the permanent primary data source; the Worker validates and stores the complete AS Care state.
+- Local Storage is only a temporary cache and durable offline pending queue.
+- Google Drive, Google OAuth, Drive settings and Drive runtime code are removed.
+- The Worker is configured to create daily R2 snapshots and retain 30 days; R2 bucket creation and deployment remain pending.
+- The endpoint has no authentication at the user's request. CORS is not a security boundary.
+- Browser/device acceptance checks remain pending. Do not mark persistence complete until deployment, migration, R2 backups and user testing are verified.
