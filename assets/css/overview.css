@@ -266,3 +266,46 @@
  .overview-quick-actions button>b{top:7px;right:7px}
 }
 @media(prefers-reduced-motion:reduce){.overview-quick-actions button{transition:none}}
+
+
+/* Definitive quick-action layout: neutralize legacy direct-child grid rules */
+.overview-quick > .overview-quick-heading{
+ display:flex;grid-template-columns:none;align-items:center;justify-content:space-between;gap:12px;
+}
+.overview-quick > .overview-quick-heading > div{display:block;min-width:0}
+.overview-quick > .overview-quick-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:9px;
+}
+.overview-quick-actions > button{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;
+ min-width:0;min-height:112px;gap:9px;padding:15px 7px 12px;
+ white-space:normal;overflow:hidden;
+}
+.overview-quick-actions > button > .quick-action-icon{
+ display:grid;flex:0 0 38px;width:38px;height:38px;place-items:center;margin:0;
+ font-size:19px;line-height:1;
+}
+.overview-quick-actions > button > .quick-action-label{
+ display:block;min-width:0;width:100%;margin:0;padding:0;
+ color:var(--text);font-family:inherit;font-size:11px;font-weight:700;
+ line-height:1.45;text-align:center;white-space:normal;overflow-wrap:anywhere;
+}
+.overview-quick-actions > button > .quick-action-arrow{
+ position:absolute;top:8px;right:9px;display:block;margin:0;padding:0;
+ color:var(--muted);font-size:13px;line-height:1;
+}
+.overview-week-card .overview-week-bars{column-gap:9px}
+.overview-week-card .overview-week-bars > span{min-width:0}
+.overview-week-card .overview-week-bars small{
+ display:block;min-width:100%;font-size:8px;line-height:1.2;text-align:center;
+ white-space:nowrap;letter-spacing:-.025em;
+}
+@media(max-width:370px){
+ .overview-quick{padding:13px}
+ .overview-quick > .overview-quick-actions{gap:5px}
+ .overview-quick-actions > button{min-height:100px;padding:13px 4px 10px;gap:7px}
+ .overview-quick-actions > button > .quick-action-label{font-size:10px}
+ .overview-quick-actions > button > .quick-action-arrow{top:7px;right:7px}
+ .overview-week-card .overview-week-bars{column-gap:5px}
+ .overview-week-card .overview-week-bars small{font-size:7px}
+}
