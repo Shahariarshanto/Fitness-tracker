@@ -104,3 +104,8 @@ Continue **Phase 1 — Data boundary first**:
 - The Overview latest-health panel now includes BASDAI and available Hb, ALT and creatinine values in addition to CRP, ESR and ASDAS-CRP.
 - App asset query and service-worker cache are bumped to `as-care-shell-v30`.
 - Browser visual verification remains pending; static validation must not be described as a browser test.
+
+
+## 9. Overview first-entry rendering follow-up — 2026-11-16
+- Startup order now activates Overview via `tab(1)` before running the broader `renderAll()` routine. This makes initial page visibility independent of successful rendering of secondary calendar/summary widgets.
+- The secondary render is guarded and logs startup errors; browser verification remains pending.
