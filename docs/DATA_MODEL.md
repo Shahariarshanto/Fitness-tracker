@@ -64,3 +64,10 @@ Health information is sensitive. Keep it local by default. Never commit real use
 - Daily adherence is stored under `medication.dailyLogs[YYYY-MM-DD][medicationId]`. Each medicine has at most one status per date; changing the status updates that same date/medicine entry.
 - Status values are `taken` or `skipped`; absence means not yet recorded. Archiving sets `active: false` and retains prior daily logs for history.
 - Medication records remain local. Automatic notifications are not part of Step 5.
+
+
+### Movement records
+- Daily completion is stored in `dailyActivity[YYYY-MM-DD]` as `{ completedExerciseIds: string[], updatedAt: ISO-8601 }`. Toggling a checklist item adds or removes its exercise ID for that local calendar date.
+- Guided sessions are appended to `workoutSessions` with an ID, local date, start/end timestamps, elapsed seconds, selected exercise IDs, completed IDs, and skipped IDs.
+- Finishing a guided session adds only its completed exercises to that date's checklist; skipped exercises are not marked complete.
+- Exercise catalogue wording is marked `legacy-reference-unreviewed`. The app presents it as unverified reference material and does not claim that an exercise is suitable for a particular person.
