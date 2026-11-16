@@ -21,7 +21,7 @@ function validateState(state) {
   const arrays = ["healthEvents", "workoutSessions"];
   if (!objects.every(key => state[key] && typeof state[key] === "object" && !Array.isArray(state[key]))) return false;
   if (!arrays.every(key => Array.isArray(state[key]))) return false;
-  if (state.labs !== undefined && (!Array.isArray(state.labs) || state.labs.some(item => !item || typeof item !== "object" || Array.isArray(item) || typeof item.id !== "string" || typeof item.testName !== "string" || typeof item.value !== "number" || !Number.isFinite(item.value) || typeof item.unit !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(item.date)))) return false;
+  if (state.labs !== undefined && (!Array.isArray(state.labs) || state.labs.some(item => !item || typeof item !== "object" || Array.isArray(item) || typeof item.id !== "string" || typeof item.testName !== "string" || typeof item.value !== "number" || !Number.isFinite(item.value) || typeof item.unit !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)))) return false;
   if (!Array.isArray(state.medication.items) || !state.medication.dailyLogs || typeof state.medication.dailyLogs !== "object") return false;
   if (!state.symptoms.daily || typeof state.symptoms.daily !== "object") return false;
   if (!Array.isArray(state.healthScores.basdai) || !Array.isArray(state.healthScores.asdas)) return false;
