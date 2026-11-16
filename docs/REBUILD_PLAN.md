@@ -10,7 +10,7 @@
 
 ## 1. Project decisions and source of truth
 
-AS Care is a personal axSpA (ankylosing spondylitis) companion for tracking movement, symptoms, medication, health scores, laboratory results and progress.
+AS Care is a personal axSpA (ankylosing spondylitis) companion for tracking movement, symptoms, medication, health scores and progress.
 
 The rebuilt application uses a clean modular architecture. The old monolithic `assets/js/app.js` may be consulted as a temporary functional reference while features are being checked, but it must not be imported into or run alongside the modular application. Remove it only after confirming that no required feature or reference is still needed.
 
@@ -141,7 +141,6 @@ The canonical app state covers the data actually used by the application. Expect
 | Medication | Medicine details, schedule, taken status and history |
 | Symptoms | Stiffness, night mobility, fatigue and sleep |
 | Health scores | BASDAI/ASDAS inputs, results and history |
-| Laboratory | Test values, units, dates and notes |
 | Health events | Flares and other relevant health events |
 | Flare plan | User-editable action plan |
 | Sessions | Start/end, duration and completed/skipped exercises |
@@ -206,7 +205,7 @@ Work in small, reviewable steps. Before changing code, inspect the current imple
 
 - Symptom journal and history.
 - BASDAI and ASDAS input, calculation, result and history.
-- Laboratory entries and health events.
+- Health events.
 - Editable flare plan.
 
 **Verification:** data entry/history work, calculations match known test cases, incomplete inputs are handled safely.
