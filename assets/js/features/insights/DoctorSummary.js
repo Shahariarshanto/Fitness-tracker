@@ -14,7 +14,10 @@ export function buildDoctorSummary(state,start,end) {
   lines.push(...(symptoms.length?symptoms.map(d=>d+": "+["nightMobility","stiffness","fatigue","sleep"].map(k=>state.symptoms.daily[d][k]??"—").join(" / ")+" (রাতে চলাফেরা / জড়তা / ক্লান্তি / ঘুম)"):["কোনো রেকর্ড নেই"]));
   lines.push("", "রোগ-কার্যকলাপ মূল্যায়ন:");
   lines.push(...(scores.length?scores.map(x=>x.date+" — "+x.name+": "+x.score+(x.crp!=null?"; CRP "+x.crp+" mg/L":"")):["কোনো রেকর্ড নেই"]));
-  lines.push("", "ব্যায়াম সেশন:");
+  lines.push("", "দৈনিক ব্যায়াম সম্পন্ন:");
+  const activityDays=Object.keys(state.dailyActivity).filter(between).sort();
+  lines.push(...(activityDays.length?activityDays.map(d=>d+": "+(state.dailyActivity[d].completedExerciseIds||[]).length+"টি অনুশীলন সম্পন্ন"):["কোনো রেকর্ড নেই"]));
+  lines.push("", "গাইডেড ব্যায়াম সেশন:");
   lines.push(...(sessions.length?sessions.map(x=>x.date+": "+(x.completed||[]).length+" সম্পন্ন, "+(x.skipped||[]).length+" বাদ, "+Math.round((x.durationSeconds||0)/60)+" মিনিট"):["কোনো সেশন নেই"]));
   lines.push("", "ওষুধ গ্রহণের নথি:");
   const meds=state.medication.items||[];
@@ -23,7 +26,6 @@ export function buildDoctorSummary(state,start,end) {
   lines.push("", "নোট: এটি ব্যবহারকারীর সংরক্ষিত তথ্যের সারাংশ; চিকিৎসকের মূল্যায়নের বিকল্প নয়।");
   return lines.join("\n");
 }
-export function renderDoctorSummary() {
-  const end=dateKey(),start=addDays(end,-29);
+export function renderDoctorSummary(start=addDays(dateKey(),-29),end=dateKey()) {
   return `<section class="insight-card"><p class="eyebrow">DOCTOR-READY EXPORT</p><h3>চিকিৎসকের জন্য সারাংশ</h3><p class="insight-detail-line">সময় নির্বাচন করে সংরক্ষিত স্বাস্থ্য ও কার্যক্রমের তথ্য একসঙ্গে কপি করুন।</p><div class="insight-date-range"><label>শুরুর তারিখ<input type="date" data-summary-start value="${start}"></label><label>শেষ তারিখ<input type="date" data-summary-end value="${end}"></label></div><pre class="insight-summary-preview" data-summary-preview>তারিখের পরিসর নির্বাচন করুন।</pre><button type="button" class="button-primary" data-summary-copy>সারাংশ কপি করুন</button></section>`;
 }
