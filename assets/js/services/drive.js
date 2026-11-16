@@ -127,6 +127,7 @@ async function loadCloudState() {
   if (!file) return syncDrive();
   status("syncing", "Google Drive থেকে আগের তথ্য লোড হচ্ছে…");
   const payload = await readBackup(file);
+  payload.state.preferences = { ...payload.state.preferences, driveEnabled: true };
   hydrating = true;
   try { restoreBackup(payload); }
   finally { hydrating = false; }
