@@ -244,7 +244,7 @@ function dvalid(){return !!(DR.token&&Date.now()<DR.expires-60000)}
 function dclient(){return (localStorage.getItem("asCareDriveClientId")||DRIVE_CLIENT_ID||"").trim()}
 function drequest(interactive){return new Promise(function(resolve,reject){
  if(dvalid()){resolve(DR.token);return}
- var clientId=dclient();if(!clientId||!/^[0-9]+-[A-Za-z0-9_-]+\\.apps\\.googleusercontent\\.com$/.test(clientId)){reject(new Error("Google OAuth Client ID সেট করুন। Settings-এর Google Drive setup অংশ দেখুন।"));return}
+ var clientId=dclient();if(!clientId||!clientId.endsWith(".apps.googleusercontent.com")||clientId.indexOf(" ")!==-1){reject(new Error("Google OAuth Client ID সেট করুন। Settings-এর Google Drive setup অংশ দেখুন।"));return}
  if(!window.google||!google.accounts||!google.accounts.oauth2){reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"));return}
  DR.resolve=resolve;DR.reject=reject;
  if(!DR.client||DR.clientId!==clientId){DR.clientId=clientId;DR.client=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"https://www.googleapis.com/auth/drive.file",callback:function(r){var done=DR.resolve,fail=DR.reject;DR.resolve=null;DR.reject=null;if(r.error){if(fail)fail(new Error(r.error_description||r.error));return}DR.token=r.access_token;DR.expires=Date.now()+(r.expires_in||3600)*1000;if(done)done(DR.token)},error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(new Error(e.message||"Google authorization বাতিল হয়েছে"))}});
@@ -263,7 +263,7 @@ async function dsyncNow(){try{await drequest(true);await densure();var remote=aw
 $("cb").onclick=dconnect;$("dsync").onclick=dsyncNow;
 $("saveDriveClient").onclick=function(){
  var v=$("driveClientId").value.trim();
- if(!/^[0-9]+-[A-Za-z0-9_-]+\\.apps\\.googleusercontent\\.com$/.test(v)){
+ if(!v.endsWith(".apps.googleusercontent.com")||v.indexOf(" ")!==-1){
   $("driveSetupMsg").textContent="সঠিক Web OAuth Client ID দিন (…apps.googleusercontent.com)।";return;
  }
  if(v!==dclient()){DR.token=null;DR.expires=0;DR.client=null;DR.clientId=null;$("dsync").disabled=true;}
@@ -313,7 +313,8 @@ function renderSettings(){
  var bytes=0;try{var raw=localStorage.getItem(KEY)||"";bytes=new Blob([raw]).size}catch(e){}
  $("localDataStatus").textContent="এই browser-এ সংরক্ষিত অ্যাপ ডেটা: "+(bytes?Math.max(1,Math.round(bytes/1024))+" KB":"এখনো ডেটা নেই");
  $("medName").value=D.medName||"";$("medTime1").value=D.medTime1||"সকাল";$("medTime2").value=D.medTime2||"রাত";
- $("driveClientId").value=dclient();$("driveSetupMsg").textContent=dclient()?"OAuth Client ID এই browser-এ সেট করা আছে।":"OAuth Client ID এখনো সেট করা হয়নি।";\n  $("pwaStatus").textContent=("serviceWorker" in navigator)?"এই browser-এ offline/PWA support পাওয়া যাচ্ছে।":"এই browser-এ Service Worker support নেই।";
+ $("driveClientId").value=dclient();$("driveSetupMsg").textContent=dclient()?"OAuth Client ID এই browser-এ সেট করা আছে।":"OAuth Client ID এখনো সেট করা হয়নি।";
+  $("pwaStatus").textContent=("serviceWorker" in navigator)?"এই browser-এ offline/PWA support পাওয়া যাচ্ছে।":"এই browser-এ Service Worker support নেই।";
 }
 $("saveMedSettings").onclick=function(){D.medName=$("medName").value.trim().slice(0,60)||"আমার নির্ধারিত ওষুধ";D.medTime1=$("medTime1").value.trim().slice(0,24)||"প্রথম সময়";D.medTime2=$("medTime2").value.trim().slice(0,24)||"দ্বিতীয় সময়";save();dose();$("medSettingsMsg").textContent="ওষুধের নাম ও সময়ের label সেভ হয়েছে।"};
 document.querySelectorAll("[data-theme-choice]").forEach(function(b){b.onclick=function(){var v=b.getAttribute("data-theme-choice");if(v==="system"){document.documentElement.removeAttribute("data-theme");localStorage.removeItem("asCareTheme")}else{document.documentElement.setAttribute("data-theme",v);localStorage.setItem("asCareTheme",v)}document.querySelectorAll("[data-theme-choice]").forEach(function(x){x.classList.toggle("tgon",x===b)})}});
