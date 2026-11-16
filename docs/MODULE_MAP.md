@@ -102,7 +102,7 @@ Movement uses the existing `dailyActivity` and `workoutSessions` state domains. 
 |---|---|---|---|
 | `assets/js/features/insights/index.js` | Owns calendar selection/month navigation, summary date range, copy action and state subscription | core state, dates, Feedback, Insights renderers | Owns `data-insights-content`; read-only state consumer |
 | `assets/js/features/insights/Calendar.js` | Renders monthly calendar markers and selected-day activity, symptom, medication and score details | core dates | Pure rendering |
-| `assets/js/features/insights/Trends.js` | Calculates and renders 7/30-day summaries, exercise minutes, active days, streak, pain and symptom trends | core dates, exercise catalogue | Pure calculation/rendering |
+| `assets/js/features/insights/Trends.js` | Calculates period-based metrics and renders the visual symptom/activity dashboard | core dates, exercise catalogue, Charts | Pure calculation/rendering |\n| `assets/js/features/insights/Charts.js` | Reusable accessible SVG line-chart and activity-bar renderers with honest empty states | none | Pure rendering |\n| `assets/js/features/insights/ScoreTrends.js` | Renders dated BASDAI and ASDAS-CRP score histories | Charts | Pure rendering |
 | `assets/js/features/insights/DoctorSummary.js` | Builds date-range text summary from saved health, medication and movement records | core dates | Pure rendering and text generation |
 | `assets/css/pages.css` | Responsive Insights calendar, trend cards, and report preview | design tokens | Styles only |
 
