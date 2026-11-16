@@ -2,6 +2,7 @@ import { getState, subscribe, updateState } from "../../core/state.js";
 import { dateKey } from "../../core/dates.js";
 import { showToast, createConfirmDialog } from "../../components/Feedback.js";
 import { renderMedication } from "./MedicationPanel.js";
+import { setMedicationStatus } from "./MedicationActions.js";
 
 export function initMedication({ root = document.querySelector("[data-medication-content]") } = {}) {
   if (!root) return () => {};
@@ -35,10 +36,7 @@ export function initMedication({ root = document.querySelector("[data-medication
     if (statusButton) {
       const { medId, medStatus } = statusButton.dataset;
       const today = dateKey();
-      updateState(state => ({ ...state, medication: { ...state.medication, dailyLogs: {
-        ...state.medication.dailyLogs,
-        [today]: { ...(state.medication.dailyLogs[today] || {}), [medId]: { status: medStatus, updatedAt: new Date().toISOString() } }
-      } } }));
+      updateState(state => setMedicationStatus(state, medId, medStatus, today));
       showToast(medStatus === "taken" ? "আজকের গ্রহণের তথ্য সংরক্ষিত হয়েছে।" : "আজ খাওয়া হয়নি হিসেবে সংরক্ষিত হয়েছে।", "success");
       return;
     }
