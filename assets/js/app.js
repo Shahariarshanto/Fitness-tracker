@@ -177,6 +177,14 @@ function tab(n){
  $("t4").onclick=function(){tab(4)};
  $("t5").onclick=function(){tab(5)};
  $("openMovement").onclick=function(){tab(5)};
+var progressCard=document.querySelector(".overview-hero");
+if(progressCard){
+ progressCard.setAttribute("role","button");
+ progressCard.setAttribute("tabindex","0");
+ progressCard.setAttribute("aria-label","আজকের ব্যায়ামের অগ্রগতি দেখুন");
+ progressCard.addEventListener("click",function(e){if(e.target.closest("button,a"))return;tab(5)});
+ progressCard.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tab(5)}});
+}
  $("themeToggle").onclick=function(){var dark=document.documentElement.getAttribute("data-theme")==="dark";document.documentElement.setAttribute("data-theme",dark?"light":"dark");localStorage.setItem("asCareTheme",dark?"light":"dark")};
 (function(){var saved=localStorage.getItem("asCareTheme");if(saved)document.documentElement.setAttribute("data-theme",saved)})();
 
