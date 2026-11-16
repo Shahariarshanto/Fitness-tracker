@@ -436,6 +436,23 @@ $("goal").value=D.goal;
 $("gfill").style.width=Math.min(100,Math.round(ok/D.goal*100))+"%";
 $("gtxt").textContent=bn(ok)+" / "+bn(D.goal)+" দিন"+(ok>=D.goal?" · লক্ষ্য পূর্ণ!":"");
 $("det").textContent="কোনো দিনের দণ্ডে চাপ দিলে বিস্তারিত দেখাবে।"}
+function xs(start,end){
+ var d=pk(start),nights=0,nc=0,st=0,sc=0,fa=0,fc=0,sl=0,slc=0,med=0;
+ for(;ds(d)<=end;d.setDate(d.getDate()+1)){
+  var o=D.days[ds(d)];if(!o)continue;
+  if(o.s!==undefined&&o.s!==null&&o.s!==""){nights+=(+o.s>0?1:0);nc++}
+  if(o.stiff!==undefined){st+=Number(o.stiff);sc++}
+  if(o.fatigue!==undefined){fa+=Number(o.fatigue);fc++}
+  if(o.sleep!==undefined){sl+=Number(o.sleep);slc++}
+  med+=(o.m1?1:0)+(o.m2?1:0);
+ }
+ var r="\\nরাতে নড়াচড়ায় সমস্যা: "+(nc?bn(nights)+" দিন / "+bn(nc)+" লগ":"লগ নেই")+"।";
+ if(sc||fc||slc)r+="\\nগড় জড়তা: "+(sc?(st/sc).toFixed(1):"—")+"/১০; ক্লান্তি: "+(fc?(fa/fc).toFixed(1):"—")+"/১০; ঘুম: "+(slc?(sl/slc).toFixed(1):"—")+"/১০।";
+ r+="\\nওষুধ নেওয়ার টিক: "+bn(med)+"টি (দুটি কাস্টমাইজযোগ্য সময়ের লগ)।";
+ var b=D.bas&&D.bas[D.bas.length-1];if(b)r+="\\nসর্বশেষ BASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";
+ var a=D.asdas&&D.asdas[D.asdas.length-1];if(a)r+="\\nসর্বশেষ ASDAS-CRP: "+Number(a.v).toFixed(2)+" ("+fmt(a.d)+")।";
+ return r;
+}
 function summary(){
 var t=today(),ks=Object.keys(D.days).sort(),st=new Date();st.setDate(st.getDate()-41);
 var s=ds(st);if(ks.length&&ks[0]>s)s=ks[0];if(!ks.length)s=t;
