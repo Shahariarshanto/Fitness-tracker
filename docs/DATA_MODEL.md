@@ -14,7 +14,6 @@ The rebuild starts with a clean schema because there is no existing user data to
 | `medication` | Medication definitions and date-keyed adherence |
 | `symptoms` | Night mobility, stiffness, fatigue, sleep |
 | `healthScores` | BASDAI and ASDAS inputs/results/history |
-| `labs` | Laboratory records |
 | `healthEvents` | Flare and other relevant events |
 | `flarePlan` | User-editable action plan |
 | `workoutSessions` | Guided workout session history |
@@ -30,7 +29,6 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   medication: { items: [], dailyLogs: {} },
   symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
   healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
-  labs: [{ id, field, label, value, unit, date, note }],
   healthEvents: [{ id, title, date, note }],
   flarePlan: { warningSigns: "", actions: "", contacts: "", updatedAt: "ISO-8601" },
   workoutSessions: []
@@ -42,7 +40,6 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 ### Health feature records
 - Daily symptom values are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`.
 - BASDAI and ASDAS histories retain raw questionnaire inputs, date, and calculated score. ASDAS entries also retain CRP in mg/L.
-- Lab values retain selected unit and date; no reference range or diagnosis is inferred.
 - Health events and the user-authored flare plan are personal notes. The app does not prescribe medication or treatment.
 
 ## 4. Persistence
