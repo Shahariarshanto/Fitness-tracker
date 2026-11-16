@@ -58,9 +58,9 @@ function startApp() {
     console.error("Navigation failed", error);
   });
 
-  var driveReady = import("./services/drive.js").then(function (drive) { return drive.initializeDrive(); }).catch(function (error) { console.warn("Google Drive initialization failed; cached data remains available.", error); });
+  var cloudReady = import("./services/cloudflare.js").then(function (cloud) { return cloud.initializeCloud(); }).catch(function (error) { console.warn("Cloudflare initialization failed; local cache remains available.", error); });
 
-  driveReady.then(function () {
+  cloudReady.then(function () {
     return Promise.all([
     loadFeature("./features/settings/index.js", "Settings", "[data-settings-content]", "initSettings"),
     loadFeature("./features/medication/index.js", "Medication", "[data-medication-content]", "initMedication"),
