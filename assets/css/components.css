@@ -1,0 +1,30 @@
+/* Shared components: controls, feedback, progress and form primitives. */
+.button-primary, .button-secondary, .form-field input, .form-field textarea, .form-field select {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+.button-primary, .button-secondary { min-height: 42px; padding: 9px 15px; cursor: pointer; }
+.button-primary { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 700; }
+.button-secondary { background: var(--surface); color: var(--text); }
+.progress-bar { display: flex; align-items: center; gap: 10px; }
+.progress-bar-track { height: 9px; flex: 1; overflow: hidden; border-radius: 99px; background: var(--surface-soft); }
+.progress-bar-track span { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width .2s ease; }
+.progress-value { min-width: 3.2em; color: var(--muted); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.progress-ring, .progress-donut { display: block; max-width: 100%; }
+.form-field { display: grid; gap: 6px; margin: 0 0 14px; }
+.form-field > label { font-size: 14px; font-weight: 650; }
+.form-field input, .form-field textarea, .form-field select { width: 100%; min-height: 42px; padding: 9px 11px; background: var(--surface); color: var(--text); }
+.form-field textarea { min-height: 86px; resize: vertical; }
+.form-hint { color: var(--muted); font-size: 12px; }
+.range-control { display: flex; align-items: center; gap: 12px; }
+.range-control input { flex: 1; padding: 0; }
+.range-control output { min-width: 2em; font-weight: 700; text-align: center; }
+.toast[data-type="success"] { background: var(--accent); color: #fff; }
+.toast[data-type="error"] { background: #a83232; color: #fff; }
+.feedback-dialog { width: min(92vw, 420px); padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.feedback-dialog::backdrop { background: rgb(10 20 14 / 48%); }
+.feedback-dialog h2 { margin: 0 0 8px; font-size: 20px; }
+.feedback-dialog p { color: var(--muted); }
+.feedback-dialog-actions { display: flex; justify-content: flex-end; gap: 9px; }
+@media (prefers-reduced-motion: reduce) { .progress-bar-track span { transition: none; } }
