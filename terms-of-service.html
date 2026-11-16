@@ -32,10 +32,10 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <li>For urgent symptoms or a medical emergency, contact local emergency services or seek immediate medical care.</li>
 </ul>
 <h2>4. Your data and backups</h2>
-<p>Cloudflare D1 is the App's primary data store. The App automatically loads the latest saved state and sends changes to the Cloudflare Worker. The browser retains a temporary cache and pending offline edits. The Worker is configured to create daily R2 snapshots and retain them indefinitely without automatic deletion, once the required bucket and deployment are active. Cloudflare D1 Time Travel may provide additional recovery for a limited period, subject to Cloudflare's current plan limits.</p>
+<p>Cloudflare D1 is the App's primary data store. The App automatically loads the latest saved state and sends changes to the Cloudflare Worker. The browser retains a temporary cache and pending offline edits. No R2 bucket or scheduled cloud backup is configured. The App provides a manual JSON export; you are responsible for downloading and keeping independent copies. D1 is the primary database, not a backup.</p>
 <p>At the user's request, the current single-user API does not require login or authentication. CORS restrictions are not access control. Anyone who directly calls the public Worker endpoint may be able to read or change the stored health data. The App therefore does not promise confidentiality or protection against unauthorized access. Do not store highly sensitive information unless an access-control layer is added.</p>
 <h2>5. Cloudflare services</h2>
-<p>Cloudflare provides the database, Worker execution and object storage infrastructure and is subject to its own applicable terms and privacy policies. The App does not use Google Drive or Google OAuth for its current data storage design.</p>
+<p>Cloudflare provides the database and Worker execution infrastructure and is subject to its own applicable terms and privacy policies. The App does not use Google Drive or Google OAuth for its current data storage design.</p>
 <h2>6. Availability and changes</h2>
 <p>The App is provided on an "as available" basis. Features may change, be interrupted, become unavailable or be discontinued. We may update the App or these Terms from time to time. The latest Terms will be published at this URL with an updated date.</p>
 <h2>7. Disclaimer of warranties</h2>
@@ -43,7 +43,7 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <h2>8. Limitation of liability</h2>
 <p>To the maximum extent permitted by applicable law, the App maintainer will not be liable for indirect, incidental, special or consequential loss, loss of data, or loss arising from reliance on information displayed by the App or interruption of the App or third-party services. Nothing in these Terms excludes liability that cannot lawfully be excluded.</p>
 <h2>9. Suspension or termination</h2>
-<p>You may stop using the App at any time and disconnect Google Drive from the App. The App maintainer may restrict or discontinue access where reasonably necessary for security, maintenance, legal compliance or misuse. Your local data and Drive backups may remain until you delete them yourself.</p>
+<p>You may stop using the App at any time. The App maintainer may restrict or discontinue access where reasonably necessary for security, maintenance, legal compliance or misuse. Your local data and exported JSON copies may remain until you delete them yourself.</p>
 <h2>10. Governing law</h2>
 <p>These Terms are governed by the laws of Bangladesh, without limiting any mandatory consumer protections that may apply under the laws of your place of residence. Any dispute will be handled by a court with competent jurisdiction, subject to applicable law.</p>
 <h2>11. Contact</h2>
