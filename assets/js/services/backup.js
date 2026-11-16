@@ -21,7 +21,7 @@ export function validateBackup(payload) {
   if (!Array.isArray(data.medication.items) || !isObject(data.medication.dailyLogs)) throw new Error("Medication backup অসম্পূর্ণ।");
   if (!isObject(data.symptoms.daily)) throw new Error("Symptoms backup অসম্পূর্ণ।");
   if (!Array.isArray(data.healthScores.basdai) || !Array.isArray(data.healthScores.asdas)) throw new Error("Health score backup অসম্পূর্ণ।");
-  for (const item of data.labs) if (!isObject(item) || typeof item.id !== "string" || typeof item.testName !== "string" || !Number.isFinite(Number(item.value)) || typeof item.unit !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(item.date)) throw new Error("Backup-এ একটি Lab record সঠিক নয়।");
+  for (const item of data.labs) if (!isObject(item) || typeof item.id !== "string" || typeof item.testName !== "string" || !Number.isFinite(Number(item.value)) || typeof item.unit !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) throw new Error("Backup-এ একটি Lab record সঠিক নয়।");
   for (const item of data.medication.items) if (!isObject(item) || typeof item.id !== "string" || typeof item.name !== "string") throw new Error("Backup-এ একটি Medication record সঠিক নয়।");
   for (const key of Object.keys(data.dailyActivity)) if (!/^\d{4}-\d{2}-\d{2}$/.test(key) || !isObject(data.dailyActivity[key])) throw new Error("Daily activity backup-এ তারিখ বা record সঠিক নয়।");
   for (const key of Object.keys(data.painLogs)) if (!/^\d{4}-\d{2}-\d{2}$/.test(key) || !isObject(data.painLogs[key])) throw new Error("Pain log backup-এ তারিখ বা record সঠিক নয়।");
