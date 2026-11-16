@@ -42,7 +42,7 @@ The new application may define a clean new data schema, new identifiers, and a n
 3. **No feature-to-feature imports.** Features communicate through the shared state store; only the explicitly approved cross-cutting notifications use the event bus.
 4. **Single source of truth.** `core/state.js` owns in-memory application state and exposes controlled updates and subscriptions.
 5. **State subscriptions for normal updates.** Use `state.subscribe()` for ordinary data changes and UI refresh. Do not create events for routine CRUD or rendering updates.
-6. **Minimal event bus.** Keep only workout start, workout finish, toast, theme change, and Drive sync status notifications.
+6. **Minimal event bus.** Keep only workout start, workout finish, toast, theme change notifications.
 7. **Centralized persistence.** Only `core/storage.js` accesses browser local storage. Features use the state API.
 8. **Services are UI-independent.** Backup, Drive, calculations, and notifications do not own page DOM.
 9. **Static data is separate.** Data modules do not import features, components, or services.
@@ -87,7 +87,6 @@ The event bus is reserved for these five event categories:
 | `workout:finished` | A guided workout session finishes |
 | `toast:show` | Request a global toast notification |
 | `theme:changed` | Notify the app that the selected theme changed |
-| `drive:sync-status` | Report Drive sync status transitions |
 
 Do not add events for ordinary exercise toggles, symptom edits, medication toggles, calendar navigation, or routine state updates. Those use state subscriptions.
 
@@ -182,7 +181,7 @@ Fitness-tracker/
 
 - Four symptom-specific modules (night mobility, stiffness, fatigue, sleep) become one `SymptomLog.js`.
 - Backup export/import/validation/format helpers are consolidated into `services/backup.js`.
-- OAuth, Drive API, file discovery, sync, and restore are consolidated into `services/drive.js`.
+- Cloudflare D1 hydration, debounced sync and offline retry are consolidated into `services/cloudflare.js`.
 - BASDAI, ASDAS, streak, progress, and statistics calculations are consolidated into `services/calculations.js`.
 - Exercise catalogue, groups, instructions, positions, animation metadata, and related exercise definitions are consolidated into `data/exercises.js`.
 - Body-region and health-related static mappings are consolidated into `data/health-data.js`.
