@@ -18,38 +18,40 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <h1>Privacy Policy</h1>
 <p class="muted"><strong>AS Care</strong> · Effective date: November 17, 2026 · Last updated: November 17, 2026</p>
 <p>This Privacy Policy explains how AS Care ("the App") handles information when you use the AS Care web application at <a href="https://shahariarshanto.github.io/Fitness-tracker/">shahariarshanto.github.io/Fitness-tracker</a>. AS Care is a personal exercise, wellness and health self-monitoring tool.</p>
-<div class="notice"><strong>In brief:</strong> Cloudflare D1 is the primary data store. The App also keeps a temporary browser cache and pending offline edits. The current single-user API has no login or access control; anyone who directly accesses the public Worker endpoint may be able to read or change stored data.</div>
+<div class="notice"><strong>In brief:</strong> Cloudflare D1 is the primary data store. The App also keeps a temporary browser cache and pending offline edits. The current Worker API has no login or authentication. Its public endpoint may be directly accessible; CORS restrictions do not provide access control. Do not treat stored health information as private.</div>
+<h2>1. Information you may enter</h2>
 <ul>
 <li>Exercise and movement completion, goals and activity history;</li>
 <li>Self-reported pain, symptoms, stiffness, fatigue and sleep information;</li>
-<li>Medication names or schedule labels and adherence checkmarks;</li>
-<li>Health measurements and laboratory values that you choose to enter, such as CRP, ESR, haemoglobin, ALT and creatinine;</li>
+<li>Medication names, schedule labels and adherence checkmarks;</li>
+<li>Health measurements and laboratory values you choose to enter, such as CRP, ESR, haemoglobin, ALT and creatinine;</li>
 <li>Personal dates, notes and other information you choose to record in the App.</li>
 </ul>
 <p>This information may be sensitive health-related information. Do not enter information you do not want stored in the Cloudflare D1 database.</p>
 <h2>2. Where information is stored</h2>
-<p><strong>Cloudflare D1 (primary storage):</strong> The App sends the complete AS Care state to a Cloudflare Worker, which stores it in a D1 database. The App loads the latest database state when it starts and automatically sends changes after a short delay.</p>
-<p><strong>Backups:</strong> No R2 bucket or scheduled cloud backup is configured. The App provides a manual JSON export; you should periodically download and keep a copy separately. D1 is the primary database, not an independent backup.</p>
-<p><strong>On your device:</strong> The browser keeps a temporary cache and a pending-change marker so edits can be retried after an interruption. D1 remains the primary source when available.</p>
+<p><strong>Cloudflare D1 (primary storage):</strong> The App sends its application state to a Cloudflare Worker, which stores it in a D1 database. The App loads the available saved state and automatically sends changes after a short delay when connectivity is available.</p>
+<p><strong>On your device:</strong> The browser keeps a temporary cache and pending-change data so the App can start promptly and retry edits after an interruption. Pending offline edits remain on the device until they can be synchronized.</p>
+<p><strong>Backups:</strong> No automatic cloud backup or independent database snapshot is configured. The App's manual JSON export is the independent backup method. You should periodically export the data and keep the file somewhere safe. D1 is the primary database, not a backup.</p>
 <h2>3. Access and security</h2>
-<p>At the user's request, the current single-user API has no login, password or authentication. The Worker restricts browser CORS to the GitHub Pages origin, but CORS is not authentication and does not block direct API requests. Therefore, the health information stored in D1 must not be considered private or protected from third-party access. Do not store information here that requires confidentiality unless an access-control layer is added.</p>
-<p>Cloudflare provides the infrastructure and is subject to its own applicable terms and privacy policy. The App does not use Google Drive or Google OAuth for data storage.</p>
+<p>The current single-user API has no login, password or authentication. The Worker may restrict browser CORS to the GitHub Pages origin, but CORS is not authentication and does not block direct API requests. Therefore, information stored in D1 must not be considered private or protected from third-party access. Do not store information here that requires confidentiality unless an access-control layer is added.</p>
+<p>Cloudflare provides the database and Worker execution infrastructure and is subject to its own applicable terms and privacy policy.</p>
 <h2>4. How information is used</h2>
-<p>Your entries are used within the App to display your activity history, progress, symptom summaries and other features you request, and to load and synchronize your data with the Cloudflare D1 database. The App operator does not sell your personal information or use your health entries for advertising. The App does not provide your entries to the App operator for profiling or independent analysis.</p>
-<h2>5. Sharing and third-party services</h2>
-<p>Your Drive data file is stored in the Google Account you select and is subject to Google's service terms and privacy practices. The website also loads Google Identity Services for sign-in and Google Fonts for typography. Those services may receive technical information such as browser and network data when your browser connects to them; their handling of that information is governed by their respective policies. The App operator does not otherwise disclose your entries to third parties.</p>
+<p>Your entries are used by the App to display activity history, progress, symptom summaries and other features you request, and to load and synchronize your application state with Cloudflare D1. The App maintainer does not sell your personal information or use your health entries for advertising.</p>
+<h2>5. Third-party infrastructure</h2>
+<p>The App uses Cloudflare Worker and D1 infrastructure to provide its data API and database. Your browser also connects to GitHub Pages to load the application. These providers may process technical information such as network requests, IP address, browser details and service logs under their own terms and privacy practices.</p>
 <h2>6. Retention and deletion</h2>
 <ul>
-<li><strong>Temporary local cache:</strong> remains in your browser until you clear the website's storage or remove/reset the browser data. Pending edits not yet uploaded to Drive may be lost if you clear it.</li>
-
+<li><strong>Device cache:</strong> remains in your browser until the website's storage is cleared or browser data is reset. Unsynchronized pending edits may be lost if you clear this storage before they are sent.</li>
+<li><strong>Cloud data:</strong> remains in the D1 database until it is deleted through the relevant Cloudflare database controls.</li>
+<li><strong>JSON exports:</strong> downloaded files remain wherever you save or copy them; manage and delete those copies yourself.</li>
 </ul>
-<p>To remove cloud data, use the relevant Cloudflare database controls. Export your data before making destructive changes.</p>
+<p>Export any data you want to keep before making destructive changes. Clearing browser storage does not itself delete the D1 database record.</p>
 <h2>7. Security</h2>
-<p>No internet service can guarantee absolute security. Protect your device, avoid shared or public devices, and keep downloaded JSON exports in a safe location because they may contain sensitive health information.</p>
+<p>No internet service can guarantee absolute security. Protect your device, avoid shared or public devices, and keep downloaded JSON exports in a safe location because they may contain sensitive health information. The current API's lack of authentication is a significant limitation.</p>
 <h2>8. Children</h2>
 <p>AS Care is not designed specifically for children and is not intended to knowingly collect personal information from children without appropriate permission from a parent or guardian.</p>
 <h2>9. Changes to this policy</h2>
-<p>This policy may be updated when the App's features or data practices change. The revised version will be published at this same URL with an updated date. Continued use after an update means you have had the opportunity to review the revised policy.</p>
+<p>This policy may be updated when the App's features or data practices change. The revised version will be published at this same URL with an updated date.</p>
 <h2>10. Contact</h2>
 <p>For privacy questions or requests, contact the AS Care project maintainer through the <a href="https://github.com/Shahariarshanto/Fitness-tracker/issues" target="_blank" rel="noopener noreferrer">AS Care GitHub Issues page</a>. Please do not post medical records, personal health details or other sensitive information in a public issue.</p>
 <div class="links"><a href="./terms-of-service.html">Terms of Service</a><a href="./">Return to AS Care</a></div>
