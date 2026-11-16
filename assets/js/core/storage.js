@@ -14,6 +14,11 @@ export function loadState(fallbackState) {
   }
 }
 
+export function hasCachedState() {
+  try { return window.localStorage.getItem(STORAGE_KEY) !== null; }
+  catch { return false; }
+}
+
 export function saveState(state) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
