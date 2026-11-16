@@ -296,6 +296,28 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .movement-category{padding:16px 15px;border-radius:22px;border:1px solid var(--bd);background:var(--card);box-shadow:0 6px 22px rgba(20,38,46,.055)}.movement-category header{align-items:center;padding-bottom:12px;border-bottom:1px solid var(--bd);margin-bottom:12px}.movement-category header>div{min-width:0}.movement-category .em{width:50px;height:50px;border-radius:16px;background:var(--ac2);display:grid;place-items:center;font-size:25px}.category-count{display:inline-block;margin-top:5px;font-size:12px;font-weight:700;color:var(--dn)}.movement-category .it{background:var(--surface);border-radius:15px;padding:13px;margin:8px 0}.movement-category .it.on{background:var(--done);border-color:var(--dn)}.movement-category .it input{width:25px;height:25px;accent-color:var(--dn)}.habit-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.habit-head h2{font-size:21px;margin:4px 0}.streak-pill{white-space:nowrap;border-radius:30px;padding:7px 10px;background:var(--ac2);font-size:12px;font-weight:700}.habit-pies{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.habit-pie{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 6px;border-radius:18px;background:var(--surface);border:1px solid var(--bd);text-align:center;min-width:0}.habit-pie b{font-size:18px}.habit-pie .mu{font-size:12px;margin:0}.habit-message{margin:8px 0 0;padding:11px 13px;border-radius:13px;background:var(--ac2);font-weight:600;font-size:13px}.medication-home{margin:12px 0}.medication-home #dose{display:none}.medication-home #doseHome{width:100%}.medication-home #doseHome>div{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.medication-home #doseHome>b{display:block;width:100%}.medication-home button{flex:1;min-width:120px;min-height:48px;border-radius:14px}.report-pies{max-width:480px}.report-pies .habit-pie{flex:1}.exercise-tools{display:flex;align-items:center;justify-content:space-between;gap:14px}.exercise-filters{display:flex;gap:8px;max-width:440px}.exercise-filters input{min-width:150px}.exercise-filters select{min-width:145px}@media(max-width:560px){.exercise-filters{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:none}.exercise-filters input,.exercise-filters select{min-width:0;width:100%}.exercise-tools{display:block}.habit-head{display:block}.streak-pill{display:inline-block;margin-top:6px}.movement-category{padding:13px 11px}.movement-category header{gap:9px}.movement-category header .em{width:42px;height:42px}.movement-category header>div b{font-size:16px!important}.movement-category .it .d{font-size:13px}.habit-pies{gap:7px}.habit-pie{padding:9px 3px}}
 /* Numbered, always-visible movement sequence */
 #p5 .exercise-filters{display:none!important}.sequence-total{align-self:center;white-space:nowrap;padding:9px 13px;border-radius:14px;background:var(--ac2);color:var(--ac);font-size:12px;font-weight:750}.movement-category .exercise-step{display:grid;grid-template-columns:26px 32px minmax(0,1fr) auto;align-items:center;gap:10px;margin:8px 0;padding:12px 13px;cursor:pointer}.step-index{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:var(--surface);color:var(--mu);font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}.exercise-step-copy{min-width:0}.exercise-step-copy .t{display:block;font-weight:750}.step-state{font-size:11px;color:var(--mu);white-space:nowrap}.exercise-step.on .step-index{background:var(--dn);color:#fff}.exercise-step.on .step-state{color:var(--dn);font-weight:750}.movement-category .all{display:none!important}@media(max-width:560px){.sequence-total{display:inline-block;margin-top:8px}.movement-category .exercise-step{grid-template-columns:25px 30px minmax(0,1fr);gap:8px;padding:11px 9px}.step-state{grid-column:3;white-space:normal;font-size:10px;margin-top:-5px}.step-index{width:28px;height:28px}}
+
+/* Reliable, phone-first sequential exercise checklist */
+#p5 .exercise-tools{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+#p5 .sequence-total{background:var(--ac2);color:var(--ac);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:800}
+.movement-progress{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 18px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:18px;margin:16px 0 22px;box-shadow:var(--shadow,0 8px 24px rgba(20,30,20,.05))}
+.movement-progress h2{font-size:21px;margin:5px 0}.movement-progress .mu{margin:0;font-size:13px}
+.movement-progress-number{text-align:right;display:flex;flex-direction:column;gap:3px}.movement-progress-number strong{font-size:20px}.movement-progress-number span{font-size:11px;color:var(--mu)}
+.movement-progress-track,.movement-mini-track{height:8px;background:var(--ac2);border-radius:99px;overflow:hidden}.movement-progress-track{grid-column:1/-1}.movement-progress-track i,.movement-mini-track i{display:block;height:100%;background:var(--dn);border-radius:99px;transition:width .2s}
+.movement-category{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:16px;margin:14px 0;box-shadow:var(--shadow,0 8px 24px rgba(20,30,20,.04))}
+.movement-category-head{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;padding-bottom:13px;border-bottom:1px solid var(--bd)}
+.movement-category-icon{width:42px;height:42px;border-radius:14px;background:var(--ac2);display:grid;place-items:center;font-size:21px}
+.movement-category-title .kicker{font-size:9px;letter-spacing:1.5px}.movement-category-title h3{font-size:17px;margin:3px 0}.movement-category-title p{font-size:12px;color:var(--mu);margin:0 0 4px}.category-count{font-size:11px;color:var(--dn);font-weight:750}
+.movement-category-percent{font-size:18px;font-weight:850;color:var(--dn)}
+.movement-exercise-list{display:flex;flex-direction:column;gap:8px;padding-top:12px}
+.movement-exercise{display:grid;grid-template-columns:30px 22px minmax(0,1fr) auto;align-items:start;gap:10px;padding:12px;border:1px solid var(--bd);border-radius:15px;background:var(--bg);cursor:pointer;transition:background .15s,border-color .15s}
+.movement-number{width:28px;height:28px;border-radius:9px;background:var(--ac2);display:grid;place-items:center;font-weight:850;font-size:12px;color:var(--tx)}
+.movement-exercise input{width:19px;height:19px;margin:5px 0 0;accent-color:var(--dn)}
+.movement-exercise-copy{min-width:0;display:flex;flex-direction:column;gap:5px}.movement-exercise-copy strong{font-size:14px;line-height:1.45}.movement-exercise-copy small{font-size:12px;line-height:1.6;color:var(--mu)}
+.movement-status{font-size:10px;color:var(--mu);white-space:nowrap;padding-top:5px}
+.movement-exercise.is-done{background:var(--ac2);border-color:var(--dn)}.movement-exercise.is-done .movement-number{background:var(--dn);color:white}.movement-exercise.is-done .movement-exercise-copy strong{text-decoration:line-through;text-decoration-color:var(--dn);opacity:.78}.movement-exercise.is-done .movement-status{color:var(--dn);font-weight:800}
+.movement-category-footer{display:flex;justify-content:space-between;color:var(--mu);font-size:10px;margin:13px 1px 6px}.movement-mini-track{height:5px}
+@media(max-width:560px){.movement-progress{padding:15px;border-radius:18px}.movement-category{padding:12px;border-radius:18px}.movement-exercise{grid-template-columns:26px 20px minmax(0,1fr);gap:8px;padding:10px}.movement-number{width:25px;height:25px}.movement-status{grid-column:3;padding-top:0;font-size:10px}.movement-exercise-copy strong{font-size:13px}.movement-exercise-copy small{font-size:11px}.movement-category-title h3{font-size:15px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
@@ -481,22 +503,27 @@ function tab(n){for(var i=1;i<=5;i++){var p=$("p"+i),b=$("t"+i);if(p)p.hidden=n!
 
 function filterExercises(){ /* সব ব্যায়াম সবসময় সিরিয়াল অনুযায়ী দৃশ্যমান */ }
 function renderToday(){
-var k=cur(),o=D.days[k]||{d:[],p:null},n=o.d.length,pc=Math.round(n/TOTAL*100),hr=new Date().getHours(),
-ms=n>=TOTAL?"🎉 আজকের সব ব্যায়াম শেষ!":n>=THR?"✔ আজ সম্পন্ন দিন":"আরও "+bn(THR-n)+"টি করলে আজ সম্পন্ন",
-h='<div class="card top">'+ring(pc,120,"var(--ac)",bn(pc)+"%")+'<div><b style="font-size:22px">'+bn(n)+" / "+bn(TOTAL)+'</b><span class="mu" style="display:block">কাজ শেষ</span><p style="margin:6px 0 0;color:var(--dn);font-weight:600">'+ms+"</p></div></div>";
-var exerciseSerial=0;
-SL.forEach(function(s){var ids=s[4],dn=ids.filter(function(i){return o.d.indexOf(i)>-1}).length;
-h+='<section class="slot movement-category" data-category="'+s[0]+'"><header><span class="em">'+s[1]+'</span><div><b style="font-size:18px">'+s[2]+'</b><span class="mu" style="display:block;margin:3px 0 0">'+s[3]+'</span><span class="category-count">'+bn(dn)+' / '+bn(ids.length)+'টি সম্পন্ন</span></div>'+ring(Math.round(dn/ids.length*100),64,"var(--dn)",bn(Math.round(dn/ids.length*100))+"%")+'</header>';
-ids.forEach(function(i){var x=IT[i],on=o.d.indexOf(i)>-1,warning=(window.EXERCISE_META&&window.EXERCISE_META[i]),gi=G.findIndex(function(g){return g.i.some(function(z){return z[0]===i})});exerciseSerial++;h+='<label class="it exercise-step'+(on?" on":"") +'" data-group="'+gi+'"><input type="checkbox" data-id="'+i+'"'+(on?" checked":"") +'><span class="step-index">'+bn(exerciseSerial)+'</span><span class="exercise-step-copy"><span class="t">'+x[1]+'</span><span class="d">'+x[2]+'</span>'+(warning?'<span class="exercise-caution">সতর্কতা · '+warning+'</span>':'')+'</span><span class="step-state">'+(on?"✓ সম্পন্ন":"করার পর টিক দিন") +'</span></label>'});
-h+='</section>'});
-$("list").innerHTML=h;
-var p="";for(var i=0;i<=10;i++)p+='<button type="button" data-p="'+i+'" class="'+(o.p===i?"on":"")+'">'+bn(i)+"</button>";
-$("pain").innerHTML=p;
-var t=D.days[today()]||{};$("stf").value=t.s==null?"":t.s;$("med").checked=!!t.m;
-$("gr").textContent=hr<12?"শুভ সকাল":hr<16?"শুভ দুপুর":hr<19?"শুভ বিকাল":"শুভ রাত্রি";
-$("date").textContent=fmt(k,{weekday:"long",day:"numeric",month:"long"})+(cd?" · পুরনো দিন":"");
-$("fl").textContent="🔥 "+bn(streaks()[0])+" দিন";
-$("qt").textContent=QT[Math.floor(Date.now()/864e5)%QT.length]}
+ var k=cur(),o=D.days[k]||{d:[],p:null},total=G.reduce(function(n,g){return n+g.i.length},0),done=G.reduce(function(n,g){return n+g.i.filter(function(x){return o.d.indexOf(x[0])>-1}).length},0),pc=Math.round(done/total*100),serial=0;
+ var h='<div class="movement-progress"><div><span class="kicker">TODAY\'S MOVEMENT</span><h2>আজকের ব্যায়ামের অগ্রগতি</h2><p class="mu">একটি করে ব্যায়াম করুন। শেষ হলে চেকবক্সে টিক দিন।</p></div><div class="movement-progress-number"><strong>'+bn(done)+' / '+bn(total)+'</strong><span>সম্পন্ন · '+bn(pc)+'%</span></div><div class="movement-progress-track"><i style="width:'+pc+'%"></i></div></div>';
+ G.forEach(function(g,gi){
+  var count=g.i.filter(function(x){return o.d.indexOf(x[0])>-1}).length,percent=Math.round(count/g.i.length*100);
+  h+='<section class="movement-category"><header class="movement-category-head"><span class="movement-category-icon">'+(['🌬️','🧍','🌀','🦵','🚶','🧘'][gi]||'✓')+'</span><div class="movement-category-title"><span class="kicker">CATEGORY '+bn(gi+1)+'</span><h3>'+g.t.replace(/^\d+\.\s*/,'')+'</h3>'+(g.s?'<p>'+g.s+'</p>':'')+'<span class="category-count">'+bn(count)+' / '+bn(g.i.length)+'টি সম্পন্ন</span></div><div class="movement-category-percent">'+bn(percent)+'%</div></header><div class="movement-exercise-list">';
+  g.i.forEach(function(x){serial++;var on=o.d.indexOf(x[0])>-1;h+='<label class="movement-exercise'+(on?' is-done':'')+'"><span class="movement-number">'+bn(serial)+'</span><input type="checkbox" data-id="'+x[0]+'"'+(on?' checked':'')+'><span class="movement-exercise-copy"><strong>'+x[1]+'</strong><small>'+x[2]+'</small></span><span class="movement-status">'+(on?'✓ সম্পন্ন':'টিক দিন')+'</span></label>'});
+  h+='</div><div class="movement-category-footer"><span>'+bn(count)+'টি সম্পন্ন</span><span>'+bn(100-percent)+'% বাকি</span></div><div class="movement-mini-track"><i style="width:'+percent+'%"></i></div></section>';
+ });
+ $("list").innerHTML=h;
+ var p="";for(var i=0;i<=10;i++)p+='<button type="button" data-p="'+i+'" class="'+(o.p===i?"on":"")+'">'+bn(i)+"</button>";
+ $("pain").innerHTML=p;
+ var t=D.days[today()]||{};if($("stf"))$("stf").value=t.s==null?"":t.s;if($("med"))$("med").checked=!!t.m;
+ $("gr").textContent=new Date().getHours()<12?"শুভ সকাল":new Date().getHours()<16?"শুভ দুপুর":new Date().getHours()<19?"শুভ বিকাল":"শুভ রাত্রি";
+ $("date").textContent=fmt(k,{weekday:"long",day:"numeric",month:"long"})+(cd?" · পুরনো দিন":"");
+ if($("fl"))$("fl").textContent="🔥 "+bn(streaks()[0])+" দিন";
+ if($("qt"))$("qt").textContent=QT[Math.floor(Date.now()/864e5)%QT.length];
+ if($("cnt"))$("cnt").textContent=bn(done)+" / "+bn(total);
+ if($("fill"))$("fill").style.width=pc+"%";
+ if($("msg"))$("msg").textContent=done===total?"আজকের সব ব্যায়াম শেষ!":done?"চমৎকার—পরের ব্যায়ামটি করুন।":"প্রথম ব্যায়ামটি দিয়ে শুরু করুন।";
+ var totalLabel=document.querySelector(".sequence-total");if(totalLabel)totalLabel.textContent="মোট "+bn(total)+"টি ব্যায়াম · ধারাবাহিক তালিকা";
+}
 var _rm=renderMonth;renderMonth=function(){_rm();drawDn()};
 function drawDn(){var y=vy,m=vm,n=new Date(y,m+1,0).getDate(),t=today(),ok=0,pt=0,ms=0,el=0,sd=[0,0,0,0,0,0],exerciseDone=0,medDone=0;
 for(var i=1;i<=n;i++){var k=y+"-"+pad(m+1)+"-"+pad(i);if(k>t)continue;el++;var o=D.days[k],c=o?o.d.length:0;
@@ -507,9 +534,6 @@ $("dn").innerHTML='<b>এই মাসের চিত্র</b><div class="row"
 '<b style="display:block;margin-top:14px">ব্যায়াম ও ওষুধের অগ্রগতি</b><div class="habit-pies report-pies"><div class="habit-pie">'+donut([[exerciseDone,"var(--dn)"],[Math.max(0,TOTAL*el-exerciseDone),"var(--ac2)"]],112,el?bn(Math.round(exerciseDone/(TOTAL*el)*100))+"%":"—","ব্যায়াম")+'<b>'+bn(exerciseDone)+" / "+bn(TOTAL*el)+'</b><span class="mu">মোট নির্ধারিত ব্যায়াম</span></div><div class="habit-pie">'+donut([[medDone,"var(--am)"],[Math.max(0,el*2-medDone),"var(--ac2)"]],112,el?bn(Math.round(medDone/(el*2)*100))+"%":"—","ওষুধ")+'<b>'+bn(medDone)+" / "+bn(el*2)+'</b><span class="mu">মোট ওষুধের সময়</span></div></div><b style="display:block;margin-top:14px">ক্যাটাগরি অনুযায়ী সম্পন্নতা</b><div class="row" style="justify-content:space-around;flex-wrap:wrap">'+SL.map(function(s,j){var q=el?Math.round(sd[j]/(s[4].length*el)*100):0;return '<div style="text-align:center">'+ring(q,84,"var(--dn)",bn(q)+"%")+'<div class="mu" style="margin:0">'+s[1]+" "+s[2]+"</div></div>"}).join("")+'</div>'+
 '<div class="row" style="margin-top:10px">'+[3,7,14,30].map(function(x){return '<span class="bd'+(best>=x?" on":"")+'">'+(best>=x?"🏅":"🔒")+" "+bn(x)+" দিন"+"</span>"}).join("")+'</div>'}
 $("list").addEventListener("change",function(e){var b=e.target.closest('input[type="checkbox"][data-id]');if(!b)return;var id=b.getAttribute("data-id"),o=day(cur()),i=o.d.indexOf(id);if(b.checked&&i<0)o.d.push(id);if(!b.checked&&i>-1)o.d.splice(i,1);save();renderToday()});
-$("list").addEventListener("click",function(e){var s=e.target.getAttribute("data-s");if(!s)return;
-var sl=SL.filter(function(x){return x[0]===s})[0],o=day(cur()),all=sl[4].every(function(i){return o.d.indexOf(i)>-1});
-sl[4].forEach(function(i){var j=o.d.indexOf(i);if(all){if(j>-1)o.d.splice(j,1)}else if(j<0)o.d.push(i)});save();renderToday()});
 $("p1").insertBefore($("stf").closest(".card"),$("p1").querySelector(".note"));
 $("chart").closest(".card").insertAdjacentHTML("beforebegin",'<div class="card" id="dn"></div>');
 function showNt(){var t=D.days[today()]||{},v=t.s==null||t.s===""?-1:(+t.s>0?1:0);document.querySelectorAll("#nt button").forEach(function(b){b.classList.toggle("on",+b.getAttribute("data-n")===v)});$("dsStiff").value=t.stiff==null?"":t.stiff;$("dsFatigue").value=t.fatigue==null?"":t.fatigue;$("dsSleep").value=t.sleep==null?"":t.sleep}
