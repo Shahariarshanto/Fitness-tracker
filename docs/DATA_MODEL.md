@@ -38,8 +38,8 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
 Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpers must avoid UTC date shifts.
 
 ### Health feature records
-- Daily symptom values are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`.
-- BASDAI and ASDAS histories retain raw questionnaire inputs, date, and calculated score. ASDAS entries also retain CRP in mg/L.
+- Daily symptom values (night mobility, stiffness, fatigue, sleep) are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`. The Health Journal combines these into one daily check-in UI.
+- BASDAI and ASDAS histories retain questionnaire inputs, date, and calculated score. ASDAS entries also retain CRP in mg/L. The Health Journal presents the latest scores and recent history.
 - Health events and the user-authored flare plan are personal notes. The app does not prescribe medication or treatment.
 
 ## 4. Persistence
