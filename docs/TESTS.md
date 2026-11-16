@@ -77,3 +77,10 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Settings sections and controls fit narrow Android screens.
 - [ ] Settings page remains usable with keyboard and touch.
 - [ ] Preferences remain available after closing and reopening the PWA.
+
+### Step 3 follow-up regression checks
+- [ ] No footer/tagline row appears above the bottom navigation.
+- [ ] Language is shown as Bengali-only informational text, not a disabled selector.
+- [ ] Save/update toast disappears automatically after about 2.6 seconds.
+- [ ] Repeated preference changes replace the prior toast without leaving it stuck.
+- [ ] Toast appears above, not over, the bottom navigation.
