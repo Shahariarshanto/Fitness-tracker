@@ -1,7 +1,7 @@
 import { getState, subscribe, updateState } from "../../core/state.js";
 import { dateKey } from "../../core/dates.js";
 import { showToast } from "../../components/Feedback.js";
-import { setMedicationStatus } from "../medication/MedicationActions.js";
+import { setMedicationStatus } from "../../services/medication.js";
 import { renderOverview } from "./OverviewCards.js";
 
 export function initOverview({ root = document.querySelector("[data-overview-content]") } = {}) {
