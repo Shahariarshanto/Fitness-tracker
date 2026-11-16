@@ -1,4 +1,5 @@
 import { getState, updateState, subscribe } from "../core/state.js";
+import { hasCloudPending, clearCloudPending } from "../core/storage.js";
 
 const API = "https://fitnesstracker.sshahariar062.workers.dev/api/state";
 let initialized = false, hydrating = false, timer = null, retryTimer = null;
@@ -39,6 +40,7 @@ async function upload() {
       version = result.version || version;
       retryDelay = 3000;
       pending = revision !== sentRevision;
+      if (!pending) clearCloudPending();
       if (pending) {
         setStatus("syncing", "নতুন পরিবর্তন সেভ হচ্ছে…");
         clearTimeout(timer);
@@ -70,10 +72,15 @@ export async function initializeCloud() {
   initialized = true;
   setStatus("loading", "Cloudflare থেকে সর্বশেষ তথ্য নেওয়া হচ্ছে…");
   try {
+    const localPending = hasCloudPending();
     const remote = await api();
-    if (remote.state) {
+    if (localPending) {
+      pending = true;
+      await upload();
+      version = remote.version || version;
+    } else if (remote.state) {
       hydrating = true;
-      try { updateState(() => remote.state); }
+      try { updateState(() => remote.state); clearCloudPending(); }
       finally { hydrating = false; }
       version = remote.version || 0;
       setStatus("success", "Cloudflare-এর সর্বশেষ তথ্য লোড হয়েছে।");
@@ -97,12 +104,6 @@ export async function initializeCloud() {
         finally { hydrating = false; }
       }
     }).catch(() => {});
-  });
-  window.addEventListener("pagehide", () => {
-    if (pending && navigator.sendBeacon) {
-      const body = new Blob([JSON.stringify({ app: "as-care", schemaVersion: 1, state: getState() })], { type: "application/json" });
-      navigator.sendBeacon(API, body);
-    }
   });
   return true;
 }
