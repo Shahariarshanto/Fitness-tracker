@@ -216,4 +216,23 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] New chart modules are present in the service-worker inventory and cache version increments.
 
 **Verification note:** Source changes and static review only. Live deployment, Android rendering, chart interaction and data accuracy still require user testing.
-\n\n## Step 8 — Overview dashboard\n\n### Static checks\n- [ ] Overview imports only core state/date helpers and static exercise data.\n- [ ] Overview subscribes to shared state and does not write state or localStorage.\n- [ ] All Overview JavaScript modules are listed in `sw.js`; cache version is incremented.\n- [ ] Missing pain, symptom, score, and medication data render as unavailable/empty, not as fabricated zero values.\n\n### Browser/device checks\n- [ ] Empty state renders cleanly with no movement, health, or medication records.\n- [ ] Daily movement count and weekly activity update after checklist/session changes.\n- [ ] Pain, symptom, BASDAI, and ASDAS-CRP snapshots update after Health saves.\n- [ ] Medication counts/status update after taken/skipped changes and medication edits/archive.\n- [ ] Quick actions open Movement, Health, and Insights tabs.\n- [ ] Refresh preserves the same Overview summaries.\n- [ ] Cards fit narrow Android screens without horizontal overflow and remain scrollable above navigation.\n\n**Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.\n
+
+
+## Step 8 — Overview dashboard
+
+### Static checks
+- [ ] Overview imports only core state/date helpers and static exercise data.
+- [ ] Overview subscribes to shared state and does not write state or localStorage.
+- [ ] All Overview JavaScript modules are listed in `sw.js`; cache version is incremented.
+- [ ] Missing pain, symptom, score, and medication data render as unavailable/empty, not as fabricated zero values.
+
+### Browser/device checks
+- [ ] Empty state renders cleanly with no movement, health, or medication records.
+- [ ] Daily movement count and weekly activity update after checklist/session changes.
+- [ ] Pain, symptom, BASDAI, and ASDAS-CRP snapshots update after Health saves.
+- [ ] Medication counts/status update after taken/skipped changes and medication edits/archive.
+- [ ] Quick actions open Movement, Health, and Insights tabs.
+- [ ] Refresh preserves the same Overview summaries.
+- [ ] Cards fit narrow Android screens without horizontal overflow and remain scrollable above navigation.
+
+**Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.
