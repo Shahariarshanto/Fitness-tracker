@@ -49,9 +49,13 @@ Known daily symptom/wellbeing field names in the current project include `s`, `s
 - Preserve historical date keys exactly during export/import and migrations.
 - Timestamps such as `_t` are metadata and must not be used as a replacement for the daily local-date key.
 
-## 6. Data ownership in the target architecture
-When modules are extracted:
-- `assets/js/core/storage.js` is the sole owner of application localStorage reads/writes.
+## 6. Data ownership and current storage boundary
+- `assets/js/core/storage.js` is now the sole owner of localStorage access used by the application, including the `spa-daily-v2` and legacy `spa-daily-v1` records, the `asCareTheme` preference, and the `asCareDriveLast` timestamp.
+- `assets/js/app.js` and `assets/js/drive-backup.js` must use the `ASStorage` API; they must not access localStorage directly.
+- The storage API currently exposes `readAppData`, `writeAppData`, `hasCurrentAppData`, `getAppDataSizeBytes`, theme preference accessors, and `setDriveLastSync`.
+- The storage boundary is implemented, but full browser-level compatibility and Drive restore testing remain pending.
+
+When additional modules are extracted:
 - `assets/js/core/state.js` owns the in-memory shared state API.
 - Page modules and components must use state actions/selectors; they must not call localStorage directly.
 - Services such as backup and Google Drive must use the storage/state API rather than inventing their own application-data format.
