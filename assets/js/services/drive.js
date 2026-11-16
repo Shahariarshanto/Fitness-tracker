@@ -15,8 +15,7 @@ function status(state, message) { lastStatus = { status: state, message }; emit(
 export function getDriveStatus() { return lastStatus; }
 
 function loadGoogleIdentity() {
-  if (window.google?.accounts?.oauth2) return Promise.resolve();
-  return new Promise((resolve, reject) => {
+  const ready = window.google?.accounts?.oauth2 ? Promise.resolve() : new Promise((resolve, reject) => {
     const existing = document.querySelector('script[data-google-identity]');
     if (existing) {
       existing.addEventListener("load", resolve, { once: true });
@@ -30,13 +29,15 @@ function loadGoogleIdentity() {
     script.onerror = () => reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি।"));
     document.head.append(script);
   });
+  return ready.then(() => {
+    tokenClient ||= window.google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID, scope: SCOPE, callback: () => {}
+    });
+  });
 }
 
 async function requestToken(prompt) {
-  await loadGoogleIdentity();
-  tokenClient ||= window.google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID, scope: SCOPE, callback: () => {}
-  });
+  if (!tokenClient) await loadGoogleIdentity();
   return new Promise((resolve, reject) => {
     tokenClient.callback = response => {
       if (response.error || !response.access_token) {
@@ -165,6 +166,12 @@ export async function initializeDrive() {
   window.addEventListener("pagehide", () => {
     if (getDriveSyncMeta().pending && token) syncDrive().catch(() => {});
   });
+  try {
+    await loadGoogleIdentity();
+  } catch (error) {
+    status("unavailable", "Google Sign-In লোড হয়নি: " + error.message);
+    return false;
+  }
   if (!getState().preferences.driveEnabled) {
     status("disconnected", "Google Drive এখনো সংযুক্ত নয়।");
     return false;
