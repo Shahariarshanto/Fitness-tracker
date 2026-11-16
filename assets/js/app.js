@@ -379,8 +379,20 @@ function auditOverviewDemo(){
   ["ব্যায়াম প্রিভিউ ও গাইড বাটন",!!$("overviewMovement")&&$("overviewMovement").querySelectorAll(".overview-move-card").length===3&&!!$("overviewOpenMovement")&&typeof $("overviewOpenMovement").onclick==="function"],
   ["ওষুধ ট্র্যাকার ও পরবর্তী ধাপ",!!$("doseHome")&&$("doseHome").querySelectorAll("[data-m]").length===2&&!!$("openMovement")&&typeof $("openMovement").onclick==="function"]
  ];
+ var originalPain=D.days[today()].p,painWorks=false;
+ try{var painButton=$("pain").querySelector('button[data-p="4"]');if(painButton){painButton.click();painWorks=D.days[today()].p===4}}catch(e){}
+ D.days[today()].p=originalPain;try{renderToday()}catch(e){}
+ checks.push(["ব্যথা ইনপুট সেভ ও UI আপডেট",painWorks]);
+ var originalMed=!!D.days[today()].m1,medWorks=false;
+ try{var medButton=$("doseHome").querySelector('[data-m="1"]');if(medButton){medButton.click();medWorks=!!D.days[today()].m1!==originalMed}}catch(e){}
+ D.days[today()].m1=originalMed;D.days[today()].m=!!(D.days[today()].m1||D.days[today()].m2);try{dose();renderHabitDashboard()}catch(e){}
+ checks.push(["ওষুধের টিক কাজ করে",medWorks]);
+ var movementWorks=false;
+ try{var movementButton=$("overviewOpenMovement");if(movementButton){movementButton.click();movementWorks=$("p5").classList.contains("active-page")&&!$("p5").hidden}}catch(e){}
+ try{tab(1)}catch(e){}
+ checks.push(["Movement-এ যাওয়া ও Overview-এ ফেরা",movementWorks]);
  var failed=checks.filter(function(x){return !x[1]}),out=$("demoAudit");
- if(out){out.textContent=failed.length?"ড্যাশবোর্ড পরীক্ষা: "+(checks.length-failed.length)+"/"+checks.length+" সফল · সমস্যা: "+failed.map(function(x){return x[0]}).join(", "):"ড্যাশবোর্ড পরীক্ষা: "+checks.length+"/"+checks.length+" সফল — সব Overview কার্ডে ডেমো কনটেন্ট দেখা যাচ্ছে।";out.setAttribute("data-status",failed.length?"warning":"ok")}
+ if(out){out.textContent=failed.length?"ড্যাশবোর্ড পরীক্ষা: "+(checks.length-failed.length)+"/"+checks.length+" সফল · সমস্যা: "+failed.map(function(x){return x[0]}).join(", "):"ড্যাশবোর্ড পরীক্ষা: "+checks.length+"/"+checks.length+" সফল — সব কার্ড ও পরীক্ষিত বাটন কাজ করছে।";out.setAttribute("data-status",failed.length?"warning":"ok")}
  return {passed:checks.length-failed.length,total:checks.length,failed:failed.map(function(x){return x[0]})};
 }
 function startDemoPreview(){
