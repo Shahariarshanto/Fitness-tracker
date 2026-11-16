@@ -80,9 +80,7 @@ export default {
     await env.BACKUPS.put(key, JSON.stringify(backup), {
       httpMetadata: { contentType: "application/json" }
     });
-    const cutoff = now.getTime() - 30 * 24 * 60 * 60 * 1000;
-    const old = await env.BACKUPS.list({ prefix: "daily/", limit: 1000 });
-    const expired = old.objects.filter(object => object.uploaded && object.uploaded.getTime() < cutoff).map(object => object.key);
-    if (expired.length) await env.BACKUPS.delete(expired);
+    // Keep every daily backup. No automatic retention or deletion.
+
   }
 };
