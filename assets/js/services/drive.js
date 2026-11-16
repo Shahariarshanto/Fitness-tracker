@@ -3,7 +3,7 @@ import { emit } from "../core/events.js";
 
 const CLIENT_ID = "1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com";
 const SCOPE = "https://www.googleapis.com/auth/drive.file";
-const FILE_NAME = "as-care-backup.json";
+const FILE_PREFIX = "as-care-backup-v1-";
 let token = null;
 let tokenExpiresAt = 0;
 let tokenClient = null;
@@ -72,30 +72,24 @@ async function driveRequest(url, options = {}) {
 }
 
 async function findBackup() {
-  const query = encodeURIComponent("name='" + FILE_NAME + "' and trashed=false");
-  const result = await driveRequest("https://www.googleapis.com/drive/v3/files?q=" + query + "&fields=files(id,name)&pageSize=20");
+  const query = encodeURIComponent("name contains '" + FILE_PREFIX + "' and trashed=false");
+  const result = await driveRequest("https://www.googleapis.com/drive/v3/files?q=" + query + "&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)&pageSize=20");
   return result.files?.[0] || null;
 }
 
 export async function syncDrive() {
   status("syncing", "Google Drive-এ Backup আপলোড হচ্ছে…");
   try {
-    let file = await findBackup();
+    const filename = FILE_PREFIX + new Date().toISOString().replace(/[:.]/g, "-") + ".json";
+    const boundary = "as-care-" + Date.now();
+    const metadata = { name: filename, mimeType: "application/json" };
     const content = JSON.stringify(createBackup());
-    if (file) {
-      await driveRequest("https://www.googleapis.com/upload/drive/v3/files/" + encodeURIComponent(file.id) + "?uploadType=media", {
-        method: "PATCH", headers: { "Content-Type": "application/json" }, body: content
-      });
-    } else {
-      const boundary = "as-care-" + Date.now();
-      const metadata = { name: FILE_NAME, mimeType: "application/json" };
-      const body = "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
-        JSON.stringify(metadata) + "\r\n--" + boundary + "\r\nContent-Type: application/json\r\n\r\n" +
-        content + "\r\n--" + boundary + "--";
-      await driveRequest("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id", {
-        method: "POST", headers: { "Content-Type": "multipart/related; boundary=" + boundary }, body
-      });
-    }
+    const body = "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+      JSON.stringify(metadata) + "\r\n--" + boundary + "\r\nContent-Type: application/json\r\n\r\n" +
+      content + "\r\n--" + boundary + "--";
+    await driveRequest("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id", {
+      method: "POST", headers: { "Content-Type": "multipart/related; boundary=" + boundary }, body
+    });
     status("success", "Google Drive Backup আপলোড সম্পন্ন।");
     return true;
   } catch (error) {
