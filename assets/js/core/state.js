@@ -25,11 +25,15 @@ function oneRecordPerDate(records) {
 
 function normalizeState(saved) {
   const { labs: _unusedLabs, ...stored } = saved;
+  const medication = saved.medication || {};
   return {
     ...clone(INITIAL_STATE),
     ...stored,
     preferences: { ...INITIAL_STATE.preferences, ...(saved.preferences || {}) },
-    medication: { ...INITIAL_STATE.medication, ...(saved.medication || {}) },
+    medication: {
+      items: Array.isArray(medication.items) ? medication.items : [],
+      dailyLogs: medication.dailyLogs && typeof medication.dailyLogs === "object" && !Array.isArray(medication.dailyLogs) ? medication.dailyLogs : {}
+    },
     symptoms: { ...INITIAL_STATE.symptoms, ...(saved.symptoms || {}), daily: { ...(saved.symptoms?.daily || {}) } },
     healthScores: {
       basdai: oneRecordPerDate(saved.healthScores?.basdai),
