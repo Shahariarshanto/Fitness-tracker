@@ -641,8 +641,8 @@ Do not claim a browser, phone, offline, or deployment test passed unless it was 
 - [ ] Plan committed to the repository.
 - [ ] Step 1 — New application foundation (code committed; awaiting verification and user's phone test).
 - [ ] Step 2 — Static data and shared components.
-- [ ] Step 3 — Settings (implementation committed; awaiting user's phone test and explicit approval).
-- [ ] Step 4 — Health.
+- [x] Step 3 — Settings (user phone-tested and approved).
+- [ ] Step 4 — Health (implementation committed; awaiting user's phone test and explicit approval).
 - [ ] Step 5 — Medication.
 - [ ] Step 6 — Movement.
 - [ ] Step 7 — Insights.
