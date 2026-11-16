@@ -148,3 +148,34 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] The five Settings/navigation panels remain structurally valid after the Overview markup change.
 
 **Verification note:** Source updates and static markup checks only; no live browser or Android-device interaction was performed by the assistant.
+
+
+## Step 6 — Movement feature
+
+### Static checks
+- [ ] Movement entry and renderer imports resolve.
+- [ ] All five Movement JavaScript modules and `movement.css` are loaded/cached.
+- [ ] Movement does not access localStorage directly or import another feature.
+- [ ] Checklist IDs resolve against the exercise catalogue.
+- [ ] Daily completion uses local date keys and does not overwrite other dates.
+- [ ] Guided-session records match the documented state model.
+- [ ] Only approved `workout:started` and `workout:finished` events are emitted.
+
+### Browser checks
+- [ ] Exercise groups and all 24 catalogue items render.
+- [ ] Session-selection checkboxes update the selected count.
+- [ ] Exercise details open/close and show the clinical-review notice.
+- [ ] Body-region selection filters the related exercise mapping.
+- [ ] Daily completion can be toggled on/off and persists after reload.
+- [ ] Guided session starts only after selecting exercises.
+- [ ] Timer, pause/resume, previous, next, skip and finish controls work.
+- [ ] Session completion updates only completed exercises in daily activity.
+- [ ] Session history appears after finishing and persists after reload.
+
+### Device/PWA checks
+- [ ] Movement layout fits narrow Android screens without horizontal overflow.
+- [ ] Session controls remain reachable above the bottom navigation.
+- [ ] New modules and stylesheet load from the updated service-worker cache.
+- [ ] Offline Movement tab loads after the shell has been cached.
+
+**Clinical limitation:** Catalogue text is legacy reference material and is not clinically reviewed. Exercise animations and personalized position recommendations are intentionally not fabricated. Assistant static review does not substitute for the user's live phone/browser test.
