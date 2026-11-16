@@ -137,7 +137,11 @@ async function loadCloudState() {
 }
 
 function scheduleSync() {
-  if (hydrating || !getState().preferences.driveEnabled) return;
+  if (hydrating) return;
+  if (!getState().preferences.driveEnabled) {
+    if (getDriveSyncMeta().everConnected) setDriveSyncMeta({ pending: true });
+    return;
+  }
   changeRevision += 1;
   setDriveSyncMeta({ pending: true });
   clearTimeout(syncTimer);
@@ -196,6 +200,7 @@ export async function connectDrive() {
 export function disconnectDrive() {
   if (token && window.google?.accounts?.oauth2?.revoke) window.google.accounts.oauth2.revoke(token, () => {});
   token = null; tokenExpiresAt = 0;
+  setDriveSyncMeta({ everConnected: true });
   hydrating = true;
   try {
     updateState(state => ({ ...state, preferences: { ...state.preferences, driveEnabled: false } }));
