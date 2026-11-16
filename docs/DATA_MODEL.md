@@ -28,16 +28,22 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   dailyActivity: {},
   painLogs: {},
   medication: { items: [], dailyLogs: {} },
-  symptoms: {},
-  healthScores: { basdai: [], asdas: [] },
-  labs: [],
-  healthEvents: [],
-  flarePlan: {},
+  symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
+  healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
+  labs: [{ id, field, label, value, unit, date, note }],
+  healthEvents: [{ id, title, date, note }],
+  flarePlan: { warningSigns: "", actions: "", contacts: "", updatedAt: "ISO-8601" },
   workoutSessions: []
 }
 ```
 
 Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpers must avoid UTC date shifts.
+
+### Health feature records
+- Daily symptom values are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`.
+- BASDAI and ASDAS histories retain raw questionnaire inputs, date, and calculated score. ASDAS entries also retain CRP in mg/L.
+- Lab values retain selected unit and date; no reference range or diagnosis is inferred.
+- Health events and the user-authored flare plan are personal notes. The app does not prescribe medication or treatment.
 
 ## 4. Persistence
 - New localStorage namespace: `as-care-state-v1`.
