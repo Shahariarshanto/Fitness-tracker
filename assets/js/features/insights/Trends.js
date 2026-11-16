@@ -1,32 +1,38 @@
 import { addDays, dateKey } from "../../core/dates.js";
 import { EXERCISE_BY_ID } from "../../data/exercises.js";
+import { renderLineChart, renderBarChart } from "./Charts.js";
 
-const avg = values => values.length ? (values.reduce((a,b)=>a+b,0)/values.length).toFixed(1) : "—";
+const average = values => values.length ? values.reduce((a,b)=>a+b,0)/values.length : null;
 const dayData = (state, day) => {
-  const pain = state.painLogs[day]?.score;
-  const symptoms = state.symptoms.daily[day] || {};
-  const vals = ["nightMobility","stiffness","fatigue","sleep"].map(k=>Number(symptoms[k])).filter(Number.isFinite);
-  const sessions = state.workoutSessions.filter(x=>x.date===day);
-  const activity = state.dailyActivity[day] || {};
-  const exerciseMinutes = (activity.completedExerciseIds||[]).reduce((sum,id)=>sum+(EXERCISE_BY_ID[id]?.durationSeconds||0),0)/60;
-  const sessionMinutes = sessions.reduce((sum,x)=>sum+(Number(x.durationSeconds)||0),0)/60;
-  return { pain:Number.isFinite(Number(pain))&&pain!==undefined?Number(pain):null, symptom:vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null, exercises:(activity.completedExerciseIds||[]).length, sessions:sessions.length, minutes:Math.max(exerciseMinutes,sessionMinutes) };
+  const rawPain=state.painLogs[day]?.score, pain=rawPain==null||rawPain===""?null:Number(rawPain);
+  const symptoms=state.symptoms.daily[day]||{};
+  const values=["nightMobility","stiffness","fatigue","sleep"].map(k=>symptoms[k]==null?null:Number(symptoms[k])).filter(Number.isFinite);
+  const sessions=state.workoutSessions.filter(x=>x.date===day), activity=state.dailyActivity[day]||{};
+  const exerciseMinutes=(activity.completedExerciseIds||[]).reduce((sum,id)=>sum+(EXERCISE_BY_ID[id]?.durationSeconds||0),0)/60;
+  const sessionMinutes=sessions.reduce((sum,x)=>sum+(Number(x.durationSeconds)||0),0)/60;
+  return {day,pain:Number.isFinite(pain)?pain:null,symptom:average(values),exercises:(activity.completedExerciseIds||[]).length,sessions:sessions.length,minutes:Math.max(exerciseMinutes,sessionMinutes)};
 };
-const bar = (label,value,max,suffix="") => `<div class="insight-bar-row"><div><span>${label}</span><strong>${value==null?"—":value+suffix}</strong></div><div class="insight-bar"><i style="width:${value==null?0:Math.min(100,Math.max(0,value/max*100))}%"></i></div></div>`;
+const metric=(value,label,detail,icon)=>`<article class="insight-metric"><span class="metric-icon">${icon}</span><strong>${value}</strong><span>${label}</span><small>${detail}</small></article>`;
 
-export function renderTrends(state) {
-  const today=dateKey(), monthDays=Array.from({length:30},(_,i)=>addDays(today,i-29));
-  const month=monthDays.map(d=>({day:d,...dayData(state,d)})), data=month.slice(-14);
-  const recent=data.slice(-7), weekMinutes=recent.reduce((s,x)=>s+x.minutes,0), monthMinutes=month.reduce((s,x)=>s+x.minutes,0);
-  const activeDays=month.filter(x=>x.exercises||x.sessions).length;
-  const painAverage=avg(data.map(x=>x.pain).filter(x=>x!==null));
-  const symptomAverage=avg(data.map(x=>x.symptom).filter(x=>x!==null));
-  let streak=0; for(let d=today;d>=addDays(today,-365);d=addDays(d,-1)){const x=dayData(state,d);if(x.exercises||x.sessions)streak++;else if(streak)break;}
-  const goal=Number(state.preferences.dailyGoal)||20, goalDays=recent.filter(x=>x.minutes>=goal).length;
-  const medDays=recent.reduce((s,x)=>s+Object.values(state.medication.dailyLogs[x.day]||{}).filter(v=>v.status==="taken").length,0);
-  const medTotal=recent.reduce((s,x)=>s+Object.keys(state.medication.dailyLogs[x.day]||{}).length,0);
-  return `<section class="insight-card"><p class="eyebrow">LAST 7 DAYS</p><h3>সাপ্তাহিক সারাংশ</h3><div class="insight-stat-grid"><article><strong>${recent.filter(x=>x.exercises||x.sessions).length}</strong><span>সক্রিয় দিন</span></article><article><strong>${Math.round(weekMinutes)}</strong><span>অনুশীলন মিনিট</span></article><article><strong>${avg(recent.map(x=>x.pain).filter(x=>x!==null))}</strong><span>গড় ব্যথা /১০</span></article></div><p class="insight-detail-line">দৈনিক লক্ষ্য (${goal} মিনিট) পূরণ: ${goalDays}/৭ দিন · ওষুধ গ্রহণ নথি: ${medTotal?Math.round(medDays/medTotal*100)+"%":"তথ্য নেই"}</p></section>
-  <section class="insight-card"><p class="eyebrow">LAST 30 DAYS</p><h3>মাসিক অগ্রগতি</h3><div class="insight-stat-grid"><article><strong>${month.filter(x=>x.exercises||x.sessions).length}</strong><span>সক্রিয় দিন</span></article><article><strong>${Math.round(monthMinutes)}</strong><span>অনুশীলন মিনিট</span></article><article><strong>${streak}</strong><span>বর্তমান ধারাবাহিকতা</span></article></div><p class="insight-detail-line">গত ৩০ দিনের মধ্যে ${activeDays} দিন ব্যায়াম/সেশন নথিভুক্ত হয়েছে।</p></section>
-  <section class="insight-card"><p class="eyebrow">SYMPTOM TRENDS</p><h3>সাম্প্রতিক পরিবর্তন</h3>${bar("ব্যথার গড়",Number.isFinite(Number(painAverage))?Number(painAverage):null,10,"/১০")}${bar("অন্যান্য উপসর্গের গড়",Number.isFinite(Number(symptomAverage))?Number(symptomAverage):null,10,"/১০")}${bar("সম্পন্ন ব্যায়াম",data.reduce((s,x)=>s+x.exercises,0),24,"টি")}</section>
-  <p class="insight-disclaimer">শুধু সংরক্ষিত তথ্যের ভিত্তিতে হিসাব করা হয়েছে। তথ্য না থাকলে সেটিকে শূন্য ধরা হয়নি; এই সারাংশ চিকিৎসা-নির্ণয় নয়।</p>`;
+export function renderTrends(state, period=30) {
+  const today=dateKey(), days=Array.from({length:period},(_,i)=>addDays(today,i-period+1));
+  const data=days.map(day=>dayData(state,day)), recent=data.slice(-7);
+  const activeDays=data.filter(x=>x.exercises||x.sessions).length;
+  const totalMinutes=data.reduce((sum,x)=>sum+x.minutes,0);
+  const painAverage=average(data.map(x=>x.pain).filter(Number.isFinite));
+  const symptomAverage=average(data.map(x=>x.symptom).filter(Number.isFinite));
+  const goal=Number(state.preferences.dailyGoal)||20;
+  const goalDays=recent.filter(x=>x.minutes>=goal).length;
+  let streak=0;
+  for(let day=today;day>=addDays(today,-365);day=addDays(day,-1)){const item=dayData(state,day);if(item.exercises||item.sessions)streak++;else if(streak)break;}
+  const labels=data.map((x,i)=>period<=7?x.day.slice(8):i%5===0||i===period-1?x.day.slice(8):"");
+  const painSeries=data.map(x=>x.pain), symptomSeries=data.map(x=>x.symptom);
+  const chart=renderLineChart({labels,series:[{name:"ব্যথা",values:painSeries},{name:"উপসর্গের গড়",values:symptomSeries}],max:10,suffix:"/১০"});
+  const bars=renderBarChart(data.slice(-14).map(x=>({label:x.day.slice(8),value:x.minutes})),goal);
+  return `<section class="insight-hero"><div><p class="eyebrow">YOUR HEALTH, VISUALISED</p><h3>তোমার অগ্রগতি</h3><p>সংরক্ষিত তথ্যের ভিত্তিতে স্বাস্থ্য ও নড়াচড়ার পরিবর্তন দেখো।</p></div><span class="insight-hero-mark">✳</span></section>
+  <section class="insight-metrics-grid">${metric(painAverage==null?"—":painAverage.toFixed(1),"গড় ব্যথা","১০-এর মধ্যে","◌")}${metric(activeDays,"সক্রিয় দিন",period+" দিনের মধ্যে","↗")}${metric(Math.round(totalMinutes),"অনুশীলন মিনিট","নথিভুক্ত সময়","◷")}${metric(streak,"দিনের ধারা","বর্তমান ধারাবাহিকতা","✦")}</section>
+  <section class="insight-section"><div class="insight-section-heading"><div><p class="eyebrow">SYMPTOM ANALYTICS</p><h3>উপসর্গের পরিবর্তন</h3></div><div class="insight-period" role="group" aria-label="চার্টের সময়সীমা"><button type="button" data-insight-period="7" aria-pressed="${period===7}">৭ দিন</button><button type="button" data-insight-period="30" aria-pressed="${period===30}">৩০ দিন</button><button type="button" data-insight-period="90" aria-pressed="${period===90}">৯০ দিন</button></div></div><div class="insight-chart-card"><div class="chart-card-head"><div><strong>ব্যথা ও উপসর্গ</strong><small>স্কোর /১০ · তারিখ অনুযায়ী</small></div><span class="chart-range-tag">শেষ ${period} দিন</span></div><div class="insight-chart-wrap">${chart}</div></div><p class="insight-chart-note">শুধু যেসব দিনে তথ্য সংরক্ষণ করা হয়েছে, সেসব দিনের মান দেখানো হয়।</p></section>
+  <section class="insight-section"><div class="insight-section-heading"><div><p class="eyebrow">MOVEMENT ACTIVITY</p><h3>অনুশীলনের ধারাবাহিকতা</h3></div><span>লক্ষ্য: ${goal} মিনিট/দিন</span></div><div class="insight-chart-card"><div class="chart-card-head"><div><strong>দৈনিক অনুশীলন</strong><small>শেষ ১৪ দিনের মিনিট</small></div><span class="chart-range-tag">${goalDays}/৭ লক্ষ্য পূরণ</span></div>${bars}</div></section>
+  <section class="insight-quick-stats"><div><span>গড় ব্যথা</span><strong>${painAverage==null?"—":painAverage.toFixed(1)+"/১০"}</strong></div><div><span>উপসর্গের গড়</span><strong>${symptomAverage==null?"—":symptomAverage.toFixed(1)+"/১০"}</strong></div><div><span>সক্রিয় দিন</span><strong>${activeDays}/${period}</strong></div></section>
+  <p class="insight-disclaimer">এই ভিজ্যুয়াল সারাংশ ব্যক্তিগত রেকর্ডের জন্য; এটি চিকিৎসা-নির্ণয় বা চিকিৎসকের পরামর্শের বিকল্প নয়।</p>`;
 }
