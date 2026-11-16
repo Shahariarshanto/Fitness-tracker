@@ -236,37 +236,127 @@ $('bm').innerHTML='<b>শরীরের মানচিত্র</b><span class
 $('bm').insertAdjacentHTML('afterend','<div id=wk2></div>');
 $('bm').addEventListener('click',function(e){var b=e.target.closest('[data-bm]');if(b){bm=+b.getAttribute('data-bm');drawBm();return}var z=e.target.closest('[data-z]');if(z){var v=z.getAttribute('data-z');bz=bz===v?null:v;drawBm()}});
 var _rm4=renderMonth;renderMonth=function(){_rm4();drawBm()};
-/* Google Drive backup: per-user file, OAuth token held in memory only. */
+/* Google Drive backup: per-user OAuth token stays in memory only. */
 var DRIVE_CLIENT_ID="1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com";
-var DR={token:null,expires:0,folder:null,file:null,client:null,resolve:null,reject:null,auto:false,last:+(localStorage.getItem("asCareDriveLast")||0)};
+var DR={token:null,expires:0,folder:null,file:null,client:null,clientId:null,resolve:null,reject:null,auto:false,syncing:false,last:+(localStorage.getItem("asCareDriveLast")||0)};
 function cst(s){var e=$("cl");if(e)e.textContent=s}
 function dvalid(){return !!(DR.token&&Date.now()<DR.expires-60000)}
 function dclient(){return (localStorage.getItem("asCareDriveClientId")||DRIVE_CLIENT_ID||"").trim()}
 function drequest(interactive){return new Promise(function(resolve,reject){
  if(dvalid()){resolve(DR.token);return}
- var clientId=dclient();if(!clientId||!clientId.endsWith(".apps.googleusercontent.com")||clientId.indexOf(" ")!==-1){reject(new Error("Google OAuth Client ID সেট করুন। Settings-এর Google Drive setup অংশ দেখুন।"));return}
+ var clientId=dclient();
+ if(!clientId||!clientId.endsWith(".apps.googleusercontent.com")||/\\s/.test(clientId)){reject(new Error("Google OAuth Web Client ID সঠিকভাবে সেট করা নেই।"));return}
  if(!window.google||!google.accounts||!google.accounts.oauth2){reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"));return}
  DR.resolve=resolve;DR.reject=reject;
- if(!DR.client||DR.clientId!==clientId){DR.clientId=clientId;DR.client=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"https://www.googleapis.com/auth/drive.file",callback:function(r){var done=DR.resolve,fail=DR.reject;DR.resolve=null;DR.reject=null;if(r.error){if(fail)fail(new Error(r.error_description||r.error));return}DR.token=r.access_token;DR.expires=Date.now()+(r.expires_in||3600)*1000;if(done)done(DR.token)},error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(new Error(e.message||"Google authorization বাতিল হয়েছে"))}});
+ if(!DR.client||DR.clientId!==clientId){
+  DR.clientId=clientId;
+  DR.client=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"https://www.googleapis.com/auth/drive.file",callback:function(r){
+   var done=DR.resolve,fail=DR.reject;DR.resolve=null;DR.reject=null;
+   if(r.error){if(fail)fail(new Error(r.error_description||r.error));return}
+   if(!r.access_token){if(fail)fail(new Error("Google কোনো access token দেয়নি।"));return}
+   DR.token=r.access_token;DR.expires=Date.now()+(Number(r.expires_in)||3600)*1000;
+   if(done)done(DR.token);
+  },error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(new Error(e.message||"Google authorization বাতিল হয়েছে"));}});
  }
- DR.client.requestAccessToken({prompt:interactive?"consent":""});
+ try{DR.client.requestAccessToken({prompt:interactive?"consent":""})}catch(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(e)}
 })}
-async function dapi(url,opt){var r=await fetch(url,opt||{});if(!r.ok){var t=await r.text();throw new Error("Google Drive API "+r.status+": "+t.slice(0,180))}return r.status===204?{}:r.json()}
-async function dfind(name,mime,parent){var q="name='"+name.replace(/'/g,"\\'")+"' and mimeType='"+mime+"' and trashed=false"+(parent?" and '"+parent+"' in parents":"");var u="https://www.googleapis.com/drive/v3/files?q="+encodeURIComponent(q)+"&fields=files(id,name,mimeType,modifiedTime)&pageSize=10";var x=await dapi(u,{headers:{Authorization:"Bearer "+DR.token}});return x.files&&x.files[0]||null}
-async function densure(){var folder=await dfind("AS Care Backups","application/vnd.google-apps.folder",null);if(!folder)folder=await dapi("https://www.googleapis.com/drive/v3/files?fields=id,name",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"application/json"},body:JSON.stringify({name:"AS Care Backups",mimeType:"application/vnd.google-apps.folder"})});DR.folder=folder.id;var file=await dfind("as-care-backup.json","application/json",DR.folder);DR.file=file&&file.id||null}
-async function ddownload(){if(!DR.file)return null;var r=await fetch("https://www.googleapis.com/drive/v3/files/"+DR.file+"?alt=media",{headers:{Authorization:"Bearer "+DR.token}});if(!r.ok)throw new Error("Drive backup পড়া যায়নি ("+r.status+")");return r.json()}
-async function dupload(){var body=JSON.stringify({schemaVersion:1,updatedAt:Date.now(),appData:D});if(!DR.file){var meta={name:"as-care-backup.json",mimeType:"application/json",parents:[DR.folder]},boundary="as_care_"+Date.now(),multipart="--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"+JSON.stringify(meta)+"\r\n--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"+body+"\r\n--"+boundary+"--";var x=await dapi("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"multipart/related; boundary="+boundary},body:multipart});DR.file=x.id}else{await dapi("https://www.googleapis.com/upload/drive/v3/files/"+DR.file+"?uploadType=media",{method:"PATCH",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"application/json"},body:body})}DR.last=Date.now();localStorage.setItem("asCareDriveLast",String(DR.last));cst("✓ Google Drive-এ সিঙ্ক হয়েছে · "+new Date(DR.last).toLocaleString("bn-BD"))}
-function dmerge(remote){if(!remote||!remote.appData||!remote.appData.days)return false;var localTime=+(D._t||0),remoteTime=+(remote.updatedAt||remote.appData._t||0);if(remoteTime>localTime){if(confirm("Google Drive-এ এই ডিভাইসের ডেটার চেয়ে নতুন ব্যাকআপ আছে। সেটি দিয়ে বর্তমান ডেটা প্রতিস্থাপন করবেন? আগে বর্তমান ডেটা JSON ফাইলে সেভ করে নিন।")){D=remote.appData;if(!D.goal)D.goal=20;D._t=remoteTime;localStorage.setItem(KEY,JSON.stringify(D));DR.last=remoteTime;localStorage.setItem("asCareDriveLast",String(remoteTime));fix();renderAll();return true}return "conflict"}return false}
-async function cpush(){if(!DR.token||!dvalid())return;try{await densure();var remote=await ddownload();if(remote&&+(remote.updatedAt||0)>+(D._t||0)){cst("Drive-এ নতুন ব্যাকআপ আছে। ডেটা সুরক্ষায় Sync Now চাপ দিয়ে আগে মিলিয়ে নিন।");return}await dupload()}catch(e){cst("সিঙ্ক ব্যর্থ: "+e.message)}}
-async function dconnect(){try{cst("Google Account-এর অনুমতি নেওয়া হচ্ছে…");await drequest(true);await densure();var remote=await ddownload();var merge=remote?dmerge(remote):false;if(merge==="conflict"){cst("সিঙ্ক থামানো হয়েছে। বর্তমান ডেটা অপরিবর্তিত আছে।");return}else if(merge===true){cst("Drive-এর ব্যাকআপ থেকে ডেটা ফিরিয়ে আনা হয়েছে।")}else{await dupload()}$("dsync").disabled=false;$("cb").textContent="✓ Google Drive সংযুক্ত"}catch(e){cst(e.message)}}
-async function dsyncNow(){try{await drequest(true);await densure();var remote=await ddownload();var merge=remote?dmerge(remote):false;if(merge==="conflict"){cst("সিঙ্ক থামানো হয়েছে। বর্তমান ডেটা অপরিবর্তিত আছে।");return}else if(merge===true){cst("নতুন Drive ব্যাকআপ পুনরুদ্ধার করা হয়েছে।")}else await dupload();$("dsync").disabled=false;$("cb").textContent="✓ Google Drive সংযুক্ত"}catch(e){cst("সিঙ্ক হয়নি: "+e.message)}}
+async function dapi(url,opt){
+ var r=await fetch(url,opt||{});
+ if(!r.ok){var t="";try{t=await r.text()}catch(e){}if(r.status===401){DR.token=null;DR.expires=0}throw new Error("Google Drive API "+r.status+(t?": "+t.slice(0,220):""))}
+ if(r.status===204)return {};
+ var ct=r.headers.get("content-type")||"";
+ if(ct.indexOf("json")<0)return {};
+ return r.json();
+}
+async function dfind(name,mime,parent){
+ var q="name='"+name.replace(/\\'/g,"\\\\'")+"' and mimeType='"+mime+"' and trashed=false"+(parent?" and '"+parent+"' in parents":"");
+ var u="https://www.googleapis.com/drive/v3/files?q="+encodeURIComponent(q)+"&fields=files(id,name,mimeType,modifiedTime)&pageSize=100&orderBy=modifiedTime desc";
+ var x=await dapi(u,{headers:{Authorization:"Bearer "+DR.token}});
+ return x.files&&x.files[0]||null;
+}
+async function densure(){
+ var folder=await dfind("AS Care Backups","application/vnd.google-apps.folder",null);
+ if(!folder)folder=await dapi("https://www.googleapis.com/drive/v3/files?fields=id,name",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"application/json"},body:JSON.stringify({name:"AS Care Backups",mimeType:"application/vnd.google-apps.folder"})});
+ if(!folder||!folder.id)throw new Error("Google Drive-এ ব্যাকআপ ফোল্ডার তৈরি/খুঁজে পাওয়া যায়নি।");
+ DR.folder=folder.id;
+ var file=await dfind("as-care-backup.json","application/json",DR.folder);
+ DR.file=file&&file.id||null;
+}
+async function ddownload(){
+ if(!DR.file)return null;
+ var r=await fetch("https://www.googleapis.com/drive/v3/files/"+encodeURIComponent(DR.file)+"?alt=media",{headers:{Authorization:"Bearer "+DR.token}});
+ if(!r.ok){if(r.status===401){DR.token=null;DR.expires=0}throw new Error("Drive backup পড়া যায়নি ("+r.status+")")}
+ var data;try{data=await r.json()}catch(e){throw new Error("Drive backup-এর JSON পড়া যাচ্ছে না; নিরাপত্তার জন্য সিঙ্ক বন্ধ রাখা হয়েছে।")}
+ if(!data||data.schemaVersion!==1||!data.appData||typeof data.appData!=="object"||!data.appData.days||typeof data.appData.days!=="object"||!Array.isArray(data.appData.bas||[])||!Array.isArray(data.appData.asdas||[]))throw new Error("Drive-এ থাকা ব্যাকআপের গঠন সঠিক নয়। স্থানীয় ডেটা অপরিবর্তিত রাখা হয়েছে।");
+ return data;
+}
+async function dupload(){
+ if(!D||!D.days||typeof D.days!=="object")throw new Error("স্থানীয় ডেটা যাচাই করা যায়নি; আপলোড বন্ধ রাখা হয়েছে।");
+ var stamp=Number(D._t)||Date.now(),body=JSON.stringify({schemaVersion:1,updatedAt:stamp,appData:D});
+ if(!DR.file){
+  var meta={name:"as-care-backup.json",mimeType:"application/json",parents:[DR.folder]},boundary="as_care_"+Date.now();
+  var multipart="--"+boundary+"\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n"+JSON.stringify(meta)+"\\r\\n--"+boundary+"\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n"+body+"\\r\\n--"+boundary+"--";
+  var x=await dapi("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"multipart/related; boundary="+boundary},body:multipart});
+  if(!x.id)throw new Error("ব্যাকআপ ফাইল তৈরি হয়েছে কি না নিশ্চিত করা যায়নি।");DR.file=x.id;
+ }else{
+  await dapi("https://www.googleapis.com/upload/drive/v3/files/"+encodeURIComponent(DR.file)+"?uploadType=media",{method:"PATCH",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"application/json"},body:body});
+ }
+ DR.last=Date.now();localStorage.setItem("asCareDriveLast",String(DR.last));
+ cst("✓ Google Drive-এ ব্যাকআপ সিঙ্ক হয়েছে · "+new Date(DR.last).toLocaleString("bn-BD"));
+}
+function dmerge(remote){
+ if(!remote)return false;
+ var localTime=Number(D._t)||0,remoteTime=Number(remote.updatedAt)||Number(remote.appData._t)||0;
+ if(remoteTime>localTime){
+  if(confirm("Google Drive-এ এই ডিভাইসের চেয়ে নতুন ব্যাকআপ আছে। সেটি দিয়ে এই browser-এর বর্তমান ডেটা প্রতিস্থাপন করবেন? না চাইলে বর্তমান ডেটা থাকবে এবং Drive ব্যাকআপ আপলোড হবে না। আগে প্রয়োজন হলে JSON ব্যাকআপ ডাউনলোড করুন।")){
+   var restored=remote.appData;
+   if(!restored.goal)restored.goal=20;
+   restored._t=remoteTime;
+   try{localStorage.setItem(KEY,JSON.stringify(restored))}catch(e){throw new Error("Browser storage-এ জায়গা নেই; Drive ব্যাকআপ ফিরিয়ে আনা যায়নি।")}
+   D=restored;DR.last=remoteTime;localStorage.setItem("asCareDriveLast",String(remoteTime));fix();renderAll();return true;
+  }
+  return "conflict";
+ }
+ return false;
+}
+function dconnected(){ $("dsync").disabled=false;$("cb").textContent="✓ Google Drive সংযুক্ত"; }
+async function dconnect(){
+ if(DR.syncing)return;DR.syncing=true;
+ try{
+  cst("Google Account-এর অনুমতি নেওয়া হচ্ছে…");await drequest(true);await densure();
+  var remote=await ddownload(),merge=remote?dmerge(remote):false;
+  if(merge==="conflict"){cst("সিঙ্ক থামানো হয়েছে। স্থানীয় ও Drive—দুই জায়গার ডেটাই অপরিবর্তিত আছে।");dconnected();return}
+  if(merge===true)cst("Drive-এর ব্যাকআপ থেকে ডেটা ফিরিয়ে আনা হয়েছে।");
+  else await dupload();
+  dconnected();
+ }catch(e){cst("সংযোগ/ব্যাকআপ ব্যর্থ: "+e.message)}
+ finally{DR.syncing=false}
+}
+async function dsyncNow(){
+ if(DR.syncing)return;DR.syncing=true;
+ try{
+  cst("Google Drive-এর সঙ্গে সিঙ্ক হচ্ছে…");await drequest(true);await densure();
+  var remote=await ddownload(),merge=remote?dmerge(remote):false;
+  if(merge==="conflict"){cst("সিঙ্ক থামানো হয়েছে। স্থানীয় ও Drive—দুই জায়গার ডেটাই অপরিবর্তিত আছে।");dconnected();return}
+  if(merge!==true)await dupload();
+  dconnected();
+ }catch(e){cst("সিঙ্ক হয়নি: "+e.message)}
+ finally{DR.syncing=false}
+}
+async function cpush(){
+ if(!dvalid()||DR.syncing)return;DR.syncing=true;
+ try{
+  await densure();var remote=await ddownload();
+  if(remote&&(Number(remote.updatedAt)||0)>(Number(D._t)||0)){cst("Drive-এ আরও নতুন ব্যাকআপ আছে। স্থানীয় ডেটা নিরাপদ রাখতে স্বয়ংক্রিয় আপলোড থামানো হয়েছে—‘এখনই সিঙ্ক’ চাপুন।");return}
+  await dupload();
+ }catch(e){cst("স্বয়ংক্রিয় Drive সিঙ্ক ব্যর্থ: "+e.message)}
+ finally{DR.syncing=false}
+}
 $("cb").onclick=dconnect;$("dsync").onclick=dsyncNow;
 $("saveDriveClient").onclick=function(){
  var v=$("driveClientId").value.trim();
- if(!v.endsWith(".apps.googleusercontent.com")||v.indexOf(" ")!==-1){
-  $("driveSetupMsg").textContent="সঠিক Web OAuth Client ID দিন (…apps.googleusercontent.com)।";return;
- }
- if(v!==dclient()){DR.token=null;DR.expires=0;DR.client=null;DR.clientId=null;$("dsync").disabled=true;}
+ if(!v.endsWith(".apps.googleusercontent.com")||/\\s/.test(v)){$("driveSetupMsg").textContent="সঠিক Web OAuth Client ID দিন (…apps.googleusercontent.com)।";return}
+ if(v!==dclient()){DR.token=null;DR.expires=0;DR.client=null;DR.clientId=null;DR.folder=null;DR.file=null;$("dsync").disabled=true;}
  DRIVE_CLIENT_ID=v;localStorage.setItem("asCareDriveClientId",v);
  $("driveSetupMsg").textContent="Client ID এই browser-এ সেভ হয়েছে। এবার Google Drive সংযুক্ত করুন।";
  cst("OAuth সেটআপ সেভ হয়েছে; এখন Google Account সংযুক্ত করুন।");
@@ -274,14 +364,14 @@ $("saveDriveClient").onclick=function(){
 $("driveClientId").value=dclient();
 $("disconnectDrive").onclick=function(){
  var token=DR.token;
- function clear(){DR.token=null;DR.expires=0;DR.folder=null;DR.file=null;DR.client=null;DR.clientId=null;$("dsync").disabled=true;$("cb").textContent="☁️ Google Drive সংযুক্ত করুন";cst("এই browser থেকে Google Drive সংযোগ বিচ্ছিন্ন করা হয়েছে। Client ID সেটিং রাখা হয়েছে।")}
+ function clear(){DR.token=null;DR.expires=0;DR.folder=null;DR.file=null;DR.client=null;DR.clientId=null;$("dsync").disabled=true;$("cb").textContent="☁️ Google Drive সংযুক্ত করুন";cst("এই browser থেকে Google Drive সংযোগ বিচ্ছিন্ন করা হয়েছে। স্থানীয় ডেটা ও Drive-এর ব্যাকআপ মুছে ফেলা হয়নি।")}
  if(token&&window.google&&google.accounts&&google.accounts.oauth2&&google.accounts.oauth2.revoke){google.accounts.oauth2.revoke(token,clear)}else clear();
 };
 $("dauto").checked=localStorage.getItem("asCareDriveAuto")==="1";DR.auto=$("dauto").checked;
 $("dauto").onchange=function(){DR.auto=this.checked;localStorage.setItem("asCareDriveAuto",this.checked?"1":"0");cst(this.checked?"দৈনিক সিঙ্ক চালু: অ্যাপ খোলা থাকলে ও অনুমতি বৈধ থাকলে সিঙ্ক হবে।":"স্বয়ংক্রিয় সিঙ্ক বন্ধ।")};
 $("fb").onclick=function(){try{var blob=new Blob([JSON.stringify({schemaVersion:1,updatedAt:Date.now(),appData:D},null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="as-care-backup-"+today()+".json";a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000);$("bkm").textContent="JSON ব্যাকআপ ডাউনলোড শুরু হয়েছে।"}catch(e){$("bkm").textContent="ফাইল সেভ হয়নি: "+e.message}};
 window.cpush=cpush;
-setInterval(function(){if(DR.auto&&(!DR.last||Date.now()-DR.last>86400000)){if(dvalid())cpush();else cst("Google Drive-এর অনুমতির মেয়াদ শেষ। দৈনিক সিঙ্ক চালাতে আবার সংযুক্ত করুন।")}},60000);
+setInterval(function(){if(DR.auto&&(!DR.last||Date.now()-DR.last>86400000)){if(dvalid())cpush();else cst("Google Drive-এর অনুমতির মেয়াদ শেষ। দৈনিক সিঙ্ক চালাতে আবার ‘Google Drive সংযুক্ত করুন’ চাপুন।")}},60000);
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&DR.auto&&dvalid()&&(!DR.last||Date.now()-DR.last>86400000))cpush()});
 var DUR={a1:60,b1:40,b2:40,b3:40,b4:30,b5:40,f1:45,f4:40,d4:40,d5:40,f5:40,e3:60,d1:40,d2:40,c5:50,c1:40,c2:50,c3:50,c4:40,f2:30,d3:40,f3:40},S=null,BD='০১২৩৪৫৬৭৮৯';
 var sty=document.createElement('style');sty.textContent='#qs{order:-3}.ss{position:fixed;inset:0;z-index:100;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;align-items:center;gap:10px;padding:max(14px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));overflow-y:auto;text-align:center}.ssh{width:100%;display:flex;justify-content:space-between;align-items:center}#sf{width:min(72vw,280px);height:auto;aspect-ratio:84/63;border-radius:20px;background:var(--card);margin:6px auto}#sf svg{width:100%;height:100%}.tmr{font-size:64px;font-weight:800;color:var(--ac);line-height:1}.tmr.r{color:var(--mu)}.sb,.sbp{font:inherit;font-size:16px;padding:14px 18px;border-radius:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}.sbp{background:var(--ac);color:var(--card);border-color:var(--ac);font-weight:700}';document.head.appendChild(sty);
