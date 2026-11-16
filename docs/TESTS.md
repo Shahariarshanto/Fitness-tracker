@@ -55,4 +55,25 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Shared controls fit a narrow mobile viewport.
 - [ ] Offline shell includes all Step 2 modules and CSS.
 
-\n## Step 3 — Settings feature\n\n### Static checks\n- [ ] Settings modules import only approved dependencies.\n- [ ] Preference keys are included in the initial state and data model.\n- [ ] Daily goal validation accepts integers from 1–240 only.\n- [ ] Theme values are restricted to system/light/dark.\n- [ ] New modules and CSS are listed/loaded by the shell and service worker.\n- [ ] No Settings module accesses localStorage directly.\n\n### Browser checks\n- [ ] Theme changes apply immediately and persist after reload.\n- [ ] Daily goal and interaction preferences persist after reload.\n- [ ] Invalid daily goal values are rejected with feedback.\n- [ ] PWA install and service-worker status display without errors.\n- [ ] Local storage usage information is displayed.\n\n### Device/PWA checks\n- [ ] Settings sections and controls fit narrow Android screens.\n- [ ] Settings page remains usable with keyboard and touch.\n- [ ] Preferences remain available after closing and reopening the PWA.\n
+
+## Step 3 — Settings feature
+
+### Static checks
+- [ ] Settings modules import only approved dependencies.
+- [ ] Preference keys are included in the initial state and data model.
+- [ ] Daily goal validation accepts integers from 1–240 only.
+- [ ] Theme values are restricted to system/light/dark.
+- [ ] New modules and CSS are listed/loaded by the shell and service worker.
+- [ ] No Settings module accesses localStorage directly.
+
+### Browser checks
+- [ ] Theme changes apply immediately and persist after reload.
+- [ ] Daily goal and interaction preferences persist after reload.
+- [ ] Invalid daily goal values are rejected with feedback.
+- [ ] PWA install and service-worker status display without errors.
+- [ ] Local storage usage information is displayed.
+
+### Device/PWA checks
+- [ ] Settings sections and controls fit narrow Android screens.
+- [ ] Settings page remains usable with keyboard and touch.
+- [ ] Preferences remain available after closing and reopening the PWA.
