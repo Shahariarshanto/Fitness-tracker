@@ -77,7 +77,7 @@ Medication management is mounted as a dedicated section inside the Health tab, p
 
 ### Step 5 follow-up — Overview and adherence controls
 
-- `index.html`: removed the temporary “AS Care তৈরি হচ্ছে” placeholder from Overview; the medication tracker now occupies the active Overview content area.
+- `index.html`: removed the temporary placeholder from Overview; the Medication management panel is mounted under Health, while Overview retains a compact daily check-in.
 - `MedicationPanel.js`: both adherence choices remain clickable; the saved choice is exposed with `aria-pressed` and a selected-state class.
 - `assets/css/pages.css`: selected `খেয়েছি` and `খাইনি` controls receive distinct visible active styling.
 - `sw.js`: shell cache advanced to v54 so installed PWAs fetch the updated markup, module, and styles.
