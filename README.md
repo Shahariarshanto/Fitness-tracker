@@ -5,6 +5,9 @@ A Bengali-first, mobile-friendly tracker focused on axial spondyloarthritis / an
 ## Current modules
 
 - Five-section responsive navigation (Overview, Movement, Insights, Health, Settings)
+- Daily habit dashboard with exercise and medication progress doughnuts
+- Six visual exercise categories with individual checkboxes, category progress rings and one-tap complete-all controls
+- Monthly exercise and medication adherence pie/doughnut reports
 - Daily mobility and exercise completion tracking
 - Pain, night-mobility, morning-stiffness, fatigue and sleep diary
 - Customizable medication tracker name and two editable time-slot labels (tracking only; not dosing advice)
