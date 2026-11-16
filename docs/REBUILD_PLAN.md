@@ -639,7 +639,7 @@ Do not claim a browser, phone, offline, or deployment test passed unless it was 
 
 - [x] Revised rebuild strategy and architecture decisions documented here.
 - [ ] Plan committed to the repository.
-- [ ] Step 1 — New application foundation.
+- [ ] Step 1 — New application foundation (code committed; awaiting verification and user's phone test).
 - [ ] Step 2 — Static data and shared components.
 - [ ] Step 3 — Settings.
 - [ ] Step 4 — Health.
