@@ -1,4 +1,4 @@
-import { loadState, saveState } from "./storage.js";
+import { loadState, saveState, markCloudPending } from "./storage.js";
 
 const INITIAL_STATE = {
   preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
@@ -58,6 +58,7 @@ export function updateState(updater) {
   if (!next || typeof next !== "object" || Array.isArray(next)) throw new TypeError("A state update must return an object.");
   currentState = normalizeState(next);
   const persisted = saveState(currentState);
+  markCloudPending();
   const snapshot = getState();
   subscribers.forEach(listener => {
     try { listener(snapshot, { persisted }); }
