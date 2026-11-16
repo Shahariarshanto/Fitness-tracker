@@ -21,7 +21,7 @@ Main workflows:
 - Public app path: https://shahariarshanto.github.io/Fitness-tracker/
 - PWA files: manifest.webmanifest, sw.js, icon.svg.
 - Local persistence: browser localStorage.
-- Optional cloud backup: Google Identity Services / Google Drive API. Each user authorizes their own Google Account.
+- Optional cloud backup: Google Identity Services / Google Drive API. Each user authorizes their own Google Account. The app remembers the user's connection preference (not the OAuth access token) and attempts silent token renewal on later app launches; interactive consent is only a fallback when Google requires it.
 - Use relative paths because GitHub Pages serves the app below /Fitness-tracker/.
 
 The browser OAuth flow uses a public Web Client ID and does not require a Client Secret. Never put a Client Secret in frontend code, .env files consumed by frontend code, or browser bundles. A future server-side secret belongs only in that backend host's secret manager.
