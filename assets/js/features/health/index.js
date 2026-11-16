@@ -16,7 +16,7 @@ function render(state) {
   const pain = state.painLogs[today] || {};
   const basdai = state.healthScores.basdai || [];
   const asdas = state.healthScores.asdas || [];
-  const events = (state.healthEvents || []).slice().reverse();
+  const events = (state.healthEvents || []).filter(x => !x.deletedAt).slice().reverse();
   const basdaiToday = basdai.find(item => item.date === today);
   const asdasToday = asdas.find(item => item.date === today);
   const latestB = basdai.length ? [...basdai].sort((a,b) => b.date.localeCompare(a.date))[0].score : "—";
@@ -85,7 +85,7 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
   function click(event) {
     const button = event.target.closest("[data-delete-health]");
     if (!button) return;
-    updateState(state => ({ ...state, healthEvents: state.healthEvents.filter(x => x.id !== button.dataset.deleteHealth) }));
+    updateState(state => ({ ...state, healthEvents: state.healthEvents.map(x => x.id === button.dataset.deleteHealth ? { ...x, deletedAt: new Date().toISOString() } : x) }));
     showToast("ঘটনা মুছে ফেলা হয়েছে।", "success");
   }
   content.addEventListener("submit", submit);
