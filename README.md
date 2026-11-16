@@ -15,6 +15,7 @@ No build step or package manager is currently required. Local environment files 
 - index.html — semantic page shell and navigation
 - assets/css/app.css — application styles
 - assets/js/app.js — application behavior (currently one legacy JS entry)
+- assets/js/core/storage.js — centralized localStorage boundary (classic script; first extracted core module)
 - sw.js — offline cache and service worker
 - manifest.webmanifest, icon.svg — PWA metadata and icon
 - AI_CONTEXT.md — instructions for AI coding agents
