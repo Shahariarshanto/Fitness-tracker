@@ -46,9 +46,12 @@ var k=cur(),o=D.days[k]||{d:[],p:null},h="";
 G.forEach(function(g,gi){h+='<div class="exercise-group" data-group="'+gi+'"><h2>'+g.t+'</h2>'+(g.s?'<p class="mu">'+g.s+'</p>':'');g.i.forEach(function(x){var on=o.d.indexOf(x[0])>-1;h+='<label class="it'+(on?" on":"")+'" data-group="'+gi+'"><input type="checkbox" data-id="'+x[0]+'"'+(on?" checked":"")+'><span><span class="t">'+x[1]+'</span><span class="d">'+x[2]+'</span></span></label>'});h+='</div>'});$("list").innerHTML=h;
 var p="";for(var i=0;i<=10;i++)p+='<button type="button" data-p="'+i+'" class="'+(o.p===i?"on":"")+'">'+bn(i)+"</button>";
 $("pain").innerHTML=p;$("date").textContent=fmt(k,{weekday:"long",day:"numeric",month:"long"})+(cd?" (পুরনো দিন সম্পাদনা)":"");updToday()}
-function updToday(){var o=D.days[cur()]||{d:[]},n=o.d.length;
-$("cnt").textContent=bn(n)+" / "+bn(TOTAL);$("fill").style.width=Math.round(n/TOTAL*100)+"%";
-$("msg").textContent=n>=TOTAL?"আজকের সব ব্যায়াম শেষ। ভালো করেছেন!":(n>=THR?"আজ সম্পন্ন দিন হিসেবে গণ্য হবে।":"")}
+function updToday(){
+ var o=D.days[cur()]||{d:[]},n=(o.d||[]).filter(function(id){return exerciseIds.indexOf(id)>-1}).length,pct=TOTAL?Math.round(n/TOTAL*100):0;
+ $("cnt").textContent=bn(n)+" / "+bn(TOTAL);
+ $("fill").style.width=pct+"%";
+ $("msg").textContent=n>=TOTAL?"আজকের সব ব্যায়াম শেষ।":(n>=THR?"আজকের লক্ষ্য পূরণের পথে ভালো অগ্রগতি।":n>0?"আরও "+bn(TOTAL-n)+"টি ব্যায়াম বাকি।":"Movement থেকে ব্যায়াম বেছে নিয়ে টিক দিন—এখানে অগ্রগতি দেখা যাবে।");
+}
 function streaks(){
 var ks=Object.keys(D.days).sort(),t=today(),best=0,run=0,cur=0;if(!ks.length)return[0,0];
 var d=pk(ks[0]),e=pk(t);
@@ -407,18 +410,21 @@ function ring(value,size,color,label){
 }
 
 function renderHabitDashboard(){
- var o=D.days[cur()]||{d:[],p:null},done=(o.d||[]).filter(function(id){return exerciseIds.indexOf(id)>-1}).length;
- var med=(o.m1?1:0)+(o.m2?1:0),exPct=Math.round(done/TOTAL*100),medPct=Math.round(med/2*100),st=streaks()[0];
- var pain=o.p==null?"আজও মাপা হয়নি":bn(o.p)+"/১০";
- var symptoms=(o.stiff!=null||o.fatigue!=null||o.sleep!=null)?("জড়তা "+(o.stiff==null?"—":bn(o.stiff))+" · ক্লান্তি "+(o.fatigue==null?"—":bn(o.fatigue))+" · ঘুম "+(o.sleep==null?"—":bn(o.sleep))):"আজকের উপসর্গের তথ্য এখনো দেওয়া হয়নি";
- var msg=done===TOTAL&&med===2?"আজকের ব্যায়াম ও ওষুধ—দুটিই সম্পন্ন।":done===0&&med===0?"একটি ছোট কাজ দিয়ে শুরু করুন।": "আজকের অগ্রগতি ভালোভাবে এগিয়ে নিন।";
- $("dailyHabits").innerHTML='<div class="overview-section-head"><div><span class="kicker">TODAY AT A GLANCE</span><h2>আজকের সারসংক্ষেপ</h2><p class="mu">আপনার দৈনিক যত্নের সব গুরুত্বপূর্ণ তথ্য এক জায়গায়</p></div><span class="streak-pill">🔥 '+bn(st)+' দিন</span></div>'+
- '<div class="overview-metrics"><div class="overview-metric"><span class="metric-icon">↗</span><div><small>ব্যায়াম</small><b>'+bn(done)+' / '+bn(TOTAL)+'</b><span>'+bn(exPct)+'% সম্পন্ন</span></div></div><div class="overview-metric"><span class="metric-icon">♡</span><div><small>ওষুধ</small><b>'+bn(med)+' / ২</b><span>'+bn(medPct)+'% নেওয়া</span></div></div><div class="overview-metric"><span class="metric-icon">◉</span><div><small>আজকের ব্যথা</small><b>'+pain+'</b><span>০–১০ স্কেল</span></div></div></div>'+
- '<div class="overview-dual-progress"><div><div class="overview-progress-label"><b>ব্যায়ামের অগ্রগতি</b><strong>'+bn(exPct)+'%</strong></div><div class="overview-track"><i style="width:'+exPct+'%"></i></div></div><div><div class="overview-progress-label"><b>ওষুধের অগ্রগতি</b><strong>'+bn(medPct)+'%</strong></div><div class="overview-track medicine"><i style="width:'+medPct+'%"></i></div></div></div>'+
- '<div class="overview-symptoms"><b>উপসর্গের নোট</b><span>'+symptoms+'</span></div><p class="habit-message">'+msg+'</p>';
- var painNote=$("painSummary");if(painNote)painNote.textContent=o.p==null?"আজকের ব্যথার মাত্রা নির্বাচন করুন।":"আজকের ব্যথার মাত্রা: "+bn(o.p)+"/১০ · সেভ করা আছে";
- renderOverviewInsights();
- $("pain").querySelectorAll("button[data-p]").forEach(function(x){var on=o.p===Number(x.getAttribute("data-p"));x.classList.toggle("on",on);x.setAttribute("aria-pressed",on?"true":"false")});
+ var root=$("dailyHabits");if(!root)return;
+ try{
+  var o=D.days[cur()]||{d:[],p:null};
+  var done=(o.d||[]).filter(function(id){return exerciseIds.indexOf(id)>-1}).length;
+  var med=(o.m1?1:0)+(o.m2?1:0),exPct=TOTAL?Math.round(done/TOTAL*100):0,medPct=Math.round(med/2*100),st=streaks()[0];
+  var pain=o.p==null?"আজও মাপা হয়নি":bn(o.p)+"/১০";
+  var symptoms=(o.stiff!=null||o.fatigue!=null||o.sleep!=null)?("জড়তা "+(o.stiff==null?"—":bn(o.stiff))+" · ক্লান্তি "+(o.fatigue==null?"—":bn(o.fatigue))+" · ঘুম "+(o.sleep==null?"—":bn(o.sleep))):"আজকের উপসর্গের তথ্য এখনো দেওয়া হয়নি";
+  root.innerHTML='<div class="overview-section-head"><div><span class="kicker">TODAY AT A GLANCE</span><h2>আজকের সারসংক্ষেপ</h2><p class="mu">আজকের ব্যায়াম, ওষুধ ও উপসর্গের হিসাব</p></div><span class="streak-pill">🔥 '+bn(st)+' দিন</span></div>'+
+  '<div class="overview-metrics"><div class="overview-metric"><span class="metric-icon">↗</span><div><small>ব্যায়াম</small><b>'+bn(done)+' / '+bn(TOTAL)+'</b><span>'+bn(exPct)+'% সম্পন্ন</span></div></div><div class="overview-metric"><span class="metric-icon">♡</span><div><small>ওষুধ</small><b>'+bn(med)+' / ২</b><span>'+bn(medPct)+'% নেওয়া</span></div></div><div class="overview-metric"><span class="metric-icon">◉</span><div><small>আজকের ব্যথা</small><b>'+pain+'</b><span>০–১০ স্কেল</span></div></div></div>'+
+  '<div class="overview-dual-progress"><div><div class="overview-progress-label"><b>ব্যায়ামের অগ্রগতি</b><strong>'+bn(exPct)+'%</strong></div><div class="overview-track"><i style="width:'+exPct+'%"></i></div></div><div><div class="overview-progress-label"><b>ওষুধের অগ্রগতি</b><strong>'+bn(medPct)+'%</strong></div><div class="overview-track medicine"><i style="width:'+medPct+'%"></i></div></div></div>'+
+  '<div class="overview-symptoms"><b>উপসর্গের নোট</b><span>'+symptoms+'</span></div><button type="button" class="btn habit-open-movement" id="habitOpenMovement">আজকের ব্যায়াম আপডেট করুন ↗</button>';
+  var painNote=$("painSummary");if(painNote)painNote.textContent=o.p==null?"নিচের ০–১০ স্কেলে চাপ দিয়ে আজকের ব্যথা সেভ করুন।":"আজকের ব্যথার মাত্রা: "+bn(o.p)+"/১০ · সেভ করা আছে";
+  $("pain").querySelectorAll("button[data-p]").forEach(function(x){var on=o.p===Number(x.getAttribute("data-p"));x.classList.toggle("on",on);x.setAttribute("aria-pressed",on?"true":"false")});
+  var go=$("habitOpenMovement");if(go)go.onclick=function(){tab(5)};
+ }catch(err){console.error("Daily dashboard error",err);root.innerHTML='<b>আজকের সারসংক্ষেপ লোড হয়নি</b><p class="mu">ড্যাশবোর্ডে সমস্যা হয়েছে: '+String(err&&err.message||err).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+'</p>'}
 }
 
 function renderOverviewInsights(){
@@ -450,7 +456,7 @@ renderToday=function(){
  catch(err){
   console.error("AS Care Overview render failed:",err);
   var root=$("overviewInsights");
-  if(root)root.innerHTML='<div class="overview-section-heading"><div><span class="kicker">OVERVIEW STATUS</span><h2>ড্যাশবোর্ড লোডে সমস্যা</h2><p class="mu">অ্যাপের ত্রুটি শনাক্ত হয়েছে। পেজ রিফ্রেশ করুন; সমস্যা থাকলে এই বার্তাটি স্ক্রিনশটসহ পাঠান।</p><small>'+String(err&&err.message||err).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+'</small></div></div>';
+  var habits=$("dailyHabits");if(habits&&!habits.innerHTML.trim())habits.innerHTML="<p class=mu>আজকের সারসংক্ষেপ লোড হয়নি। পেজ রিফ্রেশ করে দেখুন।</p>";if(root)root.innerHTML='<div class="overview-section-heading"><div><span class="kicker">OVERVIEW STATUS</span><h2>ড্যাশবোর্ড লোডে সমস্যা</h2><p class="mu">অ্যাপের ত্রুটি শনাক্ত হয়েছে। পেজ রিফ্রেশ করুন; সমস্যা থাকলে এই বার্তাটি স্ক্রিনশটসহ পাঠান।</p><small>'+String(err&&err.message||err).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+'</small></div></div>';
  }
 };
 
