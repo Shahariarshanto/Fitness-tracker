@@ -1,8 +1,8 @@
-const CACHE_NAME = "as-care-shell-v56";
+const CACHE_NAME = "as-care-shell-v57";
 const SHELL = [
   "./", "./index.html",
   "./assets/css/tokens.css", "./assets/css/base.css", "./assets/css/components.css", "./assets/css/pages.css", "./assets/css/movement.css",
-  "./assets/js/bootstrap.js",
+  "./assets/js/bootstrap.js", "./assets/js/navigation-fallback.js",
   "./assets/js/core/state.js", "./assets/js/core/events.js",
   "./assets/js/core/storage.js", "./assets/js/core/dates.js",
   "./assets/js/core/router.js",
