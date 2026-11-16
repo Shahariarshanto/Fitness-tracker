@@ -295,7 +295,7 @@ async function dupload(){
  var stamp=Number(D._t)||Date.now(),body=JSON.stringify({schemaVersion:1,updatedAt:stamp,appData:D});
  if(!DR.file){
   var meta={name:"as-care-backup.json",mimeType:"application/json",parents:[DR.folder]},boundary="as_care_"+Date.now();
-  var multipart="--"+boundary+"\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n"+JSON.stringify(meta)+"\\r\\n--"+boundary+"\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n"+body+"\\r\\n--"+boundary+"--";
+  var multipart="--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"+JSON.stringify(meta)+"\r\n--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"+body+"\r\n--"+boundary+"--";
   var x=await dapi("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"multipart/related; boundary="+boundary},body:multipart});
   if(!x.id)throw new Error("ব্যাকআপ ফাইল তৈরি হয়েছে কি না নিশ্চিত করা যায়নি।");DR.file=x.id;
  }else{
