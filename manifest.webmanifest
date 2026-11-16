@@ -1,0 +1,15 @@
+{
+  "name": "AS Care — Ankylosing Spondylitis Tracker",
+  "short_name": "AS Care",
+  "description": "Ankylosing spondylitis mobility, symptoms and health tracker",
+  "lang": "bn",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f7fb",
+  "theme_color": "#245fbe",
+  "icons": [
+    {"src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}
