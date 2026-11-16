@@ -9,8 +9,10 @@ const BACKUP_NAME = "AS Care Data.json";
 const LEGACY_PREFIX = "as-care-backup-v1-";
 let token = null, tokenExpiresAt = 0, tokenClient = null;
 let initialized = false, hydrating = false, syncTimer = null, syncPromise = null, changeRevision = 0;
+let lastStatus = { status: "disconnected", message: "Google Drive এখনো সংযুক্ত নয়।" };
 
-function status(state, message) { emit("drive:sync-status", { status: state, message }); }
+function status(state, message) { lastStatus = { status: state, message }; emit("drive:sync-status", lastStatus); }
+export function getDriveStatus() { return lastStatus; }
 
 function loadGoogleIdentity() {
   if (window.google?.accounts?.oauth2) return Promise.resolve();
