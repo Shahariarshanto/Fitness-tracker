@@ -20,11 +20,15 @@
 **Exit condition:** inventory exists and baseline checks are repeatable.
 
 ## Phase 1 — Data boundary first
-- Introduce `core/storage.js` as the only owner of application localStorage reads/writes.
-- Initially read and write the exact existing `spa-daily-v2` JSON structure.
-- Preserve unknown fields and legacy `spa-daily-v1` migration behavior.
-- Add safe validation and test fixtures before migrating page code.
-- Introduce `core/state.js` with controlled state access/update/subscribe APIs.
+- [x] Introduce `assets/js/core/storage.js` as the only localStorage access boundary.
+- [x] Route app load/save, theme preference and data-size reads through `ASStorage`.
+- [x] Route Google Drive backup/restore and last-sync timestamp writes through `ASStorage`.
+- [x] Preserve the existing `spa-daily-v2` JSON structure and legacy `spa-daily-v1` read/mapping behavior.
+- [x] Add basic storage API checks for round-trip, unknown root/nested fields, invalid-write safety and legacy data mapping (run in an isolated mock-storage environment).
+- [ ] Add repeatable test fixtures/scripts to the repository and test malformed, partial and unusual legacy inputs.
+- [ ] Verify full app workflows and Drive restore/conflict in a real browser before treating this phase as complete.
+- [ ] Introduce `core/state.js` with controlled state access/update/subscribe APIs after storage behavior is verified.
+**Status:** the central storage boundary is implemented and basic isolated checks pass. Browser-level integration and state API work remain pending.
 **Exit condition:** existing records round-trip without shape or field loss; invalid data cannot overwrite valid data.
 
 ## Phase 2 — Extract pure utilities
