@@ -19,7 +19,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
   };
   function start() {
     if (!selected.length) { showToast("সেশনের জন্য আগে অনুশীলন নির্বাচন করুন।","info"); return; }
-    session = { exerciseIds:[...selected], index:0, completed:[], skipped:[], paused:false, remaining:EXERCISES.find(x=>x.id===selected[0])?.durationSeconds||0, startedAt:Date.now(), elapsed:0, finished:false };
+    session = { exerciseIds:[...selected], index:0, completed:[], skipped:[], paused:false, remaining:EXERCISES.find(x=>x.id===selected[0])?.durationSeconds||0, remainingMs:(EXERCISES.find(x=>x.id===selected[0])?.durationSeconds||0)*1000, startedAt:Date.now(), elapsed:0, finished:false };
     emit("workout:started",{exerciseIds:[...selected],startedAt:new Date().toISOString()});
     runClock(); draw();
   }
@@ -30,7 +30,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     tick=setInterval(()=>{
       if (!session || session.paused || session.finished) return;
       const now=Date.now(),delta=(now-last)/1000;session.elapsed+=delta;last=now;
-      session.remaining=Math.max(0,Math.ceil(session.remaining-delta));
+      session.remainingMs=Math.max(0,session.remainingMs-delta*1000);session.remaining=Math.ceil(session.remainingMs/1000);
       const clock=root.querySelector("[data-session-clock]");if(clock)clock.textContent=session.remaining+"s";
       if(session.remaining===0)clearInterval(tick);
     },250);
@@ -57,11 +57,11 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     if(target.hasAttribute("data-session-start")){start();return;}
     if(!session)return;
     if(target.hasAttribute("data-session-pause")){session.paused=!session.paused;runClock();draw();return;}
-    if(target.hasAttribute("data-session-prev")){session.index=Math.max(0,session.index-1);session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;runClock();draw();return;}
+    if(target.hasAttribute("data-session-prev")){session.index=Math.max(0,session.index-1);session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;session.remainingMs=session.remaining*1000;runClock();draw();return;}
     if(target.hasAttribute("data-session-next")||target.hasAttribute("data-session-skip")){
-      const id=session.exerciseIds[session.index];target.hasAttribute("data-session-skip")?session.skipped.push(id):session.completed.push(id);
+      const id=session.exerciseIds[session.index];if(target.hasAttribute("data-session-skip")){session.completed=session.completed.filter(item=>item!==id);session.skipped=[...new Set([...session.skipped,id])];}else{session.skipped=session.skipped.filter(item=>item!==id);session.completed=[...new Set([...session.completed,id])];}
       if(session.index>=session.exerciseIds.length-1){finish();return;}
-      session.index++;session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;runClock();draw();return;
+      session.index++;session.remaining=EXERCISES.find(x=>x.id===session.exerciseIds[session.index])?.durationSeconds||0;session.remainingMs=session.remaining*1000;runClock();draw();return;
     }
     if(target.hasAttribute("data-session-finish"))finish();
     if(target.hasAttribute("data-session-close")){session=null;draw();}
