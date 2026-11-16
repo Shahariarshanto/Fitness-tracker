@@ -71,3 +71,12 @@ Health information is sensitive. Keep it local by default. Never commit real use
 - Guided sessions are appended to `workoutSessions` with an ID, local date, start/end timestamps, elapsed seconds, selected exercise IDs, completed IDs, and skipped IDs.
 - Finishing a guided session adds only its completed exercises to that date's checklist; skipped exercises are not marked complete.
 - Exercise catalogue wording is marked `legacy-reference-unreviewed`. The app presents it as unverified reference material and does not claim that an exercise is suitable for a particular person.
+
+
+### Insights calculations (derived, not persisted)
+- Insights reads existing `dailyActivity`, `workoutSessions`, `painLogs`, `symptoms.daily`, `medication.dailyLogs`, and `healthScores` records.
+- Calendar markers indicate whether any source record exists for a local date. Selected-day details show only available saved information.
+- Weekly and monthly summaries are derived at render time; no duplicate analytics data is stored.
+- Pain and symptom averages exclude missing days. Activity streaks use dates with a recorded completed exercise or guided session.
+- Doctor summary is generated for an inclusive user-selected date range and includes only records inside that range. It is plain text, copied only after the user presses the copy button.
+- Insights is read-only and does not create or modify clinical records.
