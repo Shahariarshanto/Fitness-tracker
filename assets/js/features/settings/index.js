@@ -1,4 +1,4 @@
-import { subscribe, getState } from "../../core/state.js";
+import { subscribe } from "../../core/state.js";
 import { showToast } from "../../components/Feedback.js";
 import { renderPreferences, savePreference } from "./Preferences.js";
 
