@@ -25,7 +25,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 ## Architecture rules
 - `core/state.js` is the single source of truth.
 - Normal state updates notify `state.subscribe()`; do not create events for routine data changes.
-- The event bus is restricted to workout start, workout finish, toast, theme change, and Drive sync status.
+- The event bus is restricted to workout start, workout finish, toast, and theme change.
 - Features must not import other features.
 - Core must not import features.
 - Components are reusable and feature-agnostic.
