@@ -2,7 +2,7 @@
 (function(){
 "use strict";
 var CLIENT="1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com",SCOPE="https://www.googleapis.com/auth/drive.file";
-var token=null,expires=0,client=null,busy=false,folder=null,file=null,timer=null;
+var token=null,expires=0,client=null,busy=false,folder=null,file=null,timer=null,silentAttempt=false;
 var $=function(id){return document.getElementById(id)};
 function status(msg,state){var el=$("cl");if(el){el.textContent=msg;el.dataset.state=state||"info"}}
 function buttons(){if($("cb")){$("cb").disabled=busy;$("cb").textContent=token?"Google Account সংযুক্ত ✓":"Google Account সংযুক্ত করুন"}if($("dsync"))$("dsync").disabled=busy||!token;if($("driveConnectionState"))$("driveConnectionState").textContent=token?"সংযুক্ত":"সংযুক্ত নয়"}
@@ -15,10 +15,10 @@ function data(){
 function oauth(){
  if(!window.google||!google.accounts||!google.accounts.oauth2)throw Error("Google Sign-In লাইব্রেরি লোড হয়নি। Chrome-এ পেজটি খুলে internet চালু রেখে Reload করুন।");
  if(!client)client=google.accounts.oauth2.initTokenClient({client_id:CLIENT,scope:SCOPE,callback:function(r){
-  if(r.error){busy=false;status("Google অনুমতি দেয়নি: "+(r.error_description||r.error),"error");buttons();return}
+  if(r.error){busy=false;if(silentAttempt){silentAttempt=false;status("Google Drive আগে সংযুক্ত ছিল, কিন্তু নীরবে পুনরায় অনুমতি পাওয়া যায়নি। একবার “Google Account সংযুক্ত করুন” চাপুন।","info")}else{status("Google অনুমতি দেয়নি: "+(r.error_description||r.error),"error")}buttons();return}
   if(!r.access_token){busy=false;status("Google access token দেয়নি। আবার চেষ্টা করুন।","error");buttons();return}
-  token=r.access_token;expires=Date.now()+(Number(r.expires_in)||3600)*1000;busy=false;sync()
- },error_callback:function(e){busy=false;var t=e&&e.type;status(t==="popup_failed_to_open"?"Google login window খুলতে পারেনি। Chrome browser-এ খুলুন; in-app browser নয় এবং pop-up অনুমতি দিন।":t==="popup_closed"?"Google login window বন্ধ করা হয়েছে।":"Google sign-in error: "+(t||"অজানা সমস্যা"),"error");buttons()}});
+  token=r.access_token;expires=Date.now()+(Number(r.expires_in)||3600)*1000;ASStorage.setDriveConnected(true);silentAttempt=false;busy=false;sync()
+ },error_callback:function(e){busy=false;if(silentAttempt){silentAttempt=false;status("Google Drive-এর আগের অনুমতি নীরবে পাওয়া যায়নি। সংযোগ বাটন চাপলে আবার যুক্ত হবে।","info");buttons();return}var t=e&&e.type;status(t==="popup_failed_to_open"?"Google login window খুলতে পারেনি। Chrome browser-এ খুলুন; in-app browser নয় এবং pop-up অনুমতি দিন।":t==="popup_closed"?"Google login window বন্ধ করা হয়েছে।":"Google sign-in error: "+(t||"অজানা সমস্যা"),"error");buttons()}});
  return client
 }
 async function api(url,opt){opt=opt||{};opt.headers=Object.assign({},opt.headers||{},{Authorization:"Bearer "+token});var r=await fetch(url,opt);if(!r.ok){var msg="";try{msg=(await r.text()).slice(0,200)}catch(e){}if(r.status===401){token=null;expires=0}throw Error("Drive API "+r.status+" "+msg)}if(r.status===204)return{};return r.json()}
@@ -66,23 +66,27 @@ async function sync(){
  finally{busy=false;buttons()}
 }
 function connect(){
- if(busy)return;busy=true;buttons();status("Google Account window খোলার চেষ্টা হচ্ছে…");
- try{if(token&&Date.now()<expires-60000){busy=false;sync();return}token=null;expires=0;oauth().requestAccessToken({prompt:"select_account"})}
+ if(busy)return;busy=true;buttons();status("Google Account সংযোগ যাচাই হচ্ছে…");
+ try{if(token&&Date.now()<expires-60000){busy=false;sync();return}token=null;expires=0;oauth().requestAccessToken({prompt:""})}
  catch(e){busy=false;buttons();status("সংযোগ শুরু হয়নি: "+(e.message||e),"error")}
 }
 function disconnect(){
- function done(){token=null;expires=0;folder=null;file=null;busy=false;buttons();status("Google Drive থেকে বিচ্ছিন্ন করা হয়েছে। Local data ও Drive backup মুছে ফেলা হয়নি।")}
+ function done(){token=null;expires=0;folder=null;file=null;ASStorage.setDriveConnected(false);busy=false;buttons();status("Google Drive থেকে বিচ্ছিন্ন করা হয়েছে। Local data ও Drive backup মুছে ফেলা হয়নি।")}
  if(token&&window.google&&google.accounts&&google.accounts.oauth2.revoke){try{google.accounts.oauth2.revoke(token,done)}catch(e){done()}}else done()
 }
+function silentReconnect(){
+ if(busy||(token&&Date.now()<expires-60000)||!ASStorage.getDriveConnected())return;
+ try{busy=true;silentAttempt=true;buttons();oauth().requestAccessToken({prompt:""})}catch(e){busy=false;silentAttempt=false;buttons();status("Google Drive পুনরায় সংযোগ করতে একবার সংযোগ বাটন চাপুন।","info")}
+}
 function queue(){
- if(!token||Date.now()>expires-60000)return;
- clearTimeout(timer);timer=setTimeout(function(){if(busy){queue();return}sync()},1800)
+ if(!ASStorage.getDriveConnected())return;
+ clearTimeout(timer);timer=setTimeout(function(){if(busy){queue();return}if(!token||Date.now()>expires-60000){silentReconnect();return}sync()},1800)
 }
 function init(){
  if(!$("cb"))return;
  $("cb").addEventListener("click",connect);$("dsync").addEventListener("click",connect);$("disconnectDrive").addEventListener("click",disconnect);
  window.cpush=queue;buttons();
- status("Local storage সক্রিয়। Google Account সংযুক্ত করলে Drive backup স্বয়ংক্রিয়ভাবে চালু হবে।");
+ if(ASStorage.getDriveConnected()){status("আগের Google Drive সংযোগ পুনরুদ্ধার করা হচ্ছে…");silentReconnect()}else status("Local storage সক্রিয়। Google Account একবার সংযুক্ত করলে পরেরবার স্বয়ংক্রিয়ভাবে পুনরায় সংযোগের চেষ্টা হবে।");
  window.addEventListener("error",function(e){if(e.message)status("JavaScript error: "+e.message,"error")})
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
