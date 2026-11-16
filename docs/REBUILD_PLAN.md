@@ -641,8 +641,8 @@ Do not claim a browser, phone, offline, or deployment test passed unless it was 
 - [ ] Step 4 — Health (implementation committed; awaiting user's phone test and explicit approval).
 - [ ] Step 5 — Medication.
 - [ ] Step 6 — Movement.
-- [ ] Step 7 — Insights.
-- [ ] Step 8 — Overview.
+- [x] Step 7 — Insights (visual dashboard implemented; doctor summary intentionally excluded; user accepted).
+- [ ] Step 8 — Overview (implementation committed; awaiting user phone test and explicit approval).
 - [ ] Step 9 — Backup, Drive, and notifications.
 - [ ] Step 10 — Final integration and old-code removal.
 
