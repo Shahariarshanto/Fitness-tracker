@@ -127,9 +127,9 @@ Overview reads the shared state only. Medication remains independently mounted a
 | Module | Responsibility | Imports | State/events |
 |---|---|---|---|
 | `assets/js/services/cloudflare.js` | Loads validated D1 state before feature mount, debounces writes, preserves offline pending changes, retries failed writes and refreshes newer cloud versions | core state, core storage | Subscribes to state; no UI controls |
-| `worker/index.js` | Validates and serves the single primary state snapshot; creates scheduled daily R2 backups and prunes backups older than 30 days | D1 binding, R2 binding | Public single-user API by explicit user decision |
+| `worker/index.js` | Validates and serves the single primary D1 state snapshot | D1 binding, R2 binding | Public single-user API by explicit user decision |
 | `worker/migrations/0001_app_state.sql` | Creates the D1 primary state table | D1 | One canonical state row |
 | `assets/js/core/storage.js` | Stores temporary local cache and durable pending marker | none | Sole localStorage owner |
 | `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
 
-D1 is the permanent primary source. R2 is the independent daily backup destination. Google Drive and Google OAuth are removed. The Worker has no login/authentication; origin checks are CORS policy only and are not a security boundary.
+D1 is the permanent primary cloud source. R2 and paid storage are not used. Manual JSON export is the independent backup method. Google Drive and Google OAuth are removed. The Worker has no login/authentication; origin checks are CORS policy only and are not a security boundary.
