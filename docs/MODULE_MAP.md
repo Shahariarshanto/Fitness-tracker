@@ -6,7 +6,7 @@ Update this file whenever a module is added, removed, or changes ownership. The 
 
 | Module | Responsibility | Imports | State/events |
 |---|---|---|---|
-| `assets/js/bootstrap.js` | Temporary clean entry point; initializes router, theme, date label, toast listener and service worker | core state, router, dates, events | Subscribes to state; listens to theme and toast |
+| `assets/js/bootstrap.js` | Initializes Drive data before mounting feature pages, then starts router, theme, date label, toast listener and service worker | core state, router, dates, events | Subscribes to state; listens to theme and toast |
 | `core/state.js` | Owns in-memory state and subscriber notifications | core storage | Publishes ordinary state changes through `subscribe()` |
 | `core/storage.js` | Reads/writes new app state | none | Namespace: `as-care-state-v1` |
 | `core/events.js` | Minimal typed event bus | none | Five approved event categories |
