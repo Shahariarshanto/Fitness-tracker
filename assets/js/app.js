@@ -141,6 +141,17 @@ var fu=n-ok-pt-ms,best=streaks()[1];
 $("dn").innerHTML='<b>এই মাসের চিত্র</b><div class="row" style="flex-wrap:nowrap;gap:14px;margin-top:8px">'+donut([[ok,"var(--dn)"],[pt,"var(--am)"],[ms,"var(--rd)"],[fu,"var(--ac2)"]],150,bn(ok),"সম্পন্ন দিন")+'<div class="lg"><div style="color:var(--dn)">● সম্পন্ন '+bn(ok)+'</div><div style="color:var(--am)">● আংশিক '+bn(pt)+'</div><div style="color:var(--rd)">● বাদ '+bn(ms)+'</div><div class="mu">● বাকি '+bn(fu)+'</div></div></div>'+
 '<b style="display:block;margin-top:14px">ব্যায়াম ও ওষুধের অগ্রগতি</b><div class="habit-pies report-pies"><div class="habit-pie">'+donut([[exerciseDone,"var(--dn)"],[Math.max(0,TOTAL*el-exerciseDone),"var(--ac2)"]],112,el?bn(Math.round(exerciseDone/(TOTAL*el)*100))+"%":"—","ব্যায়াম")+'<b>'+bn(exerciseDone)+" / "+bn(TOTAL*el)+'</b><span class="mu">মোট নির্ধারিত ব্যায়াম</span></div><div class="habit-pie">'+donut([[medDone,"var(--am)"],[Math.max(0,el*2-medDone),"var(--ac2)"]],112,el?bn(Math.round(medDone/(el*2)*100))+"%":"—","ওষুধ")+'<b>'+bn(medDone)+" / "+bn(el*2)+'</b><span class="mu">মোট ওষুধের সময়</span></div></div><b style="display:block;margin-top:14px">ক্যাটাগরি অনুযায়ী সম্পন্নতা</b><div class="row" style="justify-content:space-around;flex-wrap:wrap">'+SL.map(function(s,j){var q=el?Math.round(sd[j]/(s[4].length*el)*100):0;return '<div style="text-align:center">'+ring(q,84,"var(--dn)",bn(q)+"%")+'<div class="mu" style="margin:0">'+s[1]+" "+s[2]+"</div></div>"}).join("")+'</div>'+
 '<div class="row" style="margin-top:10px">'+[3,7,14,30].map(function(x){return '<span class="bd'+(best>=x?" on":"")+'">'+(best>=x?"🏅":"🔒")+" "+bn(x)+" দিন"+"</span>"}).join("")+'</div>'}
+
+// Pain scale is a real, persistent input: tap a number to save today's pain score.
+$("pain").addEventListener("click",function(e){
+ var b=e.target.closest("button[data-p]");if(!b)return;
+ var n=Number(b.getAttribute("data-p"));if(!isFinite(n)||n<0||n>10)return;
+ var o=day(cur());o.p=n;save();
+ $("pain").querySelectorAll("button[data-p]").forEach(function(x){x.classList.toggle("on",Number(x.getAttribute("data-p"))===n);x.setAttribute("aria-pressed",Number(x.getAttribute("data-p"))===n?"true":"false")});
+ var note=$("painSummary");if(note)note.textContent="আজকের ব্যথার মাত্রা: "+bn(n)+"/১০ · সেভ হয়েছে";
+ renderMonth();
+});
+
 $("list").addEventListener("change",function(e){var b=e.target.closest('input[type="checkbox"][data-id]');if(!b)return;var id=b.getAttribute("data-id"),o=day(cur()),i=o.d.indexOf(id);if(b.checked&&i<0)o.d.push(id);if(!b.checked&&i>-1)o.d.splice(i,1);save();renderToday()});
 $("p1").insertBefore($("stf").closest(".card"),$("p1").querySelector(".note"));
 $("chart").closest(".card").insertAdjacentHTML("beforebegin",'<div class="card" id="dn"></div>');
@@ -315,9 +326,30 @@ function drawAsdas(){var v=asdasCalc(),e=$("asresult");if(!e)return;e.textConten
 $("asdate").value=today();
 $("assave").onclick=function(){var v=asdasCalc();if(v===null)return;D.asdas=D.asdas||[];D.asdas.push({d:$("asdate").value||today(),v:v,back:+$("asbp").value,stiff:+$("asst").value,global:+$("aspg").value,peripheral:+$("aspp").value,crp:+$("ascrp").value});D.asdas=D.asdas.slice(-200);save();drawAsdas()};
 var _rh_asdas=renderHealth;renderHealth=function(){_rh_asdas();drawAsdas();drawSymptomTrend();drawFlare()};
+
+// Shared SVG progress indicators used by the overview and monthly insights.
+function donut(parts,size,center,label){
+ var total=parts.reduce(function(a,x){return a+Math.max(0,Number(x[0])||0)},0),r=38,c=2*Math.PI*r,off=0;
+ var circles=parts.map(function(x){var v=Math.max(0,Number(x[0])||0),len=total?c*v/total:0,el='<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+x[1]+'" stroke-width="9" stroke-dasharray="'+len+' '+(c-len)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 50 50)"/>';off+=len;return el}).join("");
+ return '<svg class="progress-donut" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" role="img" aria-label="'+String(label||"অগ্রগতি")+'"><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="var(--bd)" stroke-width="9"/>'+circles+'<text x="50" y="53" text-anchor="middle" dominant-baseline="middle" fill="var(--tx)" font-size="15" font-weight="700">'+String(center||"")+'</text></svg>'
+}
+function ring(value,size,color,label){
+ var v=Math.max(0,Math.min(100,Number(value)||0)),r=38,c=2*Math.PI*r;
+ return '<svg class="progress-ring" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" role="img" aria-label="অগ্রগতি '+v+'%"><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="var(--bd)" stroke-width="8"/><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+(c*v/100)+' '+c+'" transform="rotate(-90 50 50)"/><text x="50" y="53" text-anchor="middle" dominant-baseline="middle" fill="var(--tx)" font-size="14" font-weight="700">'+String(label||bn(v)+"%")+'</text></svg>'
+}
+
 function renderHabitDashboard(){
- var o=D.days[cur()]||{d:[]},done=(o.d||[]).filter(function(id){return exerciseIds.indexOf(id)>-1}).length,med=(o.m1?1:0)+(o.m2?1:0),exPct=Math.round(done/TOTAL*100),medPct=Math.round(med/2*100),st=streaks()[0];
- $("dailyHabits").innerHTML='<div class="habit-head"><div><span class="kicker">DAILY CONSISTENCY</span><h2>আজকের অভ্যাস</h2><p class="mu">ছোট ছোট কাজ, নিয়মিত অগ্রগতি।</p></div><span class="streak-pill">🔥 '+bn(st)+' দিনের streak</span></div><div class="habit-pies"><div class="habit-pie">'+donut([[done,"var(--dn)"],[TOTAL-done,"var(--ac2)"]],116,bn(exPct)+"%","ব্যায়াম")+'<b>'+bn(done)+' / '+bn(TOTAL)+'</b><span class="mu">ব্যায়াম সম্পন্ন</span></div><div class="habit-pie">'+donut([[med,"var(--am)"],[2-med,"var(--ac2)"]],116,bn(medPct)+"%","ওষুধ")+'<b>'+bn(med)+' / ২</b><span class="mu">ওষুধের সময় টিক</span></div></div><p class="habit-message">'+(done===TOTAL&&med===2?"দারুণ! আজকের ব্যায়াম ও ওষুধের সব ট্র্যাক সম্পন্ন।":done===0&&med===0?"শুরুটা সহজ রাখুন—একটি ব্যায়াম শেষ করে টিক দিন।":'ভালো এগোচ্ছেন—পরের ছোট কাজটি শেষ করুন।')+'</p>';
+ var o=D.days[cur()]||{d:[],p:null},done=(o.d||[]).filter(function(id){return exerciseIds.indexOf(id)>-1}).length;
+ var med=(o.m1?1:0)+(o.m2?1:0),exPct=Math.round(done/TOTAL*100),medPct=Math.round(med/2*100),st=streaks()[0];
+ var pain=o.p==null?"আজও মাপা হয়নি":bn(o.p)+"/১০";
+ var symptoms=(o.stiff!=null||o.fatigue!=null||o.sleep!=null)?("জড়তা "+(o.stiff==null?"—":bn(o.stiff))+" · ক্লান্তি "+(o.fatigue==null?"—":bn(o.fatigue))+" · ঘুম "+(o.sleep==null?"—":bn(o.sleep))):"আজকের উপসর্গের তথ্য এখনো দেওয়া হয়নি";
+ var msg=done===TOTAL&&med===2?"আজকের ব্যায়াম ও ওষুধ—দুটিই সম্পন্ন।":done===0&&med===0?"একটি ছোট কাজ দিয়ে শুরু করুন।": "আজকের অগ্রগতি ভালোভাবে এগিয়ে নিন।";
+ $("dailyHabits").innerHTML='<div class="overview-section-head"><div><span class="kicker">TODAY AT A GLANCE</span><h2>আজকের সারসংক্ষেপ</h2><p class="mu">আপনার দৈনিক যত্নের সব গুরুত্বপূর্ণ তথ্য এক জায়গায়</p></div><span class="streak-pill">🔥 '+bn(st)+' দিন</span></div>'+
+ '<div class="overview-metrics"><div class="overview-metric"><span class="metric-icon">↗</span><div><small>ব্যায়াম</small><b>'+bn(done)+' / '+bn(TOTAL)+'</b><span>'+bn(exPct)+'% সম্পন্ন</span></div></div><div class="overview-metric"><span class="metric-icon">♡</span><div><small>ওষুধ</small><b>'+bn(med)+' / ২</b><span>'+bn(medPct)+'% নেওয়া</span></div></div><div class="overview-metric"><span class="metric-icon">◉</span><div><small>আজকের ব্যথা</small><b>'+pain+'</b><span>০–১০ স্কেল</span></div></div></div>'+
+ '<div class="overview-dual-progress"><div><div class="overview-progress-label"><b>ব্যায়ামের অগ্রগতি</b><strong>'+bn(exPct)+'%</strong></div><div class="overview-track"><i style="width:'+exPct+'%"></i></div></div><div><div class="overview-progress-label"><b>ওষুধের অগ্রগতি</b><strong>'+bn(medPct)+'%</strong></div><div class="overview-track medicine"><i style="width:'+medPct+'%"></i></div></div></div>'+
+ '<div class="overview-symptoms"><b>উপসর্গের নোট</b><span>'+symptoms+'</span></div><p class="habit-message">'+msg+'</p>';
+ var painNote=$("painSummary");if(painNote)painNote.textContent=o.p==null?"আজকের ব্যথার মাত্রা নির্বাচন করুন।":"আজকের ব্যথার মাত্রা: "+bn(o.p)+"/১০ · সেভ করা আছে";
+ $("pain").querySelectorAll("button[data-p]").forEach(function(x){var on=o.p===Number(x.getAttribute("data-p"));x.classList.toggle("on",on);x.setAttribute("aria-pressed",on?"true":"false")});
 }
 var _habitRender=renderToday;renderToday=function(){_habitRender();renderHabitDashboard();dose()};
 
