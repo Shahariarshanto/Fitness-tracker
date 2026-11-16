@@ -6,17 +6,33 @@ import { renderASDAS, saveASDAS, updateASDASOutput } from "./ASDAS.js";
 import { renderHealthEvents, saveHealthEvent, deleteHealthEvent } from "./HealthEvents.js";
 import { renderFlarePlan, saveFlarePlan } from "./FlarePlan.js";
 
+const DISCLAIMER = '<p class="health-disclaimer">ব্যক্তিগত তথ্য নথিবদ্ধ ও নিজের পরিবর্তন পর্যবেক্ষণের জন্য। এটি রোগ নির্ণয়, চিকিৎসা বা জরুরি পরামর্শের বিকল্প নয়।</p>';
+const renderers = [
+  renderSymptoms, renderBASDAI, renderASDAS, renderHealthEvents, renderFlarePlan
+];
+
 export function initHealth({ root = document.querySelector('[data-page-panel="health"]') } = {}) {
   if (!root) return () => {};
   const content = root.querySelector("[data-health-content]");
   if (!content) return () => {};
+
   const render = () => {
-    const state = getState();
-    content.innerHTML = '<p class="health-disclaimer">ব্যক্তিগত তথ্য নথিবদ্ধ ও নিজের পরিবর্তন পর্যবেক্ষণের জন্য। এটি রোগ নির্ণয়, চিকিৎসা বা জরুরি পরামর্শের বিকল্প নয়।</p>' + [
-      renderSymptoms(state), renderBASDAI(state), renderASDAS(state),
-      renderHealthEvents(state), renderFlarePlan(state)
-    ].join("");
+    try {
+      const state = getState();
+      const sections = renderers.map((renderSection, index) => {
+        try { return renderSection(state); }
+        catch (error) {
+          console.error("AS Care Health section failed:", index, error);
+          return '<section class="health-card"><h3>এই অংশটি লোড করা যায়নি</h3><p class="health-note">এই অংশে সমস্যা হয়েছে। অ্যাপ রিফ্রেশ করে আবার চেষ্টা করুন।</p></section>';
+        }
+      });
+      content.innerHTML = DISCLAIMER + sections.join("");
+    } catch (error) {
+      console.error("AS Care Health could not render:", error);
+      content.innerHTML = DISCLAIMER + '<section class="health-card"><h3>Health লোড করা যায়নি</h3><p class="health-note">অ্যাপের এই অংশটি চালু করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।</p></section>';
+    }
   };
+
   function handleSubmit(event) {
     const form = event.target.closest("form[data-health-form]");
     if (!form) return;
@@ -42,10 +58,10 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
   function handleClick(event) {
     const button = event.target.closest("[data-delete-health]");
     if (!button) return;
-    const next = deleteHealthEvent(getState(),button.dataset.id);
-    updateState(() => next);
+    updateState(state => deleteHealthEvent(state,button.dataset.id));
     showToast("রেকর্ড মুছে ফেলা হয়েছে।","success");
   }
+
   content.addEventListener("submit",handleSubmit);
   content.addEventListener("input",handleInput);
   content.addEventListener("click",handleClick);
