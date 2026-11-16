@@ -247,7 +247,7 @@ Each step is a separate, reviewable unit of work. Complete the step, update docu
 
 Files:
 - `index.html`
-- `assets/js/app.js`
+- `assets/js/bootstrap.js` (temporary clean entry point for Step 1; it does not import or execute the old `app.js`)
 - `assets/js/core/state.js`
 - `assets/js/core/events.js`
 - `assets/js/core/storage.js`
