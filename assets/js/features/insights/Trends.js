@@ -17,7 +17,9 @@ const bar = (label,value,max,suffix="") => `<div class="insight-bar-row"><div><s
 export function renderTrends(state) {
   const today=dateKey(), days=Array.from({length:14},(_,i)=>addDays(today,i-13)), data=days.map(d=>({day:d,...dayData(state,d)}));
   const recent=data.slice(-7), month=days.slice(-30), weekMinutes=recent.reduce((s,x)=>s+x.minutes,0), monthMinutes=month.reduce((s,x)=>s+x.minutes,0);
-  const activeDays=days.filter(d=>dayData(state,d).exercises||dayData(state,d).sessions).length;\n  const painAverage=avg(data.map(x=>x.pain).filter(x=>x!==null));\n  const symptomAverage=avg(data.map(x=>x.symptom).filter(x=>x!==null));
+  const activeDays=days.filter(d=>dayData(state,d).exercises||dayData(state,d).sessions).length;
+  const painAverage=avg(data.map(x=>x.pain).filter(x=>x!==null));
+  const symptomAverage=avg(data.map(x=>x.symptom).filter(x=>x!==null));
   let streak=0; for(let d=today;d>=addDays(today,-365);d=addDays(d,-1)){const x=dayData(state,d);if(x.exercises||x.sessions)streak++;else if(streak)break;}
   const goal=Number(state.preferences.dailyGoal)||20, goalDays=recent.filter(x=>x.minutes>=goal).length;
   const medDays=recent.reduce((s,x)=>s+Object.values(state.medication.dailyLogs[x.day]||{}).filter(v=>v.status==="taken").length,0);
