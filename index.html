@@ -138,13 +138,27 @@ table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:po
 :focus-visible{outline:3px solid color-mix(in srgb,var(--ac) 60%,transparent);outline-offset:3px}
 @media(min-width:700px){main{padding-left:24px;padding-right:24px}.hero{margin-left:-24px;margin-right:-24px;padding-left:30px;padding-right:30px}.tabs{bottom:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* AS Care dashboard refresh */
+.hero{display:block;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:25px;border-radius:0 0 30px 30px}
+.brand{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.94);font-size:12px;font-weight:800;letter-spacing:1.8px;margin-bottom:18px}
+.brand-mark{display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:rgba(255,255,255,.17);font-size:17px}
+.brand-tag{font-size:9px;font-weight:650;letter-spacing:1px;border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 7px;margin-left:3px;opacity:.8}
+.hero-main{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.hero h1{font-size:30px;line-height:1.2}.hero-sub{margin:6px 0 0;color:rgba(255,255,255,.78);font-size:12px;letter-spacing:.2px}
+.fl{flex:none}
+.welcome{position:relative;overflow:hidden;margin:16px 0 12px;padding:18px;border:1px solid var(--bd);border-radius:22px;background:linear-gradient(120deg,var(--card),color-mix(in srgb,var(--ac2) 65%,var(--card)));box-shadow:0 7px 24px rgba(25,45,75,.055)}
+.welcome:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-52px;top:-65px;background:color-mix(in srgb,var(--ac) 9%,transparent);pointer-events:none}
+.welcome-copy{position:relative;z-index:1}.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.3px;color:var(--ac)}.welcome h2{font-size:19px;line-height:1.35;margin:5px 0 3px;max-width:440px}.welcome p{font-size:13px;color:var(--mu);margin:0}
+.quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;position:relative;z-index:1}.quick-actions button{min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 5px;border:1px solid var(--bd);border-radius:13px;background:var(--card);color:var(--tx);font-size:12px;font-weight:600;font-family:inherit;box-shadow:0 2px 7px rgba(25,45,75,.04)}.quick-actions button span{font-size:16px;color:var(--ac)}.quick-actions button:active{transform:scale(.97)}
+@media(max-width:390px){.hero-main{align-items:flex-start}.hero h1{font-size:26px}.fl{font-size:12px;padding:6px 9px}.quick-actions{gap:5px}.quick-actions button{font-size:11px;gap:3px}}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
 </head>
 <body>
 <main>
-<div class="hero"><div><h1 id="gr">ব্যায়াম ট্র্যাকার</h1><p id="date"></p></div><div class="fl" id="fl"></div></div>
+<div class="hero"><div class="brand"><span class="brand-mark">✦</span><span>AS CARE</span><span class="brand-tag">PERSONAL HEALTH</span></div><div class="hero-main"><div><h1 id="gr">আজকের যত্ন</h1><p id="date"></p><p class="hero-sub">নড়াচড়া • উপসর্গ • সুস্থতার অগ্রগতি</p></div><div class="fl" id="fl"></div></div></div>
+<div class="welcome"><div class="welcome-copy"><span class="eyebrow">YOUR DAILY WELLNESS SPACE</span><h2>প্রতিদিন একটু যত্ন, দীর্ঘমেয়াদে ভালো থাকা</h2><p>ব্যায়াম, ব্যথা ও স্বাস্থ্য-তথ্য এক জায়গায় রাখুন।</p></div><div class="quick-actions"><button type="button" data-tabjump="1"><span>☀️</span> আজকের রুটিন</button><button type="button" data-tabjump="3"><span>♡</span> স্বাস্থ্য লগ</button><button type="button" data-tabjump="2"><span>↗</span> অগ্রগতি</button></div></div>
 <p class="quote" id="qt"></p>
 <div class="tabs" role="tablist"><button id="t1" role="tab" aria-selected="true">☀️ আজ</button><button id="t2" role="tab" aria-selected="false">📊 অগ্রগতি</button><button id="t3" role="tab" aria-selected="false">❤️ স্বাস্থ্য</button></div>
 
@@ -271,6 +285,7 @@ function renderAll(){renderToday();renderMonth();summary();$("bk").value=JSON.st
 function tab(n){for(var i=1;i<=3;i++){$("p"+i).hidden=n!==i;$("t"+i).setAttribute("aria-selected",n===i)}
 if(n===1)renderToday();if(n===2){var d=new Date();vy=d.getFullYear();vm=d.getMonth();renderAll()}if(n===3)renderHealth()}
 $("t1").onclick=function(){cd=null;tab(1)};$("t2").onclick=function(){tab(2)};$("t3").onclick=function(){tab(3)};
+document.querySelectorAll("[data-tabjump]").forEach(function(b){b.addEventListener("click",function(){var n=+b.getAttribute("data-tabjump");if(n===1)cd=null;tab(n);document.querySelector(".tabs").scrollIntoView({block:"nearest",behavior:"smooth"})})});
 $("list").addEventListener("change",function(e){var id=e.target.getAttribute("data-id");if(!id)return;
 var o=day(cur()),i=o.d.indexOf(id);
 if(e.target.checked){if(i<0)o.d.push(id)}else if(i>-1)o.d.splice(i,1);
