@@ -51,4 +51,4 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - All state edits are debounced and sent automatically; failed writes remain cached and retry when online.
 - Google Drive, Google OAuth, Drive preferences, and Drive UI are removed. Do not reintroduce them.
 - The current API has no authentication because the user explicitly requested no login. CORS is not authentication; the endpoint is publicly callable and this privacy risk must be disclosed.
-- D1 is primary storage. A scheduled Worker writes daily snapshots to R2 and retains them indefinitely; verify the bucket and scheduled execution before claiming backup coverage.
+- D1 is primary cloud storage. Do not configure R2, paid storage, billing, or scheduled backup services. The app's manual JSON export is the independent backup method; D1 is not itself a backup.
