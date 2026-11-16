@@ -7,6 +7,59 @@ let pending = false, inFlight = null, revision = 0, retryDelay = 3000, version =
 let status = { state: "starting", message: "Cloudflare থেকে তথ্য লোড হচ্ছে…" };
 
 function setStatus(state, message) { status = { state, message }; }
+
+function recordTime(value) {
+  const raw = value && (value.updatedAt || value.endedAt || value.createdAt);
+  const time = raw ? Date.parse(raw) : NaN;
+  return Number.isFinite(time) ? time : 0;
+}
+
+function mergeValues(remote, local) {
+  if (Array.isArray(remote) && Array.isArray(local)) {
+    const combined = [...remote, ...local];
+    if (!combined.every(item => item && typeof item === "object" && !Array.isArray(item))) return cloneValue(local);
+    const dates = combined.map(item => item.date).filter(Boolean);
+    const dateIsUnique = dates.length === combined.length && new Set(dates).size === dates.length;
+    const keyOf = item => dateIsUnique ? "date:" + item.date : item.id ? "id:" + item.id : null;
+    if (combined.some(item => !keyOf(item))) return cloneValue(local);
+    const records = new Map();
+    for (const item of remote) records.set(keyOf(item), cloneValue(item));
+    for (const item of local) {
+      const key = keyOf(item), previous = records.get(key);
+      if (!previous) records.set(key, cloneValue(item));
+      else {
+        const localIsNewer = recordTime(item) >= recordTime(previous);
+        records.set(key, mergeValues(previous, item, localIsNewer));
+      }
+    }
+    return [...records.values()];
+  }
+  if (remote && local && typeof remote === "object" && typeof local === "object" &&
+      !Array.isArray(remote) && !Array.isArray(local)) {
+    const result = {};
+    for (const key of new Set([...Object.keys(remote), ...Object.keys(local)])) {
+      if (!(key in local)) result[key] = cloneValue(remote[key]);
+      else if (!(key in remote)) result[key] = cloneValue(local[key]);
+      else result[key] = mergeValues(remote[key], local[key]);
+    }
+    return result;
+  }
+  return cloneValue(local);
+}
+
+function cloneValue(value) {
+  return value == null ? value : JSON.parse(JSON.stringify(value));
+}
+
+function mergeRemoteIntoLocal(remote) {
+  const merged = mergeValues(remote.state, getState());
+  hydrating = true;
+  try { updateState(() => merged); }
+  finally { hydrating = false; }
+  version = remote.version || 0;
+  pending = true;
+}
+
 export function getCloudStatus() { return status; }
 
 async function api(method = "GET", snapshot) {
@@ -76,7 +129,8 @@ async function retryInitialRead() {
     // by D1. Preserve the established local-pending-first policy only after
     // the remote read succeeds.
     if (hasCloudPending() || pending) {
-      pending = true;
+      if (remote.state) mergeRemoteIntoLocal(remote);
+      else pending = true;
       await upload();
     } else if (!(await applyRemote(remote))) {
       pending = true;
@@ -116,7 +170,8 @@ export async function initializeCloud() {
     const remote = await api();
     remoteVerified = true;
     if (localPending) {
-      pending = true;
+      if (remote.state) mergeRemoteIntoLocal(remote);
+      else pending = true;
       await upload();
     } else if (!(await applyRemote(remote))) {
       // Seed only after D1 has successfully confirmed that it is empty.
