@@ -248,6 +248,7 @@ function drequest(interactive){return new Promise(function(resolve,reject){
  if(!window.google||!google.accounts||!google.accounts.oauth2){reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"));return}
  DR.resolve=resolve;DR.reject=reject;
  if(!DR.client||DR.clientId!==clientId){DR.clientId=clientId;DR.client=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:"https://www.googleapis.com/auth/drive.file",callback:function(r){var done=DR.resolve,fail=DR.reject;DR.resolve=null;DR.reject=null;if(r.error){if(fail)fail(new Error(r.error_description||r.error));return}DR.token=r.access_token;DR.expires=Date.now()+(r.expires_in||3600)*1000;if(done)done(DR.token)},error_callback:function(e){var fail=DR.reject;DR.resolve=null;DR.reject=null;if(fail)fail(new Error(e.message||"Google authorization বাতিল হয়েছে"))}});
+ }
  DR.client.requestAccessToken({prompt:interactive?"consent":""});
 })}
 async function dapi(url,opt){var r=await fetch(url,opt||{});if(!r.ok){var t=await r.text();throw new Error("Google Drive API "+r.status+": "+t.slice(0,180))}return r.status===204?{}:r.json()}
