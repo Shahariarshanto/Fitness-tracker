@@ -41,3 +41,7 @@
 .overview-note { margin:0; color:var(--muted); font-size:10px; line-height:1.6; }
 @media(min-width:600px) { .overview-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } .overview-hero { padding:24px 28px; } }
 @media(max-width:360px) { .overview-grid { gap:7px; } .overview-card { padding:10px; } .overview-card-foot { flex-direction:column; } .overview-hero { padding:15px; } .overview-hero-mark { width:44px; height:44px; } }
+
+.overview-goal-label { display:flex; justify-content:space-between; gap:5px; margin:10px 0 5px; color:var(--muted); font-size:9px; }
+.overview-goal-label strong { color:var(--text); font-size:9px; }
+.overview-goal-track { height:5px; }
