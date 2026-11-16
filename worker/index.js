@@ -54,7 +54,8 @@ export default {
       if (payload?.app !== "as-care" || payload?.schemaVersion !== 1 || !validateState(payload.state)) {
         return json({ error: "Invalid AS Care state payload" }, 400, origin);
       }
-      delete payload.state.labs; // Retire the removed experimental lab-record field.\n      const updatedAt = new Date().toISOString();
+      delete payload.state.labs; // Retire the removed experimental lab-record field.
+      const updatedAt = new Date().toISOString();
       await env.DB.prepare(
         "INSERT INTO app_state (id, state_json, version, updated_at) VALUES (?, ?, 1, ?) ON CONFLICT(id) DO UPDATE SET state_json = excluded.state_json, version = app_state.version + 1, updated_at = excluded.updated_at"
       ).bind("primary", JSON.stringify(payload.state), updatedAt).run();
