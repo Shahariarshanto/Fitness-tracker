@@ -1,6 +1,5 @@
 import { addDays, dateKey, formatDate } from "../../core/dates.js";
-import { EXERCISES } from "../../data/exercises.js";
-import { EXERCISE_BY_ID } from "../../data/exercises.js";
+import { EXERCISES, EXERCISE_BY_ID } from "../../data/exercises.js";
 
 const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
 const latest = records => [...(records || [])].filter(item => Number.isFinite(Number(item.score))).sort((a,b) => b.date.localeCompare(a.date))[0];
@@ -18,7 +17,7 @@ function movementCard(state, today) {
   const sessions = sessionsOn(state,today).length;
   const minutes = estimatedMinutes(state,today);
   const goal = Math.max(1, Number(state.preferences?.dailyGoal) || 20);
-  return `<article class="overview-card overview-movement"><div class="overview-card-head"><span class="overview-icon">↗</span><span class="overview-kicker">DAILY MOVEMENT</span></div><div class="overview-main-value">${completed}<small>/ ${EXERCISES.length}</small></div><p>অনুশীলন সম্পন্ন</p><div class="overview-progress"><i style="width:${Math.min(100, completed / EXERCISES.length * 100)}%"></i></div><div class="overview-card-foot"><span>${minutes} মিনিট · আনুমানিক</span><span>${sessions} সেশন</span></div><button type="button" class="overview-link" data-page="movement">Movement খুলুন <span>→</span></button></article>`;
+  return `<article class="overview-card overview-movement"><div class="overview-card-head"><span class="overview-icon">↗</span><span class="overview-kicker">DAILY MOVEMENT</span></div><div class="overview-main-value">${completed}<small>/ ${EXERCISES.length}</small></div><p>অনুশীলন সম্পন্ন</p><div class="overview-progress"><i style="width:${Math.min(100, completed / EXERCISES.length * 100)}%"></i></div><div class="overview-goal-label"><span>সময় লক্ষ্য</span><strong>${minutes}/${goal} মিনিট</strong></div><div class="overview-progress overview-goal-track"><i style="width:${Math.min(100, minutes / goal * 100)}%"></i></div><div class="overview-card-foot"><span>সময় আনুমানিক</span><span>${sessions} সেশন</span></div><button type="button" class="overview-link" data-page="movement">Movement খুলুন <span>→</span></button></article>`;
 }
 
 function healthCard(state, today) {
@@ -38,7 +37,7 @@ function medicationCard(state, today) {
   const skipped = active.filter(item => logs[item.id]?.status === "skipped").length;
   const pending = active.length - taken - skipped;
   const names = active.slice(0,3).map(item => `<li>${esc(item.name)} <span>${logs[item.id]?.status === "taken" ? "গ্রহণ করা হয়েছে" : logs[item.id]?.status === "skipped" ? "খাওয়া হয়নি" : "নথিভুক্ত নয়"}</span></li>`).join("");
-  return `<article class="overview-card"><div class="overview-card-head"><span class="overview-icon">＋</span><span class="overview-kicker">MEDICATION</span></div><div class="overview-med-count"><strong>${taken}</strong><span>গ্রহণ</span><strong>${pending}</strong><span>বাকি</span><strong>${skipped}</strong><span>বাদ</span></div>${active.length ? `<ul class="overview-med-list">${names}</ul>` : '<p class="overview-muted">এখনো কোনো সক্রিয় ওষুধ যোগ করা হয়নি।</p>'}${active.length > 3 ? `<p class="overview-muted">আরও ${active.length - 3}টি ওষুধ</p>` : ""}<p class="overview-card-foot">${active.length}টি সক্রিয় ওষুধ</p></article>`;
+  return `<article class="overview-card"><div class="overview-card-head"><span class="overview-icon">＋</span><span class="overview-kicker">MEDICATION</span></div><div class="overview-med-count"><strong>${taken}</strong><span>গ্রহণ</span><strong>${pending}</strong><span>রেকর্ড নেই</span><strong>${skipped}</strong><span>বাদ</span></div>${active.length ? `<ul class="overview-med-list">${names}</ul>` : '<p class="overview-muted">এখনো কোনো সক্রিয় ওষুধ যোগ করা হয়নি।</p>'}${active.length > 3 ? `<p class="overview-muted">আরও ${active.length - 3}টি ওষুধ</p>` : ""}<p class="overview-card-foot">${active.length}টি সক্রিয় ওষুধ</p></article>`;
 }
 
 function weekCard(state, today) {
