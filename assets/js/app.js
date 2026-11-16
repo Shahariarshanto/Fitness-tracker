@@ -97,7 +97,61 @@ for(;ds(d)<=t;d.setDate(d.getDate()+1)){var k=ds(d),o=D.days[k],c=o?o.d.length:0
 if(c>=THR)ok++;else if(c>0)pt++;else if(k<t)ms++;
 if(o&&o.p!=null){ps+=o.p;pc++}}
 $("sum").value="ব্যায়ামের সারাংশ ("+fmt(s)+" – "+fmt(t)+", "+bn(tot)+" দিন):\nসম্পন্ন "+bn(ok)+" দিন, আংশিক "+bn(pt)+" দিন, বাদ "+bn(ms)+" দিন।\nগড় ব্যথা: "+(pc?bn(Math.round(ps/pc*10)/10)+"/১০ ("+bn(pc)+" দিনের হিসাব)":"লেখা নেই")+"।"+xs(s,t)}
-function renderAll(){renderToday();renderMonth();summary();$("bk").value=JSON.stringify(D)}
+function renderAll(){renderToday();renderMonth();summary();var backupField=$("bk");if(backupField)backupField.value=JSON.stringify(D)}
+
+/* Restore the missing controls and keep every visible action connected. */
+function changeMonth(delta){
+ vm+=delta;
+ if(vm<0){vm=11;vy--}else if(vm>11){vm=0;vy++}
+ renderAll();
+}
+$("prev").addEventListener("click",function(){changeMonth(-1)});
+$("next").addEventListener("click",function(){changeMonth(1)});
+$("copy").addEventListener("click",async function(){
+ var textValue=$("sum").value||"";
+ try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(textValue)}
+ else{var t=document.createElement("textarea");t.value=textValue;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove()}
+ $("copy").textContent="কপি হয়েছে ✓";
+ }catch(e){$("copy").textContent="কপি হয়নি — লেখা নির্বাচন করুন"}
+});
+function renderBasdai(){
+ var questions=[
+ ["fatigue","ক্লান্তি বা অবসাদ"],
+ ["back","ঘাড়, পিঠ বা কোমরের ব্যথা"],
+ ["joint","হাত-পা বা অন্যান্য জয়েন্টের ব্যথা/ফোলা"],
+ ["enthesis","স্পর্শে ব্যথা বা চাপ দিলে সংবেদনশীলতা"],
+ ["stiffSeverity","সকালের জড়তার তীব্রতা"],
+ ["stiffDuration","সকালের জড়তার স্থায়িত্ব"]
+ ];
+ $("bq").innerHTML=questions.map(function(q,i){
+  return '<label class="basdai-question"><span><b>'+bn(i+1)+'. '+q[1]+'</b><small class="mu">গত ১ সপ্তাহ · ০ থেকে ১০</small></span><input class="f" type="number" min="0" max="10" step="1" inputmode="numeric" data-bas="'+q[0]+'" placeholder="০–১০"></label>';
+ }).join("");
+ $("bq").querySelectorAll("[data-bas]").forEach(function(el){el.addEventListener("input",updateBasdai)});
+ updateBasdai();
+}
+function calculateBasdai(){
+ var v=Array.from($("bq").querySelectorAll("[data-bas]")).map(function(el){return el.value===""?null:Number(el.value)});
+ if(v.length!==6||v.some(function(x){return x===null||!isFinite(x)||x<0||x>10}))return null;
+ return Math.round(((v[0]+v[1]+v[2]+v[3]+((v[4]+v[5])/2))/5)*100)/100;
+}
+function updateBasdai(){
+ var score=calculateBasdai();
+ $("bres").textContent=score===null?"ছয়টি প্রশ্নের উত্তর দিন।":"BASDAI: "+score.toFixed(2)+" / ১০";
+ $("bsave").disabled=score===null;
+ var prev=(D.bas||[]).slice(-5).reverse();
+ $("bh").textContent=prev.length?"আগের স্কোর: "+prev.map(function(x){return x.d+" · "+Number(x.v).toFixed(2)}).join(" | "):"এখনো কোনো BASDAI স্কোর সেভ করা হয়নি।";
+}
+$("bsave").addEventListener("click",function(){
+ var score=calculateBasdai();if(score===null)return;
+ var answers={};$("bq").querySelectorAll("[data-bas]").forEach(function(el){answers[el.getAttribute("data-bas")]=Number(el.value)});
+ D.bas=D.bas||[];D.bas.push({d:today(),v:score,answers:answers});D.bas=D.bas.slice(-200);
+ save();updateBasdai();$("bres").textContent="BASDAI "+score.toFixed(2)+" সেভ হয়েছে।";
+});
+$("goal").addEventListener("change",function(){
+ var n=Number($("goal").value);if(!Number.isInteger(n)||n<1||n>31){$("goal").value=D.goal;return}
+ D.goal=n;save();renderMonth();
+});
+
 function tab(n){for(var i=1;i<=5;i++){var p=$("p"+i),b=$("t"+i);if(p)p.hidden=n!==i;if(b)b.setAttribute("aria-selected",n===i)}
  if(n===1)renderToday();if(n===2){var d=new Date();vy=d.getFullYear();vm=d.getMonth();renderAll()}if(n===3)renderHealth();if(n===4)renderSettings();if(n===5){renderToday();filterExercises()}}
  $("t1").onclick=function(){cd=null;tab(1)};
@@ -386,5 +440,5 @@ renderToday=function(){
  }
 };
 
-load();fix();if(!localStorage.getItem(KEY))save();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
+load();fix();if(!localStorage.getItem(KEY))save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
