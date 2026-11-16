@@ -74,20 +74,15 @@
 <label class="setting-label">ওষুধের নাম<input class="f" id="medName" type="text" maxlength="60" placeholder="যেমন: আমার নির্ধারিত ওষুধ"></label>
 <div class="row setting-times"><label class="setting-label">প্রথম সময়ের নাম<input class="f" id="medTime1" maxlength="24" placeholder="সকাল"></label><label class="setting-label">দ্বিতীয় সময়ের নাম<input class="f" id="medTime2" maxlength="24" placeholder="রাত"></label></div>
 <button class="btn" type="button" id="saveMedSettings">লেবেল সেভ করুন</button><p class="mu" id="medSettingsMsg"></p></div>
-<details class="card" id="backupPanel" open><summary>Google Drive ব্যাকআপ ও সিঙ্ক</summary>
-<p class="mu" id="cl" role="status" aria-live="polite">Google Drive সংযোগ করা হয়নি।</p>
-<div class="row" style="gap:8px;flex-wrap:wrap"><button type="button" class="tg" id="cb">☁️ নিজের Google Account সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>↻ এখনই সিঙ্ক</button><button type="button" class="tg" id="disconnectDrive">সংযোগ বিচ্ছিন্ন</button></div>
-<label class="row" style="gap:8px"><input type="checkbox" id="dauto" style="width:20px;height:20px"> প্রতিদিন স্বয়ংক্রিয় সিঙ্ক (অ্যাপ চালু থাকলে)</label>
-<p class="mu" style="margin-top:10px"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="./terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
-<p class="mu">প্রতিটি ব্যবহারকারী নিজের Google Account অনুমোদন করবেন। ব্যাকআপ সেই Account-এর Drive-এ “AS Care Backups” ফোল্ডারে থাকবে। Google অনুমতি সাময়িক; মেয়াদ শেষ হলে আবার সংযুক্ত করুন। অ্যাপ বন্ধ থাকলে GitHub Pages নিজে থেকে ব্যাকগ্রাউন্ড সিঙ্ক চালাতে পারে না।</p>
-<details class="drive-setup"><summary>প্রথমবার OAuth সেটআপ (অ্যাপ মালিক / উন্নত সেটিং)</summary>
-<p class="mu">অ্যাপের OAuth Client ID একবার সেট করতে হবে। সাধারণ ব্যবহারকারীর আলাদা Client ID লাগবে না, যদি অ্যাপ মালিক ইতিমধ্যে এটি কনফিগার করে থাকেন।</p>
-<label class="setting-label">Google OAuth Web Client ID<input class="f" id="driveClientId" type="text" autocomplete="off" spellcheck="false" placeholder="123456789-....apps.googleusercontent.com"></label>
-<button type="button" class="btn" id="saveDriveClient">Client ID সেভ করুন</button><p class="mu" id="driveSetupMsg"></p>
-<p class="mu">এখানে Client ID-ই দিন; Client Secret, Google password বা access token কখনো দেবেন না।</p>
-<a href="https://console.cloud.google.com/auth/clients" target="_blank" rel="noopener">Google Cloud OAuth Clients খুলুন ↗</a>
-</details><div class="row"><button class="btn" id="fb" type="button">⬇️ JSON ফাইলে সেভ</button></div><p class="mu">জরুরি বিকল্প ব্যাকআপ: JSON কপি করুন বা আগে ডাউনলোড করা ফাইল থেকে ফিরিয়ে আনুন।</p><input type="file" id="backupFile" accept=".json,application/json" class="f" style="width:100%;margin-bottom:8px"><textarea id="bk" placeholder="ব্যাকআপ JSON এখানে থাকবে"></textarea><div class="row"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p>
-<div class="note"><b>Clinical safety</b><br>AS Care একটি self-monitoring companion; diagnosis বা treatment device নয়। স্কোর দেখে নিজে ওষুধ শুরু, বন্ধ বা dose পরিবর্তন করবেন না।</div>
+<section class="drive-panel" id="backupPanel" aria-labelledby="driveTitle">
+<div class="drive-panel-head"><div class="drive-icon" aria-hidden="true">☁</div><div class="drive-heading"><h2 id="driveTitle">ডেটা ও ব্যাকআপ</h2><p>আপনার তথ্য প্রথমে এই ডিভাইসেই সেভ হয়। Google Drive ঐচ্ছিক।</p></div></div>
+<div class="drive-local"><span class="drive-dot"></span><span><b>Local storage</b><small>এই browser-এ স্বয়ংক্রিয়ভাবে সংরক্ষিত</small></span><strong id="localDataStatus">চালু</strong></div>
+<div class="drive-cloud"><div class="drive-cloud-title"><b>Google Drive Sync</b><span id="driveConnectionState">সংযুক্ত নয়</span></div>
+<p id="cl" role="status" aria-live="polite">Google Drive ব্যবহার করতে চাইলে সংযুক্ত করুন।</p>
+<div class="drive-actions"><button type="button" class="btn" id="cb">Google Account সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>এখনই Sync</button></div>
+<label class="drive-auto"><input type="checkbox" id="dauto"><span><b>স্বয়ংক্রিয় Sync</b><small>অ্যাপ খোলা থাকলে পরিবর্তনগুলো Drive-এ পাঠাবে</small></span></label>
+<button type="button" class="drive-disconnect" id="disconnectDrive">Google Account বিচ্ছিন্ন করুন</button></div>
+<p class="drive-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="./terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p></section><div class="note"><b>Clinical safety</b><br>AS Care একটি self-monitoring companion; diagnosis বা treatment device নয়। স্কোর দেখে নিজে ওষুধ শুরু, বন্ধ বা dose পরিবর্তন করবেন না।</div>
 </section>
 </main>
 <script src="./assets/js/app.js" defer></script>
