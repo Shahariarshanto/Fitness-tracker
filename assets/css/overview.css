@@ -231,3 +231,38 @@
 :root[data-theme="dark"] .overview-medication-card{border-color:#574b31;background:linear-gradient(145deg,#29271f,#302c21)}
 :root[data-theme="dark"] .overview-medication-card .medication-summary{background:#393322}
 :root[data-theme="dark"] .overview-medication-card .overview-med-actions button{background:#29271f}
+
+
+/* Quick actions: isolate icon typography from the action label */
+.overview-quick{gap:14px;padding:18px}
+.overview-quick-heading{display:flex;align-items:center;justify-content:space-between}
+.overview-quick-heading h3{font-family:inherit;font-size:18px;font-weight:750;line-height:1.35;letter-spacing:-.02em}
+.overview-quick-heading>span{font-size:18px;line-height:1;color:var(--muted)}
+.overview-quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.overview-quick-actions button{
+ position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+ min-width:0;min-height:104px;padding:13px 7px 12px;border:1px solid var(--line);
+ border-radius:16px;background:var(--surface);color:var(--text);
+ font-family:inherit;font-size:12px;font-weight:650;line-height:1.4;text-align:center;
+ white-space:normal;overflow-wrap:anywhere;box-shadow:0 3px 10px #172c1e08;
+ transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.overview-quick-actions button:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 7px 16px #172c1e12}
+.overview-quick-actions button .quick-action-icon{
+ display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;margin:0;
+ border-radius:13px;font-family:inherit;font-size:19px;line-height:1;
+}
+.overview-quick-actions button>span:not(.quick-action-icon){
+ display:block;min-width:0;color:var(--text);font-family:inherit;font-size:11px;
+ font-weight:700;line-height:1.45;letter-spacing:0;white-space:normal;
+}
+.overview-quick-actions button>b{position:absolute;top:9px;right:10px;margin:0;color:var(--muted);font-family:inherit;font-size:13px;font-weight:500;line-height:1}
+.overview-quick-actions button:active{transform:scale(.98)}
+@media(max-width:370px){
+ .overview-quick{padding:14px}
+ .overview-quick-actions{gap:6px}
+ .overview-quick-actions button{min-height:96px;padding:12px 4px 9px;gap:7px;border-radius:13px}
+ .overview-quick-actions button>span:not(.quick-action-icon){font-size:10px}
+ .overview-quick-actions button>b{top:7px;right:7px}
+}
+@media(prefers-reduced-motion:reduce){.overview-quick-actions button{transition:none}}
