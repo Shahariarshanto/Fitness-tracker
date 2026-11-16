@@ -109,3 +109,8 @@ Continue **Phase 1 — Data boundary first**:
 ## 9. Overview first-entry rendering follow-up — 2026-11-16
 - Startup order now activates Overview via `tab(1)` before running the broader `renderAll()` routine. This makes initial page visibility independent of successful rendering of secondary calendar/summary widgets.
 - The secondary render is guarded and logs startup errors; browser verification remains pending.
+
+
+## 10. Overview HTML default visibility — 2026-11-16
+- The initial HTML now marks `#p1` as `active-page` with `aria-hidden="false"`. This is an additional no-JavaScript fallback for first-entry visibility; runtime tab activation remains in place.
+- Asset version and service-worker cache advanced to v32. First-launch browser verification remains pending.
