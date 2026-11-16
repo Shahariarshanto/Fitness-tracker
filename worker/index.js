@@ -21,7 +21,6 @@ function validateState(state) {
   const arrays = ["healthEvents", "workoutSessions"];
   if (!objects.every(key => state[key] && typeof state[key] === "object" && !Array.isArray(state[key]))) return false;
   if (!arrays.every(key => Array.isArray(state[key]))) return false;
-  if (state.labs !== undefined && (!Array.isArray(state.labs) || state.labs.some(item => !item || typeof item !== "object" || Array.isArray(item) || typeof item.id !== "string" || typeof item.testName !== "string" || typeof item.value !== "number" || !Number.isFinite(item.value) || typeof item.unit !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)))) return false;
   if (!Array.isArray(state.medication.items) || !state.medication.dailyLogs || typeof state.medication.dailyLogs !== "object") return false;
   if (!state.symptoms.daily || typeof state.symptoms.daily !== "object") return false;
   if (!Array.isArray(state.healthScores.basdai) || !Array.isArray(state.healthScores.asdas)) return false;
@@ -44,7 +43,7 @@ export default {
       let state;
       try { state = JSON.parse(row.state_json); } catch { return json({ error: "Stored state is invalid JSON" }, 500, origin); }
       if (!validateState(state)) return json({ error: "Stored state failed validation" }, 500, origin);
-      if (!Array.isArray(state.labs)) state.labs = [];
+      delete state.labs;
       return json({ state, version: row.version, updatedAt: row.updated_at }, 200, origin);
     }
     if (request.method === "PUT") {
@@ -55,7 +54,7 @@ export default {
       if (payload?.app !== "as-care" || payload?.schemaVersion !== 1 || !validateState(payload.state)) {
         return json({ error: "Invalid AS Care state payload" }, 400, origin);
       }
-      const updatedAt = new Date().toISOString();
+      delete payload.state.labs; // Retire the removed experimental lab-record field.\n      const updatedAt = new Date().toISOString();
       await env.DB.prepare(
         "INSERT INTO app_state (id, state_json, version, updated_at) VALUES (?, ?, 1, ?) ON CONFLICT(id) DO UPDATE SET state_json = excluded.state_json, version = app_state.version + 1, updated_at = excluded.updated_at"
       ).bind("primary", JSON.stringify(payload.state), updatedAt).run();
