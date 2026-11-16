@@ -52,7 +52,7 @@ The app should remain straightforward to use. Persistence should work in the bac
 9. **Offline correctness.** Every runtime JavaScript dependency must be included in the service-worker shell inventory.
 10. **Small review surface.** Prefer cohesive modules; do not create one-use files merely to reduce line counts.
 11. **Documentation stays current.** Architecture, data model, module map and test checklist must reflect the actual code.
-12. **No unnecessary infrastructure.** Do not add R2, OAuth, accounts or other services without a new explicit product decision.
+12. **No unnecessary infrastructure.** Do not add extra authentication, storage or external services without a new explicit product decision.
 
 ### 2.1 Dependency direction
 
@@ -125,7 +125,7 @@ Fitness-tracker/
 - Core state/storage modules: canonical in-memory state and local cache responsibilities.
 - Feature modules: user-facing health, medication, movement, overview, insights and settings functionality.
 
-Do not create a Drive service or R2 snapshot service.
+Do not create an R2 snapshot service or any unapproved external backup service.
 
 ---
 
