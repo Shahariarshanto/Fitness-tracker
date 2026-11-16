@@ -54,16 +54,11 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 - `assets/css/base.css`: toast is positioned above the bottom navigation rather than overlapping it.
 
 
-## Step 4 — Health feature
+## Step 4 — Health feature (rebuilt)
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/health/index.js` | Mounts Health sections; delegates submit/input/delete interactions | core state, Feedback, five Health modules | Subscribes to state; owns Health page content root |
-| `assets/js/features/health/SymptomLog.js` | Daily pain, night mobility, stiffness, fatigue and sleep check-in | core dates, health data | Writes `painLogs` and `symptoms.daily` through caller-provided state |
-| `assets/js/features/health/BASDAI.js` | Six-question BASDAI form, pure score calculation and history rendering | core dates | Writes `healthScores.basdai` through caller-provided state |
-| `assets/js/features/health/ASDAS.js` | ASDAS-CRP inputs, pure score calculation and history rendering | core dates | Writes `healthScores.asdas` through caller-provided state |
-| `assets/js/features/health/HealthEvents.js` | Health-event form, history and deletion | core dates | Owns `healthEvents` mutations through caller-provided state |
-| `assets/js/features/health/FlarePlan.js` | User-editable flare action-plan notes | none | Owns `flarePlan` mutations through caller-provided state |
-| `assets/css/pages.css` | Health cards, forms, score histories and mobile layout | design tokens | Styles only |
+| `assets/js/features/health/index.js` | Self-contained Health Journal dashboard: daily check-in, BASDAI, ASDAS-CRP, event timeline, personal flare plan; handles render and delegated interactions | core state, core dates, Feedback | Subscribes to state; owns Health content root |
+| `assets/css/pages.css` | Health journal overview, cards, forms, score history and mobile layout | design tokens | Styles only |
 
-Health features do not import one another. The Health entry point composes them and uses the shared state store for persistence. All health records remain in local application storage by default.
+The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Lab-report file storage is not part of this feature. Health records remain in local application storage.
