@@ -375,7 +375,16 @@ function renderOverviewInsights(){
  var go=$("overviewOpenMovement");if(go)go.onclick=function(){tab(5)};frame(0);
 }
 
-var _habitRender=renderToday;renderToday=function(){_habitRender();renderHabitDashboard();dose();renderOverviewInsights()};
+var _habitRender=renderToday;
+renderToday=function(){
+ _habitRender();
+ try{renderHabitDashboard();dose();renderOverviewInsights();}
+ catch(err){
+  console.error("AS Care Overview render failed:",err);
+  var root=$("overviewInsights");
+  if(root)root.innerHTML='<div class="overview-section-heading"><div><span class="kicker">OVERVIEW STATUS</span><h2>ড্যাশবোর্ড লোডে সমস্যা</h2><p class="mu">অ্যাপের ত্রুটি শনাক্ত হয়েছে। পেজ রিফ্রেশ করুন; সমস্যা থাকলে এই বার্তাটি স্ক্রিনশটসহ পাঠান।</p><small>'+String(err&&err.message||err).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+'</small></div></div>';
+ }
+};
 
 load();fix();if(!localStorage.getItem(KEY))save();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
