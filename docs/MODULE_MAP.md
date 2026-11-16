@@ -102,7 +102,8 @@ Movement uses the existing `dailyActivity` and `workoutSessions` state domains. 
 |---|---|---|---|
 | `assets/js/features/insights/index.js` | Owns calendar selection/month navigation, chart period controls and state subscription | core state, dates, Insights renderers | Owns `data-insights-content`; read-only state consumer |
 | `assets/js/features/insights/Calendar.js` | Renders monthly calendar markers and selected-day activity, symptom, medication and score details | core dates | Pure rendering |
-| `assets/js/features/insights/Trends.js` | Calculates period-based metrics and renders the visual symptom/activity dashboard | core dates, exercise catalogue, Charts | Pure calculation/rendering |\n| `assets/js/features/insights/Charts.js` | Reusable accessible SVG line-chart and activity-bar renderers with honest empty states | none | Pure rendering |\n| `assets/js/features/insights/ScoreTrends.js` | Renders dated BASDAI and ASDAS-CRP score histories | Charts | Pure rendering |
+| `assets/js/features/insights/Trends.js` | Calculates period-based metrics and renders the visual symptom/activity dashboard | core dates, exercise catalogue, Charts | Pure calculation/rendering |
+| `assets/js/features/insights/Charts.js` | Reusable accessible SVG line-chart and activity-bar renderers with honest empty states | none | Pure rendering |\n| `assets/js/features/insights/ScoreTrends.js` | Renders dated BASDAI and ASDAS-CRP score histories | Charts | Pure rendering |
 | `assets/css/pages.css` | Responsive Insights dashboard, charts, calendar and selected-day details | design tokens | Styles only |
 
 Insights is read-only: it does not mutate Health, Medication, or Movement records. Missing data is shown as unavailable rather than interpreted as zero. The doctor-summary/export feature is intentionally excluded from the app.
