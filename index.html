@@ -139,6 +139,7 @@ table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:po
 @media(min-width:700px){main{padding-left:24px;padding-right:24px}.hero{margin-left:-24px;margin-right:-24px;padding-left:30px;padding-right:30px}.tabs{bottom:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <main>
@@ -164,9 +165,7 @@ table{border-spacing:0;overflow:hidden}details summary{font-weight:700;cursor:po
 <div class="bar"><i id="gfill" style="width:0"></i></div><p class="mu" id="gtxt" style="margin:6px 0 0"></p></div>
 <div class="card"><b>ডাক্তারের জন্য সারাংশ</b><p class="mu">গত ৪২ দিন (৬ সপ্তাহ), ফলো-আপে দেখানোর জন্য।</p>
 <textarea id="sum" readonly></textarea><button class="btn" id="copy" type="button" style="margin-top:8px">কপি করুন</button></div>
-<details class="card" open><summary>ব্যাকআপ ও পুনরুদ্ধার</summary><p class=mu id=cl>ক্লাউড ব্যাকআপ: যাচাই হচ্ছে…</p><div class=row style=gap:8px><button type=button class=tg id=cb>☁️ ক্লাউড ব্যাকআপ</button><button type=button class=tg id=fb>⬇️ ফাইলে সেভ</button></div>
-<p class="mu">ডেটা এই ব্রাউজারে সংরক্ষিত। ফোন বদলালে নিচের লেখা কপি করে রাখুন, নতুন ফোনে পেস্ট করে পুনরুদ্ধার চাপুন।</p>
-<textarea id="bk"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p></details>
+<details class="card" open><summary>Google Drive ব্যাকআপ ও সিঙ্ক</summary><p class="mu" id="cl">Google Drive সংযোগ করা হয়নি।</p><div class="row" style="gap:8px"><button type="button" class="tg" id="cb">☁️ Google Drive সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>↻ এখনই সিঙ্ক</button></div><label class="row" style="gap:8px"><input type="checkbox" id="dauto" style="width:20px;height:20px"> প্রতিদিন স্বয়ংক্রিয় সিঙ্ক (অ্যাপ চালু থাকলে)</label><p class="mu">আপনার ডেটা আপনার নিজের Google Drive-এর AS Care Backups ফোল্ডারে রাখা হবে। অ্যাপ বন্ধ থাকলে GitHub Pages একা নির্দিষ্ট সময়ে ব্যাকগ্রাউন্ড সিঙ্ক চালাতে পারে না।</p><p class="mu" id="dsetup">অ্যাপ মালিককে একবার Google Cloud OAuth Client ID সেট করতে হবে।</p><div class="row"><button class="btn" id="fb" type="button">⬇️ JSON ফাইলে সেভ</button></div><p class="mu">জরুরি বিকল্প ব্যাকআপ: নিচের JSON কপি করে নিরাপদে রাখুন।</p><textarea id="bk" placeholder="ব্যাকআপ JSON এখানে থাকবে"></textarea><div class="row"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p></details>
 <div class="note">সম্পন্ন দিন মানে ৭০% বা বেশি কাজ শেষ। কিছু করলে কিন্তু কম হলে আংশিক। কিছুই না করলে বাদ।</div>
 </section>
 
@@ -442,12 +441,34 @@ $('bm').innerHTML='<b>শরীরের মানচিত্র</b><span class
 $('bm').insertAdjacentHTML('afterend','<div id=wk2></div>');
 $('bm').addEventListener('click',function(e){var b=e.target.closest('[data-bm]');if(b){bm=+b.getAttribute('data-bm');drawBm();return}var z=e.target.closest('[data-z]');if(z){var v=z.getAttribute('data-z');bz=bz===v?null:v;drawBm()}});
 var _rm4=renderMonth;renderMonth=function(){_rm4();drawBm()};
-var CL={ref:null};
-function cst(s){var e=$('cl');if(e)e.textContent=s}
-async function cpush(){if(!CL.ref)return;try{await CL.ref.set({json:JSON.stringify(D),_t:D._t||Date.now()});cst('☁️ ক্লাউডে ব্যাকআপ আছে · সর্বশেষ '+new Date().toLocaleTimeString('bn-BD',{hour:'2-digit',minute:'2-digit'}))}catch(e){cst('ক্লাউড ব্যাকআপ ব্যর্থ: '+(e&&e.code||'ত্রুটি'))}}
-async function cinit(click){try{var pm=await claude.use('permissions'),s=pm?await pm.state('db'):'prompt';if(!click&&s!=='granted'){cst('ক্লাউড ব্যাকআপ বন্ধ আছে। চালু করতে নিচের ☁️ বাটন চাপুন।');return}var db=await claude.use('db'),us=await claude.use('user');if(!db||!us){cst('এখানে ক্লাউড ব্যাকআপ পাওয়া যাচ্ছে না। claude.ai-তে সাইন-ইন করা অবস্থায় লিংকটি খুলুন।');return}CL.ref=db.collection('data/users/'+await us.id()).doc('backup');var sn=await CL.ref.get(),c=sn.exists?sn.data():null;if(c&&c.json){var o=JSON.parse(c.json);if(o&&o.days&&(!D._t||(o._t||0)>D._t)){D=o;if(!D.goal)D.goal=20;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}fix();renderAll();cst('☁️ ক্লাউড থেকে ডেটা ফিরিয়ে আনা হয়েছে');return}}await cpush()}catch(e){cst('ক্লাউড ব্যাকআপ চালু হয়নি: '+(e&&e.code||'ত্রুটি'))}}
-$('cb').onclick=function(){CL.ref?cpush():cinit(true)};
-$('fb').onclick=async function(){try{var d=await claude.use('downloads');if(!d){cst('এখানে ফাইল সেভ চালু নেই।');return}await d.save({filename:'byayam-backup-'+today()+'.json',data:JSON.stringify(D)});cst('ফাইল সেভ হয়েছে ✓')}catch(e){cst('ফাইল সেভ হয়নি: '+(e&&e.code||'ত্রুটি'))}};
+/* Google Drive backup: per-user file, OAuth token held in memory only. */
+var DRIVE_CLIENT_ID="YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com";
+var DR={token:null,expires:0,folder:null,file:null,client:null,auto:false,last:0};
+function cst(s){var e=$("cl");if(e)e.textContent=s}
+function dvalid(){return !!(DR.token&&Date.now()<DR.expires-60000)}
+function drequest(interactive){return new Promise(function(resolve,reject){
+ if(dvalid()){resolve(DR.token);return}
+ if(!DRIVE_CLIENT_ID||DRIVE_CLIENT_ID.indexOf("YOUR_GOOGLE")===0){reject(new Error("অ্যাপের Google OAuth Client ID এখনো সেট করা হয়নি।"));return}
+ if(!window.google||!google.accounts||!google.accounts.oauth2){reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"));return}
+ if(!DR.client)DR.client=google.accounts.oauth2.initTokenClient({client_id:DRIVE_CLIENT_ID,scope:"https://www.googleapis.com/auth/drive.file",callback:function(r){if(r.error){reject(new Error(r.error_description||r.error));return}DR.token=r.access_token;DR.expires=Date.now()+(r.expires_in||3600)*1000;resolve(DR.token)},error_callback:function(e){reject(new Error(e.message||"Google authorization বাতিল হয়েছে"))}});
+ DR.client.requestAccessToken({prompt:interactive?"consent":""});
+})}
+async function dapi(url,opt){var r=await fetch(url,opt||{});if(!r.ok){var t=await r.text();throw new Error("Google Drive API "+r.status+": "+t.slice(0,180))}return r.status===204?{}:r.json()}
+async function dfind(name,mime,parent){var q="name='"+name.replace(/'/g,"\\'")+"' and mimeType='"+mime+"' and trashed=false"+(parent?" and '"+parent+"' in parents":"");var u="https://www.googleapis.com/drive/v3/files?q="+encodeURIComponent(q)+"&fields=files(id,name,mimeType,modifiedTime)&pageSize=10";var x=await dapi(u,{headers:{Authorization:"Bearer "+DR.token}});return x.files&&x.files[0]||null}
+async function densure(){var folder=await dfind("AS Care Backups","application/vnd.google-apps.folder",null);if(!folder)folder=await dapi("https://www.googleapis.com/drive/v3/files?fields=id,name",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"application/json"},body:JSON.stringify({name:"AS Care Backups",mimeType:"application/vnd.google-apps.folder"})});DR.folder=folder.id;var file=await dfind("as-care-backup.json","application/json",DR.folder);DR.file=file&&file.id||null}
+async function ddownload(){if(!DR.file)return null;var r=await fetch("https://www.googleapis.com/drive/v3/files/"+DR.file+"?alt=media",{headers:{Authorization:"Bearer "+DR.token}});if(!r.ok)throw new Error("Drive backup পড়া যায়নি ("+r.status+")");return r.json()}
+async function dupload(){var body=JSON.stringify({schemaVersion:1,updatedAt:Date.now(),appData:D});if(!DR.file){var meta={name:"as-care-backup.json",mimeType:"application/json",parents:[DR.folder]},boundary="as_care_"+Date.now(),multipart="--"+boundary+"\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n"+JSON.stringify(meta)+"\\r\\n--"+boundary+"\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n"+body+"\\r\\n--"+boundary+"--";var x=await dapi("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",{method:"POST",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"multipart/related; boundary="+boundary},body:multipart});DR.file=x.id}else{await dapi("https://www.googleapis.com/upload/drive/v3/files/"+DR.file+"?uploadType=media",{method:"PATCH",headers:{Authorization:"Bearer "+DR.token,"Content-Type":"application/json"},body:body})}DR.last=Date.now();cst("✓ Google Drive-এ সিঙ্ক হয়েছে · "+new Date(DR.last).toLocaleString("bn-BD"))}
+function dmerge(remote){if(!remote||!remote.appData||!remote.appData.days)return false;var localTime=+(D._t||0),remoteTime=+(remote.updatedAt||remote.appData._t||0);if(remoteTime>localTime){if(confirm("Google Drive-এ এই ডিভাইসের ডেটার চেয়ে নতুন ব্যাকআপ আছে। সেটি দিয়ে বর্তমান ডেটা প্রতিস্থাপন করবেন? আগে বর্তমান ডেটা JSON ফাইলে সেভ করে নিন।")){D=remote.appData;if(!D.goal)D.goal=20;localStorage.setItem(KEY,JSON.stringify(D));fix();renderAll();return true}}return false}
+async function cpush(){if(!DR.token||!dvalid())return;try{await densure();await dupload()}catch(e){cst("সিঙ্ক ব্যর্থ: "+e.message)}}
+async function dconnect(){try{cst("Google Account-এর অনুমতি নেওয়া হচ্ছে…");await drequest(true);await densure();var remote=await ddownload();if(remote&&dmerge(remote)){cst("Drive-এর ব্যাকআপ থেকে ডেটা ফিরিয়ে আনা হয়েছে।")}else{await dupload()}$("dsync").disabled=false;$("cb").textContent="✓ Google Drive সংযুক্ত"}catch(e){cst(e.message)}}
+async function dsyncNow(){try{await drequest(true);await densure();var remote=await ddownload();if(remote&&dmerge(remote)){cst("নতুন Drive ব্যাকআপ পুনরুদ্ধার করা হয়েছে।")}else await dupload();$("dsync").disabled=false;$("cb").textContent="✓ Google Drive সংযুক্ত"}catch(e){cst("সিঙ্ক হয়নি: "+e.message)}}
+$("cb").onclick=dconnect;$("dsync").onclick=dsyncNow;
+$("dauto").checked=localStorage.getItem("asCareDriveAuto")==="1";DR.auto=$("dauto").checked;
+$("dauto").onchange=function(){DR.auto=this.checked;localStorage.setItem("asCareDriveAuto",this.checked?"1":"0");cst(this.checked?"দৈনিক সিঙ্ক চালু: অ্যাপ খোলা থাকলে ও অনুমতি বৈধ থাকলে সিঙ্ক হবে।":"স্বয়ংক্রিয় সিঙ্ক বন্ধ।")};
+$("fb").onclick=function(){try{var blob=new Blob([JSON.stringify({schemaVersion:1,updatedAt:Date.now(),appData:D},null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="as-care-backup-"+today()+".json";a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000);$("bkm").textContent="JSON ব্যাকআপ ডাউনলোড শুরু হয়েছে।"}catch(e){$("bkm").textContent="ফাইল সেভ হয়নি: "+e.message}};
+window.cpush=cpush;
+setInterval(function(){if(DR.auto&&dvalid()&&(!DR.last||Date.now()-DR.last>86400000))cpush()},60000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&DR.auto&&dvalid()&&(!DR.last||Date.now()-DR.last>86400000))cpush()});
 var DUR={a1:60,b1:40,b2:40,b3:40,b4:30,b5:40,f1:45,f4:40,d4:40,d5:40,f5:40,e3:60,d1:40,d2:40,c5:50,c1:40,c2:50,c3:50,c4:40,f2:30,d3:40,f3:40},S=null,BD='০১২৩৪৫৬৭৮৯';
 var sty=document.createElement('style');sty.textContent='#qs{order:-3}.ss{position:fixed;inset:0;z-index:100;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;align-items:center;gap:10px;padding:max(14px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));overflow-y:auto;text-align:center}.ssh{width:100%;display:flex;justify-content:space-between;align-items:center}#sf{width:min(72vw,280px);height:auto;aspect-ratio:84/63;border-radius:20px;background:var(--card);margin:6px auto}#sf svg{width:100%;height:100%}.tmr{font-size:64px;font-weight:800;color:var(--ac);line-height:1}.tmr.r{color:var(--mu)}.sb,.sbp{font:inherit;font-size:16px;padding:14px 18px;border-radius:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}.sbp{background:var(--ac);color:var(--card);border-color:var(--ac);font-weight:700}';document.head.appendChild(sty);
 var ov=document.createElement('div');ov.id='ss';ov.className='ss';ov.hidden=true;
@@ -472,7 +493,7 @@ $('dose').insertAdjacentHTML('beforebegin','<div class=card id=qs></div>');
 function qsr(){var o=D.days[cur()]||{d:[]},q=seq(),u=q.filter(function(i){return o.d.indexOf(i)<0}),all=!u.length,L=all?q:u,m=Math.round(L.reduce(function(a,i){return a+dur(i)+10},0)/60),n=L[0],ss=D.sess||[],tot=ss.reduce(function(a,x){return a+x.s},0),h='<b>গাইডেড ওয়ার্কআউট</b><span class=mu style=margin-left:8px>'+b2(L.length)+'টি · প্রায় '+b2(m)+' মিনিট</span><div class=row style=gap:12px;flex-wrap:nowrap;margin-top:8px;align-items:center><div class=fg data-id='+n+'>'+FS+'</div><div style=flex:1;text-align:left><span class=mu>'+(all?'সব শেষ! আবার শুরু করবেন?':'পরের ব্যায়াম')+'</span><span class=en>'+EN[n][0]+'</span><span class=ec>'+IT[n][1]+'</span></div></div><div class=row style=margin-top:10px><button type=button class=dzon id=qb>▶ '+(all?'আবার করুন':'ওয়ার্কআউট শুরু করুন')+'</button></div>';if(ss.length)h+='<p class=mu style=margin:10px>মোট সেশন '+b2(ss.length)+'টি · মোট '+b2(Math.round(tot/60))+' মিনিট</p>'+ss.slice(-3).reverse().map(function(x){return '<div class=mu style=margin:2px>'+new Date(x.t).toLocaleDateString('bn-BD',{day:'numeric',month:'short'})+' · '+b2(Math.round(x.s/60))+' মিনিট · '+b2(x.n)+'/'+b2(x.k)+'টি</div>'}).join('');$('qs').innerHTML=h;frame(0)}
 $('qs').addEventListener('click',function(e){if(e.target.closest('#qb'))start()});
 var _r6=renderToday;renderToday=function(){_r6();qsr()};
-setTimeout(function(){cinit(false)},900);
+cst("Google Drive সংযোগ করতে অ্যাপ মালিকের OAuth Client ID প্রয়োজন।");
 load();fix();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
 </script>
 </body>
