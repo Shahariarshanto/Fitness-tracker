@@ -1,16 +1,15 @@
 /* AS Care local-first Google Drive sync — always automatic when connected */
 (function(){
 "use strict";
-var KEY="spa-daily-v2",CLIENT="1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com",SCOPE="https://www.googleapis.com/auth/drive.file";
+var CLIENT="1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com",SCOPE="https://www.googleapis.com/auth/drive.file";
 var token=null,expires=0,client=null,busy=false,folder=null,file=null,timer=null;
 var $=function(id){return document.getElementById(id)};
 function status(msg,state){var el=$("cl");if(el){el.textContent=msg;el.dataset.state=state||"info"}}
 function buttons(){if($("cb")){$("cb").disabled=busy;$("cb").textContent=token?"Google Account সংযুক্ত ✓":"Google Account সংযুক্ত করুন"}if($("dsync"))$("dsync").disabled=busy||!token;if($("driveConnectionState"))$("driveConnectionState").textContent=token?"সংযুক্ত":"সংযুক্ত নয়"}
 function data(){
- var raw=localStorage.getItem(KEY);
- if(!raw){var empty={days:{},goal:20,_t:Date.now()};localStorage.setItem(KEY,JSON.stringify(empty));return empty}
- var d;try{d=JSON.parse(raw)}catch(e){throw Error("Local data পড়া যাচ্ছে না। নিরাপত্তার জন্য Drive-এর পুরোনো backup অপরিবর্তিত রাখা হয়েছে।")}
- if(!d||!d.days||typeof d.days!=="object")throw Error("Local data-এর format সঠিক নয়। Drive backup পরিবর্তন করা হয়নি।");
+ var d;try{d=ASStorage.readAppData()}catch(e){throw Error("Local data পড়া যাচ্ছে না। নিরাপত্তার জন্য Drive-এর পুরোনো backup অপরিবর্তিত রাখা হয়েছে।")}
+ if(!d){d={days:{},goal:20,_t:Date.now()};ASStorage.writeAppData(d)}
+ if(!d.days||typeof d.days!=="object")throw Error("Local data-এর format সঠিক নয়। Drive backup পরিবর্তন করা হয়নি.");
  return d
 }
 function oauth(){
@@ -47,7 +46,7 @@ async function upload(d){
   var x=await api("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",{method:"POST",headers:{"Content-Type":"multipart/related; boundary="+boundary},body:multipart});
   if(!x.id)throw Error("Backup file তৈরি হয়নি।");file=x.id
  }else await api("https://www.googleapis.com/upload/drive/v3/files/"+encodeURIComponent(file)+"?uploadType=media",{method:"PATCH",headers:{"Content-Type":"application/json"},body:body});
- localStorage.setItem("asCareDriveLast",String(Date.now()));status("✓ Google Drive backup সম্পন্ন · "+new Date().toLocaleString("bn-BD"),"success")
+ ASStorage.setDriveLastSync(Date.now());status("✓ Google Drive backup সম্পন্ন · "+new Date().toLocaleString("bn-BD"),"success")
 }
 function isEmpty(d){return !d||(!Object.keys(d.days||{}).length&&Object.keys(d).every(function(k){return ["days","goal","_t"].indexOf(k)>-1}))}
 async function sync(){
@@ -57,10 +56,10 @@ async function sync(){
   await prepare();var d=data(),r=await remote();
   if(r&&(Number(r.updatedAt)||0)>(Number(d._t)||0)){
    if(isEmpty(d)){
-    var restored=r.appData;if(!restored.goal)restored.goal=20;restored._t=Number(r.updatedAt)||Date.now();localStorage.setItem(KEY,JSON.stringify(restored));status("আগের Google Drive backup এই browser-এ ফিরিয়ে আনা হয়েছে। পেজ Reload হচ্ছে…","success");location.reload();return
+    var restored=r.appData;if(!restored.goal)restored.goal=20;restored._t=Number(r.updatedAt)||Date.now();ASStorage.writeAppData(restored);status("আগের Google Drive backup এই browser-এ ফিরিয়ে আনা হয়েছে। পেজ Reload হচ্ছে…","success");location.reload();return
    }
    if(!confirm("Google Drive-এ এই browser-এর চেয়ে নতুন backup আছে। সেটি Restore করবেন? Cancel করলে কোনো data বদলাবে না।")){status("Sync বাতিল। Local ও Drive data অপরিবর্তিত আছে。");return}
-   var restoredData=r.appData;if(!restoredData.goal)restoredData.goal=20;restoredData._t=Number(r.updatedAt)||Date.now();localStorage.setItem(KEY,JSON.stringify(restoredData));status("Drive backup Restore হয়েছে। পেজ Reload হচ্ছে…","success");location.reload();return
+   var restoredData=r.appData;if(!restoredData.goal)restoredData.goal=20;restoredData._t=Number(r.updatedAt)||Date.now();ASStorage.writeAppData(restoredData);status("Drive backup Restore হয়েছে। পেজ Reload হচ্ছে…","success");location.reload();return
   }
   await upload(d)
  }catch(e){status("Sync হয়নি: "+(e.message||e),"error")}
