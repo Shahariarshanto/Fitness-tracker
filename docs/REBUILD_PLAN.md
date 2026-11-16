@@ -440,33 +440,45 @@ Tests:
 - Quick actions navigate correctly.
 - Mobile layout and card interactions work.
 
-### Step 9 — Backup, Drive, and notifications services
+### Step 9 — Drive-first data and notifications services
 
 Files:
-- `services/backup.js`
-- `services/drive.js`
-- `services/notifications.js`
+- assets/js/services/backup.js
+- assets/js/services/drive.js
+- assets/js/services/notifications.js
+- assets/js/core/storage.js
+- assets/js/core/state.js
+- assets/js/features/settings/index.js
+- assets/js/features/settings/Preferences.js
+- assets/js/bootstrap.js
+- sw.js
 
 Work:
-- Export the new app data to a documented new JSON format.
-- Validate the new format before import.
-- Reject malformed or unsupported backups without applying partial data.
-- Implement Google OAuth and Drive file creation/upload/restore/sync.
-- Implement sync status through the approved `drive:sync-status` event.
-- Implement sound, voice, and vibration helpers.
-- Keep OAuth secrets out of the repository. Do not persist access tokens in localStorage; use a user-driven reconnect flow when necessary.
+- Make Google Drive the primary and authoritative data source for the complete app state.
+- Connect the user's Google Account using Google Identity Services and the narrow drive.file scope.
+- On app startup, attempt Drive authorization and load the latest validated cloud state before mounting feature pages.
+- Maintain one canonical app-owned file named AS Care Data.json; update it instead of creating a new snapshot for every edit.
+- Batch rapid state changes with a short debounce. If a new edit happens during an upload, keep it pending and send another batch.
+- Use Local Storage only as a temporary cache and offline outbox. A pending local edit must upload before a cloud snapshot is loaded.
+- When offline or authorization expires, preserve pending edits locally and show a clear reconnect/sync status.
+- Never replace or clear the existing Drive file until the replacement upload succeeds.
+- Keep OAuth access tokens memory-only and never commit credentials or personal health data.
+- Keep the optional sound, voice and vibration helpers.
+- Remove the previous manual export/import and manual sync/restore controls from Settings.
 
 Tests:
-- New-format export and import round trip.
-- Invalid backup rejection.
-- Google connection and disconnect.
-- Manual sync and restore.
-- Sync status and failure feedback.
-- Token expiry/reconnect behavior.
-- Local functionality remains available offline.
+- First connection creates the canonical file if Drive has no AS Care data.
+- Existing Drive data is loaded instead of overwritten by the local cache.
+- App startup hydrates Drive data before feature pages render.
+- Every type of state edit eventually updates the canonical Drive file.
+- Rapid edits are batched; edits during an upload are not lost.
+- Offline edits remain pending and upload after reconnect/online.
+- Invalid cloud snapshots are rejected without applying partial state.
+- Token expiry/reconnect behavior is clear and does not delete data.
+- Sound, voice and vibration helpers continue to work.
 
-No old-format backup compatibility is required.
-
+Static GitHub Pages cannot guarantee background sync while the app is closed. Cloud synchronization occurs while the app is open; an expired Google token may require the user to reconnect.
+ 
 ### Step 10 — Final integration, verification, and old-code removal
 
 Work:
@@ -649,9 +661,12 @@ Do not claim a browser, phone, offline, or deployment test passed unless it was 
 **Important:** Saving this plan does not mean implementation has begun or that any step has passed testing. Implementation proceeds one step at a time with the user's explicit approval between steps.
 
 
-## Step 9 implementation note — current implementation
+## Step 9 implementation note — Drive-first implementation
 
-- Local Backup uses a versioned `as-care` JSON envelope and full state-domain validation. Import is explicit and replaces the current state only after user confirmation.
-- Google Drive uses Google Identity Services with the public OAuth Client ID and `drive.file` scope. Tokens are memory-only. Sync is user-triggered and creates timestamped snapshots rather than overwriting an existing snapshot; Restore selects the newest matching snapshot and requires confirmation.
-- Notification helpers provide optional toast sound/vibration and optional Bengali speech prompts during guided movement.
+- Google Drive is the primary data store. One canonical AS Care Data.json file is created and updated in batches.
+- The app attempts to load validated Drive state before feature pages mount when Drive is enabled for that browser.
+- Local Storage is retained only as a temporary cache and offline outbox. Pending changes are uploaded before cloud hydration.
+- Drive access tokens remain memory-only. Reconnection may be required after token expiry.
+- Settings now exposes Drive connect/reconnect/disconnect and sync status; the previous manual import/export/sync/restore controls have been removed.
+- Notification helpers remain part of this step.
 - Browser/device acceptance checks remain pending. Do not mark Step 9 complete until the user tests the deployed app and explicitly approves the step.
