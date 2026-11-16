@@ -1,14 +1,14 @@
 import { subscribe, getState } from "../../core/state.js";
 import { showToast } from "../../components/Feedback.js";
 import { renderPreferences, savePreference } from "./Preferences.js";
-import { connectDrive, disconnectDrive } from "../../services/drive.js";
+import { connectDrive, disconnectDrive, getDriveStatus } from "../../services/drive.js";
 import { on } from "../../core/events.js";
 
 export function initSettings({ root = document.querySelector('[data-page-panel="settings"]') } = {}) {
   if (!root) return () => {};
   const content = root.querySelector("[data-settings-content]");
   if (!content) return () => {};
-  let driveMessage = getState().preferences.driveEnabled ? "Drive সংযোগ যাচাই হচ্ছে…" : "সংযুক্ত নয়";
+  let driveMessage = getDriveStatus().message || (getState().preferences.driveEnabled ? "Drive সংযোগ যাচাই হচ্ছে…" : "সংযুক্ত নয়");
 
   function render() {
     content.innerHTML = renderPreferences(driveMessage);
