@@ -35,7 +35,10 @@ Overview, Movement, Insights, Health, Settings. Details and known limitations ar
 CSS and JavaScript have been extracted from index.html into dedicated files. The rebuilt application uses modular ES modules. Cloudflare D1 is the primary data source; browser storage is retained only for temporary cache and offline pending edits.
 
 ## Deployment
-GitHub Pages serves the project under /Fitness-tracker/. Use relative asset paths such as ./assets/js/app.js. When app-shell files change, update the service worker shell list and cache version.
+- GitHub Pages serves the static app under /Fitness-tracker/. Use relative asset paths such as ./assets/js/app.js. When app-shell files change, update the service worker shell list and cache version.
+- Cloudflare Workers builds the API from the repository's `main` branch. The Worker entry point is `worker/index.js`; `wrangler.toml` defines the `DB` D1 binding and migration directory.
+- Cloudflare Build configuration: leave **Build command** empty (None), set **Root directory** to `/`, and use this **Deploy command**: `npx wrangler d1 migrations apply as-care-auth --remote && npx wrangler deploy`.
+- The deploy command applies pending D1 migrations before publishing the Worker.
 
 ## Testing
 Syntax checks and file-reference checks are useful but are not browser tests. Always test mobile, desktop, saved-data compatibility, and offline behavior before calling a release complete.
