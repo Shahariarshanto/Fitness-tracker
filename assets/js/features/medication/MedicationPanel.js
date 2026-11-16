@@ -7,8 +7,8 @@ function medicationCard(item, status) {
     <div class="medication-meta"><span>${esc(item.schedule || "সময়/নিয়ম উল্লেখ নেই")}</span>${item.time ? `<time>${esc(item.time)}</time>` : ""}</div>
     ${item.instructions ? `<p class="medication-instructions">${esc(item.instructions)}</p>` : ""}
     <div class="medication-actions">
-      <button type="button" class="button-primary" data-med-status="taken" data-med-id="${esc(item.id)}" ${status === "taken" ? "disabled" : ""}>খেয়েছি</button>
-      <button type="button" class="button-secondary" data-med-status="skipped" data-med-id="${esc(item.id)}" ${status === "skipped" ? "disabled" : ""}>খাইনি</button>
+      <button type="button" class="button-primary${status === "taken" ? " is-selected" : " button-secondary"}" data-med-status="taken" data-med-id="${esc(item.id)}" aria-pressed="${status === "taken"}">খেয়েছি</button>
+      <button type="button" class="button-secondary${status === "skipped" ? " is-selected is-skipped" : ""}" data-med-status="skipped" data-med-id="${esc(item.id)}" aria-pressed="${status === "skipped"}">খাইনি</button>
       <button type="button" class="button-secondary" data-med-edit="${esc(item.id)}">সম্পাদনা</button>
       <button type="button" class="button-secondary" data-med-archive="${esc(item.id)}">বন্ধ</button>
     </div>
