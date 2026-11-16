@@ -62,3 +62,14 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 | `assets/css/pages.css` | Health journal overview, cards, forms, score history and mobile layout | design tokens | Styles only |
 
 The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Lab-report file storage is not part of this feature. Health records remain in local application storage.
+
+
+## Step 5 — Medication feature
+
+| Module | Responsibility | Imports | State/DOM ownership |
+|---|---|---|---|
+| `assets/js/features/medication/index.js` | Adds/edits/archives medication entries; records today's taken/skipped status; subscribes and re-renders | core state, core dates, Feedback, MedicationPanel | Owns the Overview medication mount |
+| `assets/js/features/medication/MedicationPanel.js` | Renders medication form, active list, daily summary, status controls and recent adherence history | none | Pure rendering; no state mutation |
+| `assets/css/pages.css` | Responsive medication tracker cards, forms, status and history styles | design tokens | Styles only |
+
+Medication is mounted within Overview to preserve the five approved primary navigation tabs. The module is independent and later Overview integration can aggregate its read-only summary. Archiving hides a medicine from the active list but retains its past adherence history.
