@@ -41,3 +41,23 @@
 @media (max-width: 380px) { .health-card { padding: 14px; } .health-card-heading { align-items: flex-start; } }
 
 .health-disclaimer { margin: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+
+/* Health journal — rebuilt dashboard */
+.health-intro { padding: 18px; border-radius: var(--radius-md); background: var(--surface-soft); border: 1px solid var(--line); }
+.health-intro h3 { margin: 5px 0 7px; font-size: 20px; }
+.health-intro p:last-child { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.health-overview { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
+.health-overview article { min-width: 0; padding: 13px 11px; display: grid; gap: 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.health-overview span { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.health-overview strong { font-size: 21px; color: var(--accent); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.health-input { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 7px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.health-input input { grid-column: 1; width: 100%; accent-color: var(--accent); }
+.health-input output { grid-column: 2; grid-row: 1 / span 2; min-width: 42px; align-self: center; color: var(--accent); font-weight: 700; text-align: right; }
+.health-empty { color: var(--muted); font-size: 13px; }
+.health-card .form-field { display: grid; gap: 7px; margin: 12px 0; font-size: 13px; }
+.health-card .form-field input,.health-card .form-field textarea { width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--text); font: inherit; }
+.health-card .form-field textarea { min-height: 70px; resize: vertical; }
+.health-card .health-history { margin-top: 12px; }
+.health-card .health-history li { align-items: center; }
+@media (max-width: 360px) { .health-overview { gap: 6px; } .health-overview article { padding: 10px 8px; } .health-overview strong { font-size: 18px; } }
