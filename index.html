@@ -644,6 +644,15 @@ function renderSettings(){
 }
 $("saveMedSettings").onclick=function(){D.medName=$("medName").value.trim().slice(0,60)||"আমার নির্ধারিত ওষুধ";D.medTime1=$("medTime1").value.trim().slice(0,24)||"প্রথম সময়";D.medTime2=$("medTime2").value.trim().slice(0,24)||"দ্বিতীয় সময়";save();dose();$("medSettingsMsg").textContent="ওষুধের নাম ও সময়ের label সেভ হয়েছে।"};
 document.querySelectorAll("[data-theme-choice]").forEach(function(b){b.onclick=function(){var v=b.getAttribute("data-theme-choice");if(v==="system"){document.documentElement.removeAttribute("data-theme");localStorage.removeItem("asCareTheme")}else{document.documentElement.setAttribute("data-theme",v);localStorage.setItem("asCareTheme",v)}document.querySelectorAll("[data-theme-choice]").forEach(function(x){x.classList.toggle("tgon",x===b)})}});
+function fix(){
+ if(!D.days||typeof D.days!=="object")D.days={};
+ if(!D.goal||!isFinite(D.goal))D.goal=20;
+ if(!Array.isArray(D.bas))D.bas=[];
+ if(!Array.isArray(D.asdas))D.asdas=[];
+ if(!D.ev||typeof D.ev!=="object")D.ev={};
+ if(!D.flare||typeof D.flare!=="object")D.flare={signs:"",care:"",contact:""};
+}
+function renderHealth(){showNt();drawAsdas();drawSymptomTrend();drawFlare()}
 function asdasCalc(){var ids=["asbp","asst","aspg","aspp","ascrp"],v=ids.map(function(id){var x=$(id).value;return x===""?null:Number(x)});if(v.some(function(x){return x===null||!isFinite(x)})||v.slice(0,4).some(function(x){return x<0||x>10})||v[4]<0)return null;return Math.round((.12*v[0]+.06*v[1]+.11*v[2]+.07*v[3]+.58*Math.log(v[4]+1))*100)/100}
 function asdasLevel(v){return v<1.3?"নিষ্ক্রিয় রোগের কার্যকলাপ":v<2.1?"কম কার্যকলাপ":v<=3.5?"উচ্চ কার্যকলাপ":"অতি উচ্চ কার্যকলাপ"}
 function drawFlare(){if(!$("flareSigns"))return;var f=D.flare||{};$("flareSigns").value=f.signs||"";$("flareCare").value=f.care||"";$("flareContact").value=f.contact||""}
