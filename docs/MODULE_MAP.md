@@ -80,3 +80,17 @@ Medication is mounted within Overview to preserve the five approved primary navi
 - `MedicationPanel.js`: both adherence choices remain clickable; the saved choice is exposed with `aria-pressed` and a selected-state class.
 - `assets/css/pages.css`: selected `খেয়েছি` and `খাইনি` controls receive distinct visible active styling.
 - `sw.js`: shell cache advanced to v54 so installed PWAs fetch the updated markup, module, and styles.
+
+
+## Step 6 — Movement feature
+
+| Module | Responsibility | Imports | State/DOM ownership |
+|---|---|---|---|
+| `assets/js/features/movement/index.js` | Owns Movement interactions, date-scoped checklist completion, guided-session timer/actions, and session persistence | core state, dates, events, Feedback, exercise data, Movement renderers | Owns `data-movement-content`; subscribes to state |
+| `assets/js/features/movement/Checklist.js` | Renders exercise groups, daily completion controls and session-selection checkboxes | exercise data, dates | Pure rendering |
+| `assets/js/features/movement/ExerciseDetails.js` | Renders bilingual instruction details and body-region references with clinical-review warning | exercise and body-region data | Pure rendering |
+| `assets/js/features/movement/BodyMap.js` | Renders selectable body-region controls and related exercise mapping | exercise and body-region data | Pure rendering |
+| `assets/js/features/movement/GuidedSession.js` | Renders guided-session controls, timer display, completion state and recent history | exercise data | Pure rendering |
+| `assets/css/movement.css` | Responsive Movement-specific layout and controls | design tokens/components | Styles only |
+
+Movement uses the existing `dailyActivity` and `workoutSessions` state domains. Only `workout:started` and `workout:finished` are emitted; ordinary checklist changes use state subscriptions. The legacy exercise catalogue is explicitly unreviewed clinical reference material. No exercise-specific animation or prescribed positioning has been added without reviewed source media/instructions.
