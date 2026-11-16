@@ -1,10 +1,10 @@
-const CACHE_NAME = "as-care-shell-v67";
+const CACHE_NAME = "as-care-shell-v68";
 const SHELL = [
   "./",
   "./index.html",
   "./assets/js/bootstrap.js",
   "./manifest.webmanifest",
-  "./icon.svg"
+  "./icon.svg",\n  "./assets/css/overview.css"
 ];
 
 // Exact active runtime module inventory; successful fetches are cached lazily.
@@ -14,7 +14,7 @@ const RUNTIME_MODULES = [
   "./assets/js/data/exercises.js", "./assets/js/data/health-data.js",
   "./assets/js/components/Navigation.js", "./assets/js/components/Feedback.js",
   "./assets/js/components/Progress.js", "./assets/js/components/FormControls.js",
-  "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
+  "./assets/js/features/overview/index.js", "./assets/js/features/overview/OverviewCards.js",\n  "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
   "./assets/js/features/health/index.js",
   "./assets/js/features/medication/index.js", "./assets/js/features/medication/MedicationPanel.js",
   "./assets/js/features/movement/index.js", "./assets/js/features/movement/Checklist.js",
