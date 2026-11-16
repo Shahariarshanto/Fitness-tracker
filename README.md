@@ -51,13 +51,18 @@ This is a static GitHub Pages app. Automatic sync can run while the app is open 
 
 ## Interface redesign (AS Care v2)
 
-The interface is being rebuilt as a disease-focused mobility and health companion rather than a generic fitness tracker.
+The app uses a disease-focused mobility and health companion layout rather than a generic fitness tracker.
 
-- New warm-neutral / charcoal / botanical-green visual system with light and dark themes.
+- Warm-neutral / charcoal / botanical-green visual system with light and dark themes.
+- Five dedicated destinations: Overview, Movement, Insights, Health and Settings.
 - Desktop sidebar navigation and compact mobile bottom navigation.
-- Overview, movement, insights, health records and settings entry points.
-- Searchable and category-filterable movement library.
+- Dedicated Movement Studio with guided sessions, exercise illustrations, search and category filters.
+- Exercise-specific caution notes for movements that may need clinician/physiotherapist review.
+- Settings page includes theme controls, local-data status, PWA/offline information and the backup panel.
+- CRP laboratory entries now record the unit (mg/L or mg/dL); historical entries without a stored unit are labelled as unknown.
 - Existing exercise completion, guided timer, symptom tracking, BASDAI, ASDAS-CRP, lab history, doctor summary and backup flows are retained.
 - The app remains Bengali-first and responsive.
 
-The redesign is being implemented in stages. JavaScript syntax checks do not replace browser-based functional and accessibility testing.
+The Google Drive OAuth client ID is still an owner setup requirement. Static GitHub Pages can only attempt daily sync while the app is open and the access token remains valid; it cannot guarantee background sync while closed.
+
+JavaScript syntax checks do not replace browser-based functional, accessibility, or clinical validation.
