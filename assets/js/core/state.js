@@ -16,9 +16,10 @@ function clone(value) {
 }
 
 function normalizeState(saved) {
+  const { labs: _unusedLabs, ...stored } = saved;
   return {
     ...clone(INITIAL_STATE),
-    ...saved,
+    ...stored,
     preferences: { ...INITIAL_STATE.preferences, ...(saved.preferences || {}) },
     medication: { ...INITIAL_STATE.medication, ...(saved.medication || {}) },
     symptoms: { ...INITIAL_STATE.symptoms, ...(saved.symptoms || {}), daily: { ...(saved.symptoms?.daily || {}) } },
