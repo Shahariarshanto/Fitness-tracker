@@ -115,7 +115,7 @@ Insights is read-only: it does not mutate Health, Medication, or Movement record
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/overview/index.js` | Mounts Overview and re-renders on state subscription | core state, OverviewCards | Owns `data-overview-content`; read-only consumer |
+| `assets/js/features/overview/index.js` | Mounts Overview and re-renders on state subscription | core state, OverviewCards | Owns `data-overview-content`; derives dashboard data and handles medication check-in |
 | `assets/js/features/overview/OverviewCards.js` | Derives daily movement, pain/symptom, medication, score and 7-day activity summaries; renders quick navigation actions | core dates, exercise catalogue | Pure rendering; no state mutation |
 | `assets/css/overview.css` | Responsive Overview cards, progress bars and quick actions | design tokens | Styles only |
 
