@@ -278,3 +278,13 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] No duplicate or missing records after reload and multi-device edits.
 
 Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. Automated cloud snapshots are intentionally excluded; JSON export is the independent backup method.
+
+
+## Health feature — laboratory records
+- [ ] Add a lab record with test name, numeric value, unit, date and optional note.
+- [ ] Lab records render newest first and display the saved value and unit exactly.
+- [ ] Delete removes only the selected lab record.
+- [ ] Lab records survive reload and are present in Cloudflare D1 state.
+- [ ] JSON export includes the labs array; valid import restores it.
+- [ ] Older D1 state without a labs property loads with an empty labs array.
+- [ ] Invalid numeric values, missing units and invalid dates are rejected.
