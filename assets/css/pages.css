@@ -1,0 +1,18 @@
+/* Settings feature layout */
+.settings-content { display: grid; gap: 16px; }
+.settings-section { padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.settings-section h3 { margin: 0 0 14px; font-size: 17px; }
+.settings-field, .settings-info { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.settings-field:last-of-type, .settings-info:last-of-type { border-bottom: 0; }
+.settings-field select, .settings-field input { width: min(48%, 190px); min-height: 40px; padding: 7px 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--text); }
+.settings-field input { text-align: right; }
+.settings-field select:disabled { opacity: .65; }
+.setting-toggle { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.setting-toggle:last-of-type { border-bottom: 0; }
+.setting-toggle span { display: grid; gap: 3px; }
+.setting-toggle strong, .settings-info strong { font-size: 14px; }
+.setting-toggle small, .settings-note { color: var(--muted); font-size: 12px; }
+.setting-toggle input { width: 21px; height: 21px; flex: 0 0 auto; accent-color: var(--accent); }
+.settings-note { margin: 10px 0 0; line-height: 1.6; }
+.settings-info strong { text-align: right; }
+@media (max-width: 380px) { .settings-section { padding: 14px; } .settings-field { align-items: flex-start; flex-direction: column; } .settings-field select, .settings-field input { width: 100%; } }
