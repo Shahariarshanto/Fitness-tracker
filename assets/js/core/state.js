@@ -15,6 +15,14 @@ function clone(value) {
   return typeof structuredClone === "function" ? structuredClone(value) : JSON.parse(JSON.stringify(value));
 }
 
+function oneRecordPerDate(records) {
+  const byDate = new Map();
+  (Array.isArray(records) ? records : []).forEach(item => {
+    if (item && /^\\d{4}-\\d{2}-\\d{2}$/.test(item.date)) byDate.set(item.date, item);
+  });
+  return [...byDate.values()].sort((a,b) => a.date.localeCompare(b.date));
+}
+
 function normalizeState(saved) {
   const { labs: _unusedLabs, ...stored } = saved;
   return {
@@ -23,7 +31,10 @@ function normalizeState(saved) {
     preferences: { ...INITIAL_STATE.preferences, ...(saved.preferences || {}) },
     medication: { ...INITIAL_STATE.medication, ...(saved.medication || {}) },
     symptoms: { ...INITIAL_STATE.symptoms, ...(saved.symptoms || {}), daily: { ...(saved.symptoms?.daily || {}) } },
-    healthScores: { ...INITIAL_STATE.healthScores, ...(saved.healthScores || {}) },
+    healthScores: {
+      basdai: oneRecordPerDate(saved.healthScores?.basdai),
+      asdas: oneRecordPerDate(saved.healthScores?.asdas)
+    },
     flarePlan: { ...INITIAL_STATE.flarePlan, ...(saved.flarePlan || {}) },
     healthEvents: Array.isArray(saved.healthEvents) ? saved.healthEvents : [],
     workoutSessions: Array.isArray(saved.workoutSessions) ? saved.workoutSessions : []
