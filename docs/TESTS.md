@@ -111,3 +111,30 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Health data persists after closing and reopening the PWA.
 
 **Verification note:** Repository changes are committed, but live browser, Android-device, offline, and deployment tests have not been performed by the assistant.
+
+
+## Step 5 — Medication feature
+
+### Static checks
+- [ ] Medication modules import only core state/date helpers and shared Feedback where needed.
+- [ ] Medication state normalizes to an items array and date-keyed daily logs.
+- [ ] Medication modules do not access localStorage directly.
+- [ ] Both runtime modules are listed in the service-worker shell and cache version is incremented.
+- [ ] Medication labels and user-entered values are escaped before rendering.
+- [ ] No medication or dose recommendations are hard-coded.
+
+### Browser checks
+- [ ] Add a medication with name, dose, schedule, optional time and notes.
+- [ ] Edit an existing medication without creating a duplicate.
+- [ ] Mark today's entry as taken, then change it to skipped; only the latest status remains for that medicine/date.
+- [ ] Daily summary counts active, taken and skipped entries correctly.
+- [ ] Archive a medication after confirmation; it leaves the active list but remains in past history.
+- [ ] Adherence history shows the correct medicine names and daily statuses.
+- [ ] Data persists after reload.
+
+### Device/PWA checks
+- [ ] Medication forms and action buttons fit narrow Android screens.
+- [ ] Medication modules load from the service-worker cache.
+- [ ] No overlap with the bottom navigation or toast.
+
+**Verification note:** Static repository review only; live browser, Android-device, offline, and notification tests have not been performed by the assistant. Automatic medication reminders are not implemented in this step.
