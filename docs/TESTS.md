@@ -244,41 +244,36 @@ Add focused module-level and feature-level tests in the same step that implement
 **Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.
 
 
-## Step 9 — Drive-first data and notifications
+## Cloudflare-first persistence
 
 ### Static checks
-- [ ] Drive uses only the drive.file OAuth scope; access tokens remain memory-only.
-- [ ] driveEnabled is a preference, not a stored credential.
-- [ ] Drive startup initialization completes before feature modules mount.
-- [ ] A valid canonical AS Care Data.json file is read and validated before state hydration.
-- [ ] A missing cloud file is created from current state only after explicit Google connection.
-- [ ] Updates are debounced and update the canonical file rather than creating timestamped files.
-- [ ] Edits made during an upload remain pending and are uploaded in a subsequent batch.
-- [ ] Failed/offline writes retain a pending outbox in the temporary local cache.
-- [ ] On startup, pending local edits upload before cloud hydration; otherwise Drive replaces the cache.
-- [ ] Malformed cloud snapshots are rejected before state mutation.
-- [ ] Drive status uses only the approved drive:sync-status event.
-- [ ] New modules are listed in sw.js and cache version is incremented.
-- [ ] No client secret, access token, health export or personal record is committed.
+- [ ] Worker accepts only the AS Care schema and rejects malformed/oversized payloads.
+- [ ] D1 migration creates the canonical `app_state` table.
+- [ ] App loads D1 state before mounting feature pages.
+- [ ] Empty D1 is seeded from existing local cache exactly once.
+- [ ] Existing D1 state is never overwritten by a fresh empty cache.
+- [ ] State edits are debounced and saved to D1.
+- [ ] Edits during an in-flight upload are sent in a subsequent batch.
+- [ ] Failed writes retain a durable local pending marker across reloads.
+- [ ] Pending local edits are uploaded before cloud hydration.
+- [ ] Cloudflare service and all modules are listed in `sw.js`; cache version increments.
+- [ ] No Google Drive or OAuth runtime module is imported.
+- [ ] Daily scheduled backups write D1 snapshots to R2 and prune only backups older than 30 days.
 
 ### Browser checks
-- [ ] First-time Google connection creates the canonical Drive data file if none exists.
-- [ ] If a Drive file already exists, connecting loads it instead of replacing it with local cache.
-- [ ] Refreshing the app loads the latest Drive data before Overview/Health/Insights render.
-- [ ] Editing pain, symptoms, BASDAI, ASDAS, medication or movement eventually updates the same Drive file.
-- [ ] Rapid consecutive edits are batched into one upload.
-- [ ] An edit made while an upload is in progress is not lost and triggers a later upload.
-- [ ] A failed upload leaves pending data and reports the failure.
-- [ ] Reopening after a pending failed/offline edit uploads that edit before reading the cloud snapshot.
-- [ ] A new device can connect to the same Google Account and load the saved history.
-- [ ] Token expiry/reload shows a clear reconnect path without deleting cached or Drive data.
-- [ ] Disconnecting stops automatic cloud sync but does not delete the Drive file.
-- [ ] Sound, vibration and Voice Guidance continue to follow their preferences.
+- [ ] Existing local health records are copied into an empty D1 on first launch.
+- [ ] A subsequent refresh loads D1 and does not reset records.
+- [ ] Editing pain, symptoms, BASDAI, ASDAS, medication, movement and preferences writes to D1.
+- [ ] Rapid edits are batched; edits during upload are not lost.
+- [ ] Offline edits remain after closing/reopening and sync after connectivity returns.
+- [ ] A second device loads the same cloud state.
+- [ ] A second device receives newer cloud state on refresh/poll without overwriting pending local edits.
+- [ ] D1 Time Travel and R2 backup restore procedures are verified.
+- [ ] Public API exposure is understood: CORS is not authentication and does not make health data private.
 
 ### Device/PWA checks
-- [ ] Google sign-in works on Android Chrome and installed PWA.
-- [ ] Drive data loads before feature pages appear.
-- [ ] Offline edits remain available in the temporary cache and sync after connectivity returns.
-- [ ] Narrow Android Settings layout remains usable.
+- [ ] Android Chrome and installed PWA load the D1 state before rendering data pages.
+- [ ] Offline shell remains available; cloud-dependent data status is handled gracefully.
+- [ ] No duplicate or missing records after reload and multi-device edits.
 
-Verification note: Repository source changes and documentation only. Live Google OAuth, Drive read/write, Android-device, offline, and deployed-browser tests have not been performed by the assistant.
+Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, R2 bucket setup, scheduled backup execution, live API, browser, Android and offline tests remain pending.
