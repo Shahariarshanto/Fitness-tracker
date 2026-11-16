@@ -25,8 +25,8 @@
 </nav>
 
 <section id="p1">
-<div class="card"><b id="cnt" style="font-size:22px"></b> টি শেষ<div class="bar"><i id="fill" style="width:0"></i></div><p id="msg" style="margin:8px 0 0;color:var(--dn);font-weight:600;min-height:1.6em"></p></div>
-<div class="card"><b>আজ ব্যথা কেমন?</b><p class="mu" style="margin:0">০ = ব্যথা নেই, ১০ = সবচেয়ে বেশি</p><div class="pain" id="pain"></div></div>
+<section class="overview-hero"><div class="overview-hero-top"><div><span class="kicker">YOUR DAILY PROGRESS</span><h2>আজকের অগ্রগতি</h2><p class="mu" id="msg">আজকের যত্নের কাজগুলো এখানে দেখাবে।</p></div><div class="overview-score"><strong id="cnt">০ / ২৪</strong><span>ব্যায়াম সম্পন্ন</span></div></div><div class="bar"><i id="fill" style="width:0"></i></div></section>
+<section class="card overview-pain-card"><div class="overview-card-title"><div><span class="kicker">PAIN CHECK-IN</span><h2>আজ ব্যথা কেমন?</h2><p class="mu">০ = ব্যথা নেই · ১০ = সবচেয়ে বেশি</p></div><span class="pain-symbol">◉</span></div><div class="pain" id="pain" role="group" aria-label="আজকের ব্যথার মাত্রা ০ থেকে ১০"></div><p class="overview-pain-summary" id="painSummary">আজকের ব্যথার মাত্রা নির্বাচন করুন।</p></section>
 <div class="card daily-habits" id="dailyHabits"></div><div class="card medication-home"><div id="doseHome"></div></div><div class="overview-next"><span class="kicker">YOUR NEXT STEP</span><h2>আজকের পরিকল্পনা তৈরি</h2><p class="mu">ব্যায়াম ও guided session শুরু করতে Movement খুলুন।</p><button type="button" class="btn" id="openMovement">Movement খুলুন ↗</button></div>
 </section>
 <section id="p5" hidden>
