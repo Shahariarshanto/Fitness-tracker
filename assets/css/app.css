@@ -405,13 +405,3 @@ main>section#p1.active-page{display:flex!important;flex-direction:column}
 .overview-pain-card .pain button:focus-visible,.habit-open-movement:focus-visible{outline:3px solid var(--dn);outline-offset:3px}
 .habit-open-movement{margin-top:12px;width:100%;text-align:center}
 #dailyHabits:empty,#overviewInsights:empty,#overviewMovement:empty{display:none!important}
-
-
-/* Temporary demo preview: clearly separate sample data from personal health records. */
-.demo-preview-banner{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border:1px solid var(--am);border-radius:16px;background:var(--bg);color:var(--tx)}
-.demo-preview-banner[hidden]{display:none!important}
-.demo-preview-banner b{font-size:13px;letter-spacing:.3px}.demo-preview-banner p{margin:4px 0;font-size:12px;color:var(--mu)}.demo-preview-banner small{display:block;font-size:11px;color:var(--mu)}
-.demo-preview-banner small[data-status=ok]{color:var(--dn)}.demo-preview-banner small[data-status=warning]{color:var(--am)}
-.demo-preview-banner button{flex:none;border:1px solid var(--bd);border-radius:10px;padding:9px 12px;background:var(--card);color:var(--tx);font:inherit;font-size:12px;font-weight:700}
-.demo-tools{border-style:dashed;border-color:var(--am)}.demo-tools>.btn{width:100%;margin-top:4px}
-@media(max-width:520px){.demo-preview-banner{align-items:flex-start;flex-direction:column}.demo-preview-banner button{width:100%}}
