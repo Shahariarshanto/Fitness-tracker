@@ -19,7 +19,13 @@ import("./features/health/index.js").then(({ initHealth }) => {
 }).catch(error => {
   console.error("AS Care Health module failed to load.", error);
   const content = document.querySelector("[data-health-content]");
-  if (content) content.innerHTML = '<section class="health-card"><h3>Health ফিচার লোড হয়নি</h3><p class="health-note">অ্যাপের এই অংশটি চালু করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।</p></section>';
+  if (content) {
+    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+    const safeDetail = detail.replace(/[&<>"']/g, character => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[character]));
+    content.innerHTML = `<section class="health-card"><h3>Health ফিচার লোড হয়নি</h3><p class="health-note">${safeDetail}</p><p class="health-note">এই error-টি দেখে সমস্যার কারণ শনাক্ত করা যাবে।</p></section>`;
+  }
 });
 
 function applyTheme(theme) {
