@@ -4,6 +4,7 @@ import { dateKey, formatDate } from "./core/dates.js";
 import { on } from "./core/events.js";
 import { initNavigation } from "./components/Navigation.js";
 import { initSettings } from "./features/settings/index.js";
+import { initMedication } from "./features/medication/index.js";
 
 const dateLabel = document.querySelector("#today-label");
 const toast = document.querySelector("#toast");
@@ -13,6 +14,7 @@ if (dateLabel) dateLabel.textContent = formatDate(dateKey());
 const router = initRouter({ initialPage: "overview" });
 const destroyNavigation = initNavigation();
 const destroySettings = initSettings();
+const destroyMedication = initMedication();
 let destroyHealth = () => {};
 import("./features/health/index.js").then(({ initHealth }) => {
   destroyHealth = initHealth();
@@ -53,5 +55,6 @@ window.addEventListener("pagehide", () => {
   router.destroy();
   destroyNavigation();
   destroySettings();
+  destroyMedication();
   destroyHealth();
 }, { once: true });
