@@ -5,6 +5,7 @@ import { on } from "./core/events.js";
 import { initNavigation } from "./components/Navigation.js";
 import { initSettings } from "./features/settings/index.js";
 import { initMedication } from "./features/medication/index.js";
+import { initMovement } from "./features/movement/index.js";
 
 const dateLabel = document.querySelector("#today-label");
 const toast = document.querySelector("#toast");
@@ -15,6 +16,7 @@ const router = initRouter({ initialPage: "overview" });
 const destroyNavigation = initNavigation();
 const destroySettings = initSettings();
 const destroyMedication = initMedication();
+const destroyMovement = initMovement();
 let destroyHealth = () => {};
 import("./features/health/index.js").then(({ initHealth }) => {
   destroyHealth = initHealth();
@@ -56,5 +58,6 @@ window.addEventListener("pagehide", () => {
   destroyNavigation();
   destroySettings();
   destroyMedication();
+  destroyMovement();
   destroyHealth();
 }, { once: true });
