@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v52";
+const CACHE_NAME = "as-care-shell-v53";
 const SHELL = [
   "./", "./index.html",
   "./assets/css/tokens.css", "./assets/css/base.css", "./assets/css/components.css", "./assets/css/pages.css",
@@ -11,6 +11,7 @@ const SHELL = [
   "./assets/js/components/Progress.js", "./assets/js/components/FormControls.js",
   "./assets/js/features/settings/index.js", "./assets/js/features/settings/Preferences.js",
   "./assets/js/features/health/index.js",
+  "./assets/js/features/medication/index.js", "./assets/js/features/medication/MedicationPanel.js",
   "./manifest.webmanifest", "./icon.svg"
 ];
 
