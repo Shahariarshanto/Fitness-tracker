@@ -94,3 +94,9 @@ Each page owns its own rendering and event orchestration. Shared state and stora
 - [x] Bump the app asset query and service-worker cache version to invalidate stale cached shell files.
 - [ ] Verify Overview visually on Android Chrome and desktop, including empty and populated user datasets.
 - [ ] Verify all Overview cards against a real backup/restore dataset before moving to another tab.
+
+
+## Overview first-entry rendering follow-up — 2026-11-16
+- [x] Activate the Overview page before the broader `renderAll()` routine during startup. This prevents an exception in a secondary render routine from skipping the page activation step.
+- [x] Guard the secondary startup render so an error is logged without preventing the already-activated Overview from appearing.
+- [ ] Browser verification on a fresh app launch remains pending.
