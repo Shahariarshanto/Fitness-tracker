@@ -95,7 +95,7 @@ Do not add events for ordinary exercise toggles, symptom edits, medication toggl
 
 ## 3. Target repository structure
 
-Target approximately 48 application/runtime files (root files + CSS + JavaScript). Documentation files are additional and are not counted in the runtime target.
+Target approximately 47 application/runtime files (root files + CSS + JavaScript). Documentation files are additional and are not counted in the runtime target.
 
 ```text
 Fitness-tracker/
