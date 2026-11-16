@@ -35,6 +35,7 @@ export function initInsights({ root = document.querySelector("[data-insights-con
       const [year,mon] = month.split("-").map(Number);
       const next = new Date(year,mon-1+Number(shift.dataset.monthShift),1);
       month = next.getFullYear()+"-"+String(next.getMonth()+1).padStart(2,"0");
+      selected = month+"-01";
       draw(); return;
     }
     if (event.target.closest("[data-summary-copy]")) {
