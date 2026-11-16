@@ -152,7 +152,7 @@ $("goal").addEventListener("change",function(){
  D.goal=n;save();renderMonth();
 });
 
-function tab(n){for(var i=1;i<=5;i++){var p=$("p"+i),b=$("t"+i);if(p)p.hidden=n!==i;if(b)b.setAttribute("aria-selected",n===i)}
+function tab(n){for(var i=1;i<=5;i++){var p=$("p"+i),b=$("t"+i);if(p){p.hidden=n!==i;p.style.setProperty("display",n===i?(i===1?"flex":"block"):"none","important");p.setAttribute("aria-hidden",n===i?"false":"true")}if(b)b.setAttribute("aria-selected",n===i)}
  if(n===1)renderToday();if(n===2){var d=new Date();vy=d.getFullYear();vm=d.getMonth();renderAll()}if(n===3)renderHealth();if(n===4)renderSettings();if(n===5){renderToday();filterExercises()}}
  $("t1").onclick=function(){cd=null;tab(1)};
  $("t2").onclick=function(){tab(2)};
