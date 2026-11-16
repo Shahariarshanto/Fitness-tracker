@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#20251f">
 <title>AS Care — Mobility & Health Tracker</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="./assets/css/app.css?v=navfix-23">
+<link rel="stylesheet" href="./assets/css/app.css?v=full-audit-24">
 
 <script src="https://accounts.google.com/gsi/client" defer></script>
 <link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
@@ -60,8 +60,6 @@
 <div class="row lab-entry"><label>তারিখ<input class="f" id="labDate" type="date"></label><label>CRP<input class="f" id="labCRP" type="number" step="any" placeholder="মান"></label><label>CRP unit<select class="f" id="labCRPUnit"><option value="mg/L">mg/L</option><option value="mg/dL">mg/dL</option></select></label><label>ESR (mm/h)<input class="f" id="labESR" type="number" step="any"></label><label>Hb (g/dL)<input class="f" id="labHb" type="number" step="any"></label><label>ALT (U/L)<input class="f" id="labALT" type="number" step="any"></label><label>Creatinine (mg/dL)<input class="f" id="labCreat" type="number" step="any"></label></div>
 <button class="btn" type="button" id="labAdd">রিপোর্ট সেভ করুন</button><div id="labTable" style="overflow-x:auto;margin-top:12px"></div><p class="mu" id="labMsg"></p></div>
 <div class="card" id="flareCard"><b>আমার AS Flare Plan</b><p class="mu">উপসর্গ বেড়ে গেলে আগে থেকে ঠিক করা পরিকল্পনা কাজে লাগতে পারে। নিজের চিকিৎসক/ফিজিওথেরাপিস্টের সঙ্গে আলোচনা করে পূরণ করুন।</p><label>আমার flare-এর সাধারণ লক্ষণ<textarea id="flareSigns" placeholder="যেমন: ব্যথা বেড়ে যাওয়া, জড়তা, ক্লান্তি…"></textarea></label><label>চিকিৎসকের অনুমোদিত self-care / হালকা ব্যায়াম<textarea id="flareCare" placeholder="যে কাজগুলো আপনার জন্য নিরাপদ বলে চিকিৎসক বলেছেন…"></textarea></label><label>যোগাযোগের চিকিৎসক/ক্লিনিক ও ফোন<textarea id="flareContact" placeholder="নাম, ফোন, জরুরি যোগাযোগ…"></textarea></label><button type="button" class="btn" id="flareSave">Flare Plan সেভ করুন</button><p class="mu" id="flareMsg"></p><p class="mu"><b>সতর্কতা:</b> flare হলে নিজের সিদ্ধান্তে ওষুধের ডোজ বাড়াবেন/কমাবেন না। নতুন তীব্র ব্যথা, আঘাতের পর পিঠব্যথা, পা দুর্বল/অসাড়, প্রস্রাব-পায়খানা নিয়ন্ত্রণে পরিবর্তন, লাল ব্যথাযুক্ত চোখ বা দৃষ্টির সমস্যা হলে দ্রুত চিকিৎসা নিন।</p></div>
-<div class="card"><b>ল্যাব রিপোর্ট</b><p class="mu">মানের ব্যাখ্যার জন্য সংশ্লিষ্ট ল্যাবের নিজস্ব reference range দেখুন। ২৯ অক্টোবরের রিপোর্টের মানগুলো নমুনা হিসেবে আছে।</p><div id="lt" style="overflow-x:auto"></div>
-<div class="row"><input class="f" type="date" id="ld"><label class="lab-field"><span>CRP</span><input class="f" id="lcrp" type="number" step="any" placeholder="মান" style="width:76px"><select class="f" id="lcrpUnit" aria-label="CRP একক"><option value="mg/L">mg/L</option><option value="mg/dL">mg/dL</option></select></label><input class="f" id="lesr" type="number" step="any" placeholder="ESR" style="width:76px"><input class="f" id="lhb" type="number" step="any" placeholder="Hb" style="width:76px"><input class="f" id="lalt" type="number" step="any" placeholder="ALT" style="width:76px"><input class="f" id="lcr" type="number" step="any" placeholder="ক্রি." style="width:76px"></div><button class="btn" id="ladd" type="button">রিপোর্ট যোগ করুন</button></div>
 <div class="note"><b class="warn">এখনই ডাক্তার দেখান:</b> জ্বর, লেগে থাকা কাশি, ফোসকাওয়ালা ফুসকুড়ি, লাল ও ব্যথার চোখ বা দৃষ্টিতে সমস্যা। <b class="warn">জরুরি চিকিৎসা:</b> হঠাৎ বুকে ব্যথা, শ্বাসকষ্ট, একটি পা ফুলে ব্যথা।</div>
 </section><section id="p4" hidden>
 <div class="settings-heading"><span class="kicker">YOUR SPACE · YOUR DATA</span><h1>Settings</h1><p class="workspace-sub">অ্যাপ, থিম ও ব্যক্তিগত ডেটা নিয়ন্ত্রণ করুন।</p></div>
@@ -85,7 +83,7 @@
 <p class="drive-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="./terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p></section><div class="note"><b>Clinical safety</b><br>AS Care একটি self-monitoring companion; diagnosis বা treatment device নয়। স্কোর দেখে নিজে ওষুধ শুরু, বন্ধ বা dose পরিবর্তন করবেন না।</div>
 </section>
 </main>
-<script src="./assets/js/app.js?v=dashboard-22" defer></script>
+<script src="./assets/js/app.js?v=full-audit-24" defer></script>
 <script src="./assets/js/drive-backup.js" defer></script>
 </body>
 </html>
