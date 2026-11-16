@@ -31,16 +31,19 @@
       </section>
       <section class="page-panel" data-page-panel="movement" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">DAILY MOVEMENT</p><h2>Movement</h2></div><span class="panel-index">02</span></div><div class="empty-panel"><span aria-hidden="true">↗</span><p>Movement feature পরবর্তী implementation ধাপে তৈরি হবে।</p></div></section>
       <section class="page-panel" data-page-panel="insights" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">YOUR PROGRESS</p><h2>Insights</h2></div><span class="panel-index">03</span></div><div class="empty-panel"><span aria-hidden="true">▥</span><p>Insights feature roadmap অনুযায়ী তৈরি হবে।</p></div></section>
-      <section class="page-panel" data-page-panel="health" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">HEALTH JOURNAL</p><h2>Health</h2></div><span class="panel-index">04</span></div><div class="empty-panel"><span aria-hidden="true">♡</span><p>Health tracking feature ধাপে ধাপে যোগ করা হবে।</p></div></section>
+      <section class="page-panel" data-page-panel="health" role="tabpanel" hidden>
+        <div class="panel-heading"><div><p class="eyebrow">HEALTH JOURNAL</p><h2>Health</h2></div><span class="panel-index">04</span></div>
+        <div class="health-content" data-health-content></div>
+      </section>
       <section class="page-panel" data-page-panel="settings" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">PREFERENCES</p><h2>Settings</h2></div><span class="panel-index">05</span></div><div class="settings-content" data-settings-content></div></section>
     </main>
-      <nav class="primary-nav" aria-label="প্রধান নেভিগেশন" role="tablist">
-        <button class="nav-item" type="button" role="tab" data-page="overview" aria-selected="true"><span aria-hidden="true">⌂</span><span>Overview</span></button>
-        <button class="nav-item" type="button" role="tab" data-page="movement" aria-selected="false"><span aria-hidden="true">↗</span><span>Movement</span></button>
-        <button class="nav-item" type="button" role="tab" data-page="insights" aria-selected="false"><span aria-hidden="true">▥</span><span>Insights</span></button>
-        <button class="nav-item" type="button" role="tab" data-page="health" aria-selected="false"><span aria-hidden="true">♡</span><span>Health</span></button>
-        <button class="nav-item" type="button" role="tab" data-page="settings" aria-selected="false"><span aria-hidden="true">⚙</span><span>Settings</span></button>
-      </nav>
+    <nav class="primary-nav" aria-label="প্রধান নেভিগেশন" role="tablist">
+      <button class="nav-item" type="button" role="tab" data-page="overview" aria-selected="true"><span aria-hidden="true">⌂</span><span>Overview</span></button>
+      <button class="nav-item" type="button" role="tab" data-page="movement" aria-selected="false"><span aria-hidden="true">↗</span><span>Movement</span></button>
+      <button class="nav-item" type="button" role="tab" data-page="insights" aria-selected="false"><span aria-hidden="true">▥</span><span>Insights</span></button>
+      <button class="nav-item" type="button" role="tab" data-page="health" aria-selected="false"><span aria-hidden="true">♡</span><span>Health</span></button>
+      <button class="nav-item" type="button" role="tab" data-page="settings" aria-selected="false"><span aria-hidden="true">⚙</span><span>Settings</span></button>
+    </nav>
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script type="module" src="./assets/js/bootstrap.js"></script>
