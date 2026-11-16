@@ -26,7 +26,8 @@ export function saveState(state) {
 
 export function getDriveSyncMeta() {
   try {
-    return JSON.parse(window.localStorage.getItem(DRIVE_META_KEY) || "{}");
+    const parsed = JSON.parse(window.localStorage.getItem(DRIVE_META_KEY) || "{}");
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
   } catch { return {}; }
 }
 
