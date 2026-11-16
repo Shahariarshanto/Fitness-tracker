@@ -70,21 +70,57 @@ main{padding-top:0}
 .all{width:100%;font:inherit;border:1px dashed var(--bd);background:none;color:var(--ac);border-radius:12px;padding:8px}
 .lg div{margin:3px 0;font-size:15px}
 .bd{padding:4px 10px;border-radius:14px;background:var(--ac2);color:var(--mu);font-size:13px}.bd.on{background:var(--done);color:var(--dn);border:1px solid var(--dn)}
+body{background:radial-gradient(900px 420px at 50% -160px,rgba(31,157,120,.16),transparent),var(--bg)}
+.hero{background:linear-gradient(140deg,#0b5f78 0%,#128a8a 55%,#2aa57c 100%);box-shadow:0 10px 30px rgba(14,111,138,.25);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-50px;top:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.1)}
+.hero h1{font-size:27px;letter-spacing:.2px}
+.fl{display:flex;align-items:center;gap:6px;z-index:1;font-size:17px}
+.tabs{display:flex;justify-content:space-around;gap:4px;border-top:0;box-shadow:0 -6px 24px rgba(0,0,0,.10)}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:13px;padding:6px 4px;border-radius:14px}
+.card,.slot{border:0;box-shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(20,38,46,.07)}
+.slot header .em{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none}
+#list .slot:nth-of-type(1) .em{background:rgba(255,185,50,.18);color:#e0a020}
+#list .slot:nth-of-type(2) .em{background:rgba(58,168,216,.18);color:#3aa8d8}
+#list .slot:nth-of-type(3) .em{background:rgba(143,136,240,.2);color:#8f88f0}
+.it{background:var(--bg);border:0;box-shadow:none;transition:background .15s}
+.it input{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--bd);background:var(--card);display:grid;place-items:center;flex:none;margin:2px 0 0}
+.it input:checked{background:var(--dn);border-color:var(--dn)}
+.it input:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.it.on{background:var(--done)}.it.on .t,.it.on .d{opacity:.6}
+.all{width:auto;display:block;margin:6px 0 0 auto;border:0;background:var(--ac2);color:var(--ac);padding:6px 16px;font-size:14px}
+#pain button{background:hsl(calc(135 - var(--i,0)*13) 55% 42%);color:#fff;border:0;font-weight:700;opacity:.42}
+#pain button.on{opacity:1;transform:scale(1.12);box-shadow:0 3px 10px rgba(0,0,0,.25)}
+#nt button.on{background:var(--ac);color:var(--card)}
+.b i{border-radius:6px 6px 2px 2px}
+.bd svg{vertical-align:-2px}
+.note{font-size:14px}
 [hidden]{display:none!important}
+.fg{flex:none;width:84px;height:63px;border-radius:12px;background:var(--card);align-self:center}
+.fg svg{display:block}
+.en{display:block;color:var(--ac);font-weight:700;font-size:15px;line-height:1.35}
+.ec{display:block;color:var(--mu);font-size:13px;font-style:italic}
+.it.on .en,.it.on .ec,.it.on .fg{opacity:.6}
+#dose{order:-2}
+.dz,.dzon{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;padding:14px 8px;border-radius:16px;border:1px solid var(--bd);background:var(--bg);color:var(--mu)}
+.dzon{background:var(--done);border-color:var(--dn);color:var(--dn);font-weight:700}
+.sq,.sk{display:block;width:17px;height:17px;border-radius:5px;background:var(--ac2)}.sk{background:var(--dn)}
+.zt{display:block;font-size:12px;color:var(--dn);margin-top:2px}
+.tg,.tgon{font:inherit;padding:6px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--bg);color:var(--mu)}.tgon{background:var(--ac);color:var(--card);border-color:var(--ac)}
+.bp{margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:12px}
 </style>
 </head>
 <body>
 <main>
 <div class="hero"><div><h1 id="gr">ব্যায়াম ট্র্যাকার</h1><p id="date"></p></div><div class="fl" id="fl"></div></div>
 <p class="quote" id="qt"></p>
-<p class="mu" id="sync" style="margin:0 2px 8px"></p>
 <div class="tabs" role="tablist"><button id="t1" role="tab" aria-selected="true">☀️ আজ</button><button id="t2" role="tab" aria-selected="false">📊 অগ্রগতি</button><button id="t3" role="tab" aria-selected="false">❤️ স্বাস্থ্য</button></div>
 
 <section id="p1">
 <div class="card"><b id="cnt" style="font-size:22px"></b> টি শেষ<div class="bar"><i id="fill" style="width:0"></i></div><p id="msg" style="margin:8px 0 0;color:var(--dn);font-weight:600;min-height:1.6em"></p></div>
 <div class="card"><b>আজ ব্যথা কেমন?</b><p class="mu" style="margin:0">০ = ব্যথা নেই, ১০ = সবচেয়ে বেশি</p><div class="pain" id="pain"></div></div>
+<div class="card" id="dose"></div>
 <div id="list"></div>
-<div class="note">সংখ্যাগুলো সাধারণ শুরুর ধারণা। ফিজিওথেরাপিস্ট ঠিক করে দিলে সেটাই মানুন। স্ট্রেচের টান থাকবে, কিন্তু ব্যথা বাড়লে থামুন বা হালকা করুন। ব্যথা বাড়ার সময় দৌড়-লাফ নয়।</div>
+<div class="note"><b>ব্যায়ামের নিয়ম</b> (SAA, NASS, NICE ও EULAR-এর পরামর্শ অনুযায়ী): প্রতিদিন নমনীয়তা ও শ্বাসের ব্যায়াম, সপ্তাহে ২–৪ দিন কোর ও শক্তির কাজ, সপ্তাহে ১৫০ মিনিট হাঁটা। স্ট্রেচে টান লাগবে, তীব্র ব্যথা নয়। ব্যথা বা জড়তা বাড়লে হালকা করুন; দৌড়, লাফ ও কনট্যাক্ট স্পোর্টস এড়ান। সংখ্যাগুলো শুরুর ধারণা। মেরুদণ্ড জোড়া লাগার (ফিউশন) থাকলে বা ফ্লেয়ারের সময় ফিজিওথেরাপিস্টকে জিজ্ঞেস করে নিন।</div>
 </section>
 
 <section id="p2" hidden>
@@ -97,7 +133,7 @@ main{padding-top:0}
 <div class="bar"><i id="gfill" style="width:0"></i></div><p class="mu" id="gtxt" style="margin:6px 0 0"></p></div>
 <div class="card"><b>ডাক্তারের জন্য সারাংশ</b><p class="mu">গত ৪২ দিন (৬ সপ্তাহ), ফলো-আপে দেখানোর জন্য।</p>
 <textarea id="sum" readonly></textarea><button class="btn" id="copy" type="button" style="margin-top:8px">কপি করুন</button></div>
-<details class="card"><summary>ব্যাকআপ ও পুনরুদ্ধার</summary>
+<details class="card" open><summary>ব্যাকআপ ও পুনরুদ্ধার</summary><p class=mu id=cl>ক্লাউড ব্যাকআপ: যাচাই হচ্ছে…</p><div class=row style=gap:8px><button type=button class=tg id=cb>☁️ ক্লাউড ব্যাকআপ</button><button type=button class=tg id=fb>⬇️ ফাইলে সেভ</button></div>
 <p class="mu">ডেটা এই ব্রাউজারে সংরক্ষিত। ফোন বদলালে নিচের লেখা কপি করে রাখুন, নতুন ফোনে পেস্ট করে পুনরুদ্ধার চাপুন।</p>
 <textarea id="bk"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="bkc" type="button">কপি</button><button class="btn" id="bkr" type="button">পুনরুদ্ধার</button></div><p class="mu" id="bkm"></p></details>
 <div class="note">সম্পন্ন দিন মানে ৭০% বা বেশি কাজ শেষ। কিছু করলে কিন্তু কম হলে আংশিক। কিছুই না করলে বাদ।</div>
@@ -106,7 +142,7 @@ main{padding-top:0}
 <section id="p3" hidden>
 <div class="card"><b>আজকের লগ</b>
 <div class="row"><b>রাতে শুয়ে থাকার পর নড়তে সমস্যা হয়েছে?</b><input type="hidden" id="stf"><div class="pain" id="nt"><button type="button" data-n="0" style="width:auto;padding:0 16px">না, হয়নি</button><button type="button" data-n="1" style="width:auto;padding:0 16px">হ্যাঁ, হয়েছে</button></div></div>
-<div class="row"><label><input type="checkbox" id="med" style="width:22px;height:22px;vertical-align:-5px"> আজ টোফাসিটিনিব খেয়েছি (ডাক্তারের ডোজে)</label></div></div>
+<input type="checkbox" id="med" hidden></div>
 <div class="card"><b>গুরুত্বপূর্ণ তারিখ</b><p class="mu">তারিখ ডাক্তারের সঙ্গে নিশ্চিত করে বদলে নিন।</p><div id="ev"></div></div>
 <div class="card"><b>মাসিক BASDAI</b><p class="mu">গত ১ সপ্তাহ কেমন ছিল? ০ = নেই, ১০ = সবচেয়ে বেশি।</p><div id="bq"></div><p id="bres" style="font-weight:600;margin:8px 0"></p><button class="btn" id="bsave" type="button">স্কোর সেভ করুন</button><p class="mu" id="bh"></p></div>
 <div class="card"><b>ল্যাব রিপোর্ট</b><p class="mu">লাল মানে স্বাভাবিকের বাইরে। ২৯ অক্টোবরের রিপোর্ট দেওয়া আছে।</p><div id="lt" style="overflow-x:auto"></div>
@@ -155,15 +191,7 @@ function load(){
 try{var r=localStorage.getItem(KEY);
 if(r){var o=JSON.parse(r);if(o&&o.days&&typeof o.days==="object"){D=o;if(!D.goal)D.goal=20}}
 else{var v=localStorage.getItem("spa-daily-v1");if(v){var q=JSON.parse(v);if(q&&q.date&&Array.isArray(q.done)){var a=q.date.split("-");D.days[a[0]+"-"+pad(+a[1])+"-"+pad(+a[2])]={d:q.done,p:null}}}}}catch(e){}}
-var _st=null;
-function setSync(t){var e=document.getElementById("sync");if(e)e.innerHTML=t}
-function rows(){var out=[["তারিখ","সম্পন্ন কাজ","সকাল","বিকাল","রাত","ব্যথা (০-১০)","রাতে নড়তে সমস্যা","ওষুধ খেয়েছি"]];
-Object.keys(D.days).sort().forEach(function(k){var o=D.days[k],c=SL.map(function(x){return x[4].filter(function(i){return o.d.indexOf(i)>-1}).length});
-out.push([k,o.d.length,c[0],c[1],c[2],o.p==null?"":o.p,(o.s==null||o.s==="")?"":(+o.s>0?"হ্যাঁ":"না"),o.m?"হ্যাঁ":""])});return out}
-function labrows(){return [["তারিখ","CRP","ESR","Hb","ALT","ক্রিয়েটিনিন"]].concat(D.labs.map(function(l){return [l.d,l.crp,l.esr,l.hb,l.alt,l.cr]}))}
-function push(){if(!(window.google&&google.script&&google.script.run))return;setSync("☁️ সেভ হচ্ছে…");
-google.script.run.withSuccessHandler(function(u){setSync('☁️ <a href="'+u+'" target="_blank" rel="noopener">গুগল শিটে</a> সেভ হয়েছে ✓')}).withFailureHandler(function(){setSync("⚠️ শিটে সেভ হয়নি, পরের পরিবর্তনে আবার চেষ্টা হবে")}).saveData(JSON.stringify(D),rows(),labrows())}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}clearTimeout(_st);_st=setTimeout(push,1500)}
+function save(){try{D._t=Date.now();localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}if(window.cpush){clearTimeout(window._tm);window._tm=setTimeout(cpush,2500)}}
 function day(k){return D.days[k]||(D.days[k]={d:[],p:null})}
 function today(){return ds(new Date())}
 function renderToday(){
@@ -235,8 +263,8 @@ var EV=[["start","টোফাসিটিনিব শুরু"],["fu","ডা
 var BQ=["ক্লান্তি বা অবসাদ কতটা ছিল?","ঘাড়, পিঠ বা কোমরের ব্যথা কতটা?","অন্য জয়েন্টে ব্যথা বা ফোলা কতটা?","স্পর্শ বা চাপে ব্যথা কতটা?","ঘুম থেকে উঠে জড়তা কতটা তীব্র?","জড়তা কতক্ষণ থাকে? (১০ = ২ ঘণ্টা বা বেশি)"];
 function fix(){D.ev=D.ev||{};if(D.ev.fu===undefined)D.ev.fu="2026-12-17";if(D.ev.pn23===undefined)D.ev.pn23="2027-01-05";["start","bt","hb"].forEach(function(k){if(D.ev[k]===undefined)D.ev[k]=""});
 if(!Array.isArray(D.labs)||!D.labs.length)D.labs=[{d:"2026-10-29",crp:2.1,esr:62,hb:12.9,alt:12,cr:0.97}];if(!Array.isArray(D.bas))D.bas=[]}
-function xs(s,t){var d=pk(s),a=0,ac=0,md=0;for(;ds(d)<=t;d.setDate(d.getDate()+1)){var o=D.days[ds(d)];if(o){if(o.s!=null&&o.s!==""){a+=(+o.s>0?1:0);ac++}if(o.m)md++}}
-var r="\nরাতে নড়তে সমস্যা: "+(ac?bn(a)+" দিন ("+bn(ac)+" দিনের মধ্যে)":"লেখা নেই")+"। টোফাসিটিনিব খাওয়ার দিন: "+bn(md)+"।";
+function xs(s,t){var d=pk(s),a=0,ac=0,md=0;for(;ds(d)<=t;d.setDate(d.getDate()+1)){var o=D.days[ds(d)];if(o){if(o.s!=null&&o.s!==""){a+=(+o.s>0?1:0);ac++}md+=(o.m1?1:0)+(o.m2?1:0)}}
+var r="\nরাতে নড়তে সমস্যা: "+(ac?bn(a)+" দিন ("+bn(ac)+" দিনের মধ্যে)":"লেখা নেই")+"। টোফাসিটিনিব ডোজ নেওয়া (সকাল+রাত): "+bn(md)+"টি।";
 var b=D.bas[D.bas.length-1];if(b)r+="\nBASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";
 var l=D.labs[D.labs.length-1];if(l)r+="\nসর্বশেষ ল্যাব ("+fmt(l.d)+"): CRP "+nz(l.crp)+", ESR "+nz(l.esr)+", Hb "+nz(l.hb)+"।";return r}
 function bval(){var q=document.querySelectorAll("#bq input"),v=[];for(var i=0;i<q.length;i++)v.push(+q[i].value);return Math.round((v[0]+v[1]+v[2]+v[3]+(v[4]+v[5])/2)/5*10)/10}
@@ -287,13 +315,13 @@ $("date").textContent=fmt(k,{weekday:"long",day:"numeric",month:"long"})+(cd?" �
 $("fl").textContent="🔥 "+bn(streaks()[0])+" দিন";
 $("qt").textContent=QT[Math.floor(Date.now()/864e5)%QT.length]}
 var _rm=renderMonth;renderMonth=function(){_rm();drawDn()};
-function drawDn(){var y=vy,m=vm,n=new Date(y,m+1,0).getDate(),t=today(),ok=0,pt=0,ms=0,el=0,sd=[0,0,0];
+function drawDn(){var y=vy,m=vm,n=new Date(y,m+1,0).getDate(),t=today(),ok=0,pt=0,ms=0,el=0,sd=[0,0,0,0,0,0];
 for(var i=1;i<=n;i++){var k=y+"-"+pad(m+1)+"-"+pad(i);if(k>t)continue;el++;var o=D.days[k],c=o?o.d.length:0;
 if(c>=THR)ok++;else if(c>0)pt++;else if(k<t)ms++;
 if(o)SL.forEach(function(s,j){s[4].forEach(function(id){if(o.d.indexOf(id)>-1)sd[j]++})})}
 var fu=n-ok-pt-ms,best=streaks()[1];
 $("dn").innerHTML='<b>এই মাসের চিত্র</b><div class="row" style="flex-wrap:nowrap;gap:14px;margin-top:8px">'+donut([[ok,"var(--dn)"],[pt,"var(--am)"],[ms,"var(--rd)"],[fu,"var(--ac2)"]],150,bn(ok),"সম্পন্ন দিন")+'<div class="lg"><div style="color:var(--dn)">● সম্পন্ন '+bn(ok)+'</div><div style="color:var(--am)">● আংশিক '+bn(pt)+'</div><div style="color:var(--rd)">● বাদ '+bn(ms)+'</div><div class="mu">● বাকি '+bn(fu)+'</div></div></div>'+
-'<b style="display:block;margin-top:14px">সময়ভিত্তিক সম্পন্নতা</b><div class="row" style="justify-content:space-around">'+SL.map(function(s,j){var q=el?Math.round(sd[j]/(s[4].length*el)*100):0;return '<div style="text-align:center">'+ring(q,84,"var(--dn)",bn(q)+"%")+'<div class="mu" style="margin:0">'+s[1]+" "+s[2]+"</div></div>"}).join("")+'</div>'+
+'<b style="display:block;margin-top:14px">ধরন অনুযায়ী সম্পন্নতা</b><div class="row" style="justify-content:space-around">'+SL.map(function(s,j){var q=el?Math.round(sd[j]/(s[4].length*el)*100):0;return '<div style="text-align:center">'+ring(q,84,"var(--dn)",bn(q)+"%")+'<div class="mu" style="margin:0">'+s[1]+" "+s[2]+"</div></div>"}).join("")+'</div>'+
 '<div class="row" style="margin-top:10px">'+[3,7,14,30].map(function(x){return '<span class="bd'+(best>=x?" on":"")+'">'+(best>=x?"🏅":"🔒")+" "+bn(x)+" দিন"+"</span>"}).join("")+'</div>'}
 $("list").addEventListener("click",function(e){var s=e.target.getAttribute("data-s");if(!s)return;
 var sl=SL.filter(function(x){return x[0]===s})[0],o=day(cur()),all=sl[4].every(function(i){return o.d.indexOf(i)>-1});
@@ -303,9 +331,118 @@ $("chart").closest(".card").insertAdjacentHTML("beforebegin",'<div class="card" 
 function showNt(){var t=D.days[today()]||{},v=t.s==null||t.s===""?-1:(+t.s>0?1:0);document.querySelectorAll("#nt button").forEach(function(b){b.classList.toggle("on",+b.getAttribute("data-n")===v)})}
 var _rt=renderToday;renderToday=function(){_rt();showNt()};
 $("nt").addEventListener("click",function(e){var n=e.target.getAttribute("data-n");if(n===null)return;var o=day(today());o.s=(o.s!=null&&o.s!==""&&((+o.s>0?1:0)===+n))?null:+n;save();showNt()});
+function ic(n,s){var P={sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',sunrise:'<path d="M12 2v6M4.9 10.9l1.4 1.4M2 18h2M20 18h2M17.7 12.3l1.4-1.4M22 22H2M8 6l4-4 4 4M16 18a4 4 0 0 0-8 0"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',today:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/>',chart:'<path d="M3 3v18h18"/><path d="M7 16V9M12 16V5M17 16v-4"/>',heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',check:'<path d="M20 6 9 17l-5-5"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'};return '<svg viewBox="0 0 24 24" width="'+(s||24)+'" height="'+(s||24)+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+P[n]+'</svg>'}
+SL[0][1]=ic("sunrise",26);SL[1][1]=ic("sun",26);SL[2][1]=ic("moon",26);
+[["t1","today","আজ"],["t2","chart","অগ্রগতি"],["t3","heart","স্বাস্থ্য"]].forEach(function(x){$(x[0]).innerHTML=ic(x[1])+"<span>"+x[2]+"</span>"});
+var _r2=renderToday;renderToday=function(){_r2();$("fl").innerHTML=ic("flame",20)+"<span>"+bn(streaks()[0])+" দিন</span>";Array.prototype.forEach.call($("pain").children,function(b,i){b.style.setProperty("--i",i)});var m=$("list").querySelector(".top p");if(m)m.textContent=m.textContent.replace("🎉 ","").replace("✔ ","")};
+var _dd=drawDn;drawDn=function(){_dd();$("dn").innerHTML=$("dn").innerHTML.replace(/🏅/g,ic("check",13)).replace(/🔒/g,ic("lock",13))};
+var PS={a1:[[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,33,20,27,14,47,20,53,14,38,45,38,54,42,45,42,54]],
+b1:[[45,10,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54]],
+b2:[[33,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[47,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54]],
+b3:[[35,12,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[45,12,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54]],
+b4:[[40,9,40,16,40,35,33,17,33,8,47,17,47,8,38,45,38,54,42,45,42,54],[46,10,44,17,40,35,36,18,36,8,52,18,52,8,38,45,38,54,42,45,42,54]],
+b5:[[40,9,40,16,40,35,31,18,31,10,49,18,49,10,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,35,8,36,1,45,8,44,1,38,45,38,54,42,45,42,54]],
+c1:[[16,30,26,32,52,32,26,42,26,52,29,42,29,52,52,50,64,52,55,50,67,52],[23,41,27,31,53,27,26,42,26,52,29,42,29,52,53,50,65,52,56,50,68,52]],
+c2:[[16,30,26,32,52,32,26,42,26,52,29,42,29,52,52,50,64,52,55,50,67,52],[16,30,26,32,52,32,17,32,8,32,29,42,29,52,64,33,76,34,55,50,67,52]],
+c3:[[16,30,26,32,52,32,26,42,26,52,29,42,29,52,52,50,64,52,55,50,67,52],[20,28,26,32,52,32,27,23,27,13,29,42,29,52,52,50,64,52,55,50,67,52]],
+c4:[[19,48,27,49,54,49,29,44,29,50,32,44,32,50,66,49,78,50,66,50,78,51],[29,30,30,38,54,49,30,44,30,50,33,44,33,50,66,49,78,50,66,50,78,51]],
+c5:[[13,50,21,50,48,50,30,50,38,50,30,51,38,51,58,38,62,50,60,38,64,50],[13,50,21,50,48,50,30,50,38,50,30,51,38,51,59,46,66,50,60,38,64,50]],
+d1:[[13,50,21,50,48,50,30,50,38,50,30,51,38,51,60,50,74,50,60,51,74,51],[13,50,21,50,48,50,32,47,42,41,32,48,43,42,43,40,52,44,44,41,53,45]],
+d2:[[13,50,21,50,48,50,30,50,38,50,30,51,38,51,56,38,62,50,58,38,64,50],[13,50,21,50,46,38,30,50,38,50,30,51,38,51,58,40,62,51,60,40,64,51]],
+d3:[[30,22,30,30,30,48,34,38,40,46,35,38,42,47,46,48,60,48,46,49,60,49],[51,32,44,36,30,48,51,42,58,47,52,42,59,48,46,48,60,48,46,49,60,49]],
+d4:[[34,9,35,17,38,35,29,19,22,21,29,18,22,20,35,45,34,54,41,45,44,54],[28,10,31,18,38,35,26,19,22,21,26,18,22,20,31,45,30,54,44,44,50,54]],
+d5:[[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,38,26,38,34,46,26,48,34,38,45,38,54,41,45,48,35]],
+e1:[[40,9,40,16,40,35,35,26,31,32,45,26,49,31,45,44,50,54,36,45,31,54],[40,9,40,16,40,35,45,26,49,31,35,26,31,32,36,44,31,54,45,45,50,54]],
+e2:[[36,14,36,22,36,40,40,32,48,38,41,32,49,39,50,40,50,54,51,41,51,54],[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54]],
+e3:[[40,9,40,16,40,35,46,20,54,20,46,21,54,21,38,45,38,54,42,45,42,54],[41,13,38,21,30,40,46,22,54,22,46,23,54,23,46,42,42,54,47,43,43,54]]};
+var EN={a1:["Deep Breathing","Inhale through nose, exhale slowly · ×5"],b1:["Chin Tuck","Pull chin straight back · hold 5s ×5"],b2:["Neck Rotation","Turn head side to side · 5s ×5 each"],b3:["Neck Side Tilt","Ear toward shoulder · 5s ×5 each"],b4:["Doorway Chest Stretch","Elbows on frame, lean forward · 10s ×2"],b5:["Wall Angels","Back on wall, slide arms up · ×8"],c1:["Cat-Camel","Arch, then round your back · 5s ×6"],c2:["Bird-Dog","Opposite arm and leg · ×5 each side"],c3:["Open Book (Thoracic Rotation)","Hand to ceiling, head follows · ×6 each"],c4:["Prone Press-Up (Cobra)","Press upper body up · ×6–8"],c5:["Lying Knee Cross (Spinal Twist)","Knee across the body · 10s ×3 each"],d1:["Knees to Chest","Pull knees in gently · 10s ×5"],d2:["Glute Bridge","Tuck tailbone, lift hips · 5s ×8"],d3:["Hamstring Stretch","Legs straight, lean forward · 10s ×2 each"],d4:["Calf Stretch","Back heel down, lean into wall · 10s ×2 each"],d5:["Quad Stretch","Heel toward buttock · 10s ×2 each"],e1:["Brisk Walking","30 min, or 3 × 10 min"],e2:["Movement Break","Stand and walk 2 min every hour"],e3:["Squats & Wall Push-ups","Squat ×10, wall push-up ×10 · 2 sets (animation: squat)"]};
+var FS='<svg viewBox="0 0 80 60" width="84" height="63" aria-hidden="true"><line x1="4" y1="55" x2="76" y2="55" style="stroke:var(--bd)" stroke-width="1.5"/><path fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ac)"/><circle r="5.5" style="fill:var(--ac2);stroke:var(--ac)" stroke-width="2.5"/></svg>';
+var RM=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+function frame(t){var k=RM?0:(1-Math.cos(t/1200*Math.PI))/2;document.querySelectorAll(".fg").forEach(function(el){var q=PS[el.getAttribute("data-id")];if(!q)return;var p=q[0].map(function(v,i){return Math.round((v+(q[1][i]-v)*k)*10)/10});
+var L=function(a,b,c){return"M"+p[a]+" "+p[a+1]+"L"+p[b]+" "+p[b+1]+"L"+p[c]+" "+p[c+1]};
+el.querySelector("path").setAttribute("d","M"+p[2]+" "+p[3]+"L"+p[4]+" "+p[5]+L(2,6,8)+L(2,10,12)+L(4,14,16)+L(4,18,20));
+var c=el.querySelector("circle");c.setAttribute("cx",p[0]);c.setAttribute("cy",p[1])})}
+function deco(){document.querySelectorAll("#list label.it").forEach(function(l){var id=l.querySelector("input").getAttribute("data-id"),e=EN[id];if(!e||l.querySelector(".fg"))return;var f=document.createElement("div");f.className="fg";f.setAttribute("data-id",id);f.innerHTML=FS;l.insertBefore(f,l.querySelector("span"));l.querySelector(".t").insertAdjacentHTML("beforebegin",'<span class="en">'+e[0]+"</span>");l.querySelector(".d").insertAdjacentHTML("afterend",'<span class="ec">'+e[1]+"</span>")});frame(0)}
+var _r3=renderToday;renderToday=function(){_r3();deco()};
+if(!RM)(function lp(t){frame(t);requestAnimationFrame(lp)})(0);
+G.push({t:'৬. আন্তর্জাতিক পরামর্শে যোগ',s:'',i:[['f1','দেওয়ালে সোজা দাঁড়ানো','গোড়ালি, নিতম্ব, কাঁধ ও মাথা দেওয়ালে ঠেকিয়ে দাঁড়ান · ২০–৩০ সেকেন্ড × ৫ বার'],['f2','প্ল্যাঙ্ক (কোর)','কনুই ও হাঁটুর ভরে শরীর সোজা রাখুন · ১০–২০ সেকেন্ড × ৩ বার'],['f3','কোমরের সামনের স্ট্রেচ','এক হাঁটু মাটিতে, অন্য পা সামনে; কোমর ধীরে সামনে ঠেলুন · ১৫ সেকেন্ড × ২ বার প্রতি পাশে'],['f4','কাঁধের হাড় চাপা','দুই কনুই পেছনে টেনে কাঁধের হাড় কাছে আনুন · ৫ সেকেন্ড × ১০ বার'],['f5','এক পায়ে ভারসাম্য','দেওয়াল বা চেয়ার ধরে এক পায়ে দাঁড়ান · ২০ সেকেন্ড × ২ বার প্রতি পায়ে']]});
+TOTAL+=5;THR=Math.ceil(TOTAL*.7);G[G.length-1].i.forEach(function(x){IT[x[0]]=x});
+SL[0][4].push('f1');SL[1][4]=['e1','e2','b4','b5','f4','c2','c3','f2','e3','f5'];SL[2][4].push('f3');
+SL[0][3]='গোসলের পর · শ্বাস, ঘাড়, মেরুদণ্ড ও ভঙ্গি';SL[1][3]='হাঁটা, কোর, শক্তি ও ভারসাম্য';SL[2][3]='ঘুমের আগে · পা, কোমর ও রাতের জড়তা কমাতে';
+PS.f1=[[45,10,41,17,38,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54]];
+PS.f2=[[16,37,24,39,46,46,24,51,36,51,25,51,37,51,58,50,68,52,59,50,69,52],[16,35,24,37,46,43,24,50,36,51,25,50,37,51,58,50,68,52,59,50,69,52]];
+PS.f3=[[38,6,38,14,38,32,43,24,48,36,43,25,49,37,50,40,52,54,30,50,20,52],[43,10,42,18,44,36,47,28,52,40,47,29,53,41,53,42,54,54,32,52,22,53]];
+PS.f4=[[40,9,40,16,40,35,44,23,52,21,44,24,52,22,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,34,22,42,20,34,23,42,21,38,45,38,54,42,45,42,54]];
+PS.f5=[[40,9,40,16,40,35,38,26,38,34,42,26,42,34,38,45,38,54,42,45,42,54],[40,9,40,16,40,35,33,22,27,24,47,22,53,24,38,45,38,54,47,40,41,47]];
+EN.f1=['Wall Posture Stand','Heels, bottom, shoulders, head touch wall · 20–30s ×5'];EN.f2=['Plank (Core)','On forearms and knees, body straight · 10–20s ×3'];EN.f3=['Hip Flexor Stretch (Kneeling Lunge)','Push hips forward gently · 15s ×2 each side'];EN.f4=['Shoulder Blade Squeeze','Elbows back, squeeze shoulder blades · 5s ×10'];EN.f5=['Single-Leg Balance','Hold wall or chair · 20s ×2 each leg'];
+function dose(){var o=D.days[cur()]||{},h='<b>টোফাসিটিনিব</b><span class=mu style=margin-left:8px>দিনে ২ বার</span><div class=row style=gap:10px;flex-wrap:nowrap;margin-top:8px>';
+[['1','sun','সকাল'],['2','moon','রাত']].forEach(function(x){var on=o['m'+x[0]];h+='<button type=button class='+(on?'dzon':'dz')+' data-m='+x[0]+'>'+ic(x[1],22)+'<span>'+x[2]+(on?' · খেয়েছি':' · বাকি')+'</span></button>'});
+$('dose').innerHTML=h+'</div>'}
+$('dose').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;var o=day(cur()),k='m'+b.getAttribute('data-m');o[k]=!o[k];o.m=!!(o.m1||o.m2);save();dose()});
+var _r4=renderToday;renderToday=function(){_r4();dose()};
+$('p2').insertAdjacentHTML('afterbegin','<div id=wk></div>');
+function drawWk(){var t=today(),i,k,o,x,y,DS=[];for(i=6;i>=0;i--)DS.push(add(t,-i));
+var h='<div class=card><b>এই সপ্তাহ</b><div class=row style=justify-content:space-between;flex-wrap:nowrap;margin-top:8px>'+DS.map(function(k){var o=D.days[k],c=o?o.d.length:0;return '<div style=text-align:center>'+ring(Math.round(c/TOTAL*100),46,c>=THR?'var(--dn)':'var(--am)',c>=THR?'✓':'')+'<div class=mu style=margin:0;font-size:12px>'+fmt(k,{weekday:'short'})+'</div></div>'}).join('')+'</div></div>';
+var h0=h;h='';var MO=['a1','b1','b2','b3','c1','c4','c5','d1','d2','d3','d4','d5','f3','b4'],ST=['f2','e3','d2','c2','f4','b5'];
+function cn(f){return DS.filter(function(k){var o=D.days[k];return o&&f(o.d)}).length}
+function hv(d,a){return a.filter(function(z){return d.indexOf(z)>-1}).length}
+var gl=[['নমনীয়তা ও স্ট্রেচ · প্রতিদিন',cn(function(d){return hv(d,MO)>=8}),7],['হাঁটা ও কার্ডিও · সপ্তাহে ৫ দিন (১৫০ মিনিট)',cn(function(d){return d.indexOf('e1')>-1}),5],['কোর ও শক্তি · সপ্তাহে ২–৪ দিন',cn(function(d){return hv(d,ST)>=3}),3],['শ্বাস ও ভঙ্গি · প্রতিদিন',cn(function(d){return hv(d,['a1','f1'])>1}),7]];
+h+='<div class=card><b>সাপ্তাহিক লক্ষ্য</b><p class=mu style=margin:0>SAA, NASS ও EULAR-এর পরামর্শ অনুযায়ী, শেষ ৭ দিন</p>'+gl.map(function(g){var p=Math.min(100,Math.round(g[1]/g[2]*100));return '<div style=margin-top:12px><div class=row style=justify-content:space-between;margin:0><span>'+g[0]+'</span><b>'+bn(g[1])+'/'+bn(g[2])+'</b></div><div class=bar><i style=width:'+p+'%></i></div></div>'}).join('')+'</div>';
+var P=[],pl='',dt='';for(i=13;i>=0;i--){o=D.days[add(t,-i)];P.push(o&&o.p!=null?o.p:null)}
+P.forEach(function(v,j){if(v==null)return;x=10+j*20;y=80-v*7;pl+=x+','+y+' ';dt+='<circle cx='+x+' cy='+y+' r=3.5 style=fill:var(--ac) />'});
+h+='<div class=card><b>ব্যথার ধারা</b><span class=mu style=margin-left:8px>শেষ ১৪ দিন</span>'+(pl.split(' ').length>2?"<svg viewBox='0 0 280 90' width=100% style=display:block;margin-top:8px><g style=stroke:var(--bd) stroke-width=1><line x1=0 y1=80 x2=280 y2=80 /><line x1=0 y1=45 x2=280 y2=45 /><line x1=0 y1=10 x2=280 y2=10 /></g><polyline points='"+pl+"' fill=none style=stroke:var(--ac) stroke-width=2.5 stroke-linejoin=round />"+dt+'</svg>':'<p class=mu>ব্যথার স্কেলে দুই দিন লিখলে এখানে ধারা দেখা যাবে।</p>')+'</div>';
+var dz='',n=0,a,b;for(i=13;i>=0;i--){o=D.days[add(t,-i)]||{};a=!!o.m1;b=!!o.m2;n+=a+b;dz+='<div style=display:flex;flex-direction:column;gap:3px><i class='+(a?'sk':'sq')+'></i><i class='+(b?'sk':'sq')+'></i></div>'}
+h+='<div class=card><b>ওষুধ নিয়মিততা</b><span class=mu style=margin-left:8px>উপরে সকাল, নিচে রাত</span><div style=display:flex;gap:3px;margin-top:10px;overflow-x:auto>'+dz+'</div><p class=mu style=margin:8px 0 0>শেষ ১৪ দিনে '+bn(n)+' / ২৮ ডোজ</p></div>';
+$('wk').innerHTML=h0;$('wk2').innerHTML=h}
+var _rm3=renderMonth;renderMonth=function(){_rm3();drawWk()};
+SL=[['st','🧍','দাঁড়িয়ে (ঘাড়-কাঁধ)','ভঙ্গি, ঘাড় ও কাঁধ · দেওয়ালের পাশে',['a1','f1','b1','b2','b3','f4','b4','b5']],['sl','🦵','দাঁড়িয়ে (পা)','পা ও শক্তি · চেয়ার বা দেওয়াল ধরে',['d4','d5','f5','e3']],['sp','🛌','চিৎ হয়ে','মাদুর বা বিছানায় · ঘুমের আগেও করা যায়',['d1','d2','c5']],['pr','🐾','হাত-হাঁটুতে ও উপুড়','মাদুরে · মেরুদণ্ড ও কোর',['c1','c2','c3','c4','f2']],['ki','🧘','বসে ও হাঁটু গেড়ে','কোমর ও উরুর স্ট্রেচ',['d3','f3']],['mv','🚶','চলাফেরা','সারা দিন ছড়িয়ে',['e1','e2']]];
+var ZN={n:'ঘাড়',s:'কাঁধ',r:'বুক ও উপরের পিঠ',l:'কোমর',p:'SI জয়েন্ট ও পেলভিস',h:'হিপ জয়েন্ট',k:'হাঁটু ও উরু',a:'গোড়ালি ও গোছা'};
+var ZB={n:'ঘাড় ঘোরানো ও সোজা রাখার ক্ষমতা ধরে রাখতে এবং সামনে ঝুঁকে থাকা ভঙ্গি কমাতে সাহায্য করে।',s:'হাত তোলা সহজ রাখতে এবং কাঁধ গোল হয়ে সামনে ঝুঁকে পড়া কমাতে সাহায্য করে।',r:'পাঁজরের জয়েন্ট নমনীয় রেখে গভীর শ্বাসের ক্ষমতা বজায় রাখে; উপরের পিঠ বেঁকে যাওয়া ঠেকাতে সাহায্য করে।',l:'নিচের মেরুদণ্ডের জড়তা কমাতে এবং পিঠ সোজা রাখার পেশি শক্ত করতে সাহায্য করে।',p:'কোমরের নিচের SI জয়েন্টের চারপাশের পেশি ও কোর শক্ত রাখে; রাতের জড়তা কমাতে সাহায্য করতে পারে।',h:'নিতম্ব সচল রাখে, কোমর সামনে বেঁকে যাওয়ার প্রবণতা কমাতে এবং হাঁটা সহজ রাখতে সাহায্য করে।',k:'উরুর পেশি শক্ত ও নমনীয় রাখে এবং পায়ের টান কমাতে সাহায্য করে।',a:'গোছা ও গোড়ালি নমনীয় রাখে এবং ভারসাম্য ভালো করতে সাহায্য করে।'};
+var Z={a1:'r',b1:'n',b2:'n',b3:'ns',b4:'rs',b5:'sr',c1:'rl',c2:'lh',c3:'rs',c4:'lr',c5:'lp',d1:'lph',d2:'ph',d3:'hk',d4:'ak',d5:'kh',e1:'hka',e2:'lhk',e3:'khs',f1:'nrl',f2:'lp',f3:'hp',f4:'sr',f5:'akh'};
+var ZP={n:[[90,48,9,8]],s:[[64,66,11,9],[116,66,11,9]],r:[[90,92,22,16]],l:[[90,126,20,12]],p:[[90,150,20,10]],h:[[77,174,10,10],[103,174,10,10]],k:[[78,216,9,14],[102,216,9,14]],a:[[77,262,9,12],[103,262,9,12]]};
+var ZY={n:46,s:70,r:96,l:124,p:148,h:176,k:218,a:262},bz=null,bm=0;
+var _r5=renderToday;renderToday=function(){_r5();document.querySelectorAll('#list label.it').forEach(function(l){var id=l.querySelector('input').getAttribute('data-id'),z=Z[id],c=l.querySelector('.ec');if(!z||!c||l.querySelector('.zt'))return;c.insertAdjacentHTML('afterend','<span class=zt>উপকার: '+z.split('').map(function(q){return ZN[q]}).join(' · ')+'</span>')})};
+function zp(z,m){var ids=Object.keys(Z).filter(function(i){return Z[i].indexOf(z)>-1}),t=today(),n=m?7:1,sum=0;for(var q=0;q<n;q++){var o=D.days[add(t,-q)],d=o?o.d:[];sum+=ids.filter(function(i){return d.indexOf(i)>-1}).length/ids.length}return sum/n}
+$('wk').insertAdjacentHTML('afterend','<div class=card id=bm></div>');
+function drawBm(){var s="<svg viewBox='0 0 340 300' width=100% style=display:block><circle cx=90 cy=22 r=16 style=fill:var(--ac2) /><rect x=66 y=50 width=48 height=102 rx=20 style=fill:var(--ac2) /><path d='M66 62L46 130M114 62L134 130M80 150L76 282M100 150L104 282' fill=none style=stroke:var(--ac2) stroke-width=14 stroke-linecap=round />";
+'nsrlphka'.split('').forEach(function(z){var p=zp(z,bm);s+='<g data-z='+z+' style=cursor:pointer>'+ZP[z].map(function(e){return '<ellipse cx='+e[0]+' cy='+e[1]+' rx='+e[2]+' ry='+e[3]+' style=fill:var(--dn);fill-opacity:'+(.12+.88*p).toFixed(2)+';stroke:var(--dn) stroke-width='+(bz===z?3.5:1.5)+' />'}).join('')+'<line x1=124 y1='+ZY[z]+' x2=150 y2='+ZY[z]+' style=stroke:var(--bd) stroke-dasharray=3 /><text x=154 y='+(ZY[z]+4)+' font-size=12 style=fill:var(--tx)>'+ZN[z]+' '+bn(Math.round(p*100))+'%</text></g>'});
+var dn=(D.days[today()]||{d:[]}).d,pn=bz?'<div class=bp><b>'+ZN[bz]+'</b><p class=mu>'+ZB[bz]+'</p>'+Object.keys(Z).filter(function(i){return Z[i].indexOf(bz)>-1}).map(function(i){return '<div class=mu style=margin:2px>'+(dn.indexOf(i)>-1?'✓ ':'○ ')+EN[i][0]+'</div>'}).join('')+'</div>':'<p class=mu>কোনো অংশে চাপ দিলে তার উপকার ও ব্যায়াম দেখাবে।</p>';
+$('bm').innerHTML='<b>শরীরের মানচিত্র</b><span class=mu style=margin-left:8px>কোন অংশে কতটা কাজ হলো</span><div class=row style=margin:8px><button type=button class='+(bm?'tg':'tgon')+' data-bm=0>আজ</button><button type=button class='+(bm?'tgon':'tg')+' data-bm=1>শেষ ৭ দিন</button></div>'+s+'</svg>'+pn+'<p class=mu style=margin:8px>রঙ যত গাঢ়, ওই অংশের ব্যায়াম তত বেশি হয়েছে। এটি সাধারণ ধারণা, চিকিৎসার বিকল্প নয়।</p>'}
+$('bm').insertAdjacentHTML('afterend','<div id=wk2></div>');
+$('bm').addEventListener('click',function(e){var b=e.target.closest('[data-bm]');if(b){bm=+b.getAttribute('data-bm');drawBm();return}var z=e.target.closest('[data-z]');if(z){var v=z.getAttribute('data-z');bz=bz===v?null:v;drawBm()}});
+var _rm4=renderMonth;renderMonth=function(){_rm4();drawBm()};
+var CL={ref:null};
+function cst(s){var e=$('cl');if(e)e.textContent=s}
+async function cpush(){if(!CL.ref)return;try{await CL.ref.set({json:JSON.stringify(D),_t:D._t||Date.now()});cst('☁️ ক্লাউডে ব্যাকআপ আছে · সর্বশেষ '+new Date().toLocaleTimeString('bn-BD',{hour:'2-digit',minute:'2-digit'}))}catch(e){cst('ক্লাউড ব্যাকআপ ব্যর্থ: '+(e&&e.code||'ত্রুটি'))}}
+async function cinit(click){try{var pm=await claude.use('permissions'),s=pm?await pm.state('db'):'prompt';if(!click&&s!=='granted'){cst('ক্লাউড ব্যাকআপ বন্ধ আছে। চালু করতে নিচের ☁️ বাটন চাপুন।');return}var db=await claude.use('db'),us=await claude.use('user');if(!db||!us){cst('এখানে ক্লাউড ব্যাকআপ পাওয়া যাচ্ছে না। claude.ai-তে সাইন-ইন করা অবস্থায় লিংকটি খুলুন।');return}CL.ref=db.collection('data/users/'+await us.id()).doc('backup');var sn=await CL.ref.get(),c=sn.exists?sn.data():null;if(c&&c.json){var o=JSON.parse(c.json);if(o&&o.days&&(!D._t||(o._t||0)>D._t)){D=o;if(!D.goal)D.goal=20;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}fix();renderAll();cst('☁️ ক্লাউড থেকে ডেটা ফিরিয়ে আনা হয়েছে');return}}await cpush()}catch(e){cst('ক্লাউড ব্যাকআপ চালু হয়নি: '+(e&&e.code||'ত্রুটি'))}}
+$('cb').onclick=function(){CL.ref?cpush():cinit(true)};
+$('fb').onclick=async function(){try{var d=await claude.use('downloads');if(!d){cst('এখানে ফাইল সেভ চালু নেই।');return}await d.save({filename:'byayam-backup-'+today()+'.json',data:JSON.stringify(D)});cst('ফাইল সেভ হয়েছে ✓')}catch(e){cst('ফাইল সেভ হয়নি: '+(e&&e.code||'ত্রুটি'))}};
+var DUR={a1:60,b1:40,b2:40,b3:40,b4:30,b5:40,f1:45,f4:40,d4:40,d5:40,f5:40,e3:60,d1:40,d2:40,c5:50,c1:40,c2:50,c3:50,c4:40,f2:30,d3:40,f3:40},S=null,BD='০১২৩৪৫৬৭৮৯';
+var sty=document.createElement('style');sty.textContent='#qs{order:-3}.ss{position:fixed;inset:0;z-index:100;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;align-items:center;gap:10px;padding:max(14px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));overflow-y:auto;text-align:center}.ssh{width:100%;display:flex;justify-content:space-between;align-items:center}#sf{width:min(72vw,280px);height:auto;aspect-ratio:84/63;border-radius:20px;background:var(--card);margin:6px auto}#sf svg{width:100%;height:100%}.tmr{font-size:64px;font-weight:800;color:var(--ac);line-height:1}.tmr.r{color:var(--mu)}.sb,.sbp{font:inherit;font-size:16px;padding:14px 18px;border-radius:16px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}.sbp{background:var(--ac);color:var(--card);border-color:var(--ac);font-weight:700}';document.head.appendChild(sty);
+var ov=document.createElement('div');ov.id='ss';ov.className='ss';ov.hidden=true;
+ov.innerHTML='<div class=ssh><button type=button class=sb id=sx>✕ বন্ধ</button><b id=sc></b><button type=button class=sb id=sv>🔈</button></div><div id=sw style=width:100%;display:flex;flex-direction:column;align-items:center;gap:10px><div class=bar><i id=sbr></i></div><span class=mu id=sph></span><div id=sf class=fg></div><div class=en id=sn style=font-size:20px></div><div class=t id=sbn style=font-size:17px;font-weight:700></div><p class=mu id=sdc></p><span class=ec id=se></span><span class=zt id=sz></span><div class=tmr id=tm></div><div class=row style=gap:8px;justify-content:center><button type=button class=sb id=sprev>⏮ আগের</button><button type=button class=sbp id=spp>⏸ বিরতি</button><button type=button class=sb id=snx>⏭ বাদ</button></div><button type=button class=sb id=sok>✓ হয়ে গেছে, পরেরটি</button></div><div id=sm hidden style=width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:40px></div>';document.body.appendChild(ov);
+function b2(s){return String(s).replace(/\d/g,function(d){return BD[d]})}
+function ft(r){return b2(Math.floor(r/60))+':'+b2(('0'+r%60).slice(-2))}
+function dur(i){return DUR[i]||40}
+function seq(){return SL.reduce(function(a,s){return a.concat(s[4])},[]).filter(function(i){return i!=='e1'&&i!=='e2'})}
+function beep(f){try{var a=S&&S.ac;if(!a)return;var o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=f;g.gain.value=.12;o.start();o.stop(a.currentTime+.15);navigator.vibrate&&navigator.vibrate(120)}catch(e){}}
+function say(t){try{if(S&&S.v){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.speak(u)}}catch(e){}}
+function mk(id){var o=day(cur());if(o.d.indexOf(id)<0)o.d.push(id);save()}
+function draw(){var id=S.q[S.i],r=S.ph==='rest',e=EN[id]||[id,''],t=IT[id]||[id,id,''],f=$('sf');f.setAttribute('data-id',id);if(!f.firstChild)f.innerHTML=FS;$('sc').textContent='ব্যায়াম '+b2(S.i+1)+'/'+b2(S.q.length);$('sbr').style.width=Math.round(S.i/S.q.length*100)+'%';$('sph').textContent=r?(S.i?'বিশ্রাম · পরের ব্যায়াম:':'প্রস্তুত হোন · প্রথম ব্যায়াম:'):'এখন করুন';$('sn').textContent=e[0];$('sbn').textContent=t[1];$('sdc').textContent=t[2];$('se').textContent=e[1];$('sz').textContent=(Z[id]||'').split('').map(function(q){return ZN[q]}).join(' · ');$('tm').className='tmr'+(r?' r':'');$('tm').textContent=ft(S.tot);$('spp').textContent='⏸ বিরতি';$('sok').hidden=r;$('snx').textContent=r?'▶ এখনই শুরু':'⏭ বাদ';frame(0)}
+function go(i,ph,sec){S.i=i;S.ph=ph;S.tot=sec;S.end=Date.now()+sec*1000;S.p=false;S.lb=0;draw();beep(1175);say(ph==='rest'?'Rest':(EN[S.q[i]]||[''])[0])}
+function nx(ok){if(S.ph==='rest'){go(S.i,'ex',dur(S.q[S.i]));return}if(ok){mk(S.q[S.i]);S.c++}else S.sk=(S.sk||0)+1;if(S.i>=S.q.length-1)return fin(false);go(S.i+1,'rest',ok?10:3)}
+function tick(){if(!S||S.p)return;var r=Math.ceil((S.end-Date.now())/1000);if(r<=0){S.ph==='rest'?nx():nx(true);return}if(r<=3&&r!==S.lb){S.lb=r;beep(880)}$('tm').textContent=ft(r)}
+function pz(){if(!S.p){S.p=true;S.rem=S.end-Date.now();S.ps=Date.now()}else{S.p=false;S.end=Date.now()+S.rem;S.pt+=Date.now()-S.ps}$('spp').textContent=S.p?'▶ চালু করুন':'⏸ বিরতি'}
+function cls(){ov.hidden=true;S=null;renderToday()}
+function fin(q){clearInterval(S.iv);try{S.wl&&S.wl.release()}catch(e){}try{speechSynthesis.cancel()}catch(e){}var el=Math.max(1,Math.round((Date.now()-S.t0-S.pt-(S.p?Date.now()-S.ps:0))/1000));if(S.c>0){D.sess=(D.sess||[]).concat([{t:Date.now(),s:el,n:S.c,k:S.q.length}]).slice(-200);save()}if(q){cls();return}$('sw').hidden=true;$('sm').hidden=false;$('sc').textContent='';$('sm').innerHTML='<div style=font-size:56px>🎉</div><b style=font-size:22px>সেশন সম্পন্ন!</b><p class=mu>সময়: '+ft(el)+' · সম্পন্ন: '+b2(S.c)+'/'+b2(S.q.length)+(S.sk?' · বাদ: '+b2(S.sk):'')+'</p><button type=button class=sbp id=sdn>ঠিক আছে</button>'}
+function start(){var o=D.days[cur()]||{d:[]},q=seq(),u=q.filter(function(i){return o.d.indexOf(i)<0});if(u.length)q=u;S={q:q,i:0,t0:Date.now(),pt:0,c:0,p:false,v:!!D.voice};try{S.ac=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}try{navigator.wakeLock.request('screen').then(function(w){S.wl=w}).catch(function(){})}catch(e){}$('sm').hidden=true;$('sw').hidden=false;$('sv').textContent=S.v?'🔊':'🔈';ov.hidden=false;S.iv=setInterval(tick,250);go(0,'rest',5)}
+ov.addEventListener('click',function(e){if(!S)return;var b=e.target.closest('button');if(!b)return;var k=b.id;if(k==='sx')fin(true);else if(k==='sdn')cls();else if(k==='sv'){S.v=!S.v;D.voice=S.v;save();b.textContent=S.v?'🔊':'🔈'}else if(k==='spp')pz();else if(k==='sprev'){var j=Math.max(0,S.i-1);go(j,'ex',dur(S.q[j]))}else if(k==='snx')nx(false);else if(k==='sok')nx(true)});
+$('dose').insertAdjacentHTML('beforebegin','<div class=card id=qs></div>');
+function qsr(){var o=D.days[cur()]||{d:[]},q=seq(),u=q.filter(function(i){return o.d.indexOf(i)<0}),all=!u.length,L=all?q:u,m=Math.round(L.reduce(function(a,i){return a+dur(i)+10},0)/60),n=L[0],ss=D.sess||[],tot=ss.reduce(function(a,x){return a+x.s},0),h='<b>গাইডেড ওয়ার্কআউট</b><span class=mu style=margin-left:8px>'+b2(L.length)+'টি · প্রায় '+b2(m)+' মিনিট</span><div class=row style=gap:12px;flex-wrap:nowrap;margin-top:8px;align-items:center><div class=fg data-id='+n+'>'+FS+'</div><div style=flex:1;text-align:left><span class=mu>'+(all?'সব শেষ! আবার শুরু করবেন?':'পরের ব্যায়াম')+'</span><span class=en>'+EN[n][0]+'</span><span class=ec>'+IT[n][1]+'</span></div></div><div class=row style=margin-top:10px><button type=button class=dzon id=qb>▶ '+(all?'আবার করুন':'ওয়ার্কআউট শুরু করুন')+'</button></div>';if(ss.length)h+='<p class=mu style=margin:10px>মোট সেশন '+b2(ss.length)+'টি · মোট '+b2(Math.round(tot/60))+' মিনিট</p>'+ss.slice(-3).reverse().map(function(x){return '<div class=mu style=margin:2px>'+new Date(x.t).toLocaleDateString('bn-BD',{day:'numeric',month:'short'})+' · '+b2(Math.round(x.s/60))+' মিনিট · '+b2(x.n)+'/'+b2(x.k)+'টি</div>'}).join('');$('qs').innerHTML=h;frame(0)}
+$('qs').addEventListener('click',function(e){if(e.target.closest('#qb'))start()});
+var _r6=renderToday;renderToday=function(){_r6();qsr()};
+setTimeout(function(){cinit(false)},900);
 load();fix();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
-if(window.google&&google.script&&google.script.run){setSync("☁️ শিট থেকে ডেটা আনা হচ্ছে…");
-google.script.run.withSuccessHandler(function(s){if(s){try{var o=JSON.parse(s);if(o&&o.days){D=o;fix();try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}renderAll()}}catch(e){}setSync("☁️ গুগল শিটের সঙ্গে যুক্ত ✓")}else{push()}}).withFailureHandler(function(){setSync("⚠️ শিটের সঙ্গে যুক্ত হতে পারেনি")}).loadData()}
 </script>
 </body>
 </html>
