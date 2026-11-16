@@ -357,7 +357,7 @@ function buildDemoData(){
  for(var n=13;n>=0;n--){
   var date=new Date(now);date.setDate(date.getDate()-n);
   var idx=13-n,key=ds(date),count=[14,18,16,20,17,19,18,13,16,21,18,20,15,19][idx],done=[];
-  for(var j=0;j<Math.min(count,exerciseIds.length);j++)done.push(exerciseIds[(j*2+idx)%exerciseIds.length]);
+  for(var j=0;j<Math.min(count,exerciseIds.length);j++)done.push(exerciseIds[(j+idx*3)%exerciseIds.length]);
   days[key]={d:done,p:pain[idx],stiff:stiff[idx],fatigue:fatigue[idx],sleep:[5,6,6,7,6,7,8,6,7,8,7,8,7,8][idx],m1:idx%5!==1,m2:idx%4!==0,m:idx%5!==1||idx%4!==0};
  }
  function dateAgo(n){var d=new Date(now);d.setDate(d.getDate()-n);return ds(d)}
