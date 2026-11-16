@@ -449,11 +449,11 @@ function xs(start,end){
   if(o.sleep!==undefined){sl+=Number(o.sleep);slc++}
   med+=(o.m1?1:0)+(o.m2?1:0);
  }
- var r="\\nরাতে নড়াচড়ায় সমস্যা: "+(nc?bn(nights)+" দিন / "+bn(nc)+" লগ":"লগ নেই")+"।";
- if(sc||fc||slc)r+="\\nগড় জড়তা: "+(sc?(st/sc).toFixed(1):"—")+"/১০; ক্লান্তি: "+(fc?(fa/fc).toFixed(1):"—")+"/১০; ঘুম: "+(slc?(sl/slc).toFixed(1):"—")+"/১০।";
- r+="\\nওষুধ নেওয়ার টিক: "+bn(med)+"টি (দুটি কাস্টমাইজযোগ্য সময়ের লগ)।";
- var b=D.bas&&D.bas[D.bas.length-1];if(b)r+="\\nসর্বশেষ BASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";
- var a=D.asdas&&D.asdas[D.asdas.length-1];if(a)r+="\\nসর্বশেষ ASDAS-CRP: "+Number(a.v).toFixed(2)+" ("+fmt(a.d)+")।";var lab=D.labRecords&&D.labRecords.length?D.labRecords[D.labRecords.length-1]:null;if(lab)r+="\\nসর্বশেষ ল্যাব: "+lab.date+" · CRP "+(lab.crp==null?"—":lab.crp+" "+lab.crpUnit)+", ESR "+(lab.esr==null?"—":lab.esr)+", Hb "+(lab.hb==null?"—":lab.hb)+", ALT "+(lab.alt==null?"—":lab.alt)+", Creatinine "+(lab.creat==null?"—":lab.creat)+"।";
+ var r="\nরাতে নড়াচড়ায় সমস্যা: "+(nc?bn(nights)+" দিন / "+bn(nc)+" লগ":"লগ নেই")+"।";
+ if(sc||fc||slc)r+="\nগড় জড়তা: "+(sc?(st/sc).toFixed(1):"—")+"/১০; ক্লান্তি: "+(fc?(fa/fc).toFixed(1):"—")+"/১০; ঘুম: "+(slc?(sl/slc).toFixed(1):"—")+"/১০।";
+ r+="\nওষুধ নেওয়ার টিক: "+bn(med)+"টি (দুটি কাস্টমাইজযোগ্য সময়ের লগ)।";
+ var b=D.bas&&D.bas[D.bas.length-1];if(b)r+="\nসর্বশেষ BASDAI: "+bn(b.v)+" ("+fmt(b.d)+")।";
+ var a=D.asdas&&D.asdas[D.asdas.length-1];if(a)r+="\nসর্বশেষ ASDAS-CRP: "+Number(a.v).toFixed(2)+" ("+fmt(a.d)+")।";var lab=D.labRecords&&D.labRecords.length?D.labRecords.slice().sort(function(x,y){return x.date<y.date?1:-1})[0]:null;if(lab)r+="\nসর্বশেষ ল্যাব: "+lab.date+" · CRP "+(lab.crp==null?"—":lab.crp+" "+lab.crpUnit)+", ESR "+(lab.esr==null?"—":lab.esr)+", Hb "+(lab.hb==null?"—":lab.hb)+", ALT "+(lab.alt==null?"—":lab.alt)+", Creatinine "+(lab.creat==null?"—":lab.creat)+"।";
  return r;
 }
 function summary(){
@@ -688,7 +688,7 @@ $("labAdd").onclick=function(){
  var date=$("labDate").value;if(!date){$("labMsg").textContent="রিপোর্টের তারিখ দিন।";return}
  var val=function(id){var v=$(id).value;return v===""?null:Number(v)};
  var item={date:date,crp:val("labCRP"),crpUnit:$("labCRPUnit").value,esr:val("labESR"),hb:val("labHb"),alt:val("labALT"),creat:val("labCreat")};
- if([item.crp,item.esr,item.hb,item.alt,item.creat].every(function(v){return v===null||!isFinite(v)||v<0})){$("labMsg").textContent="অন্তত একটি পরীক্ষার মান দিন।";return}
+ var values=[item.crp,item.esr,item.hb,item.alt,item.creat];if(values.every(function(v){return v===null})){$("labMsg").textContent="অন্তত একটি পরীক্ষার মান দিন।";return}if(values.some(function(v){return v!==null&&(!isFinite(v)||v<0)})){$("labMsg").textContent="পরীক্ষার মান শূন্য বা তার বেশি হতে হবে।";return}
  D.labRecords.push(item);D.labRecords=D.labRecords.slice(-200);save();
  ["labCRP","labESR","labHb","labALT","labCreat"].forEach(function(id){$(id).value=""});
  $("labMsg").textContent="ল্যাব রিপোর্ট সেভ হয়েছে।";renderLabs();
