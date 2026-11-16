@@ -572,7 +572,7 @@ var L=function(a,b,c){return"M"+p[a]+" "+p[a+1]+"L"+p[b]+" "+p[b+1]+"L"+p[c]+" "
 el.querySelector("path").setAttribute("d","M"+p[2]+" "+p[3]+"L"+p[4]+" "+p[5]+L(2,6,8)+L(2,10,12)+L(4,14,16)+L(4,18,20));
 var c=el.querySelector("circle");c.setAttribute("cx",p[0]);c.setAttribute("cy",p[1])})}
 function deco(){document.querySelectorAll("#list label.it").forEach(function(l){var id=l.querySelector("input").getAttribute("data-id"),e=EN[id];if(!e||l.querySelector(".fg"))return;var f=document.createElement("div");f.className="fg";f.setAttribute("data-id",id);f.innerHTML=FS;l.insertBefore(f,l.querySelector("span"));l.querySelector(".t").insertAdjacentHTML("beforebegin",'<span class="en">'+e[0]+"</span>");l.querySelector(".d").insertAdjacentHTML("afterend",'<span class="ec">'+e[1]+"</span>")});frame(0)}
-var _r3=renderToday;renderToday=function(){_r3();deco()};
+var _r3=renderToday;renderToday=function(){_r3()};
 if(!RM)(function lp(t){frame(t);requestAnimationFrame(lp)})(0);
 G.push({t:'৬. আন্তর্জাতিক পরামর্শে যোগ',s:'',i:[['f1','দেওয়ালে সোজা দাঁড়ানো','গোড়ালি, নিতম্ব, কাঁধ ও মাথা দেওয়ালে ঠেকিয়ে দাঁড়ান · ২০–৩০ সেকেন্ড × ৫ বার'],['f2','প্ল্যাঙ্ক (কোর)','কনুই ও হাঁটুর ভরে শরীর সোজা রাখুন · ১০–২০ সেকেন্ড × ৩ বার'],['f3','কোমরের সামনের স্ট্রেচ','এক হাঁটু মাটিতে, অন্য পা সামনে; কোমর ধীরে সামনে ঠেলুন · ১৫ সেকেন্ড × ২ বার প্রতি পাশে'],['f4','কাঁধের হাড় চাপা','দুই কনুই পেছনে টেনে কাঁধের হাড় কাছে আনুন · ৫ সেকেন্ড × ১০ বার'],['f5','এক পায়ে ভারসাম্য','দেওয়াল বা চেয়ার ধরে এক পায়ে দাঁড়ান · ২০ সেকেন্ড × ২ বার প্রতি পায়ে']]});
 TOTAL+=5;THR=Math.ceil(TOTAL*.7);G[G.length-1].i.forEach(function(x){IT[x[0]]=x});
