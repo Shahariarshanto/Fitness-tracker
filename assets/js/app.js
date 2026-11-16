@@ -24,7 +24,7 @@ var G=[
 ["e2","নড়াচড়ার বিরতি","প্রতি ঘণ্টায় উঠে ২ মিনিট হাঁটুন বা সোজা হয়ে দাঁড়ান"],
 ["e3","শক্তির ব্যায়াম (সপ্তাহে ২ দিন)","স্কোয়াট ১০ বার ও দেওয়ালে পুশ-আপ ১০ বার · ২ সেট"]]}
 ];
-var KEY="spa-daily-v2",D={days:{},goal:20},TOTAL=0,cd=null;
+var D={days:{},goal:20},TOTAL=0,cd=null;
 function cur(){return cd||ds(new Date())}
 G.forEach(function(g){TOTAL+=g.i.length});
 var THR=Math.ceil(TOTAL*0.7),vy,vm;
@@ -34,11 +34,8 @@ function ds(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate(
 function bn(n){return Number(n).toLocaleString("bn-BD")}
 function pk(k){var a=k.split("-");return new Date(+a[0],+a[1]-1,+a[2])}
 function fmt(k,o){return pk(k).toLocaleDateString("bn-BD",o||{day:"numeric",month:"long"})}
-function load(){
-try{var r=localStorage.getItem(KEY);
-if(r){var o=JSON.parse(r);if(o&&o.days&&typeof o.days==="object"){D=o;if(!D.goal)D.goal=20}}
-else{var v=localStorage.getItem("spa-daily-v1");if(v){var q=JSON.parse(v);if(q&&q.date&&Array.isArray(q.done)){var a=q.date.split("-");D.days[a[0]+"-"+pad(+a[1])+"-"+pad(+a[2])]={d:q.done,p:null}}}}}catch(e){}}
-function save(){try{D._t=Date.now();localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}if(window.cpush){clearTimeout(window._tm);window._tm=setTimeout(cpush,2500)}}
+function load(){try{var o=ASStorage.readAppData();if(o){D=o;if(!D.goal)D.goal=20}}catch(e){console.warn("AS Care data load was blocked to protect saved data:",e)}}
+function save(){try{D._t=Date.now();ASStorage.writeAppData(D)}catch(e){console.error("AS Care could not save local data:",e)}if(window.cpush){clearTimeout(window._tm);window._tm=setTimeout(cpush,2500)}}
 function day(k){return D.days[k]||(D.days[k]={d:[],p:null})}
 function today(){return ds(new Date())}
 function renderToday(){
@@ -185,8 +182,8 @@ if(progressCard){
  progressCard.addEventListener("click",function(e){if(e.target.closest("button,a"))return;tab(5)});
  progressCard.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tab(5)}});
 }
- $("themeToggle").onclick=function(){var dark=document.documentElement.getAttribute("data-theme")==="dark";document.documentElement.setAttribute("data-theme",dark?"light":"dark");localStorage.setItem("asCareTheme",dark?"light":"dark")};
-(function(){var saved=localStorage.getItem("asCareTheme");if(saved)document.documentElement.setAttribute("data-theme",saved)})();
+ $("themeToggle").onclick=function(){var dark=document.documentElement.getAttribute("data-theme")==="dark";document.documentElement.setAttribute("data-theme",dark?"light":"dark");ASStorage.setThemePreference(dark?"light":"dark")};
+(function(){var saved=ASStorage.getThemePreference();if(saved)document.documentElement.setAttribute("data-theme",saved)})();
 
 function filterExercises(){ /* সব ব্যায়াম সবসময় সিরিয়াল অনুযায়ী দৃশ্যমান */ }
 function renderToday(){
@@ -355,14 +352,14 @@ var _r6=renderToday;renderToday=function(){_r6();qsr()};
 cst("Google Drive সংযোগ করতে অ্যাপ মালিকের OAuth Client ID প্রয়োজন।");
 
 function renderSettings(){
- var bytes=0;try{var raw=localStorage.getItem(KEY)||"";bytes=new Blob([raw]).size}catch(e){}
+ var bytes=ASStorage.getAppDataSizeBytes();
  $("localDataStatus").textContent="এই browser-এ সংরক্ষিত অ্যাপ ডেটা: "+(bytes?Math.max(1,Math.round(bytes/1024))+" KB":"এখনো ডেটা নেই");
  $("medName").value=D.medName||"";$("medTime1").value=D.medTime1||"সকাল";$("medTime2").value=D.medTime2||"রাত";
  
   $("pwaStatus").textContent=("serviceWorker" in navigator)?"এই browser-এ offline/PWA support পাওয়া যাচ্ছে।":"এই browser-এ Service Worker support নেই।";
 }
 $("saveMedSettings").onclick=function(){D.medName=$("medName").value.trim().slice(0,60)||"আমার নির্ধারিত ওষুধ";D.medTime1=$("medTime1").value.trim().slice(0,24)||"প্রথম সময়";D.medTime2=$("medTime2").value.trim().slice(0,24)||"দ্বিতীয় সময়";save();dose();$("medSettingsMsg").textContent="ওষুধের নাম ও সময়ের label সেভ হয়েছে।"};
-document.querySelectorAll("[data-theme-choice]").forEach(function(b){b.onclick=function(){var v=b.getAttribute("data-theme-choice");if(v==="system"){document.documentElement.removeAttribute("data-theme");localStorage.removeItem("asCareTheme")}else{document.documentElement.setAttribute("data-theme",v);localStorage.setItem("asCareTheme",v)}document.querySelectorAll("[data-theme-choice]").forEach(function(x){x.classList.toggle("tgon",x===b)})}});
+document.querySelectorAll("[data-theme-choice]").forEach(function(b){b.onclick=function(){var v=b.getAttribute("data-theme-choice");if(v==="system"){document.documentElement.removeAttribute("data-theme");ASStorage.removeThemePreference()}else{document.documentElement.setAttribute("data-theme",v);ASStorage.setThemePreference(v)}document.querySelectorAll("[data-theme-choice]").forEach(function(x){x.classList.toggle("tgon",x===b)})}});
 function fix(){
  if(!D.days||typeof D.days!=="object")D.days={};
  if(!D.goal||!isFinite(D.goal))D.goal=20;
@@ -468,5 +465,5 @@ renderToday=function(){
  }
 };
 
-load();fix();if(!localStorage.getItem(KEY))save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
+load();fix();if(!ASStorage.hasCurrentAppData())save();renderBasdai();var n0=new Date();vy=n0.getFullYear();vm=n0.getMonth();renderAll();
 if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(e){console.warn("Offline mode unavailable",e)})})}
