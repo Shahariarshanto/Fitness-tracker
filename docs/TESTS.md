@@ -86,35 +86,28 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Toast appears above, not over, the bottom navigation.
 
 
-## Step 4 — Health feature
+## Step 4 — Health feature (rebuilt)
 
 ### Static checks
-- [ ] Health entry point and all five modules are loaded through the bootstrap import graph.
-- [ ] Every Health runtime module is listed in the service-worker shell inventory.
-- [ ] Health feature imports no other feature and does not access localStorage directly.
-- [ ] Initial state and data-model documentation include all Health domains.
-- [ ] BASDAI calculation test cases match hand-calculated reference cases.
-- [ ] ASDAS-CRP calculation test cases match the published formula, with CRP in mg/L.
-- [ ] All Health modules remain within the ordinary module-size target.
+- [ ] Health entry module imports only core state, date helper and shared feedback.
+- [ ] Obsolete Health submodules are removed from the runtime and service-worker inventory.
+- [ ] Health entry module is listed in the service-worker shell.
+- [ ] Health feature does not access localStorage directly.
+- [ ] Daily pain, symptom, BASDAI, ASDAS-CRP, event and flare-plan state domains match the data model.
+- [ ] BASDAI and ASDAS-CRP calculations are checked against independent reference cases.
 
 ### Browser checks
+- [ ] Health page shows a distinct journal introduction and three summary values.
 - [ ] Daily pain, night mobility, stiffness, fatigue and sleep values save and re-render.
-- [ ] Symptom and pain records remain after reload and use the local calendar date.
-- [ ] Recent symptom history shows saved daily entries in reverse chronological order.
-- [ ] BASDAI six-question form validates, calculates and saves a dated history entry.
-- [ ] ASDAS-CRP form validates symptom inputs and CRP, calculates and saves a dated history entry.
-- [ ] Empty, negative, non-numeric and out-of-range values are rejected.
+- [ ] BASDAI six-question form calculates and saves dated history.
+- [ ] ASDAS-CRP form calculates with CRP in mg/L and saves dated history.
 - [ ] Health events can be added and deleted.
 - [ ] Flare plan notes save and remain after reload.
-- [ ] Health page renders empty and populated histories without errors.
-
-### Clinical and privacy checks
-- [ ] UI explains that scores are tracking aids, not a diagnosis or treatment instruction.
-- [ ] ASDAS CRP unit conversion guidance is visible; calculation expects mg/L.
-- [ ] No medication dose or treatment recommendation is generated.
-- [ ] No real health data is committed to the repository.
+- [ ] Invalid and empty inputs are handled without breaking the page.
 
 ### Device/PWA checks
-- [ ] Health forms and range controls fit narrow Android screens.
-- [ ] All Health modules load from the service-worker cache after installation.
+- [ ] Health overview cards and forms fit narrow Android screens.
+- [ ] New Health module loads from the service-worker cache.
 - [ ] Health data persists after closing and reopening the PWA.
+
+**Verification note:** Repository changes are committed, but live browser, Android-device, offline, and deployment tests have not been performed by the assistant.
