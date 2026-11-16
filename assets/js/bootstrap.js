@@ -98,7 +98,7 @@ function startApp() {
       }
     }));
   }).catch(function (error) {
-    showError("[data-medication-content]", "Application startup failed", error);
+    showError("[data-overview-content]", "Application startup failed", error);
   });
 
   if ("serviceWorker" in navigator) {
