@@ -258,7 +258,8 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Pending local edits are uploaded before cloud hydration.
 - [ ] Cloudflare service and all modules are listed in `sw.js`; cache version increments.
 - [ ] No Google Drive or OAuth runtime module is imported.
-- [ ] Daily scheduled backups write D1 snapshots to R2 and prune only backups older than 30 days.
+- [ ] Manual JSON export downloads a complete valid state envelope.
+- [ ] Import validates the JSON envelope before replacing state.
 
 ### Browser checks
 - [ ] Existing local health records are copied into an empty D1 on first launch.
@@ -268,7 +269,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline edits remain after closing/reopening and sync after connectivity returns.
 - [ ] A second device loads the same cloud state.
 - [ ] A second device receives newer cloud state on refresh/poll without overwriting pending local edits.
-- [ ] D1 Time Travel and R2 backup restore procedures are verified.
+- [ ] Manual JSON export can be imported to restore the state.
 - [ ] Public API exposure is understood: CORS is not authentication and does not make health data private.
 
 ### Device/PWA checks
@@ -276,4 +277,4 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline shell remains available; cloud-dependent data status is handled gracefully.
 - [ ] No duplicate or missing records after reload and multi-device edits.
 
-Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, R2 bucket setup, scheduled backup execution, live API, browser, Android and offline tests remain pending.
+Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. R2 and scheduled cloud backups are intentionally excluded.
