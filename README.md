@@ -7,9 +7,9 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 ## Quick start
 1. Open the GitHub Pages app: https://shahariarshanto.github.io/Fitness-tracker/
 2. On Android Chrome, use **Add to Home screen** to install the PWA.
-3. Connect your Google Account in Settings. Google Drive is the primary data store; the app loads your latest data on startup and automatically batches edits back to one AS Care Data.json file. Local Storage is only a temporary cache/offline outbox. Google may occasionally ask you to reconnect.
+3. The app automatically loads and saves its primary data through Cloudflare D1. No Google Drive connection or sign-in is used.
 
-No build step or package manager is currently required. Local environment files are excluded by `.gitignore`; see `.env.example`. The current static browser OAuth flow does not require a Client Secret. The site is deployed from the main branch.
+No build step or package manager is currently required. Local environment files are excluded by `.gitignore`; see `.env.example`. Cloudflare Worker source is in `worker/`; D1 schema is in `worker/migrations/`. The site is deployed from the main branch.
 
 ## Repository map
 - index.html — semantic page shell and navigation
@@ -32,7 +32,7 @@ Read AI_CONTEXT.md, CONTRIBUTING.md, docs/BASELINE_INVENTORY.md, docs/ARCHITECTU
 Overview, Movement, Insights, Health, Settings. Details and known limitations are documented in docs/ARCHITECTURE.md.
 
 ## Important implementation note
-CSS and JavaScript have been extracted from index.html into dedicated files. The rebuilt application uses modular ES modules. Google Drive is the primary data source when connected; browser storage is retained only for temporary cache and offline pending edits.
+CSS and JavaScript have been extracted from index.html into dedicated files. The rebuilt application uses modular ES modules. Cloudflare D1 is the primary data source; browser storage is retained only for temporary cache and offline pending edits.
 
 ## Deployment
 GitHub Pages serves the project under /Fitness-tracker/. Use relative asset paths such as ./assets/js/app.js. When app-shell files change, update the service worker shell list and cache version.
@@ -41,4 +41,4 @@ GitHub Pages serves the project under /Fitness-tracker/. Use relative asset path
 Syntax checks and file-reference checks are useful but are not browser tests. Always test mobile, desktop, saved-data compatibility, and offline behavior before calling a release complete.
 
 
-Google Drive sign-in preference is remembered locally. OAuth access tokens remain memory-only; the app tries silent renewal on reopen and may ask the user to reconnect if Google requires interaction.
+The current Cloudflare Worker API has no login/authentication at the user's request. CORS origin restrictions are not authentication; the public endpoint must not be considered private.
