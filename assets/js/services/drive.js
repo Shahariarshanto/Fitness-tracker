@@ -1,16 +1,16 @@
 import { createBackup, parseBackupText, restoreBackup } from "./backup.js";
+import { getState, updateState, subscribe } from "../core/state.js";
+import { getDriveSyncMeta, setDriveSyncMeta } from "../core/storage.js";
 import { emit } from "../core/events.js";
 
 const CLIENT_ID = "1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com";
 const SCOPE = "https://www.googleapis.com/auth/drive.file";
-const FILE_PREFIX = "as-care-backup-v1-";
-let token = null;
-let tokenExpiresAt = 0;
-let tokenClient = null;
+const BACKUP_NAME = "AS Care Data.json";
+const LEGACY_PREFIX = "as-care-backup-v1-";
+let token = null, tokenExpiresAt = 0, tokenClient = null;
+let initialized = false, hydrating = false, syncTimer = null, syncPromise = null;
 
-function status(state, message) {
-  emit("drive:sync-status", { status: state, message });
-}
+function status(state, message) { emit("drive:sync-status", { status: state, message }); }
 
 function loadGoogleIdentity() {
   if (window.google?.accounts?.oauth2) return Promise.resolve();
@@ -23,16 +23,14 @@ function loadGoogleIdentity() {
     }
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    script.dataset.googleIdentity = "true";
+    script.async = true; script.defer = true; script.dataset.googleIdentity = "true";
     script.onload = resolve;
     script.onerror = () => reject(new Error("Google Sign-In লাইব্রেরি লোড হয়নি।"));
     document.head.append(script);
   });
 }
 
-export async function connectDrive() {
+async function requestToken(prompt) {
   await loadGoogleIdentity();
   tokenClient ||= window.google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID, scope: SCOPE, callback: () => {}
@@ -40,79 +38,159 @@ export async function connectDrive() {
   return new Promise((resolve, reject) => {
     tokenClient.callback = response => {
       if (response.error || !response.access_token) {
-        status("error", "Google অনুমতি পাওয়া যায়নি।");
-        reject(new Error(response.error_description || response.error || "Google access token পাওয়া যায়নি।"));
+        reject(new Error(response.error_description || response.error || "Google অনুমতি পাওয়া যায়নি।"));
         return;
       }
       token = response.access_token;
       tokenExpiresAt = Date.now() + (Number(response.expires_in) || 3600) * 1000;
-      status("connected", "Google Account সংযুক্ত হয়েছে।");
       resolve(true);
     };
     tokenClient.error_callback = error => reject(new Error(error?.type || "Google sign-in ব্যর্থ হয়েছে।"));
-    tokenClient.requestAccessToken({ prompt: token ? "" : "consent" });
+    tokenClient.requestAccessToken({ prompt });
   });
+}
+
+async function driveRequest(url, options = {}) {
+  if (!token || Date.now() > tokenExpiresAt - 30000) throw new Error("Google অনুমতির মেয়াদ শেষ। Settings থেকে Drive পুনরায় সংযুক্ত করুন।");
+  const response = await fetch(url, {
+    ...options, headers: { ...(options.headers || {}), Authorization: "Bearer " + token }
+  });
+  if (!response.ok) throw new Error("Google Drive অনুরোধ ব্যর্থ হয়েছে (" + response.status + ")।");
+  if (response.status === 204) return {};
+  return response.json();
+}
+
+async function findBackup() {
+  const q = "name = '" + BACKUP_NAME + "' and trashed = false";
+  let result = await driveRequest("https://www.googleapis.com/drive/v3/files?q=" + encodeURIComponent(q) + "&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)&pageSize=10");
+  if (result.files?.length) return result.files[0];
+  const legacy = "name contains '" + LEGACY_PREFIX + "' and trashed = false";
+  result = await driveRequest("https://www.googleapis.com/drive/v3/files?q=" + encodeURIComponent(legacy) + "&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)&pageSize=10");
+  return result.files?.[0] || null;
+}
+
+async function readBackup(file) {
+  const response = await fetch("https://www.googleapis.com/drive/v3/files/" + encodeURIComponent(file.id) + "?alt=media", {
+    headers: { Authorization: "Bearer " + token }
+  });
+  if (!response.ok) throw new Error("Google Drive থেকে ডেটা পড়া যায়নি (" + response.status + ")।");
+  return parseBackupText(await response.text());
+}
+
+async function writeBackup(fileId = null) {
+  const boundary = "as-care-" + Date.now();
+  const metadata = { name: BACKUP_NAME, mimeType: "application/json" };
+  const body = "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+    JSON.stringify(metadata) + "\r\n--" + boundary + "\r\nContent-Type: application/json\r\n\r\n" +
+    JSON.stringify(createBackup()) + "\r\n--" + boundary + "--";
+  const endpoint = fileId
+    ? "https://www.googleapis.com/upload/drive/v3/files/" + encodeURIComponent(fileId) + "?uploadType=multipart&fields=id"
+    : "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id";
+  return driveRequest(endpoint, {
+    method: fileId ? "PATCH" : "POST",
+    headers: { "Content-Type": "multipart/related; boundary=" + boundary },
+    body
+  });
+}
+
+export async function syncDrive() {
+  if (syncPromise) return syncPromise;
+  syncPromise = (async () => {
+    status("syncing", "Google Drive-এ পরিবর্তন সেভ হচ্ছে…");
+    setDriveSyncMeta({ pending: true });
+    try {
+      const file = await findBackup();
+      await writeBackup(file?.id || null);
+      setDriveSyncMeta({ pending: false, syncedAt: new Date().toISOString() });
+      status("success", "Google Drive-এ সব পরিবর্তন সেভ হয়েছে।");
+      return true;
+    } catch (error) {
+      status("error", "Drive-এ সেভ হয়নি: " + error.message);
+      throw error;
+    } finally { syncPromise = null; }
+  })();
+  return syncPromise;
+}
+
+async function loadCloudState() {
+  const meta = getDriveSyncMeta();
+  const file = await findBackup();
+  if (meta.pending) {
+    status("syncing", "আগের অসম্পূর্ণ পরিবর্তন Drive-এ সেভ হচ্ছে…");
+    return syncDrive();
+  }
+  if (!file) return syncDrive();
+  status("syncing", "Google Drive থেকে আগের তথ্য লোড হচ্ছে…");
+  const payload = await readBackup(file);
+  hydrating = true;
+  try { restoreBackup(payload); }
+  finally { hydrating = false; }
+  setDriveSyncMeta({ pending: false, syncedAt: meta.syncedAt || file.modifiedTime || null });
+  status("success", "Google Drive-এর সর্বশেষ তথ্য লোড হয়েছে।");
+  return true;
+}
+
+function scheduleSync() {
+  if (hydrating || !getState().preferences.driveEnabled) return;
+  setDriveSyncMeta({ pending: true });
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => {
+    if (!navigator.onLine) {
+      status("offline", "ইন্টারনেট নেই। পরিবর্তনগুলো সাময়িকভাবে জমা আছে; অনলাইনে এলে Sync হবে।");
+      return;
+    }
+    syncDrive().catch(() => {});
+  }, 1800);
+}
+
+export async function initializeDrive() {
+  if (initialized) return;
+  initialized = true;
+  subscribe(scheduleSync);
+  window.addEventListener("online", () => {
+    if (getDriveSyncMeta().pending && token) syncDrive().catch(() => {});
+  });
+  window.addEventListener("pagehide", () => {
+    if (getDriveSyncMeta().pending && token) syncDrive().catch(() => {});
+  });
+  if (!getState().preferences.driveEnabled) {
+    status("disconnected", "Google Drive এখনো সংযুক্ত নয়।");
+    return false;
+  }
+  try {
+    status("syncing", "Google Drive সংযোগ যাচাই হচ্ছে…");
+    await requestToken("");
+    await loadCloudState();
+    return true;
+  } catch (error) {
+    status("reconnect", "Google Drive পুনরায় সংযুক্ত করুন: " + error.message);
+    return false;
+  }
+}
+
+export async function connectDrive() {
+  status("syncing", "Google Account সংযুক্ত হচ্ছে…");
+  await requestToken("consent");
+  hydrating = true;
+  try {
+    updateState(state => ({ ...state, preferences: { ...state.preferences, driveEnabled: true } }));
+  } finally { hydrating = false; }
+  try {
+    await loadCloudState();
+    status("success", "Google Drive সংযুক্ত এবং ডেটা লোড হয়েছে।");
+    return true;
+  } catch (error) {
+    status("error", error.message);
+    throw error;
+  }
 }
 
 export function disconnectDrive() {
   if (token && window.google?.accounts?.oauth2?.revoke) window.google.accounts.oauth2.revoke(token, () => {});
-  token = null;
-  tokenExpiresAt = 0;
-  status("disconnected", "Google Account বিচ্ছিন্ন হয়েছে। Drive-এর ফাইল মুছে ফেলা হয়নি।");
-}
-
-async function driveRequest(url, options = {}) {
-  if (!token || Date.now() > tokenExpiresAt - 30000) throw new Error("Google session শেষ হয়েছে। আবার সংযুক্ত করুন।");
-  const response = await fetch(url, {
-    ...options,
-    headers: { ...(options.headers || {}), Authorization: "Bearer " + token }
-  });
-  if (!response.ok) throw new Error("Google Drive API error: " + response.status);
-  return response.status === 204 ? {} : response.json();
-}
-
-async function findBackup() {
-  const query = encodeURIComponent("name contains '" + FILE_PREFIX + "' and trashed=false");
-  const result = await driveRequest("https://www.googleapis.com/drive/v3/files?q=" + query + "&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)&pageSize=20");
-  return result.files?.[0] || null;
-}
-
-export async function syncDrive() {
-  status("syncing", "Google Drive-এ Backup আপলোড হচ্ছে…");
+  token = null; tokenExpiresAt = 0;
+  hydrating = true;
   try {
-    const filename = FILE_PREFIX + new Date().toISOString().replace(/[:.]/g, "-") + ".json";
-    const boundary = "as-care-" + Date.now();
-    const metadata = { name: filename, mimeType: "application/json" };
-    const content = JSON.stringify(createBackup());
-    const body = "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
-      JSON.stringify(metadata) + "\r\n--" + boundary + "\r\nContent-Type: application/json\r\n\r\n" +
-      content + "\r\n--" + boundary + "--";
-    await driveRequest("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id", {
-      method: "POST", headers: { "Content-Type": "multipart/related; boundary=" + boundary }, body
-    });
-    status("success", "Google Drive Backup আপলোড সম্পন্ন।");
-    return true;
-  } catch (error) {
-    status("error", error.message);
-    throw error;
-  }
-}
-
-export async function restoreDrive() {
-  status("syncing", "Google Drive Backup খোঁজা হচ্ছে…");
-  try {
-    const file = await findBackup();
-    if (!file) throw new Error("Google Drive-এ AS Care Backup পাওয়া যায়নি।");
-    const response = await fetch("https://www.googleapis.com/drive/v3/files/" + encodeURIComponent(file.id) + "?alt=media", {
-      headers: { Authorization: "Bearer " + token }
-    });
-    if (!response.ok) throw new Error("Drive Backup ডাউনলোড করা যায়নি: " + response.status);
-    const payload = parseBackupText(await response.text());
-    restoreBackup(payload);
-    status("success", "Google Drive Backup Restore হয়েছে।");
-    return true;
-  } catch (error) {
-    status("error", error.message);
-    throw error;
-  }
+    updateState(state => ({ ...state, preferences: { ...state.preferences, driveEnabled: false } }));
+  } finally { hydrating = false; }
+  status("disconnected", "Google Drive বিচ্ছিন্ন। ফোনের অস্থায়ী Cache মুছে ফেলা হয়নি।");
 }
