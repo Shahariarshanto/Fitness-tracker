@@ -61,26 +61,5 @@ export default {
       return json({ ok: true, version: row.version, updatedAt }, 200, origin);
     }
     return json({ error: "Method not allowed" }, 405, origin);
-  },
-
-  async scheduled(controller, env, ctx) {
-    if (!env.BACKUPS) return;
-    const row = await env.DB.prepare("SELECT state_json, version, updated_at FROM app_state WHERE id = ?").bind("primary").first();
-    if (!row) return;
-    const now = new Date();
-    const key = "daily/" + now.toISOString().replace(/[:.]/g, "-") + ".json";
-    const backup = {
-      app: "as-care",
-      schemaVersion: 1,
-      backupCreatedAt: now.toISOString(),
-      databaseVersion: row.version,
-      databaseUpdatedAt: row.updated_at,
-      state: JSON.parse(row.state_json)
-    };
-    await env.BACKUPS.put(key, JSON.stringify(backup), {
-      httpMetadata: { contentType: "application/json" }
-    });
-    // Keep every daily backup. No automatic retention or deletion.
-
   }
 };
