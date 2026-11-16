@@ -19,12 +19,13 @@ No build step or package manager is currently required. Local environment files 
 - manifest.webmanifest, icon.svg — PWA metadata and icon
 - AI_CONTEXT.md — instructions for AI coding agents
 - CONTRIBUTING.md — development workflow and validation
+- docs/BASELINE_INVENTORY.md — current-code inventory and verified baseline facts
 - docs/ARCHITECTURE.md — architecture and design boundaries
 - docs/DATA_MODEL.md — storage and compatibility contracts
 - docs/ROADMAP.md — phased implementation plan for the approved modular architecture
 
 ## Before making changes
-Read AI_CONTEXT.md, CONTRIBUTING.md, docs/ARCHITECTURE.md, docs/DATA_MODEL.md, and docs/ROADMAP.md. Preserve the existing storage key and exercise IDs. Fetch the latest main-branch files before editing.
+Read AI_CONTEXT.md, CONTRIBUTING.md, docs/BASELINE_INVENTORY.md, docs/ARCHITECTURE.md, docs/DATA_MODEL.md, and docs/ROADMAP.md. Preserve the existing storage key and exercise IDs. Fetch the latest main-branch files before editing.
 
 ## Current feature areas
 Overview, Movement, Insights, Health, Settings. Details and known limitations are documented in docs/ARCHITECTURE.md.
