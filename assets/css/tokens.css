@@ -1,0 +1,26 @@
+:root {
+  color-scheme: light;
+  --page: #f4f6f3; --surface: #fff; --surface-soft: #edf2ed;
+  --text: #1e2b25; --muted: #68766e; --line: #dce5dd;
+  --accent: #39745b; --accent-soft: #e2eee6;
+  --shadow: 0 12px 34px rgba(34,57,43,.07);
+  --radius-lg: 22px; --radius-md: 15px; --radius-sm: 11px;
+  --content-width: 980px;
+  font-family: "Hind Siliguri", system-ui, sans-serif;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #111a16; --surface: #1a2720; --surface-soft: #22332a;
+  --text: #edf4ef; --muted: #a2b3a8; --line: #34483b;
+  --accent: #8fc6a5; --accent-soft: #263d30;
+  --shadow: 0 12px 34px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #111a16; --surface: #1a2720; --surface-soft: #22332a;
+    --text: #edf4ef; --muted: #a2b3a8; --line: #34483b;
+    --accent: #8fc6a5; --accent-soft: #263d30;
+    --shadow: 0 12px 34px rgba(0,0,0,.18);
+  }
+}

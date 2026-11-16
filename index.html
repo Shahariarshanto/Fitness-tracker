@@ -1,91 +1,47 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#20251f">
-<title>AS Care — Mobility & Health Tracker</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="./assets/css/app.css?v=overview-clean-34">
-
-<script src="https://accounts.google.com/gsi/client" defer></script>
-<link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f6f3">
+  <meta name="description" content="AS Care — personal mobility and health tracking">
+  <title>AS Care</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/css/tokens.css">
+  <link rel="stylesheet" href="./assets/css/base.css">
 </head>
 <body>
-<main>
-<header class="app-topbar"><a class="wordmark" href="./" aria-label="AS Care home"><span class="mark">a</span><span>as<span>care</span></span></a><div class="topbar-meta"><span class="top-date" id="date"></span><span class="streak-pill" id="fl"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="থিম পরিবর্তন">◐</button></div></header>
-<div class="workspace-heading"><div><span class="kicker">YOUR PERSONAL AXSpA COMPANION</span><h1 id="gr">আজকের যত্ন</h1><p class="workspace-sub">ছোট ছোট নিয়মিত পদক্ষেপ, দীর্ঘমেয়াদে ভালো থাকা।</p></div><div class="heading-decoration" aria-hidden="true"><span>✳</span></div></div>
-<p class="quote" id="qt"></p>
-<nav class="tabs" role="tablist" aria-label="প্রধান নেভিগেশন">
-<button id="t1" role="tab" aria-selected="true"><span class="nav-icon">⌂</span><span>Overview</span></button>
-<button id="t5" role="tab" aria-selected="false"><span class="nav-icon">↗</span><span>Movement</span></button>
-<button id="t2" role="tab" aria-selected="false"><span class="nav-icon">◫</span><span>Insights</span></button>
-<button id="t3" role="tab" aria-selected="false"><span class="nav-icon">♡</span><span>Health</span></button>
-<button id="t4" role="tab" aria-selected="false"><span class="nav-icon">⚙</span><span>Settings</span></button>
-</nav>
-
-<section id="p1" class="active-page" aria-hidden="false">
-<section class="overview-hero"><div class="overview-hero-top"><div><span class="kicker">YOUR DAILY PROGRESS</span><h2>আজকের অগ্রগতি</h2><p class="mu" id="msg">আজকের যত্নের কাজগুলো এখানে দেখাবে।</p></div><div class="overview-score"><strong id="cnt">০ / ২৪</strong><span>ব্যায়াম সম্পন্ন</span></div></div><div class="bar"><i id="fill" style="width:0"></i></div></section>
-<section class="card overview-pain-card"><div class="overview-card-title"><div><span class="kicker">PAIN CHECK-IN</span><h2>আজ ব্যথা কেমন?</h2><p class="mu">০ = ব্যথা নেই · ১০ = সবচেয়ে বেশি</p></div><span class="pain-symbol">◉</span></div><div class="pain" id="pain" role="group" aria-label="আজকের ব্যথার মাত্রা ০ থেকে ১০"></div><p class="overview-pain-summary" id="painSummary">আজকের ব্যথার মাত্রা নির্বাচন করুন।</p></section>
-<div class="card daily-habits" id="dailyHabits" aria-live="polite"><p class="mu">আজকের সারসংক্ষেপ প্রস্তুত হচ্ছে…</p></div><section class="overview-insights" id="overviewInsights" aria-live="polite"></section><section class="overview-movement" id="overviewMovement"></section><div class="card medication-home"><div id="doseHome"></div></div><div class="overview-next"><span class="kicker">YOUR NEXT STEP</span><h2>আজকের পরিকল্পনা তৈরি</h2><p class="mu">ব্যায়াম ও guided session শুরু করতে Movement খুলুন।</p><button type="button" class="btn" id="openMovement">Movement খুলুন ↗</button></div>
-</section>
-<section id="p5" hidden>
-<div class="movement-intro"><span class="kicker">MOVE WITH CARE</span><h1>Movement studio</h1><p class="workspace-sub">নিজের সক্ষমতা অনুযায়ী ধীরে ধীরে নড়াচড়া করুন। ব্যথা বাড়লে থামুন।</p></div>
-<div class="card" id="dose"></div>
-<div class="exercise-tools"><div><span class="kicker">YOUR DAILY MOVEMENT SEQUENCE</span><h2>আজকের ব্যায়াম — ধারাবাহিক তালিকা</h2><p class="mu">১ নম্বর থেকে ক্রমানুসারে করুন। প্রতিটি ব্যায়াম শেষে চেকবক্সে টিক দিন; কোনো সার্চ বা ফিল্টার দরকার নেই।</p></div><div class="sequence-total">মোট ২৪টি ধাপ · একটির পর একটি</div></div><div id="list"></div>
-<div class="note"><b>AS-নিরাপদ নড়াচড়ার নীতি</b><br>ASAS–EULAR, NICE ও ACR/SAA/SPARTAN নির্দেশনায় নিয়মিত ব্যায়াম, রোগী-শিক্ষা এবং ব্যক্তিভিত্তিক ফিজিওথেরাপিকে গুরুত্ব দেওয়া হয়েছে। রুটিনে নমনীয়তা, posture, spinal mobility, গভীর শ্বাস, শক্তিবর্ধক ও aerobic activity রাখা হয়েছে। <b>এটি সবার জন্য নির্দিষ্ট প্রেসক্রিপশন নয়</b>—ব্যায়ামের ধরন ও মাত্রা রোগের সক্রিয়তা, সক্ষমতা, osteoporosis/মেরুদণ্ডে fusion ও পূর্বের আঘাত অনুযায়ী ফিজিওথেরাপিস্টের সঙ্গে ঠিক করুন। তীব্র/নতুন ব্যথা, মাথা ঘোরা, অসাড়তা বা দুর্বলতা হলে থামুন। মেরুদণ্ডে fusion বা fracture risk থাকলে জোরে সামনে ঝোঁকা, মোচড়, ঝাঁকুনি ও high-impact ব্যায়াম নিজে থেকে করবেন না।</div>
-
-</section>
-
-<section id="p2" hidden>
-<div class="nav"><button id="prev" aria-label="আগের মাস">‹</button><b id="mt"></b><button id="next" aria-label="পরের মাস">›</button></div>
-<div class="card"><div class="chart" id="chart"></div>
-<div class="leg"><span><b style="background:var(--dn)"></b>সম্পন্ন</span><span><b style="background:var(--am)"></b>আংশিক</span><span><b style="background:var(--rd)"></b>বাদ</span></div>
-<p class="mu" id="det" style="margin:10px 0 0;min-height:1.6em">কোনো দিনের দণ্ডে চাপ দিলে বিস্তারিত দেখাবে।</p></div>
-<div class="grid" id="stats"></div>
-<div class="card" style="margin-top:14px">মাসের লক্ষ্য: <input class="g" id="goal" type="number" min="1" max="31" inputmode="numeric"> দিন
-<div class="bar"><i id="gfill" style="width:0"></i></div><p class="mu" id="gtxt" style="margin:6px 0 0"></p></div>
-<div class="card"><b>ডাক্তারের জন্য সারাংশ</b><p class="mu">গত ৪২ দিন (৬ সপ্তাহ), ফলো-আপে দেখানোর জন্য।</p>
-<textarea id="sum" readonly></textarea><button class="btn" id="copy" type="button" style="margin-top:8px">কপি করুন</button></div>
-
-<div class="note">সম্পন্ন দিন মানে ৭০% বা বেশি কাজ শেষ। কিছু করলে কিন্তু কম হলে আংশিক। কিছুই না করলে বাদ।</div>
-</section>
-
-<section id="p3" hidden>
-<div class="card"><b>দৈনিক AS উপসর্গ লগ</b><p class="mu">প্রতিদিনের উপসর্গের পরিবর্তন বোঝার জন্য। ফাঁকা রাখলে সেটি রেকর্ড হবে না।</p><div class="row"><b>রাতে শুয়ে থাকার পর নড়তে সমস্যা হয়েছে?</b><input type="hidden" id="stf"><div class="pain" id="nt"><button type="button" data-n="0" style="width:auto;padding:0 16px">না, হয়নি</button><button type="button" data-n="1" style="width:auto;padding:0 16px">হ্যাঁ, হয়েছে</button></div></div><div class="row"><label style="flex:1">সকালের জড়তা (০–১০)<input class="f" id="dsStiff" type="number" min="0" max="10" step="1" placeholder="০–১০" style="width:100%"></label><label style="flex:1">ক্লান্তি (০–১০)<input class="f" id="dsFatigue" type="number" min="0" max="10" step="1" placeholder="০–১০" style="width:100%"></label></div><div class="row"><label style="flex:1">ঘুমের মান (০ খারাপ, ১০ ভালো)<input class="f" id="dsSleep" type="number" min="0" max="10" step="1" placeholder="০–১০" style="width:100%"></label><button class="btn" type="button" id="dsSave">উপসর্গ সেভ করুন</button></div><p class="mu" id="dsMsg"></p><input type="checkbox" id="med" hidden></div>
-<div class="card" id="symptomTrend"><b>উপসর্গের প্রবণতা</b><p class="mu">ব্যথা, সকালের জড়তা ও ক্লান্তি—প্রতিটি ০–১০।</p><div class="row" id="symptomRange" style="gap:6px"><button type="button" class="tg" data-symptom-days="7">৭ দিন</button><button type="button" class="tgon" data-symptom-days="14">১৪ দিন</button><button type="button" class="tg" data-symptom-days="30">৩০ দিন</button><button type="button" class="tg" data-symptom-days="90">৯০ দিন</button></div><div id="symptomChart" style="width:100%;overflow:hidden"></div><div class="leg"><span><b style="background:#2767e8"></b>ব্যথা</span><span><b style="background:#c98a0b"></b>জড়তা</span><span><b style="background:#c74747"></b>ক্লান্তি</span></div></div>
-<div class="card"><b>গুরুত্বপূর্ণ তারিখ</b><p class="mu">তারিখ ডাক্তারের সঙ্গে নিশ্চিত করে বদলে নিন।</p><div class="row event-entry"><input class="f" id="eventName" maxlength="70" placeholder="যেমন: Rheumatology follow-up"><input class="f" id="eventDate" type="date"><button class="btn" id="eventAdd" type="button">যোগ করুন</button></div><div id="ev"></div></div>
-<div class="card"><b>মাসিক BASDAI</b><p class="mu">গত ১ সপ্তাহ কেমন ছিল? ০ = নেই, ১০ = সবচেয়ে বেশি।</p><div id="bq"></div><p id="bres" style="font-weight:600;margin:8px 0"></p><button class="btn" id="bsave" type="button">স্কোর সেভ করুন</button><p class="mu" id="bh"></p></div><div class="card" id="asdasCard"><b>ASDAS-CRP রোগের কার্যকলাপ স্কোর</b><p class="mu">গত ১ সপ্তাহের তথ্য ও CRP রিপোর্ট দিয়ে হিসাব করুন। CRP অবশ্যই mg/L এককে দিন।</p><div class="row"><label style="flex:1">পিঠ/কোমর ব্যথা (০–১০)<input id="asbp" type="number" min="0" max="10" step="0.5" class="f" style="width:100%" placeholder="০ থেকে ১০"></label><label style="flex:1">সকালের জড়তা (০–১০)<input id="asst" type="number" min="0" max="10" step="0.5" class="f" style="width:100%" placeholder="০ থেকে ১০"></label></div><div class="row"><label style="flex:1">রোগের সামগ্রিক সক্রিয়তা (০–১০)<input id="aspg" type="number" min="0" max="10" step="0.5" class="f" style="width:100%" placeholder="০ থেকে ১০"></label><label style="flex:1">অন্যান্য জয়েন্টের ব্যথা/ফোলা (০–১০)<input id="aspp" type="number" min="0" max="10" step="0.5" class="f" style="width:100%" placeholder="০ থেকে ১০"></label></div><div class="row"><label style="flex:1">CRP (mg/L)<input id="ascrp" type="number" min="0" step="any" class="f" style="width:100%" placeholder="ল্যাব রিপোর্টের মান"></label><label style="flex:1">রিপোর্টের তারিখ<input id="asdate" type="date" class="f" style="width:100%"></label></div><p id="asresult" style="font-weight:700;margin:10px 0">সব তথ্য দিন, স্কোর হিসাব হবে।</p><button class="btn" type="button" id="assave" disabled>ASDAS স্কোর সেভ করুন</button><div id="ashistory" class="mu" style="margin-top:10px"></div><p class="mu">ASDAS-CRP চিকিৎসকের মূল্যায়নের সহায়ক, নিজে রোগ নির্ণয় বা ওষুধ পরিবর্তনের নির্দেশ নয়। CRP mg/dL হলে mg/L-এ রূপান্তর না করে সরাসরি বসাবেন না (১ mg/dL = ১০ mg/L)।</p></div>
-<div class="card" id="labRecordsCard"><b>Laboratory history</b><p class="mu">রিপোর্টে লেখা unit ব্যবহার করুন। Reference range ল্যাবভেদে আলাদা—অ্যাপ নিজে ফলকে স্বাভাবিক/অস্বাভাবিক ঘোষণা করে না।</p>
-<div class="row lab-entry"><label>তারিখ<input class="f" id="labDate" type="date"></label><label>CRP<input class="f" id="labCRP" type="number" step="any" placeholder="মান"></label><label>CRP unit<select class="f" id="labCRPUnit"><option value="mg/L">mg/L</option><option value="mg/dL">mg/dL</option></select></label><label>ESR (mm/h)<input class="f" id="labESR" type="number" step="any"></label><label>Hb (g/dL)<input class="f" id="labHb" type="number" step="any"></label><label>ALT (U/L)<input class="f" id="labALT" type="number" step="any"></label><label>Creatinine (mg/dL)<input class="f" id="labCreat" type="number" step="any"></label></div>
-<button class="btn" type="button" id="labAdd">রিপোর্ট সেভ করুন</button><div id="labTable" style="overflow-x:auto;margin-top:12px"></div><p class="mu" id="labMsg"></p></div>
-<div class="card" id="flareCard"><b>আমার AS Flare Plan</b><p class="mu">উপসর্গ বেড়ে গেলে আগে থেকে ঠিক করা পরিকল্পনা কাজে লাগতে পারে। নিজের চিকিৎসক/ফিজিওথেরাপিস্টের সঙ্গে আলোচনা করে পূরণ করুন।</p><label>আমার flare-এর সাধারণ লক্ষণ<textarea id="flareSigns" placeholder="যেমন: ব্যথা বেড়ে যাওয়া, জড়তা, ক্লান্তি…"></textarea></label><label>চিকিৎসকের অনুমোদিত self-care / হালকা ব্যায়াম<textarea id="flareCare" placeholder="যে কাজগুলো আপনার জন্য নিরাপদ বলে চিকিৎসক বলেছেন…"></textarea></label><label>যোগাযোগের চিকিৎসক/ক্লিনিক ও ফোন<textarea id="flareContact" placeholder="নাম, ফোন, জরুরি যোগাযোগ…"></textarea></label><button type="button" class="btn" id="flareSave">Flare Plan সেভ করুন</button><p class="mu" id="flareMsg"></p><p class="mu"><b>সতর্কতা:</b> flare হলে নিজের সিদ্ধান্তে ওষুধের ডোজ বাড়াবেন/কমাবেন না। নতুন তীব্র ব্যথা, আঘাতের পর পিঠব্যথা, পা দুর্বল/অসাড়, প্রস্রাব-পায়খানা নিয়ন্ত্রণে পরিবর্তন, লাল ব্যথাযুক্ত চোখ বা দৃষ্টির সমস্যা হলে দ্রুত চিকিৎসা নিন।</p></div>
-<div class="note"><b class="warn">এখনই ডাক্তার দেখান:</b> জ্বর, লেগে থাকা কাশি, ফোসকাওয়ালা ফুসকুড়ি, লাল ও ব্যথার চোখ বা দৃষ্টিতে সমস্যা। <b class="warn">জরুরি চিকিৎসা:</b> হঠাৎ বুকে ব্যথা, শ্বাসকষ্ট, একটি পা ফুলে ব্যথা।</div>
-</section><section id="p4" hidden>
-<div class="settings-heading"><span class="kicker">YOUR SPACE · YOUR DATA</span><h1>Settings</h1><p class="workspace-sub">অ্যাপ, থিম ও ব্যক্তিগত ডেটা নিয়ন্ত্রণ করুন।</p></div>
-<div class="settings-grid">
-<div class="settings-card"><span class="settings-icon">◐</span><div><b>Appearance</b><p class="mu">Light অথবা dark theme বেছে নিন।</p></div><div class="row"><button class="tg" type="button" data-theme-choice="light">Light</button><button class="tg" type="button" data-theme-choice="dark">Dark</button><button class="tg" type="button" data-theme-choice="system">System</button></div></div>
-<div class="settings-card"><span class="settings-icon">▣</span><div><b>App & offline use</b><p class="mu">হোম স্ক্রিনে যোগ করলে অ্যাপের মতো ব্যবহার করা যায়। অফলাইন সুবিধা আগে খোলা পেজ ও ক্যাশ করা ফাইলের ওপর নির্ভর করে।</p></div><p class="mu" id="pwaStatus">PWA support পরীক্ষা করা হচ্ছে…</p></div>
-<div class="settings-card"><span class="settings-icon">⌁</span><div><b>Privacy & local data</b><p class="mu">স্বাস্থ্যতথ্য এই ডিভাইসের browser storage-এ থাকে। ব্রাউজারের data clear করলে backup ছাড়া তথ্য হারাতে পারেন।</p></div><p class="mu" id="localDataStatus"></p></div>
-</div>
-
-<div class="settings-card medication-settings"><span class="settings-icon">♡</span><div><b>Medication tracker labels</b><p class="mu">এটি শুধু নেওয়ার সময়গুলো টিক করার ট্র্যাকার; ওষুধ বা ডোজের পরামর্শ নয়। আপনার prescribed schedule অনুযায়ী নাম ও দুইটি সময়ের label বদলান।</p></div>
-<label class="setting-label">ওষুধের নাম<input class="f" id="medName" type="text" maxlength="60" placeholder="যেমন: আমার নির্ধারিত ওষুধ"></label>
-<div class="row setting-times"><label class="setting-label">প্রথম সময়ের নাম<input class="f" id="medTime1" maxlength="24" placeholder="সকাল"></label><label class="setting-label">দ্বিতীয় সময়ের নাম<input class="f" id="medTime2" maxlength="24" placeholder="রাত"></label></div>
-<button class="btn" type="button" id="saveMedSettings">লেবেল সেভ করুন</button><p class="mu" id="medSettingsMsg"></p></div>
-<section class="drive-panel" id="backupPanel" aria-labelledby="driveTitle">
-<div class="drive-panel-head"><div class="drive-icon" aria-hidden="true">☁</div><div class="drive-heading"><h2 id="driveTitle">ডেটা ও ব্যাকআপ</h2><p>তথ্য প্রথমে এই ডিভাইসে সেভ হবে। Google Account যুক্ত থাকলে Drive-এ স্বয়ংক্রিয় ব্যাকআপ হবে।</p></div></div>
-<div class="drive-local"><span class="drive-dot"></span><span><b>Local storage</b><small>এই browser-এ স্বয়ংক্রিয়ভাবে সংরক্ষিত</small></span><strong>চালু</strong></div>
-<div class="drive-cloud"><div class="drive-cloud-title"><b>Google Drive Sync</b><span id="driveConnectionState">সংযুক্ত নয়</span></div>
-<p id="cl" role="status" aria-live="polite">Google Drive ব্যবহার করতে চাইলে সংযুক্ত করুন।</p>
-<div class="drive-actions"><button type="button" class="btn" id="cb">Google Account সংযুক্ত করুন</button><button type="button" class="tg" id="dsync" disabled>এখনই Sync</button></div>
-<p class="drive-auto-info">স্বয়ংক্রিয় Sync চালু থাকবে। Google Account সংযুক্ত থাকলে ডেটা পরিবর্তনের পর Drive-এ সেভ হবে।</p>
-<button type="button" class="drive-disconnect" id="disconnectDrive">Google Account বিচ্ছিন্ন করুন</button></div>
-<p class="drive-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> · <a href="./terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p></section><div class="note"><b>Clinical safety</b><br>AS Care একটি self-monitoring companion; diagnosis বা treatment device নয়। স্কোর দেখে নিজে ওষুধ শুরু, বন্ধ বা dose পরিবর্তন করবেন না।</div>
-</section>
-</main>
-<script src="./assets/js/core/storage.js?v=storage-boundary-28" defer></script>
-<script src="./assets/js/app.js?v=overview-clean-34" defer></script>
-<script src="./assets/js/drive-backup.js" defer></script>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="AS Care home"><span class="brand-mark" aria-hidden="true">a</span><span>AS <strong>Care</strong></span></a>
+      <div class="topbar-meta"><time id="today-label"></time><span class="status-dot" aria-hidden="true"></span></div>
+    </header>
+    <main id="app-main">
+      <section class="welcome">
+        <p class="eyebrow">YOUR PERSONAL AXSpA COMPANION</p>
+        <h1>প্রতিদিনের যত্ন, নিজের গতিতে</h1>
+        <p class="welcome-copy">নড়াচড়া, উপসর্গ ও সুস্থতার অগ্রগতি এক জায়গায় রাখুন।</p>
+      </section>
+      <nav class="primary-nav" aria-label="প্রধান নেভিগেশন" role="tablist">
+        <button class="nav-item" type="button" role="tab" data-page="overview" aria-selected="true"><span aria-hidden="true">⌂</span><span>Overview</span></button>
+        <button class="nav-item" type="button" role="tab" data-page="movement" aria-selected="false"><span aria-hidden="true">↗</span><span>Movement</span></button>
+        <button class="nav-item" type="button" role="tab" data-page="insights" aria-selected="false"><span aria-hidden="true">▥</span><span>Insights</span></button>
+        <button class="nav-item" type="button" role="tab" data-page="health" aria-selected="false"><span aria-hidden="true">♡</span><span>Health</span></button>
+        <button class="nav-item" type="button" role="tab" data-page="settings" aria-selected="false"><span aria-hidden="true">⚙</span><span>Settings</span></button>
+      </nav>
+      <section class="page-panel" data-page-panel="overview" role="tabpanel">
+        <div class="panel-heading"><div><p class="eyebrow">OVERVIEW</p><h2>আজকের সারসংক্ষেপ</h2></div><span class="panel-index">01</span></div>
+        <div class="welcome-card"><span class="card-icon" aria-hidden="true">✳</span><div><h3>AS Care তৈরি হচ্ছে</h3><p>নতুন অ্যাপটি ধাপে ধাপে তৈরি করা হচ্ছে। প্রতিটি feature পরীক্ষা করে তারপর পরের ধাপে যাওয়া হবে।</p></div></div>
+      </section>
+      <section class="page-panel" data-page-panel="movement" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">DAILY MOVEMENT</p><h2>Movement</h2></div><span class="panel-index">02</span></div><div class="empty-panel"><span aria-hidden="true">↗</span><p>Movement feature পরবর্তী implementation ধাপে তৈরি হবে।</p></div></section>
+      <section class="page-panel" data-page-panel="insights" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">YOUR PROGRESS</p><h2>Insights</h2></div><span class="panel-index">03</span></div><div class="empty-panel"><span aria-hidden="true">▥</span><p>Insights feature roadmap অনুযায়ী তৈরি হবে।</p></div></section>
+      <section class="page-panel" data-page-panel="health" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">HEALTH JOURNAL</p><h2>Health</h2></div><span class="panel-index">04</span></div><div class="empty-panel"><span aria-hidden="true">♡</span><p>Health tracking feature ধাপে ধাপে যোগ করা হবে।</p></div></section>
+      <section class="page-panel" data-page-panel="settings" role="tabpanel" hidden><div class="panel-heading"><div><p class="eyebrow">PREFERENCES</p><h2>Settings</h2></div><span class="panel-index">05</span></div><div class="empty-panel"><span aria-hidden="true">⚙</span><p>Settings feature implementation-এর জন্য অপেক্ষমাণ।</p></div></section>
+    </main>
+    <footer class="app-footer"><span>AS Care</span><span>Personal tracking · Not medical advice</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="./assets/js/bootstrap.js"></script>
 </body>
 </html>
