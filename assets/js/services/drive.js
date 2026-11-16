@@ -1,6 +1,6 @@
 import { createBackup, parseBackupText, restoreBackup } from "./backup.js";
 import { getState, updateState, subscribe } from "../core/state.js";
-import { getDriveSyncMeta, setDriveSyncMeta } from "../core/storage.js";
+import { getDriveSyncMeta, setDriveSyncMeta, hasCachedState } from "../core/storage.js";
 import { emit } from "../core/events.js";
 
 const CLIENT_ID = "1065448074961-rhuuhu5k744c48ba1futrdub3pm10go2.apps.googleusercontent.com";
@@ -119,10 +119,11 @@ export async function syncDrive() {
 
 async function loadCloudState() {
   const meta = getDriveSyncMeta();
-  if (meta.pending) {
+  if (meta.pending && hasCachedState()) {
     status("syncing", "আগের অসম্পূর্ণ পরিবর্তন Drive-এ সেভ হচ্ছে…");
     return syncDrive();
   }
+  if (meta.pending && !hasCachedState()) setDriveSyncMeta({ pending: false });
   const file = await findBackup();
   if (!file) return syncDrive();
   status("syncing", "Google Drive থেকে আগের তথ্য লোড হচ্ছে…");
