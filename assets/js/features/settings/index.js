@@ -30,7 +30,7 @@ export function initSettings({ root = document.querySelector('[data-page-panel="
       render();
       return;
     }
-    showToast("সেটিংস সংরক্ষণ হয়েছে।", "success");
+    showToast("সেটিংস আপডেট হয়েছে।", "success");
     if (control.dataset.preference === "theme") render();
   }
 
