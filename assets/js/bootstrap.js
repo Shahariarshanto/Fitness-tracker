@@ -7,6 +7,7 @@ import { initSettings } from "./features/settings/index.js";
 
 const dateLabel = document.querySelector("#today-label");
 const toast = document.querySelector("#toast");
+let toastTimer = null;
 if (dateLabel) dateLabel.textContent = formatDate(dateKey());
 
 const router = initRouter({ initialPage: "overview" });
@@ -23,9 +24,11 @@ subscribe(state => applyTheme(state.preferences.theme));
 on("theme:changed", ({ theme }) => applyTheme(theme));
 on("toast:show", ({ message, type = "info" }) => {
   if (!toast) return;
+  window.clearTimeout(toastTimer);
   toast.textContent = String(message || "");
   toast.dataset.type = type;
   toast.hidden = !message;
+  if (message) toastTimer = window.setTimeout(() => { toast.hidden = true; }, 2600);
 });
 
 if ("serviceWorker" in navigator) {
