@@ -14,7 +14,7 @@ function recordTime(value) {
   return Number.isFinite(time) ? time : 0;
 }
 
-function mergeValues(remote, local) {
+function mergeValues(remote, local, preferLocal = true) {
   if (Array.isArray(remote) && Array.isArray(local)) {
     const combined = [...remote, ...local];
     if (!combined.every(item => item && typeof item === "object" && !Array.isArray(item))) return cloneValue(local);
@@ -37,15 +37,17 @@ function mergeValues(remote, local) {
   }
   if (remote && local && typeof remote === "object" && typeof local === "object" &&
       !Array.isArray(remote) && !Array.isArray(local)) {
+    const remoteTime = recordTime(remote), localTime = recordTime(local);
+    const preferLocal = remoteTime || localTime ? localTime >= remoteTime : preferLocal;
     const result = {};
     for (const key of new Set([...Object.keys(remote), ...Object.keys(local)])) {
       if (!(key in local)) result[key] = cloneValue(remote[key]);
       else if (!(key in remote)) result[key] = cloneValue(local[key]);
-      else result[key] = mergeValues(remote[key], local[key]);
+      else result[key] = mergeValues(remote[key], local[key], preferLocal);
     }
     return result;
   }
-  return cloneValue(local);
+  return cloneValue(preferLocal ? local : remote);
 }
 
 function cloneValue(value) {
