@@ -100,3 +100,9 @@ Each page owns its own rendering and event orchestration. Shared state and stora
 - [x] Activate the Overview page before the broader `renderAll()` routine during startup. This prevents an exception in a secondary render routine from skipping the page activation step.
 - [x] Guard the secondary startup render so an error is logged without preventing the already-activated Overview from appearing.
 - [ ] Browser verification on a fresh app launch remains pending.
+
+
+## Overview HTML default visibility — 2026-11-16
+- [x] Mark the Overview section as the active page in the initial HTML, so it is visible before application JavaScript runs.
+- [x] Bump CSS/JS asset versions and service-worker shell cache.
+- [ ] Verify first launch in the user's browser; static markup cannot confirm deployment/cache behavior.
