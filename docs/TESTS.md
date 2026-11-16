@@ -100,6 +100,7 @@ Add focused module-level and feature-level tests in the same step that implement
 ### Browser checks
 - [ ] Daily pain, night mobility, stiffness, fatigue and sleep values save and re-render.
 - [ ] Symptom and pain records remain after reload and use the local calendar date.
+- [ ] Recent symptom history shows saved daily entries in reverse chronological order.
 - [ ] BASDAI six-question form validates, calculates and saves a dated history entry.
 - [ ] ASDAS-CRP form validates symptom inputs and CRP, calculates and saves a dated history entry.
 - [ ] Empty, negative, non-numeric and out-of-range values are rejected.
