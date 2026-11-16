@@ -68,11 +68,12 @@ The previous five Health submodules were removed from the runtime and service-wo
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/medication/index.js` | Adds/edits/archives medication entries; records today's taken/skipped status; subscribes and re-renders | core state, core dates, Feedback, MedicationPanel | Owns the Overview medication mount |
+| `assets/js/features/medication/index.js` | Adds/edits/archives medication entries; records today's taken/skipped status; subscribes and re-renders | core state, core dates, Feedback, MedicationPanel | Owns `data-medication-content` inside Health |
 | `assets/js/features/medication/MedicationPanel.js` | Renders medication form, active list, daily summary, status controls and recent adherence history | none | Pure rendering; no state mutation |
+| `assets/js/services/medication.js` | Shared date-scoped medication adherence state update used by Overview and Medication | none | Pure state transformation; no DOM or persistence access |
 | `assets/css/pages.css` | Responsive medication tracker cards, forms, status and history styles | design tokens | Styles only |
 
-Medication is mounted within Overview to preserve the five approved primary navigation tabs. The module is independent and later Overview integration can aggregate its read-only summary. Archiving hides a medicine from the active list but retains its past adherence history.
+Medication management is mounted as a dedicated section inside the Health tab, preserving the five primary navigation tabs. Overview shows a compact daily medication check-in with `খেয়েছি` and `খাইনি` controls; both views use the same shared adherence service and state records. Adding, editing and archiving medicines remains in Health. Archiving hides a medicine from the active list but retains its past adherence history.
 
 ### Step 5 follow-up — Overview and adherence controls
 
@@ -118,4 +119,4 @@ Insights is read-only: it does not mutate Health, Medication, or Movement record
 | `assets/js/features/overview/OverviewCards.js` | Derives daily movement, pain/symptom, medication, score and 7-day activity summaries; renders quick navigation actions | core dates, exercise catalogue | Pure rendering; no state mutation |
 | `assets/css/overview.css` | Responsive Overview cards, progress bars and quick actions | design tokens | Styles only |
 
-Overview reads the shared state only. Medication remains independently mounted and owns its own records; Overview displays a read-only adherence snapshot. All ordinary updates arrive through `state.subscribe()`. No Overview-specific data is persisted.
+Overview reads the shared state only. Medication remains independently mounted and owns its own records; Overview can record today’s taken/skipped status through the shared medication service. All ordinary updates arrive through `state.subscribe()`. No Overview-specific data is persisted.
