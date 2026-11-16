@@ -39,3 +39,6 @@ GitHub Pages serves the project under /Fitness-tracker/. Use relative asset path
 
 ## Testing
 Syntax checks and file-reference checks are useful but are not browser tests. Always test mobile, desktop, saved-data compatibility, and offline behavior before calling a release complete.
+
+
+Google Drive sign-in preference is remembered locally. OAuth access tokens remain memory-only; the app tries silent renewal on reopen and may ask the user to reconnect if Google requires interaction.
