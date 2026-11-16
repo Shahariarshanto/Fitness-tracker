@@ -28,8 +28,6 @@ The rebuilt application uses a clean modular architecture. The old monolithic `a
 ### Explicitly excluded
 
 Do not add or reintroduce:
-- Google Drive integration, Google Identity Services, Google OAuth or Drive scopes.
-- Google Apps Script or Google Drive backup files.
 - Cloudflare R2 snapshots or R2 backup configuration.
 - Login, user accounts, passwords or an account-management flow.
 - Paid services, paid plans, billing or payment methods.
@@ -278,7 +276,7 @@ Work:
 - Failed/offline requests retain pending changes.
 - Exported JSON can be imported and restores the expected data.
 - Invalid JSON is rejected without partially changing app state.
-- No Google Drive, OAuth, R2 or account flow exists in the runtime or UI.
+- No unapproved third-party account or backup flow exists in the runtime or UI.
 
 ### Step 10 — Integration, cleanup and final verification
 
@@ -379,7 +377,7 @@ Never claim a phone, browser, offline or deployment test passed unless it was ac
 - [ ] Cloudflare D1 is the permanent primary data store.
 - [ ] Local cache and offline pending queue preserve edits.
 - [ ] Manual JSON export/import validates and restores data.
-- [ ] No Google Drive, Google OAuth, Google Apps Script or R2 integration.
+- [ ] No unapproved third-party account or backup integration.
 - [ ] No login/account/password flow.
 - [ ] No paid service dependency.
 
