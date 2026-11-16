@@ -242,3 +242,37 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Cards fit narrow Android screens without horizontal overflow and remain scrollable above navigation.
 
 **Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.
+
+
+## Step 9 — Backup, Drive and notifications
+
+### Static checks
+- [ ] Backup envelope identifies `app: "as-care"` and `schemaVersion: 1`.
+- [ ] Backup validation checks required state domains and rejects malformed JSON/schema before state mutation.
+- [ ] Import applies the complete validated state through `updateState()`; no service accesses localStorage directly.
+- [ ] Drive OAuth uses only the `drive.file` scope; tokens remain memory-only.
+- [ ] Drive sync creates timestamped version files and does not overwrite prior snapshots.
+- [ ] Drive restore selects the newest matching version and validates it before state replacement.
+- [ ] Only the approved `drive:sync-status` event is used.
+- [ ] Sound, speech and vibration helpers degrade safely when unsupported or disabled.
+- [ ] New runtime services are listed in `sw.js` and cache version is incremented.
+- [ ] No client secret, access token, health export or personal record is committed.
+
+### Browser checks
+- [ ] Export downloads a valid JSON backup.
+- [ ] Import accepts a valid version-1 backup after confirmation.
+- [ ] Invalid JSON, unsupported versions and malformed state are rejected without changing local data.
+- [ ] Drive connect and consent work on the deployed HTTPS origin.
+- [ ] Manual Drive sync creates a new timestamped file.
+- [ ] Drive restore shows confirmation and replaces local data only after validation.
+- [ ] Token expiry/reload requires a user-driven reconnect.
+- [ ] Sound and vibration follow Settings preferences.
+- [ ] Voice Guidance announces the selected exercise only when enabled.
+
+### Device/PWA checks
+- [ ] Backup controls fit narrow Android screens.
+- [ ] Google sign-in popup works in Android Chrome and installed PWA.
+- [ ] Exported file can be found in Android Downloads and re-imported.
+- [ ] Offline local tracking remains usable; Drive actions report unavailable network cleanly.
+
+**Verification note:** Repository implementation and static source review only. Live export/import, Google OAuth/Drive, Android-device, audio, vibration, speech, offline, and deployed-browser tests remain for the user.
