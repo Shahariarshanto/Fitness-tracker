@@ -75,7 +75,7 @@
     // Classic-script loader catches module download, MIME, and parse failures visibly.
     (() => {
       const showLoadError = error => {
-        const host = document.querySelector("[data-medication-content]");
+        const host = document.querySelector("[data-overview-content]");
         if (!host) return;
         const card = document.createElement("section");
         card.className = "health-card";
