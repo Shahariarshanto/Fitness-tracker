@@ -9,14 +9,12 @@ function corsHeaders(origin) {
     "Vary": "Origin"
   };
 }
-
 function json(data, status, origin) {
   return new Response(JSON.stringify(data), {
     status,
     headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...corsHeaders(origin) }
   });
 }
-
 function validateState(state) {
   if (!state || typeof state !== "object" || Array.isArray(state)) return false;
   const objects = ["preferences", "dailyActivity", "painLogs", "medication", "symptoms", "healthScores", "flarePlan"];
@@ -55,14 +53,36 @@ export default {
       if (payload?.app !== "as-care" || payload?.schemaVersion !== 1 || !validateState(payload.state)) {
         return json({ error: "Invalid AS Care state payload" }, 400, origin);
       }
-      const serialized = JSON.stringify(payload.state);
       const updatedAt = new Date().toISOString();
       await env.DB.prepare(
         "INSERT INTO app_state (id, state_json, version, updated_at) VALUES (?, ?, 1, ?) ON CONFLICT(id) DO UPDATE SET state_json = excluded.state_json, version = app_state.version + 1, updated_at = excluded.updated_at"
-      ).bind("primary", serialized, updatedAt).run();
+      ).bind("primary", JSON.stringify(payload.state), updatedAt).run();
       const row = await env.DB.prepare("SELECT version FROM app_state WHERE id = ?").bind("primary").first();
       return json({ ok: true, version: row.version, updatedAt }, 200, origin);
     }
     return json({ error: "Method not allowed" }, 405, origin);
+  },
+
+  async scheduled(controller, env, ctx) {
+    if (!env.BACKUPS) return;
+    const row = await env.DB.prepare("SELECT state_json, version, updated_at FROM app_state WHERE id = ?").bind("primary").first();
+    if (!row) return;
+    const now = new Date();
+    const key = "daily/" + now.toISOString().replace(/[:.]/g, "-") + ".json";
+    const backup = {
+      app: "as-care",
+      schemaVersion: 1,
+      backupCreatedAt: now.toISOString(),
+      databaseVersion: row.version,
+      databaseUpdatedAt: row.updated_at,
+      state: JSON.parse(row.state_json)
+    };
+    await env.BACKUPS.put(key, JSON.stringify(backup), {
+      httpMetadata: { contentType: "application/json" }
+    });
+    const cutoff = now.getTime() - 30 * 24 * 60 * 60 * 1000;
+    const old = await env.BACKUPS.list({ prefix: "daily/", limit: 1000 });
+    const expired = old.objects.filter(object => object.uploaded && object.uploaded.getTime() < cutoff).map(object => object.key);
+    if (expired.length) await env.BACKUPS.delete(expired);
   }
 };
