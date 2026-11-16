@@ -3,9 +3,10 @@
 Before making any change, read:
 1. README.md
 2. CONTRIBUTING.md
-3. docs/ARCHITECTURE.md
-4. docs/DATA_MODEL.md
-5. docs/ROADMAP.md
+3. docs/BASELINE_INVENTORY.md
+4. docs/ARCHITECTURE.md
+5. docs/DATA_MODEL.md
+6. docs/ROADMAP.md
 
 These documents are the project's persistent instructions. Follow them even when a task appears to be a small UI change.
 
