@@ -1,6 +1,6 @@
 const ALLOWED_EVENTS = new Set([
   "workout:started", "workout:finished", "toast:show",
-  "theme:changed", "drive:sync-status"
+  "theme:changed"
 ]);
 const listeners = new Map();
 
