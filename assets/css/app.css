@@ -382,6 +382,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 /* Prevent empty dashboard placeholders from appearing as floating blank circles */
 #dailyHabits:empty,#overviewInsights:empty,#overviewMovement:empty{display:none!important}
-#p1{display:flex!important;flex-direction:column!important;gap:16px!important}
-#p1>.overview-hero,#p1>.overview-pain-card,#p1>#dailyHabits,#p1>#overviewInsights,#p1>#overviewMovement,#p1>.medication-home,#p1>.overview-next{display:block;width:100%;min-width:0;grid-column:1/-1}
-#p1>[hidden]{display:none!important}
+/* Overview must obey the native hidden attribute used by tab navigation */
+#p1:not([hidden]){display:flex;flex-direction:column;gap:16px}
+#p1[hidden]{display:none!important}
+#p1>.overview-hero,#p1>.overview-pain-card,#p1>#dailyHabits,#p1>#overviewInsights,#p1>#overviewMovement,#p1>.medication-home,#p1>.overview-next{width:100%;min-width:0}
