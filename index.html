@@ -259,6 +259,14 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
  #p3 .pain button{min-width:0}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+@media(min-width:651px){
+ main{max-width:1120px;margin:0 auto 0 max(220px,calc((100vw - 1120px)/2 + 200px));padding:0 32px 70px}
+ .tabs{position:fixed;left:max(18px,calc((100vw - 1380px)/2));top:112px;bottom:auto;width:176px;display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:9px;border-radius:17px}
+ .tabs button{width:100%;min-width:0;justify-content:flex-start;padding:13px 14px}
+ .tabs button .nav-icon{width:22px;text-align:center}
+ .app-topbar{margin-bottom:30px}
+}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="AS Care">
