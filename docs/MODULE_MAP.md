@@ -45,3 +45,10 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 | `assets/js/features/settings/index.js` | Mounts Settings UI, handles preference input, reports PWA status | core state, Preferences, Feedback | Subscribes to state; writes preferences through state API |
 | `assets/js/features/settings/Preferences.js` | Renders settings controls, validates and saves preferences, reads storage summary | core state, core storage, core events | Owns no duplicate state; emits approved theme event |
 | `assets/css/pages.css` | Responsive page-level Settings layout | design tokens | Styles only |
+
+### Step 3 follow-up — layout and feedback refinement
+
+- `index.html`: removed the redundant footer tagline row so the primary navigation is not preceded by an unnecessary footer.
+- `assets/js/bootstrap.js`: toast feedback now replaces any pending toast and auto-dismisses after 2.6 seconds.
+- `assets/js/features/settings/Preferences.js`: removed the disabled language selector; clearly states that only Bengali is currently available.
+- `assets/css/base.css`: toast is positioned above the bottom navigation rather than overlapping it.
