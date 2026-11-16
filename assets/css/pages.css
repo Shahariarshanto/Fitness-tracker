@@ -39,3 +39,5 @@
 .health-history small { color: var(--muted); }
 .icon-button { width: 34px; height: 34px; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-soft); cursor: pointer; font-size: 20px; }
 @media (max-width: 380px) { .health-card { padding: 14px; } .health-card-heading { align-items: flex-start; } }
+
+.health-disclaimer { margin: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); color: var(--muted); font-size: 12px; line-height: 1.6; }
