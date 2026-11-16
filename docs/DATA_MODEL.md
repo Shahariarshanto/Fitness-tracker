@@ -15,7 +15,6 @@ The rebuild starts with a clean schema because there is no existing user data to
 | `symptoms` | Night mobility, stiffness, fatigue, sleep |
 | `healthScores` | BASDAI and ASDAS inputs/results/history |
 | `healthEvents` | Flare and other relevant events |
-| `labs` | Dated laboratory results with test name, numeric value, unit and optional note |
 | `flarePlan` | User-editable action plan |
 | `workoutSessions` | Guided workout session history |
 
@@ -31,7 +30,6 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
   healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
   healthEvents: [{ id, title, date, note }],
-  labs: [{ id, testName, value, unit, date, note, createdAt }],
   flarePlan: { warningSigns: "", actions: "", contacts: "", updatedAt: "ISO-8601" },
   workoutSessions: []
 }
@@ -62,10 +60,6 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 ## 6. Privacy
 Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
 
-### Laboratory records
-- Lab results are stored in the `labs` array. Each entry has a stable ID, test name, numeric result, the unit copied from the report, test date, optional note and creation timestamp.
-- Users may add and delete records. The app does not infer normal ranges or provide diagnostic interpretation.
-- Existing D1 snapshots without a `labs` property are normalized to an empty array by the Worker when read.
 
 ### Medication records
 - Medication definitions are stored in `medication.items` with user-entered name, dose text, schedule, optional local time, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
