@@ -176,15 +176,15 @@ export async function initializeDrive() {
     status("disconnected", "Google Drive এখনো সংযুক্ত নয়।");
     return false;
   }
-  try {
-    status("syncing", "Google Drive সংযোগ যাচাই হচ্ছে…");
-    await requestToken("");
-    await loadCloudState();
-    return true;
-  } catch (error) {
-    status("reconnect", "Google Drive পুনরায় সংযুক্ত করুন: " + error.message);
-    return false;
-  }
+
+  // Google Identity Services token requests must be initiated by a user gesture.
+  // Do not request an access token during page startup: that caused a popup on
+  // every reload. The user can reconnect from Settings when they want to sync.
+  status(
+    "reconnect",
+    "এই সেশনে Drive অনুমতি নেই। Drive থেকে তথ্য লোড ও Sync করতে Settings থেকে পুনরায় সংযুক্ত করুন।"
+  );
+  return false;
 }
 
 export async function connectDrive() {
