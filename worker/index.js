@@ -21,6 +21,7 @@ function validateState(state) {
   const arrays = ["healthEvents", "workoutSessions"];
   if (!objects.every(key => state[key] && typeof state[key] === "object" && !Array.isArray(state[key]))) return false;
   if (!arrays.every(key => Array.isArray(state[key]))) return false;
+  if (state.labs !== undefined && !Array.isArray(state.labs)) return false;
   if (!Array.isArray(state.medication.items) || !state.medication.dailyLogs || typeof state.medication.dailyLogs !== "object") return false;
   if (!state.symptoms.daily || typeof state.symptoms.daily !== "object") return false;
   if (!Array.isArray(state.healthScores.basdai) || !Array.isArray(state.healthScores.asdas)) return false;
@@ -43,6 +44,7 @@ export default {
       let state;
       try { state = JSON.parse(row.state_json); } catch { return json({ error: "Stored state is invalid JSON" }, 500, origin); }
       if (!validateState(state)) return json({ error: "Stored state failed validation" }, 500, origin);
+      if (!Array.isArray(state.labs)) state.labs = [];
       return json({ state, version: row.version, updatedAt: row.updated_at }, 200, origin);
     }
     if (request.method === "PUT") {
