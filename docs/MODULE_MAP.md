@@ -30,7 +30,7 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 | Module | Responsibility | Imports |
 |---|---|---|
 | `assets/js/data/exercises.js` | Bengali/English exercise catalogue, groups, instructions, timing metadata, body-region mapping and ID lookup | none |
-| `assets/js/data/health-data.js` | Body-region labels, self-tracking metric definitions and lab field labels | none |
+| `assets/js/data/health-data.js` | Body-region labels and self-tracking metric definitions | none |
 | `assets/js/components/Navigation.js` | Keyboard navigation and selected-tab helper for the shell tablist | none |
 | `assets/js/components/Feedback.js` | Toast event helper, inline status message and confirmation dialog | core events |
 | `assets/js/components/Progress.js` | Reusable progress bar, ring and donut markup | none |
@@ -62,7 +62,7 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 | `assets/js/features/health/SymptomLog.js` | Daily pain, night mobility, stiffness, fatigue and sleep check-in | core dates, health data | Writes `painLogs` and `symptoms.daily` through caller-provided state |
 | `assets/js/features/health/BASDAI.js` | Six-question BASDAI form, pure score calculation and history rendering | core dates | Writes `healthScores.basdai` through caller-provided state |
 | `assets/js/features/health/ASDAS.js` | ASDAS-CRP inputs, pure score calculation and history rendering | core dates | Writes `healthScores.asdas` through caller-provided state |
-| `assets/js/features/health/LabEvents.js` | Lab result and health-event forms, history, deletion | core dates, health data | Owns `labs` and `healthEvents` mutations through caller-provided state |
+| `assets/js/features/health/HealthEvents.js` | Health-event form, history and deletion | core dates | Owns `healthEvents` mutations through caller-provided state |
 | `assets/js/features/health/FlarePlan.js` | User-editable flare action-plan notes | none | Owns `flarePlan` mutations through caller-provided state |
 | `assets/css/pages.css` | Health cards, forms, score histories and mobile layout | design tokens | Styles only |
 
