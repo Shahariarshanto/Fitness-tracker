@@ -41,3 +41,10 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Never commit secrets, access tokens, private keys, or real personal health records.
 - Do not change clinical exercise or medication guidance without appropriate review.
 - Report only tests actually performed; distinguish syntax checks from live browser/device testing.
+
+
+## Step 9 services
+- `services/backup.js` owns versioned JSON backup validation and state restore.
+- `services/drive.js` owns Google OAuth and manual timestamped Drive snapshots; tokens must remain memory-only.
+- `services/notifications.js` owns optional sound, speech and vibration helpers.
+- Settings exposes local export/import and manual Drive controls. Never overwrite previous Drive snapshots or import without confirmation.
