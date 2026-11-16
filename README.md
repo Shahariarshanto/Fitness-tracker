@@ -9,7 +9,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 2. On Android Chrome, use **Add to Home screen** to install the PWA.
 3. User data is stored locally in the browser. Export a JSON backup regularly. Optional Google Drive backup is configured with the app owner's shared Web OAuth Client ID; each user authorizes their own Google Account. See docs/ARCHITECTURE.md for setup and security details.
 
-No build step or package manager is currently required. The site is deployed from the main branch.
+No build step or package manager is currently required. Local environment files are excluded by `.gitignore`; see `.env.example`. The current static browser OAuth flow does not require a Client Secret. The site is deployed from the main branch.
 
 ## Repository map
 - index.html — semantic page shell and navigation
