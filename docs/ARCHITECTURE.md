@@ -20,7 +20,7 @@ Main workflows:
 - Public app path: https://shahariarshanto.github.io/Fitness-tracker/
 - PWA files: manifest.webmanifest, sw.js, icon.svg.
 - Local persistence: browser localStorage.
-- Optional cloud backup: Google Identity Services / Google Drive API. Each user authorizes their own Google Account. The app owner configures a shared Web OAuth Client ID in assets/js/app.js; end-user tokens are held in memory only.
+- Optional cloud backup: Google Identity Services / Google Drive API. Each user authorizes their own Google Account. The app owner configures a shared public Web OAuth Client ID in assets/js/app.js; end-user tokens are held in memory only. The static browser token flow does not use a Client Secret. Never put a Client Secret in frontend code or build-time variables that are bundled into browser assets. If a server-side OAuth flow is introduced later, store its secret only in that backend host's secret manager/environment, not in the Git repository.
 
 ## 3. Repository structure
 ```text
