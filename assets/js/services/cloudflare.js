@@ -18,8 +18,9 @@ function mergeValues(remote, local) {
   if (Array.isArray(remote) && Array.isArray(local)) {
     const combined = [...remote, ...local];
     if (!combined.every(item => item && typeof item === "object" && !Array.isArray(item))) return cloneValue(local);
-    const dates = combined.map(item => item.date).filter(Boolean);
-    const dateIsUnique = dates.length === combined.length && new Set(dates).size === dates.length;
+    const uniqueDates = items => items.every(item => typeof item.date === "string") &&
+      new Set(items.map(item => item.date)).size === items.length;
+    const dateIsUnique = uniqueDates(remote) && uniqueDates(local);
     const keyOf = item => dateIsUnique ? "date:" + item.date : item.id ? "id:" + item.id : null;
     if (combined.some(item => !keyOf(item))) return cloneValue(local);
     const records = new Map();
