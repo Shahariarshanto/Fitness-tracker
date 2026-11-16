@@ -44,23 +44,21 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - Health events and the user-authored flare plan are personal notes. The app does not prescribe medication or treatment.
 
 ## 4. Persistence and source of truth
-- Google Drive is the primary and authoritative store for the complete AS Care state.
-- On app startup, the app attempts Google authorization and loads the latest validated Drive snapshot before mounting feature pages.
-- core/state.js remains the in-memory state API used by every feature. core/storage.js is the only module allowed to access localStorage.
-- Local Storage is a temporary cache and offline outbox only; it is not the authoritative record. It retains the last loaded state and pending changes until Drive confirms a successful save.
-- State changes are batched after a short quiet period and written into one app-owned Drive file named AS Care Data.json. Updates during an in-flight upload remain pending and trigger another upload.
-- When offline or when Drive authorization is unavailable, edits remain cached and marked pending. The app retries when connectivity returns or the user reconnects.
-- A pending local outbox is uploaded before loading cloud state, so unsynchronized edits are not silently overwritten. Otherwise, the latest validated Drive snapshot replaces the local cache.
-- Never clear the existing Drive file before a replacement upload succeeds. OAuth access tokens remain memory-only.
+- Cloudflare D1 is the permanent primary source of truth for the complete AS Care state.
+- On app startup, the app requests the latest validated state from the Cloudflare Worker before mounting feature pages.
+- `core/state.js` remains the in-memory state API used by every feature. `core/storage.js` is the only module allowed to access localStorage.
+- Local Storage is only a temporary cache and offline pending-change queue. It is never authoritative when D1 is available.
+- State changes are debounced and sent to the Worker API. Failed/offline writes remain cached and are retried when connectivity returns.
+- On first deployment only, an empty D1 database is initialized from the existing device cache. Once D1 contains a state snapshot, it replaces the local cache on startup.
+- Do not clear local cached records during migration. Do not overwrite remote state with a fresh empty state.
 
 ## 5. Cloud data contract
-- Drive stores the complete version-1 envelope: app identifier, schema version, export timestamp and complete app state.
-- The app updates one canonical Drive file rather than creating a new timestamped file for every save. Existing timestamped AS Care backups can be read and migrated into the canonical file.
-- Validate the complete payload before applying it to the in-memory state.
-- The driveEnabled preference records whether this browser should attempt Drive initialization. It is not an OAuth credential.
-
+- D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
+- The Worker validates the application identifier, schema version, required state domains and payload size before writing.
+- D1 is the primary database. Separate scheduled backups must be implemented before describing the system as independently backed up.
+- Cloudflare Worker API currently permits requests from the GitHub Pages site origin; CORS origin checks are not authentication and do not protect health data from non-browser callers.
 ## 6. Privacy
-Health information is sensitive. The user explicitly connects their Google Account and grants the narrow drive.file scope. The app-created data file is stored in that user's Drive. Never commit real user records, exports, tokens, client secrets, or private credentials to Git.
+Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
 
 ### Medication records
 - Medication definitions are stored in `medication.items` with user-entered name, dose text, schedule, optional local time, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
