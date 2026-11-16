@@ -55,7 +55,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 ## 5. Cloud data contract
 - D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
 - The Worker validates the application identifier, schema version, required state domains and payload size before writing.
-- D1 is the primary database. A scheduled Worker writes daily snapshots to the R2 bucket and retains every snapshot indefinitely; no automatic cleanup is configured. Backup operation must be verified after deployment.
+- D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Use the app's manual JSON export for an independent copy; D1 itself is not a backup.
 - Cloudflare Worker API currently permits requests from the GitHub Pages site origin; CORS origin checks are not authentication and do not protect health data from non-browser callers.
 ## 6. Privacy
 Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
@@ -93,4 +93,4 @@ Health information is sensitive. The current single-user endpoint has no login o
 - Export envelope: `{ app: "as-care", schemaVersion: 1, exportedAt: ISO-8601, state: <complete app state> }`.
 - Import accepts only this application identifier and schema version. It validates the envelope and state-domain shapes before calling the state store; invalid files are rejected before any state update.
 - Import replaces the current application state after explicit confirmation. Export is a user-triggered JSON download.
-- Cloudflare Worker writes daily snapshots of the D1 primary state into the `as-care-backups` R2 bucket at 00:00 Bangladesh time. The Worker retains the most recent 30 days and prunes older snapshots. This backup schedule is only active after the R2 bucket is created and the Worker deployment succeeds.
+- No R2 bucket, scheduled backup, or paid storage service is configured. Users should periodically export a JSON copy and keep it somewhere safe.
