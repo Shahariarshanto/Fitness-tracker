@@ -64,7 +64,8 @@
 
 
 /* Medication tracker */
-.medication-section { display: grid; gap: 15px; margin-top: 18px; }
+.medication-section { display: grid; gap: 15px; margin-top: 0; }
+[data-medication-content] { display:grid; gap:12px; margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
 .medication-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .medication-heading h3 { margin: 4px 0 0; font-size: 19px; }
 .medication-date { color: var(--muted); font-size: 11px; }
