@@ -32,7 +32,9 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Changes should sync automatically when connectivity is available; failed writes must remain queued for retry.
 - Manual JSON export/import is the independent user-controlled backup method.
 - D1 is not a backup. No R2 snapshots, scheduled backup service or paid storage service is planned.
-- The current Worker API has no login/authentication. CORS is not authentication; the endpoint is publicly callable. Do not describe the stored health data as private or access-controlled.
+- The Worker uses the app's custom Sign Up / Login / Logout flow. Every /api/state request requires a valid bearer session token and reads/writes only the authenticated user's app_state row.
+- Passwords are PBKDF2-SHA-256 hashes with per-user random salts. D1 stores only SHA-256 hashes of random session tokens. Sessions persist until explicit logout.
+- The frontend stores a persistent token and user summary in app-owned Local Storage. Logout clears all as-care-* keys but never deletes D1 records. Email verification and password reset are not included.
 - Do not add third-party OAuth or cloud-drive integrations.
 
 ## Architecture rules
