@@ -19,7 +19,7 @@ The GitHub Actions workflow runs this check on pull requests and before deployin
 - Guided-session event emitter shapes and PWA manifest JSON.
 - Runtime references to removed legacy animation assets.
 
-This is a static structural check. It does not simulate browser rendering, Android behavior, PWA installation, real offline launch, D1 connectivity or clinical correctness. Known c3 and e1/e2 issues are reported as warnings and require separate resolution.
+This is a static structural check. It does not simulate browser rendering, Android behavior, PWA installation, real offline launch, D1 connectivity or clinical correctness. The e1/e2 timing-policy limitation remains a warning. c3 pose/caption alignment is now covered by a static regression check; visual rendering still requires browser/device review.
 
 ## Timing metadata review
 
@@ -204,7 +204,8 @@ Add focused module-level and feature-level tests in the same step that implement
 - [x] `RUNTIME_MODULES` and `CLASSIC_RUNTIME` are combined into `PRECACHE_ASSETS`, and install uses `cache.addAll(PRECACHE_ASSETS)`; all declared asset paths were checked against the repository tree.
 - [ ] Verify in a real browser that installation succeeds, every imported module is served from cache offline, and a new version replaces the old cache.
 - [ ] e1/e2 show `নির্দেশনা অনুযায়ী` rather than `0s`; elapsed session time continues to accumulate without inventing a per-exercise countdown.
-- [ ] c3 catalogue position, instruction, animation pose and caption are reconciled after appropriate content/clinical review.
+- [x] c3 animation pose and Bengali caption align with the existing hands-and-knees catalogue instruction (static source check).
+- [ ] Clinician reviews catalogue exercise suitability and dosage; visual alignment does not constitute clinical approval.
 
 ### Browser checks
 - [ ] Exercise groups and all 24 catalogue items render.
@@ -228,7 +229,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline Movement tab loads after the required assets have actually been cached.
 - [ ] Animation performance and readability are acceptable on the target Android device.
 
-**Clinical limitation:** Catalogue text remains legacy reference material and is not clinically reviewed. The custom ASAN stick-figure animations are visual illustrations, not clinical validation or proof that the movement/dosage is appropriate. c3 currently has a known catalogue-versus-animation mismatch. Assistant static review does not substitute for a clinician's review or the user's live phone/browser test.
+**Clinical limitation:** Catalogue text remains legacy reference material and is not clinically reviewed. The custom ASAN stick-figure animations are visual illustrations, not clinical validation or proof that the movement/dosage is appropriate. c3 animation now matches the existing hands-and-knees catalogue instruction, but this does not establish clinical suitability or dosage. Assistant static review does not substitute for a clinician's review or the user's live phone/browser test.
 
 **Verification note:** Repository inspection only. The above browser/device checks remain unchecked until actually performed.
  
