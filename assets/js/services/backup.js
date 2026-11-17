@@ -18,6 +18,12 @@ export function validateBackup(payload) {
   const data = payload.state;
   for (const key of REQUIRED_OBJECTS) if (!isObject(data[key])) throw new Error("Backup-এর " + key + " অংশটি অনুপস্থিত বা সঠিক নয়।");
   for (const key of REQUIRED_ARRAYS) if (!Array.isArray(data[key])) throw new Error("Backup-এর " + key + " অংশটি অনুপস্থিত বা সঠিক নয়।");
+  if (data.movement !== undefined && (!isObject(data.movement) || (data.movement.routineExerciseIds !== undefined && !Array.isArray(data.movement.routineExerciseIds)))) {
+    throw new Error("Backup-এর movement routine অংশটি সঠিক নয়।");
+  }
+  if (data.movement?.routineExerciseIds && !data.movement.routineExerciseIds.every(id => typeof id === "string")) {
+    throw new Error("Backup-এর routine-এ একটি exercise ID সঠিক নয়।");
+  }
   if (!Array.isArray(data.medication.items) || !isObject(data.medication.dailyLogs)) throw new Error("Medication backup অসম্পূর্ণ।");
   if (!isObject(data.symptoms.daily)) throw new Error("Symptoms backup অসম্পূর্ণ।");
   if (!Array.isArray(data.healthScores.basdai) || !Array.isArray(data.healthScores.asdas)) throw new Error("Health score backup অসম্পূর্ণ।");

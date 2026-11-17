@@ -223,20 +223,37 @@ if (!c3Pose.includes("c3right") || !details.includes('c3: ["হাত-হাঁ�
   fail("c3 animation must remain an independent quadruped thoracic rotation module");
 } else pass("c3 has an independent pose module and matching Bengali caption");
 
-if (!/emit\(["']workout:started["'],\s*\{\s*exerciseIds:/.test(read("assets/js/features/movement/index.js"))) {
-  fail("workout:started event payload no longer matches the documented exerciseIds contract");
-}
-if (!/emit\(["']workout:finished["'],\s*record\)/.test(read("assets/js/features/movement/index.js"))) {
-  fail("workout:finished event no longer emits the saved session record");
-}
-pass("Guided-session event emitters match the documented contract");
-
-const guidedView = read("assets/js/features/movement/GuidedSession.js");
 const movementRuntime = read("assets/js/features/movement/index.js");
-if (!guidedView.includes(' : "নির্দেশনা অনুযায়ী"')) fail("Untimed exercises must not display a zero-second timer");
-if (!/if\s*\(currentItem\?\.durationSeconds\s*>\s*0\)/.test(movementRuntime)) {
-  fail("Guided-session countdown must update only for exercises with a positive duration");
-} else pass("Untimed guided-session steps retain the instruction-driven label");
+const movementChecklist = read("assets/js/features/movement/Checklist.js");
+const movementDetails = read("assets/js/features/movement/ExerciseDetails.js");
+const movementLogic = read("assets/js/features/movement/MovementLogic.js");
+if (exists("assets/js/features/movement/GuidedSession.js") || movementRuntime.includes("GuidedSession")) {
+  fail("Standalone Guided Session module must be removed from Movement");
+} else pass("Movement no longer mounts a separate Guided Session section");
+if (!runtimeSet.has("assets/js/features/movement/MovementLogic.js")) fail("Movement logic helpers are missing from the service-worker runtime inventory");
+if (!movementRuntime.includes("renderRoutine") || !movementRuntime.includes("getRoutineProgress") ||
+    !movementChecklist.includes("data-routine-toggle") || !movementChecklist.includes("data-exercise-done")) {
+  fail("Movement must render a saved daily routine with add/remove and completion controls");
+}
+if (!movementDetails.includes('data-stopwatch-action="start"') ||
+    !movementDetails.includes('data-stopwatch-action="pause"') ||
+    !movementDetails.includes('data-stopwatch-action="reset"')) {
+  fail("Exercise details must expose working stopwatch controls");
+}
+if (!movementDetails.includes("data-repetition-action") || !movementDetails.includes("data-exercise-done") ||
+    !movementDetails.includes("ক্লিনিক্যালি যাচাই করা হয়নি")) {
+  fail("Exercise details must include a manual repetition counter, completion action and clinical-review notice");
+}
+if (movementRuntime.includes("durationSeconds") || movementDetails.includes("durationSeconds")) {
+  fail("Movement UI must not treat unreviewed catalogue duration values as a prescribed countdown");
+}
+if (failures.some(message => message.includes("Movement must render") || message.includes("stopwatch") || message.includes("Exercise details"))) {
+  // Keep the failure details above; the feature test below provides behavioral coverage.
+} else pass("Movement routine, inline controls and non-prescriptive timer structure are present");
+const movementTest = spawnSync(process.execPath, ["scripts/test-movement.mjs"], { encoding: "utf8" });
+if (movementTest.error || movementTest.status !== 0) {
+  fail("Movement behavior tests failed: " + (movementTest.stderr?.trim() || movementTest.error?.message || movementTest.stdout?.trim()));
+} else pass("Movement behavior tests passed: routine, completion, stopwatch, counter and persistence");
 
 // 4. Settings backup workflow and manifest validation.
 const settingsMarkup = read("assets/js/features/settings/Preferences.js");

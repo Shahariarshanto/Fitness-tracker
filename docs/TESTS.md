@@ -16,7 +16,7 @@ The GitHub Actions workflow runs this check on pull requests and before deployin
 - Service-worker precache paths, manifest composition and local ES-module import closure.
 - Six classic ASAN script references and the service-worker inventory.
 - Exercise catalogue uniqueness, group mappings, one-to-one ASAN pose coverage and Bengali animation captions.
-- Guided-session event emitter shapes and PWA manifest JSON.
+- Movement routine/inline-control behavior tests and PWA manifest JSON.
 - Runtime references to removed legacy animation assets.
 
 This is a static structural check. It does not simulate browser rendering, Android behavior, PWA installation, real offline launch, D1 connectivity or clinical correctness. The e1/e2 timing-policy limitation remains a warning. c3 pose/caption alignment is now covered by a static regression check; visual rendering still requires browser/device review.
@@ -189,49 +189,56 @@ Add focused module-level and feature-level tests in the same step that implement
 
 ## Step 6 — Movement feature
 
-### Static checks
+### Automated checks
 - [ ] Movement entry and all renderer imports resolve.
-- [ ] `ExerciseAnimation.js` imports only the ASAN mount engine and has no imports to deleted legacy SVG factories.
-- [ ] Six Movement feature modules are accounted for: `index.js`, `Checklist.js`, `ExerciseDetails.js`, `ExerciseAnimation.js`, `BodyMap.js` and `GuidedSession.js`.
-- [ ] One shared classic animation engine loads before bootstrap; 24 exercise pose modules are imported by `ExerciseAnimation.js` and included in the Service Worker ES-module inventory.
+- [ ] `ExerciseAnimation.js` imports only the ASAN pose modules and has no imports to deleted legacy SVG factories.
+- [ ] Six active Movement modules are accounted for: `index.js`, `Checklist.js`, `ExerciseDetails.js`, `ExerciseAnimation.js`, `BodyMap.js` and `MovementLogic.js`.
+- [ ] The removed `GuidedSession.js` is not imported or precached.
+- [ ] One shared classic animation engine loads before bootstrap; all 24 exercise pose modules are imported by `ExerciseAnimation.js` and included in the Service Worker inventory.
 - [ ] Every catalogue exercise ID is unique and maps to exactly one intended animation pose.
-- [ ] All 24 catalogue IDs have corresponding ASAN pose definitions.
-- [ ] No runtime, HTML or CSS reference points to removed Lottie JSON, legacy image or navigation-fallback assets.
-- [ ] Movement does not access localStorage directly or import another feature.
-- [ ] Checklist IDs resolve against the exercise catalogue.
-- [ ] Daily completion uses local date keys and does not overwrite other dates.
-- [ ] Guided-session records match the actual event contract in `EVENTS.md`.
-- [x] `RUNTIME_MODULES` and `CLASSIC_RUNTIME` are combined into `PRECACHE_ASSETS`, and install uses `cache.addAll(PRECACHE_ASSETS)`; all declared asset paths were checked against the repository tree.
-- [ ] Verify in a real browser that installation succeeds, every imported module is served from cache offline, and a new version replaces the old cache.
-- [ ] e1/e2 show `নির্দেশনা অনুযায়ী` rather than `0s`; elapsed session time continues to accumulate without inventing a per-exercise countdown.
-- [x] c3 animation pose and Bengali caption align with the existing hands-and-knees catalogue instruction (static source check).
+- [ ] Routine IDs are normalized, unique and restricted to known exercise IDs at render time.
+- [ ] Empty, partial and complete routine progress calculations are correct.
+- [ ] Routine selection is persisted through shared state and survives normalization/reload.
+- [ ] Existing version-1 D1 snapshots and backups without the optional `movement` field remain valid.
+- [ ] Malformed `movement.routineExerciseIds` values are rejected by Worker/backup validation.
+- [ ] Daily completion uses local date keys; only IDs in the saved routine affect routine progress.
+- [ ] Stopwatch elapsed-time formatting, start/pause/reset state and manual counter boundaries pass unit checks.
+- [ ] Stopwatch is count-up only; no unreviewed `durationSeconds` value is presented as a prescribed countdown.
+- [ ] All local modules, animation assets and styles are included in the service-worker precache.
+- [ ] `node scripts/test-movement.mjs` passes.
+- [ ] `node scripts/test-worker-sync.mjs` passes.
+- [ ] `node scripts/validate-project.mjs` passes.
+- [ ] Verify in a real browser that installation succeeds, modules load offline and the new cache replaces the old one.
 - [ ] Clinician reviews catalogue exercise suitability and dosage; visual alignment does not constitute clinical approval.
 
 ### Browser checks
 - [ ] Exercise groups and all 24 catalogue items render.
-- [ ] Session-selection checkboxes update the selected count.
-- [ ] Exercise details open/close and show the clinical-review notice.
-- [ ] The compact animation stage scales correctly at narrow and wide viewport sizes.
-- [ ] Each of the 24 animation IDs mounts the intended pose without clipping, missing limbs or unintended oversized elements.
-- [ ] Animation captions match the actual motion and catalogue instruction.
-- [ ] Body-region selection filters the related exercise mapping.
-- [ ] Daily completion can be toggled on/off and persists after reload.
-- [ ] Guided session starts only after selecting exercises.
-- [ ] Timer, pause/resume, previous, next, skip and finish controls work.
-- [ ] Session completion updates only completed exercises in daily activity.
-- [ ] Session history appears after finishing and persists after reload.
-- [ ] e1/e2 display `নির্দেশনা অনুযায়ী` and do not change back to `0s` while the session runs.
+- [ ] Add an exercise from the library to the routine; remove it again.
+- [ ] Routine selection remains after reload and is consistent after Cloudflare sync.
+- [ ] An empty routine displays a clear add-exercise action.
+- [ ] Completion checkbox toggles once per user action, supports undo, and updates progress.
+- [ ] Completed IDs outside the selected routine do not inflate routine progress.
+- [ ] Exercise details open/close and retain their open state after a completion update.
+- [ ] Stopwatch starts, pauses, resumes and resets without auto-completing an exercise.
+- [ ] Manual repetition counter increments/decrements and never drops below zero.
+- [ ] Details can mark an exercise complete or add it to the routine, depending on its current membership.
+- [ ] From a routine detail, Next opens the following routine exercise; the final item returns to the routine without auto-completing anything.
+- [ ] All 24 animation IDs mount the intended pose without clipping or missing parts.
+- [ ] Body-region filter opens and its selected state remains visible.
+- [ ] Existing historical workout records remain available to Overview/Insights.
+- [ ] No new guided-session records are created by the Movement page.
 
 ### Device/PWA checks
 - [ ] Movement layout fits narrow Android screens without horizontal overflow.
-- [ ] Session controls remain reachable above the bottom navigation.
-- [ ] New modules, classic scripts and stylesheet load from the updated service-worker strategy.
-- [ ] Offline Movement tab loads after the required assets have actually been cached.
-- [ ] Animation performance and readability are acceptable on the target Android device.
+- [ ] Routine checkboxes and detail controls are reachable above bottom navigation.
+- [ ] Touch targets remain comfortable on mobile.
+- [ ] New modules, classic scripts and stylesheet load from the updated service-worker cache.
+- [ ] Offline Movement tab loads after required assets have actually been cached.
+- [ ] Stopwatch remains readable while running and controls do not overlap the illustration or caution text.
 
-**Clinical limitation:** Catalogue text remains legacy reference material and is not clinically reviewed. The custom ASAN stick-figure animations are visual illustrations, not clinical validation or proof that the movement/dosage is appropriate. c3 animation now matches the existing hands-and-knees catalogue instruction, but this does not establish clinical suitability or dosage. Assistant static review does not substitute for a clinician's review or the user's live phone/browser test.
+**Clinical limitation:** Catalogue text and dose metadata remain legacy reference material and are not clinically reviewed. The custom ASAN stick-figure animations are visual illustrations, not clinical validation or proof that the movement/dosage is appropriate. The stopwatch measures elapsed time only and does not recommend a duration. Assistant static review does not substitute for clinician review or the user's live phone/browser test.
 
-**Verification note:** Repository inspection only. The above browser/device checks remain unchecked until actually performed.
+**Verification note:** Automated tests cover pure logic, markup contracts, state normalization and Worker validation. Real browser, Android-device, visual animation and offline behavior must remain unchecked until actually performed.
  
 ## Step 7 — Insights feature
 

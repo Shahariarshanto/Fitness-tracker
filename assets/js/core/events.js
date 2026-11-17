@@ -1,6 +1,5 @@
 const ALLOWED_EVENTS = new Set([
-  "workout:started", "workout:finished", "toast:show",
-  "theme:changed"
+  "toast:show", "theme:changed"
 ]);
 const listeners = new Map();
 

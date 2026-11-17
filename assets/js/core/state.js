@@ -2,6 +2,7 @@ import { loadState, saveState, markCloudPending } from "./storage.js";
 
 const INITIAL_STATE = {
   preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
+  movement: { routineExerciseIds: [] },
   dailyActivity: {}, painLogs: {},
   medication: { items: [], dailyLogs: {} },
   symptoms: { daily: {} },
@@ -26,10 +27,16 @@ function oneRecordPerDate(records) {
 function normalizeState(saved) {
   const { labs: _retiredLabRecords, ...stored } = saved;
   const medication = saved.medication || {};
+  const movement = saved.movement || {};
   return {
     ...clone(INITIAL_STATE),
     ...stored,
     preferences: { ...INITIAL_STATE.preferences, ...(saved.preferences || {}) },
+    movement: {
+      routineExerciseIds: Array.isArray(movement.routineExerciseIds)
+        ? [...new Set(movement.routineExerciseIds.filter(id => typeof id === "string"))]
+        : []
+    },
     medication: {
       items: Array.isArray(medication.items) ? medication.items : [],
       dailyLogs: medication.dailyLogs && typeof medication.dailyLogs === "object" && !Array.isArray(medication.dailyLogs) ? medication.dailyLogs : {}
