@@ -17,7 +17,7 @@ export function initSettings({ root = document.querySelector('[data-page-panel="
     if (!host) return;
     const user = getAuthUser();
     if (user) {
-      host.innerHTML = '<div class="account-connected"><div class="account-connected-heading"><span class="account-status-dot"></span><strong>অ্যাকাউন্ট সংযুক্ত</strong><span class="account-status-label">Connected</span></div><p class="settings-note">Email: <strong>' + escapeHTML(user.email) + '</strong> + '</p><div class="settings-actions account-actions"><button type="button" data-account-load>আগের ডাটা লোড করুন</button><button type="button" data-account-logout>লগআউট</button></div></div>';
+      host.innerHTML = '<div class="account-connected"><div class="account-connected-heading"><span class="account-status-dot"></span><strong>অ্যাকাউন্ট সংযুক্ত</strong><span class="account-status-label">Connected</span></div><p class="settings-note">Email: <strong>' + escapeHTML(user.email) + '</strong></p><div class="settings-actions account-actions"><button type="button" data-account-load>আগের ডাটা লোড করুন</button><button type="button" data-account-logout>লগআউট</button></div></div>';
       return;
     }
     const signup = authMode === "signup";
