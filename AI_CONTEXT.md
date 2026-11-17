@@ -30,7 +30,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Local Storage is a temporary cache and durable offline pending queue, not the permanent source of truth.
 - Preserve pending local edits during startup and remote-state reconciliation.
 - Changes should sync automatically when connectivity is available; failed writes must remain queued for retry.
-- Manual JSON export/import is the independent user-controlled backup method.
+- Settings provides a readable HTML report export only; it is not a restorable backup. No user-facing JSON import/restore flow is present.
 - D1 is not a backup. No R2 snapshots, scheduled backup service or paid storage service is planned.
 - The Worker uses the app's custom Sign Up / Login / Logout flow. Every /api/state request requires a valid bearer session token and reads/writes only the authenticated user's app_state row.
 - Passwords are currently stored as entered in the `password_hash` column and compared directly, by explicit product decision; they are not PBKDF2 hashes despite the column name and `password_salt` field. This is a security limitation. D1 stores only SHA-256 hashes of random session tokens. Sessions persist until explicit logout.
@@ -109,7 +109,7 @@ The catalogue's `durationSeconds` values do not consistently equal the sum impli
 
 ## Movement routine-first update (2026-11-17)
 - Movement now stores the user's ordered routine in the optional `movement.routineExerciseIds` state domain.
-- Older D1 snapshots and version-1 backups without this field remain valid; state normalization supplies an empty routine.
+- Older D1 snapshots without this field remain valid; state normalization supplies an empty routine.
 - The page shows the saved routine first, with one checkbox per exercise and progress based only on the selected routine.
 - The exercise library adds/removes exercises from that routine. Exercise Details owns the animation, instructions, elapsed stopwatch, optional manual repetition counter, safety notice and completion action.
 - The standalone Guided Session module and its events were removed from the active Movement flow. Historical `workoutSessions` records remain available to Overview/Insights.
