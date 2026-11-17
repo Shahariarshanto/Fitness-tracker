@@ -50,4 +50,4 @@ Read `AI_CONTEXT.md`, `CONTRIBUTING.md`, and the relevant documents in `docs/`. 
 
 ## Testing
 
-Run `node scripts/validate-project.mjs` from the repository root for static dependency, asset, catalogue, animation-pose and event-contract checks. GitHub Actions runs it on pull requests and before deployment. Static checks are not browser tests: verify the deployed app, data persistence, JSON export/import, mobile layout and offline recovery before calling a release complete. Report only tests actually performed.
+Run `node scripts/validate-project.mjs` from the repository root for JS syntax, dependency, asset, catalogue, animation-pose and event-contract checks. GitHub Actions runs it on pull requests and before deployment. Static checks are not browser tests: verify the deployed app, data persistence, JSON export/import, mobile layout and offline recovery before calling a release complete. Report only tests actually performed.
