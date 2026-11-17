@@ -6,7 +6,6 @@ const SHELL = [
   "./manifest.webmanifest",
   "./icon.svg",
   "./assets/css/overview.css",
-  "./assets/animations/exercises/default.json"
 ];
 
 // Exact active runtime module inventory; successful fetches are cached lazily.
