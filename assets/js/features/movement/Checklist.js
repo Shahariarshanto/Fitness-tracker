@@ -29,7 +29,7 @@ function renderLibraryExercise(item, routineSet) {
     </div>
     <div class="movement-exercise-actions">
       <button class="button-secondary" type="button" data-exercise-details="${item.id}" aria-expanded="false">বিস্তারিত</button>
-      <button class="button-secondary ${inRoutine ? "is-in-routine" : ""}" type="button" data-routine-toggle="${item.id}" aria-pressed="${inRoutine}">${inRoutine ? "রুটিনে আছে" : "যোগ করুন"}</button>
+      <button class="button-secondary ${inRoutine ? "is-in-routine" : ""}" type="button" data-routine-toggle="${item.id}" aria-pressed="${inRoutine}">${inRoutine ? "রুটিন থেকে সরান" : "যোগ করুন"}</button>
     </div>
     <div data-exercise-detail-slot="${item.id}" hidden></div>
   </article>`;
