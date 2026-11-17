@@ -141,6 +141,11 @@ const missingLabels = exerciseIds.filter(id => !labelIds.includes(id));
 if (missingLabels.length) fail(`Missing Bengali animation captions for: ${missingLabels.join(", ")}`);
 else pass("Every exercise has an animation caption");
 
+const spinePoses = read("assets/js/features/movement/asan_03_spine.js");
+if (!spinePoses.includes("Quadruped thoracic rotation") || !details.includes('c3: ["হাত-হাঁটুতে বুক ঘোরানোর অ্যানিমেশন"')) {
+  fail("c3 animation must remain aligned with its hands-and-knees catalogue instruction");
+} else pass("c3 pose and Bengali caption identify the instructed quadruped thoracic rotation");
+
 if (!/emit\(["']workout:started["'],\s*\{\s*exerciseIds:/.test(read("assets/js/features/movement/index.js"))) {
   fail("workout:started event payload no longer matches the documented exerciseIds contract");
 }
@@ -167,7 +172,7 @@ for (const stale of ["getExerciseAnimation", "assets/animations/exercises/", "as
 }
 if (!failures.some(message => message.includes("Removed legacy asset"))) pass("No runtime references to removed legacy assets");
 
-warn("Known review item remains intentionally non-blocking: c3 pose/instruction mismatch. e1/e2 have no encoded countdown duration and use the instruction-driven label.");
+warn("e1/e2 have no encoded countdown duration and use the instruction-driven label; exercise timing semantics still need an explicit policy.");
 for (const message of warnings) console.warn(`! ${message}`);
 
 if (failures.length) {
