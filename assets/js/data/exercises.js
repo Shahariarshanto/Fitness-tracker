@@ -10,7 +10,7 @@ export const EXERCISE_GROUPS = [
 ];
 
 const records = [
-  ["a1","গভীর শ্বাস","পেটে হাত রাখুন, নাক দিয়ে শ্বাস নিয়ে বুক ফোলান, ৩ সেকেন্ড ধরে মুখ দিয়ে ধীরে ছাড়ুন · ৫ বার","Deep Breathing","Inhale through nose, exhale slowly · ×5",60,["chest"]],
+  ["a1","গভীর শ্বাস","পেটে হাত রাখুন, নাক দিয়ে শ্বাস নিয়ে বুক ফোলান, ৩ সেকেন্ড ধরে মুখ দিয়ে ধীরে ছাড়ুন · ৫ বার","Deep Breathing","Inhale through your nose, then exhale slowly for 3 seconds · ×5",60,["chest"]],
   ["b1","থুতনি ভেতরে টানা","ঘাড় সোজা রেখে থুতনি ভেতরে টানুন · ৫ সেকেন্ড × ৫ বার","Chin Tuck","Pull chin straight back · hold 5s ×5",40,["neck"]],
   ["b2","ঘাড় ঘোরানো","ডানে ও বামে কাঁধের দিকে তাকান · ৫ সেকেন্ড × ৫ বার প্রতি দিকে","Neck Rotation","Turn head side to side · 5s ×5 each",40,["neck"]],
   ["b3","ঘাড় কাত করা","কান কাঁধের দিকে নিন · ৫ সেকেন্ড × ৫ বার প্রতি পাশে","Neck Side Tilt","Ear toward shoulder · 5s ×5 each",40,["neck","shoulders"]],
