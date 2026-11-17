@@ -137,6 +137,13 @@ if (!/emit\(["']workout:finished["'],\s*record\)/.test(read("assets/js/features/
 }
 pass("Guided-session event emitters match the documented contract");
 
+const guidedView = read("assets/js/features/movement/GuidedSession.js");
+const movementRuntime = read("assets/js/features/movement/index.js");
+if (!guidedView.includes(' : "নির্দেশনা অনুযায়ী"')) fail("Untimed exercises must not display a zero-second timer");
+if (!/if\\s*\\(currentItem\\?\\.durationSeconds\\s*>\\s*0\\)/.test(movementRuntime)) {
+  fail("Guided-session countdown must update only for exercises with a positive duration");
+} else pass("Untimed guided-session steps retain the instruction-driven label");
+
 // 4. Parse JSON and guard against references to removed assets.
 JSON.parse(read("manifest.webmanifest"));
 pass("PWA manifest is valid JSON");
@@ -148,7 +155,7 @@ for (const stale of ["getExerciseAnimation", "assets/animations/exercises/", "as
 }
 if (!failures.some(message => message.includes("Removed legacy asset"))) pass("No runtime references to removed legacy assets");
 
-warn("Known review items remain intentionally non-blocking: c3 pose/instruction mismatch and e1/e2 zero-duration guided-session timer.");
+warn("Known review item remains intentionally non-blocking: c3 pose/instruction mismatch. e1/e2 have no encoded countdown duration and use the instruction-driven label.");
 for (const message of warnings) console.warn(`! ${message}`);
 
 if (failures.length) {
