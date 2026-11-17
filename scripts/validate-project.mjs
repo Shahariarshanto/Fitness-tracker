@@ -95,7 +95,7 @@ else pass("All six classic ASAN scripts are precached and loaded by index.html")
 
 // 3. Exercise catalogue, groups, pose definitions and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");
-const records = exerciseSource.match(/const records\s*=\s*\[([\s\S]*?)\n\];/);
+const records = exerciseSource.match(/const records\s*=\s*\[([\s\S]*?)\];/);
 if (!records) fail("Could not parse exercise records");
 const exerciseIds = records ? [...records[1].matchAll(/^\s*["']([^"']+)["']\s*,/gm)].map(m => m[1]) : [];
 if (exerciseIds.length !== 24) fail(`Expected 24 exercise records, found ${exerciseIds.length}`);
