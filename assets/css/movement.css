@@ -683,10 +683,10 @@
 .movement-detail-complete{width:100%;min-height:44px;border-radius:12px;font-size:12px;font-weight:800}
 .movement-stopwatch-note{margin:0;color:var(--muted);font-size:9px;line-height:1.5;text-align:center}
 .movement-guide-caution{
-  align-items:flex-start;border-color:color-mix(in srgb,var(--warning) 32%,var(--line));
+  align-items:flex-start;border-color:color-mix(in srgb,var(--brand-secondary) 32%,var(--line));
   background:var(--warning-soft);color:var(--text)
 }
-.movement-guide-caution-icon{background:var(--warning);color:var(--accent-contrast)}
+.movement-guide-caution-icon{background:var(--brand-secondary);color:var(--accent-contrast)}
 @media(min-width:680px){
   .movement-routine{padding:18px}
   .movement-routine-list{grid-template-columns:repeat(2,minmax(0,1fr))}
