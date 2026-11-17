@@ -222,6 +222,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Stopwatch starts, pauses, resumes and resets without auto-completing an exercise.
 - [ ] Manual repetition counter increments/decrements and never drops below zero.
 - [ ] Details can mark an exercise complete or add it to the routine, depending on its current membership.
+- [ ] From a routine detail, Next opens the following routine exercise; the final item returns to the routine without auto-completing anything.
 - [ ] All 24 animation IDs mount the intended pose without clipping or missing parts.
 - [ ] Body-region filter opens and its selected state remains visible.
 - [ ] Existing historical workout records remain available to Overview/Insights.
