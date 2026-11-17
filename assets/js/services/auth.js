@@ -1,18 +1,12 @@
-const API_BASE = "https://fitnesstracker.sshahariar062.workers.dev/api";
-const TOKEN_KEY = "as-care-auth-token-v1";
-const USER_KEY = "as-care-auth-user-v1";
+import { loadAuthSession, saveAuthSession, clearAppStorage } from "../core/storage.js";
 
-export function getAuthToken() {
-  try { return localStorage.getItem(TOKEN_KEY) || ""; } catch { return ""; }
-}
-export function getAuthUser() {
-  try {
-    const raw = localStorage.getItem(USER_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch { return null; }
-}
+const API_BASE = "https://fitnesstracker.sshahariar062.workers.dev/api";
+
+export function getAuthToken() { return loadAuthSession().token; }
+export function getAuthUser() { return loadAuthSession().user; }
 export function isAuthenticated() {
-  return Boolean(getAuthToken() && getAuthUser()?.id);
+  const session = loadAuthSession();
+  return Boolean(session.token && session.user?.id);
 }
 async function request(path, payload, token) {
   const headers = { "Accept": "application/json", "Content-Type": "application/json" };
@@ -22,20 +16,10 @@ async function request(path, payload, token) {
   if (!response.ok) throw new Error(result.error || "অনুরোধটি সম্পন্ন করা যায়নি।");
   return result;
 }
-function clearAppStorage() {
-  try {
-    for (const key of Object.keys(localStorage)) {
-      if (key.startsWith("as-care-")) localStorage.removeItem(key);
-    }
-  } catch (error) {
-    console.warn("AS Care local storage could not be cleared.", error);
-  }
-}
 function saveLogin(result) {
   if (!result?.token || !result?.user?.id) throw new Error("সার্ভার থেকে সঠিক Login তথ্য পাওয়া যায়নি।");
   clearAppStorage();
-  localStorage.setItem(TOKEN_KEY, result.token);
-  localStorage.setItem(USER_KEY, JSON.stringify(result.user));
+  if (!saveAuthSession(result.token, result.user)) throw new Error("এই ডিভাইসে Login সংরক্ষণ করা যায়নি।");
 }
 export async function signUp({ username, email, password }) {
   const result = await request("/auth/signup", { username, email, password });
