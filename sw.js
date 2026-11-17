@@ -1,11 +1,37 @@
-const CACHE_NAME = "as-care-shell-v91";
+const CACHE_NAME = "as-care-shell-v92";
 const SHELL = [
   "./",
   "./index.html",
   "./assets/js/bootstrap.js",
   "./manifest.webmanifest",
   "./icon.svg",
-  "./assets/css/overview.css"
+  "./assets/css/overview.css",
+  "./assets/vendor/lottie.min.js",
+  "./assets/animations/exercises/a1.json",
+  "./assets/animations/exercises/b1.json",
+  "./assets/animations/exercises/b2.json",
+  "./assets/animations/exercises/b3.json",
+  "./assets/animations/exercises/b4.json",
+  "./assets/animations/exercises/b5.json",
+  "./assets/animations/exercises/c1.json",
+  "./assets/animations/exercises/c2.json",
+  "./assets/animations/exercises/c3.json",
+  "./assets/animations/exercises/c4.json",
+  "./assets/animations/exercises/c5.json",
+  "./assets/animations/exercises/d1.json",
+  "./assets/animations/exercises/d2.json",
+  "./assets/animations/exercises/d3.json",
+  "./assets/animations/exercises/d4.json",
+  "./assets/animations/exercises/d5.json",
+  "./assets/animations/exercises/e1.json",
+  "./assets/animations/exercises/e2.json",
+  "./assets/animations/exercises/e3.json",
+  "./assets/animations/exercises/f1.json",
+  "./assets/animations/exercises/f2.json",
+  "./assets/animations/exercises/f3.json",
+  "./assets/animations/exercises/f4.json",
+  "./assets/animations/exercises/f5.json",
+  "./assets/animations/exercises/default.json"
 ];
 
 // Exact active runtime module inventory; successful fetches are cached lazily.
@@ -21,7 +47,7 @@ const RUNTIME_MODULES = [
   "./assets/js/features/health/index.js",
   "./assets/js/features/medication/index.js", "./assets/js/features/medication/MedicationPanel.js",
   "./assets/js/features/movement/index.js", "./assets/js/features/movement/Checklist.js",
-  "./assets/js/features/movement/ExerciseDetails.js", "./assets/js/features/movement/BodyMap.js",
+  "./assets/js/features/movement/ExerciseDetails.js", "./assets/js/features/movement/ExerciseAnimation.js", "./assets/js/features/movement/BodyMap.js",
   "./assets/js/features/movement/GuidedSession.js",
   "./assets/js/features/insights/index.js", "./assets/js/features/insights/Charts.js", "./assets/js/features/insights/ScoreTrends.js", "./assets/js/features/insights/Calendar.js",
   "./assets/js/features/insights/Trends.js"
