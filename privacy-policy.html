@@ -31,7 +31,7 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <h2>2. Where information is stored</h2>
 <p><strong>Cloudflare D1 (primary storage):</strong> The App sends its application state to a Cloudflare Worker, which stores it in a D1 database. The App loads the available saved state and automatically sends changes after a short delay when connectivity is available.</p>
 <p><strong>On your device:</strong> The browser keeps a temporary cache and pending-change data so the App can start promptly and retry edits after an interruption. Pending offline edits remain on the device until they can be synchronized.</p>
-<p><strong>Backups:</strong> No automatic cloud backup or independent database snapshot is configured. The App's manual JSON export is the independent backup method. You should periodically export the data and keep the file somewhere safe. D1 is the primary database, not a backup.</p>
+<p><strong>Backups:</strong> No automatic cloud backup or independent database snapshot is configured. The App can generate a readable HTML report for viewing and printing. This report is not a restorable backup; no user-facing data import/restore feature is currently available. D1 is the primary database, not a backup.</p>
 <h2>3. Access and security</h2>
 <p>The Worker requires a valid bearer session token for every cloud state request and derives the account ID on the server. D1 records are isolated by account. Passwords are currently stored as entered and compared directly, not hashed. This is a security limitation. Server-side session records store only SHA-256 token hashes. Sessions remain active until logout. The browser stores the persistent token in Local Storage; anyone with access to an unlocked device or its browser storage may be able to use that session. Use a unique password and keep your device protected.</p>
 <p>Cloudflare provides the database and Worker execution infrastructure and is subject to its own applicable terms and privacy policy.</p>
@@ -43,11 +43,11 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <ul>
 <li><strong>Device cache:</strong> remains in your browser until the website's storage is cleared or browser data is reset. Unsynchronized pending edits may be lost if you clear this storage before they are sent.</li>
 <li><strong>Cloud data:</strong> remains in the D1 database until it is deleted through the relevant Cloudflare database controls.</li>
-<li><strong>JSON exports:</strong> downloaded files remain wherever you save or copy them; manage and delete those copies yourself.</li>
+<li><strong>HTML reports:</strong> downloaded reports remain wherever you save or copy them; they may contain sensitive health information, so manage and delete those copies yourself.</li>
 </ul>
 <p>Export any data you want to keep before making destructive changes. Clearing browser storage does not itself delete the D1 database record.</p>
 <h2>7. Security</h2>
-<p>No internet service can guarantee absolute security. Protect your device, avoid shared or public devices, and keep downloaded JSON exports in a safe location because they may contain sensitive health information. The API requires a valid session token for cloud state access, but direct plaintext password storage is a significant security limitation.</p>
+<p>No internet service can guarantee absolute security. Protect your device, avoid shared or public devices, and keep downloaded HTML reports in a safe location because they may contain sensitive health information. The API requires a valid session token for cloud state access, but direct plaintext password storage is a significant security limitation.</p>
 <h2>8. Children</h2>
 <p>AS Care is not designed specifically for children and is not intended to knowingly collect personal information from children without appropriate permission from a parent or guardian.</p>
 <h2>9. Changes to this policy</h2>
