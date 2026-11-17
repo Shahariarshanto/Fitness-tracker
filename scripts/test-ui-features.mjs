@@ -108,7 +108,6 @@ try {
   ]);
   const downloadPath=await download.path();
   const fs=await import("node:fs/promises");
-  const backup=JSON.parse(await fs.readFile(downloadPath,"utf8"));
   const report=await fs.readFile(downloadPath,"utf8");
   check("Formatted HTML data export", download.suggestedFilename().endsWith(".html") && report.includes("আমার স্বাস্থ্য ও যত্নের তথ্য") && report.includes("UI TEST - Dummy Medicine"));
   check("Restore controls removed", await page.locator("[data-backup-choose], [data-backup-file]").count()===0 && await page.getByText("ব্যাকআপ থেকে পুনরুদ্ধার").count()===0);
