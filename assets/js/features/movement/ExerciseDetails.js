@@ -1,5 +1,10 @@
 import { EXERCISE_BY_ID } from "../../data/exercises.js";
-import { getExerciseAnimation } from "./ExerciseAnimation.js";
+
+const ILLUSTRATIONS = Object.freeze({
+  c1: ["cat-camel.webp", "ক্যাট-ক্যামেল করার ভঙ্গি"],
+  c2: ["bird-dog.webp", "বিপরীত হাত ও পা তোলার ভঙ্গি"],
+  d2: ["glute-bridge.webp", "ব্রিজ ব্যায়ামের ভঙ্গি"]
+});
 
 const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 
@@ -9,11 +14,10 @@ export function renderExerciseDetails(id) {
   const parts = String(item.instructions || "").split(" · ");
   const instruction = parts.shift() || item.instructions || "";
   const dose = parts.join(" · ");
-  let visual = "";
-  try {
-    const svg = getExerciseAnimation(id);
-    if (svg) visual = `<div class="movement-guide-visual movement-guide-animation" role="img" aria-label="${esc(item.name)}-এর অ্যানিমেশন">${svg}</div>`;
-  } catch (error) { console.warn("Exercise illustration skipped:", id, error); }
+  const illustration = ILLUSTRATIONS[id];
+  const visual = illustration
+    ? `<div class="movement-guide-visual"><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
+    : "";
   return `<div class="movement-detail-card">
     <div class="movement-guide-top">${visual}<div class="movement-guide-heading"><span class="eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div></div>
     <div class="movement-guide-instruction"><span class="movement-guide-step">১</span><div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div></div>
