@@ -14,21 +14,8 @@ const POSE_ART = {
 
 function poseIllustration(position, exerciseId) {
   const art = POSE_ART[position?.id] || POSE_ART.standing;
-  if (exerciseId === "b4") {
-    return `<div class="movement-guide-visual movement-guide-visual--doorway" role="img" aria-label="দরজার ফ্রেমে দুই হাত রেখে বুকের স্ট্রেচের নমুনা অ্যানিমেশন">
-      <svg viewBox="0 0 110 100" aria-hidden="true">
-        <path class="doorway-frame" d="M17 91V10H93V91" fill="none" stroke="currentColor" stroke-opacity=".38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <g class="doorway-person" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="55" cy="19" r="7"/><path d="M55 28V59M55 35L31 35L25 18M55 35L79 35L85 18M55 59L43 88M55 59L67 88"/>
-        </g>
-        <path d="M8 91H102" stroke="currentColor" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span>ধীরে সামনে ঝুঁকুন</span>
-    </div>`;
-  }
-  return `<div class="movement-guide-visual" role="img" aria-label="শুরুর ভঙ্গি: ${esc(art.label)}">
-    <svg viewBox="0 0 110 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${art.figure}</g><path d="M8 91H102" stroke="currentColor" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/></svg>
-    <span>শুরুর ভঙ্গি · ${esc(art.label)}</span>
+  return `<div class="movement-guide-visual movement-guide-animation" data-exercise-animation="${esc(exerciseId)}" role="img" aria-label="${esc(art.label)} ভঙ্গিতে ব্যায়ামের অ্যানিমেশন">
+    <span class="movement-animation-loading" aria-hidden="true">2D</span>
   </div>`;
 }
 
