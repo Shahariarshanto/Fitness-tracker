@@ -35,6 +35,6 @@ jobs:
         run: npx --yes wrangler@4 deploy
       - name: Verify deployed Worker and D1 auth schema
         run: |
-          response="$(curl --fail --silent --show-error https://fitnesstracker.sshahariar062.workers.dev/api/auth/health)"
+          response="$(curl --fail --silent --show-error -H "Origin: https://shahariarshanto.github.io" https://fitnesstracker.sshahariar062.workers.dev/api/auth/health)"
           echo "$response"
           echo "$response" | grep -q '"ok":true'
