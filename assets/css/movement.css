@@ -80,120 +80,22 @@
 .movement-guide-caution{margin:0;padding:8px 10px;border-radius:10px;background:var(--surface);color:var(--muted);font-size:11px;line-height:1.5}
 .movement-guide-caution span{color:var(--accent);font-weight:700;margin-right:4px}
 @media(max-width:380px){.movement-detail-card{padding:10px;gap:9px}.movement-guide-top{grid-template-columns:108px minmax(0,1fr);gap:9px}.movement-guide-visual{width:108px;height:92px}.movement-guide-meta{grid-template-columns:1fr}}
-/* Compact exercise guide */
-.movement-detail-card{margin-top:9px;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface-soft);display:grid;gap:9px;animation:movement-view-in .18s ease both}
+/* Static exercise guide: illustration-led detail card */
+.movement-detail-card{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface-soft);display:grid;gap:10px}
 .movement-guide-top{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;align-items:center}
-.movement-guide-visual{width:128px;height:128px;min-height:0;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--accent);display:grid;place-items:center;align-content:center;gap:0;overflow:hidden}
-.movement-guide-visual svg{width:100%;height:100%;overflow:visible}
-.movement-guide-visual svg g{transform-origin:50% 65%;animation:guide-gentle-motion 3.2s ease-in-out infinite}
-.movement-guide-visual>span{display:none}
+.movement-guide-visual{width:128px;height:104px;min-height:0;padding:0;border:1px solid var(--line);border-radius:13px;background:#f5f9ff;display:grid;place-items:center;overflow:hidden}
+.movement-guide-visual img{display:block;width:100%;height:100%;object-fit:contain}
 .movement-guide-heading{min-width:0}
-.movement-guide-heading .eyebrow{display:block;margin:0 0 3px;font-size:9px;letter-spacing:.08em;color:var(--accent)}
-.movement-guide-heading h4{margin:0;font-size:14px;line-height:1.35}
-.movement-guide-heading p{margin:3px 0 0;color:var(--muted);font-size:10px;line-height:1.35}
-.movement-guide-instruction{display:grid;grid-template-columns:22px minmax(0,1fr);gap:7px;align-items:start;padding-top:8px;border-top:1px solid var(--line)}
-.movement-guide-step{width:21px;height:21px;display:grid;place-items:center;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:700}
-.movement-guide-instruction strong{display:block;margin:0 0 2px;font-size:11px}
-.movement-guide-instruction p{margin:0;font-size:12px;line-height:1.5;color:var(--text)}
-.movement-guide-meta{display:flex;flex-wrap:wrap;gap:6px}
-.movement-guide-meta>span{flex:1 1 110px;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:var(--surface);font-size:11px;line-height:1.4}
-.movement-guide-meta strong{display:inline;margin:0 6px 0 0;color:var(--muted);font-size:10px;font-weight:600}
-.movement-guide-caution{margin:0;padding:7px 9px;border-radius:9px;background:var(--surface);color:var(--muted);font-size:10px;line-height:1.45}
+.movement-guide-heading .eyebrow{display:block;margin:0 0 4px;font-size:9px;letter-spacing:.09em;color:var(--accent)}
+.movement-guide-heading h4{margin:0;font-size:15px;line-height:1.35}
+.movement-guide-heading p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+.movement-guide-instruction{display:grid;grid-template-columns:23px minmax(0,1fr);gap:8px;align-items:start;padding-top:10px;border-top:1px solid var(--line)}
+.movement-guide-step{width:22px;height:22px;display:grid;place-items:center;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:700}
+.movement-guide-instruction strong{display:block;margin:0 0 3px;font-size:12px}
+.movement-guide-instruction p{margin:0;font-size:13px;line-height:1.6;color:var(--text)}
+.movement-guide-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.movement-guide-meta>span{min-width:0;padding:8px 9px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:11px;line-height:1.45}
+.movement-guide-meta strong{display:block;margin:0 0 3px;color:var(--muted);font-size:10px;font-weight:600}
+.movement-guide-caution{margin:0;padding:8px 10px;border-radius:10px;background:var(--surface);color:var(--muted);font-size:11px;line-height:1.5}
 .movement-guide-caution span{color:var(--accent);font-weight:700;margin-right:4px}
-@keyframes guide-gentle-motion{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
-@media(prefers-reduced-motion:reduce){.movement-detail-card,.movement-guide-visual svg g{animation:none}}
-@media(max-width:380px){.movement-detail-card{padding:9px;gap:8px}.movement-guide-top{grid-template-columns:108px minmax(0,1fr);gap:9px}.movement-guide-visual{width:108px;height:108px}}
-
-/* Doorway chest stretch: gentle forward-lean sample */
-.movement-guide-visual--doorway svg{width:58px;height:52px}
-.movement-guide-visual--doorway .doorway-person{transform-box:view-box;transform-origin:55px 59px;animation:doorway-chest-lean 3.2s ease-in-out infinite}
-@keyframes doorway-chest-lean{0%,100%{transform:translateX(0)}45%,60%{transform:translateX(2px)}}
-@media(prefers-reduced-motion:reduce){.movement-guide-visual--doorway .doorway-person{animation:none}}
-
-/* Compact animated illustration stage */
-.movement-guide-animation{position:relative;width:128px;height:128px;padding:0;display:grid;place-items:center;overflow:hidden;border:1px solid color-mix(in srgb,var(--accent) 16%,var(--line));border-radius:15px;background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--accent-soft) 78%,var(--surface)) 0%,var(--surface) 72%)}
-.movement-guide-animation svg{display:block;width:100%;height:100%;overflow:visible}
-.movement-guide-breathing .breathing-art{width:100%;height:100%}
-.breath-halo{fill:var(--accent-soft);opacity:.58;transform-box:view-box;transform-origin:80px 76px;animation:breath-halo 4.8s ease-in-out infinite}
-.breath-orbit{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:3 5;opacity:.28}
-.movement-guide-breathing .breath-person{transform-box:view-box;transform-origin:80px 76px;animation:breath-body 4.8s ease-in-out infinite}
-.movement-guide-breathing .breath-pulse{transform-box:view-box;transform-origin:80px 76px;animation:breath-pulse 4.8s ease-in-out infinite}
-.breath-label{font:700 7px system-ui,sans-serif;letter-spacing:2px;fill:var(--muted)}
-@keyframes breath-halo{0%,100%{transform:scale(.88);opacity:.38}42%,58%{transform:scale(1.08);opacity:.8}}
-@keyframes breath-body{0%,100%{transform:scale(1,1)}42%,58%{transform:scale(1.085,1.06)}}
-@keyframes breath-pulse{0%,100%{opacity:.15;transform:scale(.8)}42%,58%{opacity:.9;transform:scale(1.08)}}
-.movement-animation-loading{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
-.movement-guide-animation:empty::after{content:"";width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:movement-lottie-wait .8s linear infinite}
-@keyframes movement-lottie-wait{to{transform:rotate(360deg)}}
-@media(max-width:380px){.movement-guide-animation{width:108px;height:108px}}
-@media(prefers-reduced-motion:reduce){.movement-guide-animation:empty::after,.breath-halo,.breath-person,.breath-pulse{animation:none}}
-
-/* Exercise-specific motion system: shared character, distinct movement per exercise. */
-.movement-guide-art svg{overflow:hidden}
-.movement-guide-art .scene-glow{fill:var(--accent-soft);opacity:.58}
-.movement-guide-art .scene-floor,.movement-guide-art .scene-mat,.movement-guide-art .scene-wall,.movement-guide-art .scene-prop{fill:none;stroke:var(--line);stroke-width:3;stroke-linecap:round}
-.movement-guide-art .scene-wall{stroke-width:4;opacity:.8}
-.movement-guide-art .scene-mat{stroke:var(--accent);opacity:.38}
-.movement-guide-art .person{color:var(--accent)}
-.movement-guide-art .person-head{fill:#E9B99A;stroke:#D49A79;stroke-width:1}
-.movement-guide-art .person-hair{fill:#344256}
-.movement-guide-art .person-torso{fill:var(--accent);stroke:var(--accent-strong,var(--accent));stroke-width:2;stroke-linejoin:round}
-.movement-guide-art .person-arm-a,.movement-guide-art .person-arm-b,.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{fill:none;stroke:#E9B99A;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
-.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{stroke:#344256;stroke-width:9}
-.movement-guide-art .person-limbs{transform-box:fill-box;transform-origin:center}
-.movement-guide-art .person-head,.movement-guide-art .person-torso,.movement-guide-art .person-arm-a,.movement-guide-art .person-arm-b,.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{transform-box:fill-box}
-.movement-guide-art .scene-cue{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;opacity:.7;transform-origin:center;animation:cue-pulse 2.4s ease-in-out infinite}
-.movement-guide-art .scene-dot{fill:var(--accent);opacity:.55;animation:cue-pulse 2.4s ease-in-out infinite}
-.movement-guide-art--b1 .person-head{transform-origin:bottom center;animation:chin-tuck 2.6s ease-in-out infinite}
-.movement-guide-art--b2 .person-head{transform-origin:center;animation:neck-turn 3.4s ease-in-out infinite}
-.movement-guide-art--b3 .person-head{transform-origin:bottom center;animation:neck-tilt 3.2s ease-in-out infinite}
-.movement-guide-art--b4 .person-limbs{animation:chest-open 3.4s ease-in-out infinite}
-.movement-guide-art--b5 .person-arm-a{transform-origin:top center;animation:wall-arm-a 3.6s ease-in-out infinite}.movement-guide-art--b5 .person-arm-b{transform-origin:top center;animation:wall-arm-b 3.6s ease-in-out infinite}
-.movement-guide-art--c1 .person-torso{transform-origin:center;animation:cat-camel 3.6s ease-in-out infinite}
-.movement-guide-art--c2 .person-arm-a{transform-origin:top center;animation:bird-arm 3.2s ease-in-out infinite}.movement-guide-art--c2 .person-leg-b{transform-origin:top center;animation:bird-leg 3.2s ease-in-out infinite}
-.movement-guide-art--c3 .person-arm-a{transform-origin:top center;animation:thoracic-turn 3.2s ease-in-out infinite}
-.movement-guide-art--c4 .person-torso{transform-origin:left center;animation:press-up 3.2s ease-in-out infinite}
-.movement-guide-art--c5 .person-leg-a{transform-origin:top center;animation:spinal-twist 3.6s ease-in-out infinite}
-.movement-guide-art--d1 .person-leg-a,.movement-guide-art--d1 .person-leg-b{transform-origin:top center;animation:knees-chest 3.4s ease-in-out infinite}
-.movement-guide-art--d2 .person-torso{transform-origin:center;animation:bridge-lift 3s ease-in-out infinite}
-.movement-guide-art--d3 .person-torso{transform-origin:bottom center;animation:hamstring-hinge 3.5s ease-in-out infinite}
-.movement-guide-art--d4 .person-torso{transform-origin:bottom center;animation:calf-lean 3.4s ease-in-out infinite}
-.movement-guide-art--d5 .person-leg-a{transform-origin:top center;animation:quad-stretch 3.4s ease-in-out infinite}
-.movement-guide-art--e1 .person-leg-a,.movement-guide-art--e2 .person-leg-a{transform-origin:top center;animation:walk-leg 1.2s ease-in-out infinite}.movement-guide-art--e1 .person-leg-b,.movement-guide-art--e2 .person-leg-b{transform-origin:top center;animation:walk-leg 1.2s ease-in-out infinite reverse}
-.movement-guide-art--e3 .person-torso{transform-origin:bottom center;animation:squat-bend 3.2s ease-in-out infinite}
-.movement-guide-art--f1 .person-torso{animation:posture-reset 3s ease-in-out infinite}
-.movement-guide-art--f2 .person-torso{transform-origin:left center;animation:plank-hold 3s ease-in-out infinite}
-.movement-guide-art--f3 .person-torso{transform-origin:bottom center;animation:lunge-shift 3.4s ease-in-out infinite}
-.movement-guide-art--f4 .person-arm-a{transform-origin:top center;animation:shoulder-squeeze 3s ease-in-out infinite}.movement-guide-art--f4 .person-arm-b{transform-origin:top center;animation:shoulder-squeeze 3s ease-in-out infinite reverse}
-.movement-guide-art--f5 .person-leg-b{transform-origin:top center;animation:balance-leg 3.4s ease-in-out infinite}
-@keyframes cue-pulse{0%,100%{opacity:.25}50%{opacity:.9}}
-@keyframes chin-tuck{0%,100%{transform:translateX(0)}45%,60%{transform:translateX(-4px)}}
-@keyframes neck-turn{0%,100%{transform:rotate(0)}30%,45%{transform:rotate(-20deg)}70%,85%{transform:rotate(20deg)}}
-@keyframes neck-tilt{0%,100%{transform:rotate(0)}45%,60%{transform:rotate(16deg)}}
-@keyframes chest-open{0%,100%{transform:translateY(0)}45%,60%{transform:translateY(-5px)}}
-@keyframes wall-arm-a{0%,100%{transform:rotate(0)}50%{transform:rotate(-38deg)}}@keyframes wall-arm-b{0%,100%{transform:rotate(0)}50%{transform:rotate(38deg)}}
-@keyframes cat-camel{0%,100%{transform:scaleY(.94) translateY(2px)}50%{transform:scaleY(1.08) translateY(-2px)}}
-@keyframes bird-arm{0%,100%{transform:rotate(0)}50%{transform:rotate(-28deg)}}@keyframes bird-leg{0%,100%{transform:rotate(0)}50%{transform:rotate(25deg)}}
-@keyframes thoracic-turn{0%,100%{transform:rotate(0)}50%{transform:rotate(-55deg)}}
-@keyframes press-up{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes spinal-twist{0%,100%{transform:rotate(0)}50%{transform:rotate(28deg)}}
-@keyframes knees-chest{0%,100%{transform:rotate(0)}50%{transform:rotate(-24deg)}}
-@keyframes bridge-lift{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-9px) scaleY(.94)}}
-@keyframes hamstring-hinge{0%,100%{transform:rotate(0)}50%{transform:rotate(10deg)}}
-@keyframes calf-lean{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
-@keyframes quad-stretch{0%,100%{transform:rotate(0)}50%{transform:rotate(-22deg)}}
-@keyframes walk-leg{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
-@keyframes squat-bend{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(5px) scaleY(.9)}}
-@keyframes posture-reset{0%,100%{transform:translateY(1px)}50%{transform:translateY(-2px)}}
-@keyframes plank-hold{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-@keyframes lunge-shift{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
-@keyframes shoulder-squeeze{0%,100%{transform:rotate(0)}50%{transform:rotate(-18deg)}}
-@keyframes balance-leg{0%,100%{transform:rotate(0)}50%{transform:rotate(18deg)}}
-@media(prefers-reduced-motion:reduce){.movement-guide-art .scene-cue,.movement-guide-art .scene-dot,.movement-guide-art [class*="person-"]{animation:none!important}}
-@media(max-width:380px){.movement-guide-art{width:108px;height:108px}}
-
-/* Anatomical pivots keep each limb moving from its joint, not its center. */
-.movement-guide-art .person-head{transform-origin:50% 85%}
-.movement-guide-art .person-torso{transform-origin:50% 50%}
-.movement-guide-art .person-arm-a,.movement-guide-art .person-arm-b{transform-origin:50% 5%}
-.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{transform-origin:50% 5%}
+@media(max-width:380px){.movement-detail-card{padding:10px;gap:9px}.movement-guide-top{grid-template-columns:108px minmax(0,1fr);gap:9px}.movement-guide-visual{width:108px;height:92px}.movement-guide-meta{grid-template-columns:1fr}}
