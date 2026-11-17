@@ -11,8 +11,7 @@
   filter: brightness(.96);
 }
 .button-secondary:hover,
-.settings-actions button:hover,
-.icon-button:hover {
+.settings-actions button:hover {
   border-color: var(--accent);
   background: var(--accent-soft);
 }
