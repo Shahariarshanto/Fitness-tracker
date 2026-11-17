@@ -64,7 +64,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Exercise details use a compact responsive animation stage and per-exercise Bengali captions. Treat all animations as illustrative only; the exercise catalogue remains marked `legacy-reference-unreviewed`.
 - Known mismatch requiring deliberate review: c3 catalogue instructions/position describe hands-and-knees thoracic rotation, while the current animation and caption depict a lying Open Book movement.
 - Known timer limitation: e1 and e2 have `durationSeconds: 0`; their guided-session timer consequently begins at zero even though their written activity durations are 30 minutes and 2 minutes.
-- `sw.js` currently declares `RUNTIME_MODULES` but does not use it in install/fetch logic. Do not assume the declared list proves offline coverage. The classic ASAN scripts are not included in that array.
+- `sw.js` now combines `CORE_SHELL`, `CLASSIC_RUNTIME` and `RUNTIME_MODULES` into `PRECACHE_ASSETS` and uses that manifest during install. All declared paths were checked against the repository tree; real browser installation and offline behavior remain unverified.
 - The current cleanup audit identified likely orphan candidates, but no such files should be deleted until all runtime, HTML, documentation and external references are checked.
 - Deployment success and static inspection do not prove that the app has been visually tested on Android, desktop or offline.
 
