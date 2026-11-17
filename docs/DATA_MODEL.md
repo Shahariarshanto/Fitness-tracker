@@ -108,3 +108,15 @@ Health information is sensitive. The current single-user endpoint has no login o
 - The JSON database and illustration are included in the service-worker precache so the hero remains available offline after the PWA shell has been installed.
 - This library is not stored in the personal-state D1 table and does not call a live third-party API at runtime. Content updates are reviewed and deployed with the app.
 - Messages are short educational paraphrases, not individualized medical advice or instructions to change treatment.
+
+
+## Account and remote persistence model
+
+Migration 0002_user_accounts.sql adds:
+
+- users: UUID-like user ID, unique username/email, PBKDF2 password hash, per-user salt and creation time.
+- auth_sessions: SHA-256 hash of a random bearer token, owning user ID and creation time. There is no automatic expiry; explicit logout deletes the session row.
+- app_state: one JSON state snapshot per user, keyed by user_id with its existing version/update metadata.
+- app_state_legacy: retained copy of the former single-row app_state table. The first registered account receives its data; the legacy row remains preserved.
+
+The Worker must derive user_id from the verified session token. Never accept a user ID from the browser as authority for selecting a data row. Logout clears app-owned browser storage and revokes the session only; it must not delete user or state records.
