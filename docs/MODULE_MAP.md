@@ -151,3 +151,13 @@ D1 is the permanent primary cloud source. R2 and paid storage are not used. Manu
 | `docs/clinical/EXERCISE_REVIEW_POLICY.md` | Evidence and clinical approval policy |
 
 A new exercise requires catalogue/group/position mappings, one pose module, registry import, detail caption, one documentation file and Service Worker inventory entry. Pose modules must not define other poses. Shared engine changes are cross-exercise changes requiring broad regression review.
+
+
+## Account authentication additions
+
+- assets/js/services/auth.js — Sign Up, Login, Logout, persistent bearer token and user summary storage; clears only app-owned Local Storage keys on logout.
+- assets/js/services/cloudflare.js — attaches the current bearer token to every state API request; cloud hydration/sync is inactive without login; exposes manual remote refresh for Settings.
+- assets/js/features/settings/index.js — renders Sign Up/Login/connected account controls inside Data Backup and handles the account actions.
+- assets/js/features/settings/Preferences.js — provides the account UI mount point within the existing backup card.
+- worker/index.js — registration, login, logout, session validation and user-scoped state API.
+- worker/migrations/0002_user_accounts.sql — account/session tables and user-scoped state table while retaining the legacy snapshot.
