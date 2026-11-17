@@ -13,7 +13,7 @@ async function request(path, payload, token) {
   if (token) headers.Authorization = "Bearer " + token;
   const response = await fetch(API_BASE + path, { method: "POST", headers, body: JSON.stringify(payload || {}) });
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || "অনুরোধটি সম্পন্ন করা যায়নি।");
+  if (!response.ok) { const error = new Error(result.error || "অনুরোধটি সম্পন্ন করা যায়নি।"); error.code = result.code || "HTTP_" + response.status; throw error; }
   return result;
 }
 function saveLogin(result) {
