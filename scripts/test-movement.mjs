@@ -41,6 +41,13 @@ const untimedDetail = renderExerciseDetails("e1", {});
 assert.doesNotMatch(untimedDetail, /data-repetition-action/);
 
 const storage = new Map();
+const legacySnapshot = {
+  preferences: { theme: "system", language: "bn", dailyGoal: 20 },
+  dailyActivity: {}, painLogs: {}, medication: { items: [], dailyLogs: {} },
+  symptoms: { daily: {} }, healthScores: { basdai: [], asdas: [] },
+  healthEvents: [], flarePlan: {}, workoutSessions: []
+};
+storage.set("as-care-state-v1", JSON.stringify(legacySnapshot));
 globalThis.window = {
   localStorage: {
     getItem: key => storage.has(key) ? storage.get(key) : null,
@@ -50,6 +57,9 @@ globalThis.window = {
 };
 const stateModule = await import("../assets/js/core/state.js?movement-routine-test");
 assert.deepEqual(stateModule.getState().movement, { routineExerciseIds: [] });
+const { validateBackup } = await import("../assets/js/services/backup.js");
+assert.equal(validateBackup({ app: "as-care", schemaVersion: 1, state: legacySnapshot }), true);
+assert.throws(() => validateBackup({ app: "as-care", schemaVersion: 1, state: { ...legacySnapshot, movement: { routineExerciseIds: [false] } } }));
 stateModule.updateState(state => ({
   ...state,
   movement: { routineExerciseIds: ["c1", "c2"] }
