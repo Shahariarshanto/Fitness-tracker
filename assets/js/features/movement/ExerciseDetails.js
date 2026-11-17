@@ -12,8 +12,20 @@ const POSE_ART = {
   walking: { label:"হাঁটা", figure:'<circle cx="60" cy="18" r="8"/><path d="M60 27L56 55L37 72L22 84M56 55L76 67L91 82M58 36L39 48M58 36L78 46"/>' }
 };
 
-function poseIllustration(position) {
+function poseIllustration(position, exerciseId) {
   const art = POSE_ART[position?.id] || POSE_ART.standing;
+  if (exerciseId === "b4") {
+    return `<div class="movement-guide-visual movement-guide-visual--doorway" role="img" aria-label="দরজার ফ্রেমে দুই হাত রেখে বুকের স্ট্রেচের নমুনা অ্যানিমেশন">
+      <svg viewBox="0 0 110 100" aria-hidden="true">
+        <path class="doorway-frame" d="M17 91V10H93V91" fill="none" stroke="currentColor" stroke-opacity=".38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="doorway-person" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="55" cy="19" r="7"/><path d="M55 28V59M55 35L31 35L25 18M55 35L79 35L85 18M55 59L43 88M55 59L67 88"/>
+        </g>
+        <path d="M8 91H102" stroke="currentColor" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>ধীরে সামনে ঝুঁকুন</span>
+    </div>`;
+  }
   return `<div class="movement-guide-visual" role="img" aria-label="শুরুর ভঙ্গি: ${esc(art.label)}">
     <svg viewBox="0 0 110 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${art.figure}</g><path d="M8 91H102" stroke="currentColor" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/></svg>
     <span>শুরুর ভঙ্গি · ${esc(art.label)}</span>
@@ -28,7 +40,7 @@ export function renderExerciseDetails(id) {
   const instruction = parts.shift() || item.instructions || "";
   const dose = parts.join(" · ");
   return `<div class="movement-detail-card">
-    <div class="movement-guide-top">${poseIllustration(position)}
+    <div class="movement-guide-top">${poseIllustration(position, id)}
       <div class="movement-guide-heading"><span class="eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div>
     </div>
     <div class="movement-guide-instruction"><span class="movement-guide-step">১</span><div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div></div>
