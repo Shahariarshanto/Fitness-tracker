@@ -20,11 +20,15 @@ export function renderExerciseDetails(id) {
   const illustration = ILLUSTRATIONS[id];
   const visual = illustration
     ? `<div class="movement-guide-visual"><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
-    : "";
-  return `<div class="movement-detail-card">
-    <div class="movement-guide-top">${visual}<div class="movement-guide-heading"><span class="eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div></div>
-    <div class="movement-guide-instruction"><span class="movement-guide-step">১</span><div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div></div>
-    <div class="movement-guide-meta"><span><strong>সময়</strong>${item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়"}</span>${dose ? `<span><strong>পুনরাবৃত্তি</strong>${esc(dose)}</span>` : ""}</div>
+    : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-icon" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
+  return `<article class="movement-detail-card">
+    ${visual}
+    <header class="movement-guide-heading"><span class="eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></header>
+    <section class="movement-guide-instruction"><span class="movement-guide-step" aria-hidden="true">১</span><div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div></section>
+    <div class="movement-guide-meta">
+      <span><strong>সময়</strong><span>${item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়"}</span></span>
+      ${dose ? `<span><strong>পুনরাবৃত্তি</strong><span>${esc(dose)}</span></span>` : ""}
+    </div>
     <p class="movement-guide-caution"><span aria-hidden="true">ⓘ</span> ধীরে ও নিয়ন্ত্রণ রেখে করুন। ব্যথা বা অস্বস্তি বাড়লে থামুন।</p>
-  </div>`;
+  </article>`;
 }
