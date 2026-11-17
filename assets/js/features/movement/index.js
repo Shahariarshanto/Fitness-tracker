@@ -6,6 +6,7 @@ import { speakGuidance, stopGuidance } from "../../services/notifications.js";
 import { EXERCISES } from "../../data/exercises.js";
 import { renderChecklist } from "./Checklist.js";
 import { renderExerciseDetails } from "./ExerciseDetails.js";
+import { startExerciseAnimation, stopExerciseAnimation } from "./ExerciseAnimation.js";
 import { renderBodyMap } from "./BodyMap.js";
 import { renderGuidedSession, renderSessionHistory } from "./GuidedSession.js";
 
@@ -16,6 +17,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
   const activity = () => getState().dailyActivity[today()] || {};
   const announceCurrent = () => { if (getState().preferences.voiceGuidance) { const item = EXERCISES.find(x => x.id === session?.exerciseIds[session.index]); if (item) speakGuidance(item.name); } };
   const draw = () => {
+    stopExerciseAnimation();
     const state = getState(), completed = activity().completedExerciseIds || [];
     root.innerHTML = `<div class="movement-dashboard"><section class="movement-progress"><div><p class="eyebrow">TODAY'S PROGRESS</p><strong>${completed.length} / ${EXERCISES.length}</strong><span>অনুশীলন সম্পন্ন</span></div><div class="movement-progress-track"><span style="width:${Math.min(100,completed.length/EXERCISES.length*100)}%"></span></div></section><div class="movement-tools">${renderBodyMap(region)}${renderGuidedSession(session)}</div><section class="movement-checklist"><div class="movement-section-heading"><div><p class="eyebrow">EXERCISE LIBRARY</p><h3>অনুশীলনের তালিকা</h3></div><span>${selected.length}টি নির্বাচিত</span></div>${renderChecklist(today(),activity(),selected,viewMode)}</section>${renderSessionHistory(state.workoutSessions)}</div>`;
   };
@@ -54,7 +56,27 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     if(target.dataset.exerciseView){viewMode=target.dataset.exerciseView;draw();return;}
     if(target.matches("[data-session-select]")){selected=target.checked?[...new Set([...selected,target.dataset.sessionSelect])]:selected.filter(id=>id!==target.dataset.sessionSelect);draw();return;}
     if(target.dataset.exerciseDone){const id=target.dataset.exerciseDone;updateState(state=>{const day=state.dailyActivity[today()]||{},ids=new Set(day.completedExerciseIds||[]);ids.has(id)?ids.delete(id):ids.add(id);return {...state,dailyActivity:{...state.dailyActivity,[today()]:{...day,completedExerciseIds:[...ids],updatedAt:new Date().toISOString()}}};});return;}
-    if(target.dataset.exerciseDetails){const id=target.dataset.exerciseDetails,card=target.closest("[data-exercise-card]"),slot=card?.querySelector(`[data-exercise-detail-slot="${id}"]`);if(slot){slot.hidden=!slot.hidden;slot.innerHTML=slot.hidden?"":renderExerciseDetails(id);target.setAttribute("aria-expanded",String(!slot.hidden));}return;}
+    if(target.dataset.exerciseDetails){
+      const id=target.dataset.exerciseDetails;
+      const card=target.closest("[data-exercise-card]");
+      const slot=card?.querySelector("[data-exercise-detail-slot=\"" + id + "\"]");
+      if(!slot)return;
+      const shouldOpen=slot.hidden;
+      stopExerciseAnimation();
+      root.querySelectorAll("[data-exercise-detail-slot]").forEach(other=>{
+        other.hidden=true;
+        other.innerHTML="";
+        const button=root.querySelector("[data-exercise-details=\"" + other.dataset.exerciseDetailSlot + "\"]");
+        if(button)button.setAttribute("aria-expanded","false");
+      });
+      if(shouldOpen){
+        slot.hidden=false;
+        slot.innerHTML=renderExerciseDetails(id);
+        target.setAttribute("aria-expanded","true");
+        startExerciseAnimation(slot.querySelector("[data-exercise-animation]"),id);
+      }
+      return;
+    }
     if(target.dataset.bodyRegion){region=region===target.dataset.bodyRegion?"":target.dataset.bodyRegion;draw();return;}
     if(target.hasAttribute("data-session-start")){start();return;}
     if(!session)return;
