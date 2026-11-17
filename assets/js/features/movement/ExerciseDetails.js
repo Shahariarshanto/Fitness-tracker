@@ -28,7 +28,7 @@ export function renderExerciseDetails(id, options = {}) {
       <div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div>
     </section>
     ${dose ? `<section class="movement-guide-dose"><span>নির্দেশিত মাত্রা</span><strong>${esc(dose)}</strong></section>` : ""}
-    <section class="movement-exercise-tools" aria-label="ব্যায়ামের সহায়ক নিয়ন্ত্রণ">
+    <section class="movement-exercise-tools ${hasCounter ? "has-counter" : "is-timer-only"}" aria-label="ব্যায়ামের সহায়ক নিয়ন্ত্রণ">
       <div class="movement-stopwatch">
         <div class="movement-tool-heading"><strong>সময় মাপুন</strong></div>
         <output class="movement-stopwatch-display" data-stopwatch-display aria-live="off">${formatElapsedTime(options.elapsedMs || 0)}</output>
