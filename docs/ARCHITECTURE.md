@@ -5,7 +5,7 @@
 ## 1. Runtime strategy
 AS Care is being rebuilt as a clean native JavaScript ES Module application. The existing monolithic `assets/js/app.js` is a broken functional reference only and must not be executed, imported, bridged, or run alongside the replacement. The old runtime is removed at final cutover.
 
-There is no existing user data to preserve. The new application defines a clean state schema, storage namespace, identifiers, and backup format. Legacy storage and backup compatibility are out of scope.
+The application defines a clean state schema, storage namespace, identifiers, and backup format; obsolete browser storage and backup compatibility remain out of scope. The current D1 snapshot is preserved separately by the account migration and copied to the first registered account.
 
 ## 2. Layers
 - **Application entry:** bootstrap and high-level initialization only.
