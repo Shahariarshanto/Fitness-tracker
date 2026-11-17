@@ -46,8 +46,9 @@ Read `AI_CONTEXT.md`, `CONTRIBUTING.md`, and the relevant documents in `docs/`. 
 
 - GitHub Pages serves the static app under `/Fitness-tracker/`. Use relative asset paths.
 - Cloudflare Workers provides the API. The Worker entry point is `worker/index.js`; `wrangler.toml` defines the D1 binding and migration directory.
-- The current Cloudflare deployment command applies pending D1 migrations before deploying the Worker:
+- Deploy the account migration and Worker before publishing the updated Pages UI. The deployment command applies pending D1 migrations before deploying the Worker:
   `npx wrangler d1 migrations apply as-care-auth --remote && npx wrangler deploy`
+- After the Worker is updated successfully, merge/publish the Pages UI so Sign Up and Login do not point at an older unauthenticated Worker.
 - Do not add paid services, billing, third-party authentication or extra storage infrastructure without an explicit product decision.
 
 ## Testing
