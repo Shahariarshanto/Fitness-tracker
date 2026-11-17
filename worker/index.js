@@ -124,8 +124,8 @@ async function handleAuth(request, env, path, origin) {
         env.DB.prepare("INSERT INTO users (id, username, email, password_hash, password_salt, created_at) VALUES (?, ?, ?, ?, ?, ?)")
           .bind(user.id, email, email, passwordHash, salt, createdAt),
         env.DB.prepare(
-          "INSERT INTO app_state (user_id, state_json, version, updated_at) SELECT ?, state_json, version, updated_at FROM app_state_legacy WHERE id = 'primary' AND (SELECT COUNT(*) FROM users WHERE email NOT LIKE '%@example.invalid') = 1"
-        ).bind(user.id)
+          "INSERT INTO app_state (user_id, state_json, version, updated_at) SELECT ?, state_json, version, updated_at FROM app_state_legacy WHERE id = 'primary' AND ? NOT LIKE '%@example.invalid' AND (SELECT COUNT(*) FROM users WHERE email NOT LIKE '%@example.invalid') = 1"
+        ).bind(user.id, email)
       ]);
     } catch (error) {
       const message = String(error && error.message || "");
