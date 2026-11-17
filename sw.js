@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v111";
+const CACHE_NAME = "as-care-shell-v112";
 
 const CORE_SHELL = [
   "./",
