@@ -1,9 +1,9 @@
 /*
   AS Care - stick-figure animation, FILE 3 of 6
-  Contains: c1 Cat-Camel, c2 Bird-Dog, c3 Open Book (Thoracic Rotation),
+  Contains: c1 Cat-Camel, c2 Bird-Dog, c3 Quadruped Thoracic Rotation,
             c4 Prone Press-Up (Cobra), c5 Lying Knee Cross (Spinal Twist)
   Load AFTER asan_01_engine_a1.js and the other ASAN pose files.
-  Note: c3 and c5 are drawn as seen from above (lying down).
+  Note: c3 uses a side-view hands-and-knees pose; c5 is drawn from above.
 */
 (function (w) {
   var A = w.ASAN;
@@ -35,12 +35,22 @@
     ]
   };
 
-  var c3l = [52, 51, 63, 51, 54, 52, 65, 52];
-  var c3a = J([17, 40], [27, 40], [52, 40], [27, 46, 27, 52, 28, 46, 28, 52], c3l);
-  var c3b = J([18, 36], [27, 40], [52, 40], [27, 34, 27, 28, 28, 46, 28, 52], c3l);
+  // Quadruped thoracic rotation: keep one hand grounded while the other
+  // reaches upward; alternate sides so the visual matches the catalogue.
+  var c3base = J([17, 27], [26, 32], [52, 32], c1a, c1l);
+  var c3right = J([17, 23], [26, 30], [52, 32], [26, 24, 20, 14, 29, 43, 29, 53], c1l);
+  var c3left = J([17, 23], [26, 30], [52, 32], [26, 43, 26, 53, 29, 24, 35, 14], c1l);
   A.POSES.c3 = {
-    dur: 8000, hl: ['spine'],
-    k: [{ t: 0, j: c3a }, { t: 0.35, j: c3b }, { t: 0.5, j: c3b }, { t: 0.85, j: c3a }, { t: 1, j: c3a }]
+    dur: 12000, hl: ['spine', 'arms'],
+    k: [
+      { t: 0, sp: 3, j: c3base },
+      { t: 0.18, sp: -3, j: c3right },
+      { t: 0.36, sp: -3, j: c3right },
+      { t: 0.5, sp: 3, j: c3base },
+      { t: 0.68, sp: -3, j: c3left },
+      { t: 0.86, sp: -3, j: c3left },
+      { t: 1, sp: 3, j: c3base }
+    ]
   };
 
   var c4l = [62, 52, 72, 52.5, 62, 51, 72, 51.5];
