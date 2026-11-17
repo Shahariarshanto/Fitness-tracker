@@ -95,7 +95,7 @@ async function handleAuth(request, env, path, origin) {
       const required = ["users", "auth_sessions", "app_state", "app_state_legacy"];
       const missing = required.filter(name => !found.has(name));
       if (missing.length) return json({ ok: false, code: "AUTH_SCHEMA_INCOMPLETE", missing }, 503, origin);
-      const userCount = await env.DB.prepare("SELECT COUNT(*) AS count FROM users").first();
+      const userCount = await env.DB.prepare("SELECT COUNT(*) AS count FROM users WHERE email NOT LIKE '%@example.invalid'").first();
       const legacySnapshot = await env.DB.prepare("SELECT 1 AS present FROM app_state_legacy WHERE id = 'primary'").first();
       await env.DB.prepare("SELECT token_hash FROM auth_sessions LIMIT 1").first();
       return json({ ok: true, database: "connected", schema: "ready", userCount: userCount?.count || 0, legacySnapshotAvailable: Boolean(legacySnapshot) }, 200, origin);
@@ -127,7 +127,7 @@ async function handleAuth(request, env, path, origin) {
         env.DB.prepare("INSERT INTO users (id, username, email, password_hash, password_salt, created_at) VALUES (?, ?, ?, ?, ?, ?)")
           .bind(user.id, email, email, passwordHash, salt, createdAt),
         env.DB.prepare(
-          "INSERT INTO app_state (user_id, state_json, version, updated_at) SELECT ?, state_json, version, updated_at FROM app_state_legacy WHERE id = 'primary' AND (SELECT COUNT(*) FROM users) = 1"
+          "INSERT INTO app_state (user_id, state_json, version, updated_at) SELECT ?, state_json, version, updated_at FROM app_state_legacy WHERE id = 'primary' AND (SELECT COUNT(*) FROM users WHERE email NOT LIKE '%@example.invalid') = 1"
         ).bind(user.id)
       ]);
     } catch (error) {
