@@ -5,8 +5,17 @@ const password = randomBytes(24).toString("base64url") + "A1!";
 const email = `as-care-smoke+${randomUUID()}@example.invalid`;
 const emailB = `as-care-smoke+${randomUUID()}@example.invalid`;
 async function request(path, method = "GET", body, token, requestOrigin = origin) {
-  const response = await fetch(new URL(path, base), { method, headers: { Origin: requestOrigin, ...(body ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
-  return { status: response.status, data: await response.json().catch(() => ({})) };
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const response = await fetch(new URL(path, base), { method, headers: { Origin: requestOrigin, ...(body ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
+      return { status: response.status, data: await response.json().catch(() => ({})) };
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+    }
+  }
+  throw lastError;
 }
 function assert(ok, message) { if (!ok) throw new Error(message); }
 const tests = {};
