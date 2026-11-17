@@ -20,7 +20,7 @@ The rebuilt application uses a clean modular architecture. The old monolithic `a
 - The Cloudflare Worker provides the application API and validates/stores the app state.
 - **Local Storage is a local cache and offline pending queue**, not the permanent source of truth.
 - When offline, changes should remain locally queued and sync when connectivity returns.
-- **Manual JSON export/import is the independent user-controlled backup method.**
+- **Current Settings export:** a readable HTML report only. It is not a restorable backup; no user-facing import/restore workflow exists.
 - No automatic third-party backup service is part of the plan.
 - Preserve the existing D1 snapshot during the account migration. The first registered account receives a copy; the original legacy table remains intact.
 - Do not clear browser storage, delete current records, or perform destructive schema changes without an explicit reason and a safe, clearly explained plan.
@@ -35,7 +35,7 @@ Do not add or reintroduce:
 - Legacy data migration solely to preserve unimportant test records.
 - Legacy runtime adapters or running the old and new applications together.
 
-The app should remain straightforward to use. Persistence should work in the background; manual JSON export/import is available as a separate recovery option.
+The app should remain straightforward to use. Persistence should work in the background; the HTML report is for reading/printing only and must not be described as a recovery or restore option.
 
 ---
 
@@ -46,7 +46,7 @@ The app should remain straightforward to use. Persistence should work in the bac
 3. **Shared state.** The central state store owns in-memory application state and exposes controlled updates/subscriptions.
 4. **Centralized persistence.** Feature modules do not access Local Storage or call persistence APIs directly.
 5. **Cloud service boundary.** The Cloudflare service handles D1 hydration, persistence, retry and offline queue behavior; it does not own page DOM.
-6. **Backup separation.** JSON export/import is handled by the backup service and is independent of Cloudflare sync.
+6. **Export separation.** Settings generates a readable HTML report from current state; it is not a restorable backup and remains separate from Cloudflare sync.
 7. **Minimal event bus.** Use events only for cross-cutting notifications that genuinely require them. Ordinary data changes use state subscriptions.
 8. **Static data is separate.** Data modules do not import features, components or services.
 9. **Offline correctness.** Every runtime JavaScript dependency must be included in the service-worker shell inventory.
@@ -103,7 +103,6 @@ Fitness-tracker/
 │       ├── core/
 │       ├── data/
 │       ├── services/
-│       │   ├── backup.js
 │       │   └── cloudflare.js
 │       ├── components/
 │       └── features/
@@ -120,7 +119,6 @@ Fitness-tracker/
 
 ### 3.1 Service responsibilities
 
-- `services/backup.js`: JSON export, import, validation and format/version handling.
 - `services/cloudflare.js`: Worker API communication, initial D1 hydration, local pending queue, debounced sync and retry behavior.
 - Core state/storage modules: canonical in-memory state and local cache responsibilities.
 - Feature modules: user-facing health, medication, movement, overview, insights and settings functionality.
@@ -158,14 +156,12 @@ The canonical app state covers the data actually used by the application. Expect
 - The Worker now requires bearer authentication for every state request and enforces per-user data access. CORS remains an origin policy, not the authentication mechanism.
 - Do not store credentials, tokens or secrets in the repository.
 
-### Manual JSON backup
+### Current Settings export
 
-- The user can export the app state to a JSON file.
-- The user can import a previously exported, valid JSON backup.
-- Validate the file and schema before applying imported state.
-- Explain clearly when an import will replace current app data.
-- Keep this workflow independent of Cloudflare sync.
-- Test export/import with representative data before considering the feature complete.
+- Settings creates a readable HTML report from current application state.
+- The report is for viewing and printing; it is not a machine-restorable backup.
+- There is no user-facing JSON export/import or restore control in the current app.
+- Do not describe the report as an independent backup; D1 remains the primary cloud store.
 
 ---
 
