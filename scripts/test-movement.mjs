@@ -78,6 +78,14 @@ assert.ok(headerCss.includes("background:#6841a7!important;color:#fff!important"
 assert.ok(headerCss.includes(".movement-detail-card .movement-guide-topbar .movement-guide-section-title"));
 assert.ok(headerCss.includes("color:#38264f!important"));
 
+const counterCss = movementCss.slice(movementCss.lastIndexOf("/* Repetition counter: compact natural-height panel and optical button alignment. */"));
+assert.ok(counterCss.includes(".movement-detail-card .movement-exercise-tools{align-items:start}"));
+assert.ok(counterCss.includes(".movement-repetition-counter{") && counterCss.includes("align-self:start"));
+assert.ok(counterCss.includes("position:static;inset:auto;align-self:center;justify-self:center"));
+assert.ok(counterCss.includes("width:28px;height:28px;min-width:28px;min-height:28px"));
+assert.ok(counterCss.includes("display:flex;align-items:center;justify-content:center"));
+
+
 
 const storage = new Map();
 const legacySnapshot = {
