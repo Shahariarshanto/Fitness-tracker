@@ -37,7 +37,7 @@ export function initMedication({ root = document.querySelector("[data-medication
     showToast(mode === "edit" ? "ওষুধের তথ্য আপডেট হয়েছে।" : "ওষুধ তালিকায় যোগ হয়েছে।", "success");
   }
   function change(event) {
-    if (event.target.matches("select[name=\\\"doseCount\\\"]")) {
+    if (event.target.name === "doseCount") {
       const form = event.target.closest("form[data-med-form]");
       const count = Number(event.target.value);
       form?.querySelectorAll("[data-dose-slot]").forEach(slot => { slot.hidden = Number(slot.dataset.doseSlot) > count; });
