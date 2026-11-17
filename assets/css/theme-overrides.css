@@ -270,10 +270,7 @@ input[type="range"] {
 .button-primary:hover,
 .settings-actions button[data-backup-export]:hover { filter: brightness(.96) saturate(1.08); }
 .nav-item[aria-selected="true"],
-.brand strong,
-.brand-mark,
 .overview-hero-mark { color: var(--accent); }
-.brand-mark { background: var(--brand-primary); color: #fff; }
 .overview-welcome {
   border-color: var(--overview-hero-mid);
   background: radial-gradient(circle at 85% 18%, #ffffff2b 0 2px, transparent 3px 100%),
