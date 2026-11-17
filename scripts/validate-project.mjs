@@ -140,7 +140,7 @@ pass("Guided-session event emitters match the documented contract");
 const guidedView = read("assets/js/features/movement/GuidedSession.js");
 const movementRuntime = read("assets/js/features/movement/index.js");
 if (!guidedView.includes(' : "নির্দেশনা অনুযায়ী"')) fail("Untimed exercises must not display a zero-second timer");
-if (!/if\\s*\\(currentItem\\?\\.durationSeconds\\s*>\\s*0\\)/.test(movementRuntime)) {
+if (!/if\s*\(currentItem\?\.durationSeconds\s*>\s*0\)/.test(movementRuntime)) {
   fail("Guided-session countdown must update only for exercises with a positive duration");
 } else pass("Untimed guided-session steps retain the instruction-driven label");
 
