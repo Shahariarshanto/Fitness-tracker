@@ -52,7 +52,7 @@ if (html.includes('class="welcome"') ||
 } else pass("Global welcome/hero section removed");
 if (!html.includes('class="brand-tagline">Your Personal AXSpA Companion</span>') ||
     !html.includes('class="brand-group"') ||
-    !html.includes('<img class="brand-logo" src="./icon.svg"')) {
+    !html.includes('<img class="brand-logo" src="./assets/images/as-care-spine-v1.svg"')) {
   fail("Spine SVG logo and compact tagline must appear together in the app header");
 } else pass("Spine SVG logo and compact tagline appear in the app header");
 if (html.includes('class="brand-mark"')) fail("Old letter-only brand mark must be removed");
