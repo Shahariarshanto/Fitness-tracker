@@ -52,8 +52,15 @@ const htmlRefs = [
 checkPaths("index.html local references", htmlRefs);
 
 const styles = [...html.matchAll(/<link\b[^>]*rel=["']stylesheet["'][^>]*href=["']([^"']+)["']/gi)].map(m => rel(m[1]));
-if (styles.length !== 6) fail(`Expected 6 linked stylesheets, found ${styles.length}`);
-else pass("Six application stylesheets are linked");
+if (styles.length !== 7) fail(`Expected 7 linked stylesheets, found ${styles.length}`);
+else pass("Seven application stylesheets are linked");
+if (styles.at(-1) !== "assets/css/theme-overrides.css") fail("Central theme override stylesheet must load after all feature stylesheets");
+else pass("Central theme override stylesheet loads last");
+const themeTokens = read("assets/css/tokens.css");
+const requiredThemeTokens = ["--brand-primary", "--brand-secondary", "--brand-success", "--accent-contrast", "--success-soft", "--warning-soft", "--danger-soft", "--chart-1", "--chart-2"];
+const missingThemeTokens = requiredThemeTokens.filter(token => !themeTokens.includes(token));
+if (missingThemeTokens.length) fail(`Central theme is missing tokens: ${missingThemeTokens.join(", ")}`);
+else pass("Central light/dark theme exposes required brand, semantic and chart tokens");
 
 for (const cssFile of styles) {
   const css = read(cssFile);
@@ -66,6 +73,8 @@ pass("Local url() assets in linked stylesheets checked");
 
 // 2. Service-worker manifest and complete local import graph.
 const sw = read("sw.js");
+if (!sw.includes("./assets/css/theme-overrides.css")) fail("Theme override stylesheet is missing from the service-worker precache");
+else pass("Central theme override stylesheet is included in the offline precache");
 const coreShell = arrayValues(sw, "CORE_SHELL");
 const runtimeModules = arrayValues(sw, "RUNTIME_MODULES");
 const classicRuntime = arrayValues(sw, "CLASSIC_RUNTIME");

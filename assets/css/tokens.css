@@ -1,44 +1,194 @@
-/* AS Care modern indigo design system */
+/* AS Care centralized color system — Modern Balanced Wellness */
 :root {
   color-scheme: light;
-  --page: #f5f7ff;
-  --surface: #ffffff;
-  --surface-soft: #eef1ff;
-  --text: #182238;
-  --muted: #68748b;
-  --line: #e0e6f2;
-  --accent: #5b5bd6;
-  --accent-soft: #ecebff;
-  --shadow: 0 12px 34px rgba(35, 43, 92, .07);
+
+  /* Brand identity */
+  --brand-primary: #168C83;
+  --brand-secondary: #F19A52;
+  --brand-success: #72A889;
+
+  /* Accessible interactive colors */
+  --accent: #13786F;
+  --accent-soft: #E5F2EF;
+  --accent-contrast: #FFFFFF;
+
+  /* Core surfaces and typography */
+  --page: #F3F8F7;
+  --surface: #FFFFFF;
+  --surface-soft: #E5F2EF;
+  --text: #19343A;
+  --muted: #607573;
+  --line: #DCE8E5;
+
+  /* Semantic states */
+  --success: #2F7952;
+  --success-soft: #E8F4EC;
+  --warning: #9A541B;
+  --warning-soft: #FFF0DF;
+  --danger: #B84242;
+  --danger-soft: #FCEAEA;
+  --info: #286B91;
+  --info-soft: #E8F2F8;
+
+  /* Data visualization */
+  --chart-1: #13786F;
+  --chart-2: #D17B32;
+  --chart-3: #5D966F;
+  --chart-goal: #B9792E;
+
+  /* Movement guide */
+  --guide-ink: #19343A;
+  --guide-blue: var(--brand-primary);
+  --guide-blue-deep: var(--accent);
+  --guide-pale: var(--surface-soft);
+  --guide-green: var(--success);
+  --guide-amber: var(--brand-secondary);
+  --guide-card: var(--surface);
+  --guide-border: var(--line);
+  --guide-stage: #EDF5F3;
+  --guide-stage-deep: #E3EFEC;
+  --guide-stage-text: #607B77;
+  --guide-topbar-start: #13786F;
+  --guide-topbar-end: #16443F;
+
+  /* Overview feature surfaces */
+  --overview-hero-start: #16443F;
+  --overview-hero-mid: #17665D;
+  --overview-hero-end: #258B7D;
+  --overview-hero-text: #F2FFFC;
+  --overview-hero-muted: #C8E9E2;
+  --overview-movement-bg: #E7F3EE;
+  --overview-movement-ink: #214B3B;
+  --overview-movement-muted: #587568;
+  --overview-medication-bg: #FFF4E8;
+  --overview-medication-border: #F1DCC5;
+  --overview-health-icon-bg: #FCEBE4;
+  --overview-health-icon: #A85B3A;
+  --overview-week-icon-bg: #E5F2EF;
+  --overview-week-icon: #287A70;
+
+  --shadow: 0 12px 34px rgba(25, 52, 58, .07);
   --radius-lg: 22px;
   --radius-md: 15px;
   --radius-sm: 11px;
   --content-width: 1120px;
   font-family: "Hind Siliguri", system-ui, sans-serif;
 }
+
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #0b1020;
-  --surface: #121a2d;
-  --surface-soft: #1a2740;
-  --text: #e8edff;
-  --muted: #a0acc5;
-  --line: #293650;
-  --accent: #9b9cff;
-  --accent-soft: #26284e;
+
+  --brand-primary: #55B9AA;
+  --brand-secondary: #F2B36F;
+  --brand-success: #82C69A;
+
+  --accent: #55B9AA;
+  --accent-soft: #203F3D;
+  --accent-contrast: #102724;
+
+  --page: #101D20;
+  --surface: #192B2E;
+  --surface-soft: #223A3C;
+  --text: #E7F1EF;
+  --muted: #A7BCB8;
+  --line: #344C4B;
+
+  --success: #82C69A;
+  --success-soft: #203A2D;
+  --warning: #F2B36F;
+  --warning-soft: #3B2D20;
+  --danger: #F18B8B;
+  --danger-soft: #402729;
+  --info: #83BCE0;
+  --info-soft: #203747;
+
+  --chart-1: #55B9AA;
+  --chart-2: #F2B36F;
+  --chart-3: #82C69A;
+  --chart-goal: #F2B36F;
+
+  --guide-ink: #E7F1EF;
+  --guide-stage: #1D3335;
+  --guide-stage-deep: #243E40;
+  --guide-stage-text: #A7BCB8;
+  --guide-topbar-start: #164F49;
+  --guide-topbar-end: #123B38;
+  --guide-card: var(--surface);
+  --guide-border: var(--line);
+
+  --overview-hero-start: #123B38;
+  --overview-hero-mid: #15534D;
+  --overview-hero-end: #1D7167;
+  --overview-hero-text: #F0FFFB;
+  --overview-hero-muted: #B9DED6;
+  --overview-movement-bg: #1D3932;
+  --overview-movement-ink: #E2F3E9;
+  --overview-movement-muted: #A8C7B5;
+  --overview-medication-bg: #352C23;
+  --overview-medication-border: #594532;
+  --overview-health-icon-bg: #432D2A;
+  --overview-health-icon: #F0B19B;
+  --overview-week-icon-bg: #203F3D;
+  --overview-week-icon: #8ED3C7;
+
   --shadow: 0 12px 34px rgba(0, 0, 0, .24);
 }
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --page: #0b1020;
-    --surface: #121a2d;
-    --surface-soft: #1a2740;
-    --text: #e8edff;
-    --muted: #a0acc5;
-    --line: #293650;
-    --accent: #9b9cff;
-    --accent-soft: #26284e;
+
+    --brand-primary: #55B9AA;
+    --brand-secondary: #F2B36F;
+    --brand-success: #82C69A;
+
+    --accent: #55B9AA;
+    --accent-soft: #203F3D;
+    --accent-contrast: #102724;
+
+    --page: #101D20;
+    --surface: #192B2E;
+    --surface-soft: #223A3C;
+    --text: #E7F1EF;
+    --muted: #A7BCB8;
+    --line: #344C4B;
+
+    --success: #82C69A;
+    --success-soft: #203A2D;
+    --warning: #F2B36F;
+    --warning-soft: #3B2D20;
+    --danger: #F18B8B;
+    --danger-soft: #402729;
+    --info: #83BCE0;
+    --info-soft: #203747;
+
+    --chart-1: #55B9AA;
+    --chart-2: #F2B36F;
+    --chart-3: #82C69A;
+    --chart-goal: #F2B36F;
+
+    --guide-ink: #E7F1EF;
+    --guide-stage: #1D3335;
+    --guide-stage-deep: #243E40;
+    --guide-stage-text: #A7BCB8;
+    --guide-card: var(--surface);
+    --guide-border: var(--line);
+
+    --overview-hero-start: #123B38;
+    --overview-hero-mid: #15534D;
+    --overview-hero-end: #1D7167;
+    --overview-hero-text: #F0FFFB;
+    --overview-hero-muted: #B9DED6;
+    --overview-movement-bg: #1D3932;
+    --overview-movement-ink: #E2F3E9;
+    --overview-movement-muted: #A8C7B5;
+    --overview-medication-bg: #352C23;
+    --overview-medication-border: #594532;
+    --overview-health-icon-bg: #432D2A;
+    --overview-health-icon: #F0B19B;
+    --overview-week-icon-bg: #203F3D;
+    --overview-week-icon: #8ED3C7;
+
     --shadow: 0 12px 34px rgba(0, 0, 0, .24);
   }
 }
