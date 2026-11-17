@@ -17,7 +17,7 @@ The rebuild starts with a clean schema because there is no existing user data to
 | `healthScores` | BASDAI and ASDAS inputs/results/history |
 | `healthEvents` | Flare and other relevant events |
 | `flarePlan` | User-editable action plan |
-| `workoutSessions` | Guided workout session history |
+| `workoutSessions` | Historical guided workout records retained for existing summaries |
 
 ## 3. Initial state shape
 Step 1 starts with this explicit default shape. Feature steps may extend it deliberately and must update this document and tests in the same step.
