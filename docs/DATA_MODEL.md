@@ -60,7 +60,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Use the app's manual JSON export for an independent copy; D1 itself is not a backup.
 - The Worker accepts state requests only with a valid bearer session token. CORS remains an origin policy, while authentication and per-user authorization are enforced by the Worker.
 ## 6. Privacy
-The app supports email and password registration and login. Passwords are PBKDF2-SHA-256 hashes with per-user salts; D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
+The app supports email and password registration and login. Passwords are currently stored as entered in the `password_hash` column and compared directly, by explicit product decision; they are not hashed. The `password_salt` field is currently unused. This is a security limitation. D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
 
 
 ### Medication records
@@ -114,7 +114,7 @@ The app supports email and password registration and login. Passwords are PBKDF2
 
 Migration 0002_user_accounts.sql adds:
 
-- users: UUID-like user ID, unique username/email, PBKDF2 password hash, per-user salt and creation time.
+- users: UUID-like user ID, unique username/email, password value (currently plaintext by explicit product decision), unused salt field and creation time.
 - auth_sessions: SHA-256 hash of a random bearer token, owning user ID and creation time. There is no automatic expiry; explicit logout deletes the session row.
 - app_state: one JSON state snapshot per user, keyed by user_id with its existing version/update metadata.
 - app_state_legacy: retained copy of the former single-row app_state table. The first registered account receives its data; the legacy row remains preserved.
