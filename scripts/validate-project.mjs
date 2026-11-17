@@ -51,9 +51,11 @@ if (html.includes('class="welcome"') ||
   fail("The oversized global welcome/hero section must be removed from every tab");
 } else pass("Global welcome/hero section removed");
 if (!html.includes('class="brand-tagline">Your Personal AXSpA Companion</span>') ||
-    !html.includes('class="brand-group"')) {
-  fail("Compact app tagline must appear directly under the logo");
-} else pass("Compact app tagline appears under the logo");
+    !html.includes('class="brand-group"') ||
+    !html.includes('<img class="brand-logo" src="./icon.svg"')) {
+  fail("Spine SVG logo and compact tagline must appear together in the app header");
+} else pass("Spine SVG logo and compact tagline appear in the app header");
+if (html.includes('class="brand-mark"')) fail("Old letter-only brand mark must be removed");
 const htmlRefs = [
   ...[...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)].map(m => m[1]),
   ...[...html.matchAll(/<link\b[^>]*\bhref=["']([^"']+)["']/gi)].map(m => m[1])
