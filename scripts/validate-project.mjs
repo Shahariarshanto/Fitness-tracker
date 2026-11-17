@@ -96,7 +96,6 @@ for (const modulePath of runtimeModules.map(rel).filter(file => file.endsWith(".
   }
 }
 pass("Local imports in the precached ES-module graph resolve and are precached");
-if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
 for (const file of classicRuntime.map(rel)) {
   if (!html.includes(`src="./${file}"`)) fail(`Classic runtime script is not loaded by index.html: ${file}`);
@@ -104,6 +103,7 @@ for (const file of classicRuntime.map(rel)) {
 }
 if (classicRuntime.length !== 6) fail(`Expected 6 classic ASAN scripts, found ${classicRuntime.length}`);
 else pass("All six classic ASAN scripts are precached and loaded by index.html");
+if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
 // 3. Exercise catalogue, groups, pose definitions and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");
