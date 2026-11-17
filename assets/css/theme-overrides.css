@@ -259,3 +259,52 @@ input[type="range"] {
   :root:not([data-theme="light"]) .overview-medication-card .medication-summary > div { border-color: var(--overview-medication-border); }
   :root:not([data-theme="light"]) .overview-medication-card .overview-med-actions button { background: var(--surface); color: var(--text); }
 }
+
+/* Vibrant brand accents: purple identity, orange actions, pink highlights. */
+.button-primary,
+.settings-actions button[data-backup-export] {
+  border-color: var(--brand-secondary);
+  background: var(--brand-secondary);
+  color: #351B12;
+  font-weight: 800;
+}
+.button-primary:hover,
+.settings-actions button[data-backup-export]:hover { filter: brightness(.96) saturate(1.08); }
+.nav-item[aria-selected="true"],
+.brand strong,
+.brand-mark,
+.overview-hero-mark { color: var(--accent); }
+.brand-mark { background: var(--brand-primary); color: #fff; }
+.overview-welcome {
+  border-color: var(--overview-hero-mid);
+  background: radial-gradient(circle at 85% 18%, #ffffff2b 0 2px, transparent 3px 100%),
+    linear-gradient(118deg, var(--overview-hero-start), var(--overview-hero-mid) 56%, var(--overview-hero-end));
+}
+.overview-welcome-label,
+.welcome-leaf { color: var(--overview-hero-muted); }
+.overview-progress i,
+.overview-week-bars .has-activity i { background: linear-gradient(90deg, var(--brand-primary), var(--brand-success)); }
+.movement-guide-topbar,
+.is-cat-camel-sample .movement-guide-topbar {
+  background: linear-gradient(112deg, var(--guide-topbar-start), var(--guide-topbar-end));
+}
+.movement-guide-step { background: linear-gradient(145deg, var(--brand-primary), var(--accent)); }
+.movement-guide-caution-icon { background: var(--brand-secondary); color: #351B12; }
+.overview-quick button:nth-child(2) .quick-action-icon,
+.overview-icon-health { background: var(--overview-health-icon-bg); color: var(--overview-health-icon); }
+.overview-quick button:nth-child(3) .quick-action-icon,
+.overview-icon-week { background: var(--overview-week-icon-bg); color: var(--overview-week-icon); }
+:root[data-theme="dark"] .button-primary,
+:root[data-theme="dark"] .settings-actions button[data-backup-export] {
+  background: var(--brand-secondary);
+  border-color: var(--brand-secondary);
+  color: #351B12;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .button-primary,
+  :root:not([data-theme="light"]) .settings-actions button[data-backup-export] {
+    background: var(--brand-secondary);
+    border-color: var(--brand-secondary);
+    color: #351B12;
+  }
+}
