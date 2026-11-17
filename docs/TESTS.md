@@ -128,7 +128,8 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Obsolete Health submodules are removed from the runtime and service-worker inventory.
 - [ ] Health entry module is listed in the service-worker shell.
 - [ ] Health feature does not access localStorage directly.
-- [ ] Daily pain, symptom, BASDAI, ASDAS-CRP, event and flare-plan state domains match the data model.
+- [ ] Daily pain, symptom, BASDAI and ASDAS-CRP state domains match the data model.
+- [ ] Health timeline and personal flare-plan sections are absent; existing legacy fields are ignored without affecting other Health records.
 - [ ] BASDAI and ASDAS-CRP calculations are checked against independent reference cases.
 
 ### Browser checks
@@ -136,7 +137,6 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Daily pain, night mobility, stiffness, fatigue and sleep values save and re-render.
 - [ ] BASDAI six-question form calculates and saves dated history.
 - [ ] ASDAS-CRP form calculates with CRP in mg/L and saves dated history.
-- [ ] Health events can be added and deleted.
 - [ ] Flare plan notes save and remain after reload.
 - [ ] Invalid and empty inputs are handled without breaking the page.
 

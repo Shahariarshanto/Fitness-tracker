@@ -16,13 +16,12 @@ function render(state) {
   const pain = state.painLogs[today] || {};
   const basdai = state.healthScores.basdai || [];
   const asdas = state.healthScores.asdas || [];
-  const events = (state.healthEvents || []).filter(x => !x.deletedAt).slice().reverse();
   const basdaiToday = basdai.find(item => item.date === today);
   const asdasToday = asdas.find(item => item.date === today);
   const latestB = basdai.length ? [...basdai].sort((a,b) => b.date.localeCompare(a.date))[0].score : "—";
   const latestA = asdas.length ? [...asdas].sort((a,b) => b.date.localeCompare(a.date))[0].score : "—";
   return `
-  <section class="health-intro"><p class="eyebrow">PERSONAL HEALTH JOURNAL</p><h3>আপনার স্বাস্থ্যের এক জায়গার ডায়েরি</h3><p>উপসর্গ, রোগ-কার্যকলাপের স্কোর ও গুরুত্বপূর্ণ স্বাস্থ্য-ঘটনা নিয়মিত নথিবদ্ধ করুন।</p></section>
+  <section class="health-intro"><p class="eyebrow">PERSONAL HEALTH JOURNAL</p><h3>আপনার স্বাস্থ্যের এক জায়গার ডায়েরি</h3><p>উপসর্গ, ব্যথার স্থান ও রোগ-কার্যকলাপের স্কোর নিয়মিত নথিবদ্ধ করুন।</p></section>
   <section class="health-overview">
     <article><span>আজকের ব্যথা</span><strong>${pain.score == null ? "—" : pain.score + "/১০"}</strong></article>
     <article><span>সর্বশেষ BASDAI</span><strong>${latestB}</strong></article>
@@ -34,8 +33,6 @@ function render(state) {
   </section>
   <section class="health-card"><p class="eyebrow">02 · PAIN LOCATION</p><h3>ব্যথার স্থান</h3><p class="health-note">আজ যে অঞ্চলগুলোতে ব্যথা অনুভব করছেন সেগুলো নির্বাচন করে মাত্রা লিখুন।</p><form data-health-form="pain-regions"><div class="pain-region-options">${[["neck","ঘাড়"],["left-shoulder","বাম কাঁধ"],["right-shoulder","ডান কাঁধ"],["chest","বুক"],["abdomen","পেট"],["lower-back","কোমর"],["left-hip","বাম নিতম্ব"],["right-hip","ডান নিতম্ব"],["left-knee","বাম হাঁটু"],["right-knee","ডান হাঁটু"],["left-ankle","বাম গোড়ালি"],["right-ankle","ডান গোড়ালি"]].map(([id,label])=>`<label><input type="checkbox" name="regions" value="${id}">${label}</label>`).join("")}</div><label class="form-field"><span>ব্যথার মাত্রা: <output data-region-pain-output>0/১০</output></span><input type="range" name="regionScore" min="0" max="10" value="0"></label><button class="button-primary">ব্যথার স্থান সংরক্ষণ</button></form></section><section class="health-card"><p class="eyebrow">03 · BASDAI</p><h3>BASDAI মূল্যায়ন</h3><p class="health-note">গত ৭ দিনের অভিজ্ঞতা অনুযায়ী প্রতিটি প্রশ্নের উত্তর দিন।</p><form data-health-form="basdai">${formFields(basdaiFields, basdaiToday?.inputs || {})}<button class="button-primary">BASDAI স্কোর হিসাব করুন</button></form><p class="health-note">স্কোর = প্রথম ৪টি উত্তরের যোগফল এবং শেষ ২টির গড়ের যোগফল, ৫ দিয়ে ভাগ। এটি চিকিৎসার সিদ্ধান্ত নিজে নেওয়ার উপায় নয়।</p>${list(basdai)}</section>
   <section class="health-card"><p class="eyebrow">03 · ASDAS-CRP</p><h3>ASDAS-CRP মূল্যায়ন</h3><p class="health-note">উপসর্গের স্কোরের সঙ্গে একই সময়ের CRP রিপোর্টের মান দিন। CRP-এর একক অবশ্যই mg/L হতে হবে।</p><form data-health-form="asdas">${formFields(asdasFields, asdasToday?.inputs || [])}<label class="form-field"><span>CRP (mg/L)</span><input type="number" name="crp" min="0" step="0.1" required placeholder="যেমন 5.2" value="${asdasToday ? esc(asdasToday.crp) : ""}"></label><button class="button-primary">ASDAS-CRP হিসাব করুন</button></form><p class="health-note">প্রচলিত সীমা: ১.৩-এর নিচে নিষ্ক্রিয়; ১.৩–২.১-এর কম মাঝারি; ২.১–৩.৫ উচ্চ; ৩.৫-এর বেশি অত্যন্ত উচ্চ।</p>${list(asdas)}</section>
-  <section class="health-card"><p class="eyebrow">04 · HEALTH TIMELINE</p><h3>স্বাস্থ্য-ঘটনার টাইমলাইন</h3><form data-health-form="event"><label class="form-field"><span>ঘটনা</span><input name="title" maxlength="80" required placeholder="যেমন: ডাক্তার দেখানো, ব্যথা বেড়েছে"></label><label class="form-field"><span>তারিখ</span><input type="date" name="date" value="${today}" required></label><label class="form-field"><span>নোট</span><textarea name="note" rows="2" maxlength="500"></textarea></label><button class="button-primary">টাইমলাইনে যোগ করুন</button></form><ul class="health-history">${events.length ? events.map(x => `<li><span><strong>${esc(x.title)}</strong><small>${esc(x.date)} · ${esc(x.note || "")}</small></span><button type="button" class="icon-button" data-delete-health="${esc(x.id)}" aria-label="মুছুন">×</button></li>`).join("") : "<li>এখনো কোনো ঘটনা যোগ করা হয়নি।</li>"}</ul></section>
-  <section class="health-card"><p class="eyebrow">05 · PERSONAL PLAN</p><h3>ফ্লেয়ার হলে আমার পরিকল্পনা</h3><p class="health-note">চিকিৎসকের দেওয়া নির্দেশনা লিখে রাখুন। অ্যাপ নিজে থেকে ওষুধ বা ডোজ নির্ধারণ করে না।</p><form data-health-form="flare"><label class="form-field"><span>সতর্ক লক্ষণ</span><textarea name="warningSigns" rows="2" maxlength="1000">${esc(state.flarePlan.warningSigns)}</textarea></label><label class="form-field"><span>করণীয়</span><textarea name="actions" rows="3" maxlength="2000">${esc(state.flarePlan.actions)}</textarea></label><label class="form-field"><span>কাকে যোগাযোগ করব</span><textarea name="contacts" rows="2" maxlength="1000">${esc(state.flarePlan.contacts)}</textarea></label><button class="button-primary">পরিকল্পনা সংরক্ষণ</button></form></section>
   <p class="health-disclaimer">এই ডায়েরি ব্যক্তিগত পর্যবেক্ষণের জন্য; এটি রোগ নির্ণয়, চিকিৎসা বা জরুরি পরামর্শের বিকল্প নয়।</p>`;
 }
 
@@ -70,12 +67,7 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
         const score = 0.12*v[0]+0.06*v[1]+0.11*v[2]+0.07*v[3]+0.58*Math.log(crp+1);
         return { ...state, healthScores: { ...state.healthScores, asdas: [...state.healthScores.asdas.filter(item => item.date !== today), { id: state.healthScores.asdas.find(item => item.date === today)?.id || crypto.randomUUID(), date: today, inputs: v, crp, score: Number(score.toFixed(2)) }].sort((a,b) => a.date.localeCompare(b.date)) } };
       }
-      if (type === "event") {
-        const title = String(data.get("title") || "").trim();
-        if (!title) return state;
-        return { ...state, healthEvents: [...state.healthEvents, { id: crypto.randomUUID(), title, date: String(data.get("date")), note: String(data.get("note") || "") }] };
-      }
-      return { ...state, flarePlan: { warningSigns: String(data.get("warningSigns") || ""), actions: String(data.get("actions") || ""), contacts: String(data.get("contacts") || "") } };
+      return state;
     });
     showToast("তথ্য সংরক্ষণ হয়েছে।", "success");
   }
@@ -83,16 +75,9 @@ export function initHealth({ root = document.querySelector('[data-page-panel="he
     const el = event.target;
     if (el.type === "range") { const out = el.parentElement.querySelector("output") || content.querySelector("[data-region-pain-output]"); if (out) out.textContent = el.value + "/১০"; }
   }
-  function click(event) {
-    const button = event.target.closest("[data-delete-health]");
-    if (!button) return;
-    updateState(state => ({ ...state, healthEvents: state.healthEvents.map(x => x.id === button.dataset.deleteHealth ? { ...x, deletedAt: new Date().toISOString() } : x) }));
-    showToast("ঘটনা মুছে ফেলা হয়েছে।", "success");
-  }
   content.addEventListener("submit", submit);
   content.addEventListener("input", input);
-  content.addEventListener("click", click);
   draw();
   const unsubscribe = subscribe(draw);
-  return () => { unsubscribe(); content.removeEventListener("submit", submit); content.removeEventListener("input", input); content.removeEventListener("click", click); };
+  return () => { unsubscribe(); content.removeEventListener("submit", submit); content.removeEventListener("input", input); };
 }
