@@ -10,9 +10,9 @@ export function initOverview({ root = document.querySelector("[data-overview-con
   function click(event) {
     const button = event.target.closest("[data-med-status][data-med-id]");
     if (!button) return;
-    const { medId, medStatus } = button.dataset;
-    updateState(state => setMedicationStatus(state, medId, medStatus, dateKey()));
-    showToast(medStatus === "taken" ? "আজকের ওষুধ গ্রহণ হিসেবে সংরক্ষিত হয়েছে।" : "আজকের ওষুধ না-খাওয়া হিসেবে সংরক্ষিত হয়েছে।", "success");
+    const { medId, medStatus, medDose } = button.dataset;
+    updateState(state => setMedicationStatus(state, medId, medDose, medStatus, dateKey()));
+    showToast(medStatus === "taken" ? "এই ডোজ গ্রহণ হিসেবে সংরক্ষিত হয়েছে।" : "এই ডোজ না-খাওয়া হিসেবে সংরক্ষিত হয়েছে।", "success");
   }
   root.addEventListener("click", click);
   draw();
