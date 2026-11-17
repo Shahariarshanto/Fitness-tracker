@@ -62,9 +62,9 @@ Health information is sensitive. The current single-user endpoint has no login o
 
 
 ### Medication records
-- Medication definitions are stored in `medication.items` with user-entered name, dose text, schedule, optional local time, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
-- Daily adherence is stored under `medication.dailyLogs[YYYY-MM-DD][medicationId]`. Each medicine has at most one status per date; changing the status updates that same date/medicine entry.
-- Status values are `taken` or `skipped`; absence means not yet recorded. Archiving sets `active: false` and retains prior daily logs for history.
+- Medication definitions are stored in `medication.items` with user-entered name, dose text, `doseCount` (1–4), `doseSlots` (label and optional time per dose), schedule, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
+- Daily adherence is stored under `medication.dailyLogs[YYYY-MM-DD][medicationId].doses[doseId]`. Each scheduled dose has an independent status, so one dose can be marked taken while another remains pending or is marked skipped.
+- Status values are `taken` or `skipped`; absence means not yet recorded. Overview and Health medication management use the same per-dose service and records. Archiving sets `active: false` and retains prior daily logs for history.
 - Medication records remain local. Automatic notifications are not part of Step 5.
 
 
