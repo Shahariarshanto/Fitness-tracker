@@ -1,6 +1,5 @@
 import { subscribe } from "../../core/state.js";
 import { showToast, createConfirmDialog } from "../../components/Feedback.js";
-import { createBackup, parseBackupText, restoreBackup, backupFileName } from "../../services/backup.js";
 import { signUp, login, logout, getAuthUser } from "../../services/auth.js";
 import { refreshCloudData } from "../../services/cloudflare.js";
 import { renderPreferences, savePreference } from "./Preferences.js";
@@ -75,33 +74,43 @@ export function initSettings({ root = document.querySelector('[data-page-panel="
     }
     if (event.target.closest("[data-backup-export]")) {
       try {
-        const file = new Blob([JSON.stringify(createBackup(), null, 2)], { type: "application/json" });
+        const state = (await import("../../core/state.js")).getState();
+        const labels = {
+          preferences:"পছন্দ ও সেটিংস", movement:"ব্যায়ামের পছন্দ", dailyActivity:"দৈনিক ব্যায়াম", painLogs:"ব্যথার রেকর্ড",
+          painRegionLogs:"শরীরের ব্যথার স্থান", medication:"ওষুধ", symptoms:"দৈনিক উপসর্গ", healthScores:"স্বাস্থ্য মূল্যায়ন",
+          healthEvents:"স্বাস্থ্য-সংক্রান্ত ঘটনা", flarePlan:"ফ্লেয়ার পরিকল্পনা", workoutSessions:"ব্যায়াম সেশন"
+        };
+        const escape = value => String(value ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c]);
+        const humanize = value => String(value).replace(/([A-Z])/g, " $1").replace(/[_-]/g, " ").replace(/^./, c => c.toUpperCase());
+        const renderValue = value => {
+          if (value === null || value === undefined || value === "") return '<span class="empty">তথ্য নেই</span>';
+          if (typeof value === "boolean") return value ? "হ্যাঁ" : "না";
+          if (typeof value !== "object") return escape(value);
+          if (Array.isArray(value)) {
+            if (!value.length) return '<span class="empty">কোনো রেকর্ড নেই</span>';
+            return '<div class="records">' + value.map((item,index) => '<article class="record"><h4>রেকর্ড ' + (index+1) + '</h4>' + renderValue(item) + '</article>').join("") + '</div>';
+          }
+          const entries = Object.entries(value);
+          if (!entries.length) return '<span class="empty">কোনো তথ্য নেই</span>';
+          return '<dl>' + entries.map(([key,item]) => '<div class="field"><dt>' + escape(humanize(key)) + '</dt><dd>' + renderValue(item) + '</dd></div>').join("") + '</dl>';
+        };
+        const sections = Object.entries(state).map(([key,value]) => '<section class="section"><h2>' + escape(labels[key] || humanize(key)) + '</h2>' + renderValue(value) + '</section>').join("");
+        const exportedAt = new Date().toLocaleString("bn-BD", { dateStyle:"long", timeStyle:"short" });
+        const html = '<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AS Care — আমার স্বাস্থ্য ডেটা</title><style>' +
+          ' *{box-sizing:border-box}body{margin:0;background:#f4f7f6;color:#24332f;font:15px/1.65 system-ui,-apple-system,"Noto Sans Bengali",sans-serif}.wrap{max-width:900px;margin:auto;padding:28px 18px 56px}.hero{background:#e5f3ee;border:1px solid #cce5da;border-radius:18px;padding:26px;margin-bottom:20px}.eyebrow{color:#28765a;font-size:12px;font-weight:700;letter-spacing:.08em}.hero h1{font-size:26px;margin:5px 0}.muted,.empty{color:#718079}.section{background:#fff;border:1px solid #e2eae6;border-radius:14px;padding:20px;margin:14px 0;break-inside:avoid}.section h2{font-size:19px;margin:0 0 12px;color:#24694f;border-bottom:1px solid #e8efeb;padding-bottom:9px}.field{display:grid;grid-template-columns:minmax(110px, .8fr) 2fr;gap:12px;padding:8px 0;border-bottom:1px solid #f0f3f1}.field:last-child{border:0}dt{font-weight:650;color:#52645c}dd{margin:0;overflow-wrap:anywhere}.records{display:grid;gap:10px}.record{border:1px solid #e9efec;border-radius:10px;padding:12px}.record h4{margin:0 0 6px;color:#28765a}dl{margin:0}.footer{text-align:center;color:#718079;font-size:12px;padding:18px}@media(max-width:520px){.wrap{padding:14px 10px 36px}.field{grid-template-columns:1fr;gap:2px}.hero h1{font-size:22px}}@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero,.section{box-shadow:none;break-inside:avoid}.section{border-color:#ddd}}' +
+          '</style></head><body><main class="wrap"><header class="hero"><div class="eyebrow">AS CARE · PERSONAL HEALTH RECORD</div><h1>আমার স্বাস্থ্য ও যত্নের তথ্য</h1><p class="muted">এক্সপোর্টের সময়: ' + escape(exportedAt) + '</p><p>এই রিপোর্টে অ্যাপে সংরক্ষিত আপনার স্বাস্থ্য, ওষুধ, ব্যায়াম ও অগ্রগতির তথ্য রয়েছে।</p></header>' + sections + '<footer class="footer">তৈরি হয়েছে AS Care অ্যাপ থেকে · এই ফাইলটি ব্যক্তিগতভাবে সংরক্ষণ করুন</footer></main></body></html>';
+        const file = new Blob([html], { type:"text/html;charset=utf-8" });
         const url = URL.createObjectURL(file);
-        const link = document.createElement("a"); link.href = url; link.download = backupFileName();
+        const link = document.createElement("a"); link.href = url; link.download = "as-care-health-report-" + new Date().toISOString().slice(0,10) + ".html";
         document.body.appendChild(link); link.click(); link.remove();
         window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-        showToast("JSON ব্যাকআপ ডাউনলোড শুরু হয়েছে।", "success");
-      } catch (error) { showToast("ব্যাকআপ তৈরি করা যায়নি। " + error.message, "error"); }
+        showToast("আপনার ডেটা রিপোর্ট ডাউনলোড শুরু হয়েছে।", "success");
+      } catch (error) { showToast("ডেটা এক্সপোর্ট করা যায়নি। " + error.message, "error"); }
       return;
     }
-    if (event.target.closest("[data-backup-choose]")) content.querySelector("[data-backup-file]")?.click();
-  }
-
-  async function importBackup(input) {
-    const file = input.files?.[0];
-    if (!file) return;
-    try {
-      const payload = parseBackupText(await file.text());
-      const confirmed = await createConfirmDialog({ title: "ব্যাকআপ পুনরুদ্ধার করবেন?", message: "এতে বর্তমান অ্যাপের সব তথ্য ব্যাকআপ ফাইলের তথ্য দিয়ে প্রতিস্থাপিত হবে। আগে বর্তমান তথ্যের ব্যাকআপ রাখা আছে কি না নিশ্চিত করুন।", confirmLabel: "পুনরুদ্ধার করুন" });
-      if (!confirmed) return;
-      restoreBackup(payload); showToast("ব্যাকআপের তথ্য পুনরুদ্ধার হয়েছে।", "success");
-    } catch (error) { showToast("ব্যাকআপ পুনরুদ্ধার করা যায়নি। " + error.message, "error"); }
-    finally { input.value = ""; }
   }
 
   function handleChange(event) {
-    const fileInput = event.target.closest("[data-backup-file]");
-    if (fileInput) { importBackup(fileInput); return; }
     const control = event.target.closest("[data-preference]");
     if (!control) return;
     const value = control.type === "checkbox" ? control.checked : control.value;
