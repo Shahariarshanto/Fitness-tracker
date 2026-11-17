@@ -13,6 +13,31 @@ const POSE_ART = {
 };
 
 function poseIllustration(position, exerciseId) {
+  if (exerciseId === "a1") {
+    return `<div class="movement-guide-visual movement-guide-animation movement-guide-breathing" role="img" aria-label="গভীর শ্বাস নেওয়া ও ছাড়ার 2D অ্যানিমেশন">
+      <svg class="breathing-art" viewBox="0 0 160 160" aria-hidden="true">
+        <defs>
+          <linearGradient id="breathBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-strong,var(--accent))"/></linearGradient>
+        </defs>
+        <circle class="breath-halo" cx="80" cy="76" r="53"/>
+        <circle class="breath-orbit" cx="80" cy="76" r="43"/>
+        <g class="breath-person">
+          <circle cx="80" cy="29" r="12" fill="#E9B99A"/>
+          <path d="M69 26Q70 13 82 15Q93 16 92 28Q84 22 69 26" fill="#344256"/>
+          <path d="M68 47Q80 40 92 47L101 91Q81 101 59 91Z" fill="url(#breathBody)" opacity=".94"/>
+          <path d="M68 51Q56 60 63 79L76 85" fill="none" stroke="#E9B99A" stroke-width="7" stroke-linecap="round"/>
+          <path d="M92 51Q104 60 97 79L84 85" fill="none" stroke="#E9B99A" stroke-width="7" stroke-linecap="round"/>
+          <path d="M76 85Q80 89 84 85" fill="none" stroke="#E9B99A" stroke-width="6" stroke-linecap="round"/>
+          <path d="M62 93L55 119M98 93L105 119" stroke="#344256" stroke-width="9" stroke-linecap="round"/>
+          <path d="M55 119H105" stroke="#344256" stroke-width="8" stroke-linecap="round"/>
+          <path d="M68 65Q80 71 92 65" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M70 76Q80 82 90 76" fill="none" stroke="#E9B99A" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <g class="breath-pulse"><path d="M24 69Q15 76 24 83M136 69Q145 76 136 83" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></g>
+        <text x="80" y="145" text-anchor="middle" class="breath-label">BREATHE</text>
+      </svg>
+    </div>`;
+  }
   const art = POSE_ART[position?.id] || POSE_ART.standing;
   return `<div class="movement-guide-visual movement-guide-animation" data-exercise-animation="${esc(exerciseId)}" role="img" aria-label="${esc(art.label)} ভঙ্গিতে ব্যায়ামের অ্যানিমেশন">
     <span class="movement-animation-loading" aria-hidden="true">2D</span>
