@@ -30,7 +30,13 @@ export function initMedication({ root = document.querySelector("[data-medication
     updateState(state => {
       const items = state.medication.items || [];
       if (mode === "edit") {
-        return { ...state, medication: { ...state.medication, items: items.map(item => item.id === id ? { ...item, ...values, updatedAt: new Date().toISOString() } : item) } };
+        const dailyLogs = Object.fromEntries(Object.entries(state.medication.dailyLogs || {}).map(([date, day]) => {
+          const entry = day[id];
+          if (!entry?.doses) return [date, day];
+          const doses = Object.fromEntries(Object.entries(entry.doses).filter(([doseId]) => Number(doseId.replace("dose", "")) <= doseCount));
+          return [date, { ...day, [id]: { ...entry, doses } }];
+        }));
+        return { ...state, medication: { ...state.medication, items: items.map(item => item.id === id ? { ...item, ...values, updatedAt: new Date().toISOString() } : item), dailyLogs } };
       }
       return { ...state, medication: { ...state.medication, items: [...items, { id: crypto.randomUUID(), ...values, active: true, createdAt: new Date().toISOString() }] } };
     });
