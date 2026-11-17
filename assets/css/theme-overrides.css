@@ -116,6 +116,7 @@ input[type="range"] {
 .chart-goal-line i { background: var(--chart-goal); }
 
 /* Movement exercise guide and animation stage. Preserve illustration artwork. */
+.movement-detail-card.is-cat-camel-sample { background: var(--guide-card); }
 .movement-detail-card {
   --guide-blue: var(--brand-primary);
   --guide-blue-deep: var(--accent);
@@ -129,7 +130,7 @@ input[type="range"] {
 }
 .movement-guide-topbar,
 .is-cat-camel-sample .movement-guide-topbar {
-  background: linear-gradient(112deg, var(--accent), color-mix(in srgb, var(--brand-primary) 75%, #16443F));
+  background: linear-gradient(112deg, var(--guide-topbar-start), var(--guide-topbar-end));
 }
 .movement-guide-visual,
 .is-cat-camel-sample .movement-guide-visual {
@@ -142,7 +143,7 @@ input[type="range"] {
   color: var(--accent);
   background: color-mix(in srgb, var(--surface) 70%, transparent);
 }
-.movement-guide-step { background: linear-gradient(145deg, var(--brand-primary), var(--accent)); }
+.movement-guide-step { background: linear-gradient(145deg, var(--guide-topbar-start), var(--guide-topbar-end)); }
 .movement-guide-instruction strong { color: var(--accent); }
 .movement-guide-instruction p { color: var(--text); }
 .movement-guide-meta > div {
