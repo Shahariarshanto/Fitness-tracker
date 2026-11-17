@@ -111,7 +111,7 @@ Movement uses the existing `dailyActivity` and `workoutSessions` state domains. 
 
 **Known content mismatch:** catalogue item c3 is listed as a hands-and-knees thoracic rotation, while its animation label/pose depicts a lying Open Book movement. Do not treat the animation as confirmation of the prescribed position; this needs a deliberate content/clinical correction.
 
-**Timer limitation:** e1 (Brisk Walking) and e2 (Movement Break) have `durationSeconds: 0`; the guided-session clock therefore starts at zero for these records even though their instructions describe 30-minute and 2-minute activities.
+**Timer limitation:** e1 (Brisk Walking) and e2 (Movement Break) have `durationSeconds: 0`; the guided session has no per-exercise countdown for these records; it now displays `নির্দেশনা অনুযায়ী` while the overall session elapsed time continues.
 
 
 ## Step 7 — Insights feature

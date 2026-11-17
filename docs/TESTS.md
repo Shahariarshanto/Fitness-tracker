@@ -187,7 +187,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Guided-session records match the actual event contract in `EVENTS.md`.
 - [x] `RUNTIME_MODULES` and `CLASSIC_RUNTIME` are combined into `PRECACHE_ASSETS`, and install uses `cache.addAll(PRECACHE_ASSETS)`; all declared asset paths were checked against the repository tree.
 - [ ] Verify in a real browser that installation succeeds, every imported module is served from cache offline, and a new version replaces the old cache.
-- [ ] e1/e2 zero-duration guided-session behavior is explicitly tested and resolved before treating those activities as timer-supported.
+- [ ] e1/e2 show `নির্দেশনা অনুযায়ী` rather than `0s`; elapsed session time continues to accumulate without inventing a per-exercise countdown.
 - [ ] c3 catalogue position, instruction, animation pose and caption are reconciled after appropriate content/clinical review.
 
 ### Browser checks
@@ -203,7 +203,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Timer, pause/resume, previous, next, skip and finish controls work.
 - [ ] Session completion updates only completed exercises in daily activity.
 - [ ] Session history appears after finishing and persists after reload.
-- [ ] e1/e2 are not presented as normal timed exercises while their duration is zero.
+- [ ] e1/e2 display `নির্দেশনা অনুযায়ী` and do not change back to `0s` while the session runs.
 
 ### Device/PWA checks
 - [ ] Movement layout fits narrow Android screens without horizontal overflow.

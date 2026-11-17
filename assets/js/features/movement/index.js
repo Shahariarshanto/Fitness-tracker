@@ -34,8 +34,11 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     tick=setInterval(()=>{
       if (!session || session.paused || session.finished) return;
       const now=Date.now(),delta=(now-last)/1000;session.elapsed+=delta;last=now;
-      session.remainingMs=Math.max(0,session.remainingMs-delta*1000);session.remaining=Math.ceil(session.remainingMs/1000);
-      const clock=root.querySelector("[data-session-clock]");if(clock)clock.textContent=session.remaining+"s";
+      const currentItem=EXERCISES.find(item=>item.id===session.exerciseIds[session.index]);
+      if(currentItem?.durationSeconds>0){
+        session.remainingMs=Math.max(0,session.remainingMs-delta*1000);session.remaining=Math.ceil(session.remainingMs/1000);
+        const clock=root.querySelector("[data-session-clock]");if(clock)clock.textContent=session.remaining+"s";
+      }
     },250);
   }
   function finish() {
