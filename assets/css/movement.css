@@ -945,3 +945,5 @@
 @media(prefers-reduced-motion:reduce){
   .movement-detail-actions .movement-detail-complete{transition:none}
 }
+
+.movement-exercise-tools.is-timer-only{grid-template-columns:minmax(0,1fr)}
