@@ -90,7 +90,7 @@ Medication management is mounted as a dedicated section inside the Health tab, p
 | `assets/js/features/movement/index.js` | Owns Movement interactions, date-scoped checklist completion, guided-session timer/actions, and session persistence | core state, dates, events, Feedback, exercise data, Movement renderers | Owns `data-movement-content`; subscribes to state |
 | `assets/js/features/movement/Checklist.js` | Renders exercise groups, daily completion controls and session-selection checkboxes | exercise data, dates | Pure rendering |
 | `assets/js/features/movement/ExerciseDetails.js` | Renders bilingual instruction details and body-region references with clinical-review warning | exercise and body-region data | Pure rendering |
-| `assets/js/features/movement/ExerciseAnimation.js` | Starts the selected ASAN pose; currently also imports legacy SVG animation factories | legacy animation factory modules | Calls global `window.ASAN.mountAll()`; legacy `getExerciseAnimation()` has no known caller |
+| `assets/js/features/movement/ExerciseAnimation.js` | Starts the selected ASAN pose for the opened exercise detail | global `window.ASAN` engine | Calls `window.ASAN.mountAll()`; no legacy SVG factory imports remain |
 | `assets/js/features/movement/BodyMap.js` | Renders selectable body-region controls and related exercise mapping | exercise and body-region data | Pure rendering |
 | `assets/js/features/movement/GuidedSession.js` | Renders guided-session controls, timer display, completion state and recent history | exercise data | Pure rendering |
 | `assets/css/movement.css` | Responsive Movement-specific layout and controls | design tokens/components | Styles only |
@@ -99,7 +99,7 @@ Movement uses the existing `dailyActivity` and `workoutSessions` state domains. 
 
 | Module | Responsibility | Loading/ownership |
 |---|---|---|
-| `assets/js/features/movement/ExerciseAnimation.js` | Starts the ASAN animation for the selected exercise ID; also retains legacy SVG factory imports and `getExerciseAnimation()`. | Imported by Movement entry; calls the global ASAN engine. The legacy factory output has no known caller in the current app, but its imports remain present and need a separate reference/cleanup review. |
+| `assets/js/features/movement/ExerciseAnimation.js` | Starts the ASAN animation for the selected exercise ID. | Imported by Movement entry; calls the global ASAN engine. It no longer imports legacy SVG factories. |
 | `asan_01_engine_a1.js` | Shared animation engine and pose a1 (Deep Breathing). | Classic script loaded by `index.html` before the module bootstrap. |
 | `asan_02_neck_shoulder.js` | Poses b1–b5. | Classic script loaded by `index.html`. |
 | `asan_03_spine.js` | Poses c1–c5. | Classic script loaded by `index.html`. |
