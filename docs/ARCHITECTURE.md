@@ -34,7 +34,7 @@ Only these event categories are approved:
 - `toast:show`
 - `theme:changed`
 
-Movement routine selection, completion and inline exercise controls use shared state and local feature behavior, not custom events. Adding another event requires an explicit architecture reason and plan update. Prefer state subscriptions.
+Movement's all-exercise library, date-scoped completion and inline stopwatch/counter controls use shared state and local feature behavior, not custom events. Adding another event requires an explicit architecture reason and plan update. Prefer state subscriptions.
 
 ## 6. Module size and composition
 Target 40–50 application/runtime files. Aim for ≤150 lines per ordinary functional module and <100 lines for final `app.js`. Combine related single-use UI/services/data definitions. Split modules only along cohesive responsibility boundaries.
