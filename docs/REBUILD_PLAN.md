@@ -141,8 +141,8 @@ The canonical app state covers the data actually used by the application. Expect
 | Medication | Medicine details, schedule, taken status and history |
 | Symptoms | Stiffness, night mobility, fatigue and sleep |
 | Health scores | BASDAI/ASDAS inputs, results and history |
-| Health events | Flares and other relevant health events |
-| Flare plan | User-editable action plan |
+| Health tracking | Daily symptoms, pain locations, BASDAI and ASDAS-CRP assessments/history |
+| Compatibility-only state | `healthEvents` and `flarePlan` remain required by the current Worker and backup schema; no user-facing Health sections |
 | Sessions | Start/end, duration and completed/skipped exercises |
 
 ### Persistence rules
@@ -205,8 +205,9 @@ Work in small, reviewable steps. Before changing code, inspect the current imple
 
 - Symptom journal and history.
 - BASDAI and ASDAS input, calculation, result and history.
-- Health events.
-- Editable flare plan.
+- Daily symptom check-in and pain-location records.
+- BASDAI and ASDAS-CRP assessment, calculation and dated history.
+- Medication management is implemented separately in Step 5 and mounted within Health.
 
 **Verification:** data entry/history work, calculations match known test cases, incomplete inputs are handled safely.
 
@@ -413,7 +414,7 @@ This document describes the intended architecture and acceptance criteria; it do
 ### Current repository snapshot (2026-11-17)
 
 - The modular application is the active runtime; `assets/js/bootstrap.js` is imported from `index.html`.
-- The current feature set includes Overview, Movement, Insights, Health, Medication and Settings.
+- The current feature set includes Overview, Movement, Insights, Health, Medication and Settings. Health contains Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and Medication Management. The former Health Timeline and Personal Flare Plan UI were removed; their schema fields remain only for Worker/backup compatibility.
 - Movement has 24 catalogue entries and 24 custom ASAN pose IDs, defined across the shared engine and six classic pose scripts loaded from `index.html`.
 - The Movement detail card now uses a compact responsive animation stage with per-exercise Bengali captions. The related layout and mobile readability refinements are present in `ExerciseDetails.js` and `movement.css`.
 - The catalogue is still marked `legacy-reference-unreviewed`; the animations are illustrative and do not constitute clinical approval.
@@ -421,7 +422,7 @@ This document describes the intended architecture and acceptance criteria; it do
 - The Movement feature now uses a count-up stopwatch inside Exercise Details. It does not use catalogue `durationSeconds` values as a countdown because the exercise timing/dosage semantics remain unreviewed.
 - Other catalogue durations also differ from the arithmetic implied by their repetition instructions (b1–b4, c5, d1, f1, f3 and f5 are listed in `TESTS.md`). Do not normalize them until the meaning of `durationSeconds` (hold/activity/rest/transition total) is defined and the exercise dosage is reviewed.
 - The service worker combines `CORE_SHELL`, `CLASSIC_RUNTIME` and `RUNTIME_MODULES` into `PRECACHE_ASSETS` and uses `cache.addAll()` during install. The six classic ASAN scripts and active ES-module graph are included; obsolete SVG factory imports have now been removed from `ExerciseAnimation.js`. Repository-path validation passed; real browser install/offline verification is still pending.
-- Confirmed orphan cleanup removed 57 files: 24 unused legacy SVG animation factories, 25 unreferenced Lottie JSON files (including `default.json`, which shared the exact blob SHA/content with `a1.json`), six unreachable exercise illustrations, the unreferenced navigation fallback module and the unused Lottie runtime. The Lottie license notice is retained. The old monolithic `assets/js/app.js` and unreferenced `assets/css/app.css` remain intentionally untouched pending a separate legacy-reference decision.
+- Confirmed orphan cleanup removed 57 earlier files: 24 unused legacy SVG animation factories, 25 unreferenced Lottie JSON files (including `default.json`, which shared the exact blob SHA/content with `a1.json`), six unreachable exercise illustrations, the unreferenced navigation fallback module and the unused Lottie runtime. The Lottie license notice is retained. A later reference audit removed unlinked `assets/css/app.css`; the old monolithic `assets/js/app.js` remains only as an inactive functional reference pending a separate cutover decision.
 - A Node built-in static validator now runs through GitHub Actions on pull requests and before Pages deployment. It checks local imports/assets, precache coverage, exercise/group IDs, ASAN pose mapping, captions and Movement routine/inline-control behavior. It does not test rendering or runtime behavior.
 - Documentation and source inspection are not live browser/device verification. Android rendering, desktop interaction, offline startup and clinical review remain pending.
 
