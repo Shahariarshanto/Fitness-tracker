@@ -90,6 +90,7 @@ Medication management is mounted as a dedicated section inside the Health tab, p
 | `assets/js/features/movement/index.js` | Owns Movement interactions, date-scoped checklist completion, guided-session timer/actions, and session persistence | core state, dates, events, Feedback, exercise data, Movement renderers | Owns `data-movement-content`; subscribes to state |
 | `assets/js/features/movement/Checklist.js` | Renders exercise groups, daily completion controls and session-selection checkboxes | exercise data, dates | Pure rendering |
 | `assets/js/features/movement/ExerciseDetails.js` | Renders bilingual instruction details and body-region references with clinical-review warning | exercise and body-region data | Pure rendering |
+| `assets/js/features/movement/ExerciseAnimation.js` | Starts the selected ASAN pose; currently also imports legacy SVG animation factories | legacy animation factory modules | Calls global `window.ASAN.mountAll()`; legacy `getExerciseAnimation()` has no known caller |
 | `assets/js/features/movement/BodyMap.js` | Renders selectable body-region controls and related exercise mapping | exercise and body-region data | Pure rendering |
 | `assets/js/features/movement/GuidedSession.js` | Renders guided-session controls, timer display, completion state and recent history | exercise data | Pure rendering |
 | `assets/css/movement.css` | Responsive Movement-specific layout and controls | design tokens/components | Styles only |
