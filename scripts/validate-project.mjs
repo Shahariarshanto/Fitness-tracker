@@ -45,6 +45,15 @@ function walk(dir) {
 
 // 1. HTML entry points and stylesheets.
 const html = read("index.html");
+if (html.includes('class="welcome"') ||
+    html.includes("প্রতিদিনের যত্ন, নিজের গতিতে") ||
+    html.includes("নড়াচড়া, উপসর্গ ও সুস্থতার অগ্রগতি এক জায়গায় রাখুন")) {
+  fail("The oversized global welcome/hero section must be removed from every tab");
+} else pass("Global welcome/hero section removed");
+if (!html.includes('class="brand-tagline">Your Personal AXSpA Companion</span>') ||
+    !html.includes('class="brand-group"')) {
+  fail("Compact app tagline must appear directly under the logo");
+} else pass("Compact app tagline appears under the logo");
 const htmlRefs = [
   ...[...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)].map(m => m[1]),
   ...[...html.matchAll(/<link\b[^>]*\bhref=["']([^"']+)["']/gi)].map(m => m[1])
