@@ -123,7 +123,7 @@ if (duplicatePoses.length || missingPoses.length || extraPoses.length) {
 } else pass("All 24 exercise IDs have exactly one ASAN pose");
 
 const details = read("assets/js/features/movement/ExerciseDetails.js");
-const labelsBlock = details.match(/const animationLabels\s*=\s*\{([\s\S]*?)\n  \};/);
+const labelsBlock = details.match(/const animationLabels\s*=\s*\{([\s\S]*?)\};/);
 const labelIds = labelsBlock ? [...labelsBlock[1].matchAll(/(?:^|,)\s*([a-z]\d+)\s*:/g)].map(m => m[1]) : [];
 const missingLabels = exerciseIds.filter(id => !labelIds.includes(id));
 if (missingLabels.length) fail(`Missing Bengali animation captions for: ${missingLabels.join(", ")}`);
