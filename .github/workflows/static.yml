@@ -22,3 +22,5 @@ jobs:
         run: node scripts/validate-project.mjs
       - name: Test Worker authentication, user isolation and sync
         run: node scripts/test-worker-sync.mjs
+      - name: Test movement catalogue, guides, timers and completion rendering
+        run: node scripts/test-movement.mjs
