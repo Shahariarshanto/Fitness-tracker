@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { EXERCISES, EXERCISE_POSITIONS } from "../assets/js/data/exercises.js";
 import { formatElapsedTime } from "../assets/js/features/movement/MovementLogic.js";
@@ -61,6 +62,15 @@ assert.doesNotMatch(detail, /40 সেকেন্ড/);
 const untimedDetail = renderExerciseDetails("e1", {});
 assert.doesNotMatch(untimedDetail, /data-repetition-action/);
 assert.match(untimedDetail, /movement-exercise-tools is-timer-only/);
+
+const movementCss = readFileSync(new URL("../assets/css/movement.css", import.meta.url), "utf8");
+const detailCss = movementCss.slice(movementCss.lastIndexOf("/* Exercise detail controls — consolidated mobile-first styles. */"));
+assert.ok(detailCss.includes(".movement-guide-instruction p{") && detailCss.includes("color:#352d40"));
+assert.ok(detailCss.includes(".movement-counter-controls output{") && detailCss.includes("color:#302344"));
+assert.ok(detailCss.includes("grid-template-columns:repeat(2,minmax(0,1fr))"));
+assert.ok(detailCss.includes('button[data-repetition-action="increase"]'));
+assert.ok(detailCss.includes(".movement-stopwatch-controls button:disabled{") && detailCss.includes("opacity:1"));
+assert.doesNotMatch(movementCss, /Exercise detail polish — compact hierarchy|Compact, calmer exercise detail layout — v2/);
 
 const storage = new Map();
 const legacySnapshot = {

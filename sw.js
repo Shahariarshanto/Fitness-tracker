@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v114";
+const CACHE_NAME = "as-care-shell-v115";
 
 const CORE_SHELL = [
   "./",
@@ -48,7 +48,6 @@ const RUNTIME_MODULES = [
   "./assets/js/features/movement/MovementLogic.js",
   "./assets/js/features/movement/ExerciseDetails.js",
   "./assets/js/features/movement/ExerciseAnimation.js",
-  "./assets/js/features/movement/BodyMap.js",
   "./assets/js/features/insights/index.js",
   "./assets/js/features/insights/Charts.js",
   "./assets/js/features/insights/ScoreTrends.js",
