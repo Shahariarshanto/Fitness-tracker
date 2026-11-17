@@ -20,10 +20,8 @@ export function renderExerciseDetails(id, options = {}) {
   const completionAction = `<button class="button-primary movement-detail-complete" type="button" data-exercise-done="${id}" aria-pressed="${Boolean(options.completed)}">${options.completed ? "সম্পন্ন হয়েছে · Undo" : "ব্যায়াম সম্পন্ন করুন"}</button>`;
   return `<article class="movement-detail-card">
     <header class="movement-guide-topbar">
-      <div class="movement-guide-title">
-        <span class="movement-guide-eyebrow">EXERCISE GUIDE</span>
-        <div class="movement-guide-name-line"><h4>${esc(item.name)}</h4><span class="movement-guide-name-en">${esc(item.nameEn)}</span></div>
-      </div>
+      <span class="movement-guide-eyebrow">EXERCISE GUIDE</span>
+      <strong class="movement-guide-section-title">নির্দেশনা ও অনুশীলন</strong>
     </header>
     ${visual}
     <section class="movement-guide-instruction">
