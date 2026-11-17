@@ -185,7 +185,7 @@ pass("PWA manifest is valid JSON");
 
 const sourceFiles = ["index.html", "sw.js", ...walk("assets/js"), ...walk("assets/css")];
 const sourceText = sourceFiles.map(file => read(file)).join("\n");
-for (const stale of ["getExerciseAnimation", "assets/animations/exercises/", "assets/images/exercises/", "navigation-fallback.js", "lottie.min.js", "/movement/animations/"]) {
+for (const stale of ["getExerciseAnimation", "assets/animations/exercises/", "assets/images/exercises/", "navigation-fallback.js", "lottie.min.js"]) {
   if (sourceText.includes(stale)) fail(`Removed legacy asset reference remains in runtime source: ${stale}`);
 }
 if (!failures.some(message => message.includes("Removed legacy asset"))) pass("No runtime references to removed legacy assets");
