@@ -88,27 +88,16 @@ Medication management is mounted as a dedicated section inside the Health tab, p
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/movement/index.js` | Renders the saved daily routine first; handles routine add/remove, date-scoped completion, inline stopwatch/counter controls and expandable exercise details | core state, dates, Feedback, exercise data, Movement renderers | Owns `data-movement-content`; subscribes to state |
-| `assets/js/features/movement/Checklist.js` | Renders the selected routine with completion checkboxes and the grouped exercise library with add/remove actions | exercise data, dates | Pure rendering |
-| `assets/js/features/movement/ExerciseDetails.js` | Renders the animation, concise instructions, optional manual repetition counter, count-up stopwatch, completion action and clinical-review notice | exercise data, MovementLogic | Pure rendering |
-| `assets/js/features/movement/MovementLogic.js` | Normalizes routine IDs, toggles list membership, calculates routine progress and formats elapsed stopwatch time | none | Pure helpers |
+| `assets/js/features/movement/index.js` | Renders the complete daily exercise library; handles position filters, date-scoped completion, inline stopwatch/counter controls and expandable exercise details | core state, dates, exercise data, Movement renderers and animation adapter | Owns `data-movement-content`; subscribes to state |
+| `assets/js/features/movement/Checklist.js` | Renders all exercises with compact starting-position filters and completion state; no routine selection or checkbox UI | exercise data, dates | Pure rendering |
+| `assets/js/features/movement/ExerciseDetails.js` | Renders the exercise animation, concise instructions, optional manual repetition counter, elapsed-time stopwatch, safety note and completion action | exercise data, MovementLogic | Pure rendering |
+| `assets/js/features/movement/MovementLogic.js` | Formats elapsed stopwatch time | none | Pure helper |
 | `assets/js/features/movement/ExerciseAnimation.js` | Starts the selected ASAN pose for the opened exercise detail | global `window.ASAN` engine | Calls `window.ASAN.mountAll()`; no legacy SVG factory imports remain |
-| `assets/js/features/movement/BodyMap.js` | Renders selectable body-region controls and related exercise mapping inside the collapsed library filter | exercise and body-region data | Pure rendering |
-| `assets/css/movement.css` | Responsive Movement routine, exercise detail and inline control styling | design tokens/components | Styles only |
+| `assets/css/movement.css` | Responsive all-exercise library, high-contrast detail typography, compact side-by-side timer/counter and inline control styling | design tokens/components | Styles only |
 
-Movement uses `movement.routineExerciseIds` for the user's ordered routine and `dailyActivity` for date-scoped completion. Routine changes and completions use the shared state API; no custom Movement events are emitted. The former standalone `GuidedSession.js` module was removed from the active app. Historical `workoutSessions` remain readable by Overview/Insights but the Movement page no longer writes new session records. The exercise catalogue remains legacy reference material with `reviewStatus: "legacy-reference-unreviewed"`; the animations are illustrative custom stick-figure motion, not clinically approved instruction.
+Movement displays all 24 catalogue exercises by default. Starting-position chips filter the visible list; each exercise is completed from its own expanded details and completion is stored against the selected date in `dailyActivity`. There is no routine panel, routine selection, checkbox, search bar, BodyMap module or separate Guided Session. Historical `workoutSessions` remain readable by Overview/Insights but Movement does not create new session records. The exercise catalogue remains legacy reference material with `reviewStatus: "legacy-reference-unreviewed"`; animations are illustrative custom stick-figure motion, not clinically approved instruction.
 
-| Module | Responsibility | Loading/ownership |
-|---|---|---|
-| `assets/js/features/movement/ExerciseAnimation.js` | Starts the ASAN animation for the selected exercise ID. | Imported by Movement entry; calls the global ASAN engine. It no longer imports legacy SVG factories. |
-| `asan_01_engine_a1.js` | Shared animation engine and pose a1 (Deep Breathing). | Classic script loaded by `index.html` before the module bootstrap. |
-| `asan_02_neck_shoulder.js` | Poses b1–b5. | Classic script loaded by `index.html`. |
-| `asan_03_spine.js` | Poses c1–c5. | Classic script loaded by `index.html`. |
-| `asan_04_hip_leg.js` | Poses d1–d5. | Classic script loaded by `index.html`. |
-| `asan_05_daytime.js` | Poses e1–e3. | Classic script loaded by `index.html`. |
-| `asan_06_additional.js` | Poses f1–f5. | Classic script loaded by `index.html`. |
-
-The Exercise Details stopwatch is an elapsed-time helper, not a prescribed countdown. The optional repetition counter is user-operated and does not set a target. Existing catalogue duration and dose metadata remain unreviewed and are not changed or used as a timer target.
+The Exercise Details stopwatch measures elapsed time only; it is not a prescribed countdown. The optional repetition counter is user-operated and does not set a target. Exercise detail text and controls use explicit high-contrast colors; timer and repetition controls share a compact two-column layout on mobile, with the timer using full width when no repetition counter applies.
 
 ## Step 7 — Insights feature
 
