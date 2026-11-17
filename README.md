@@ -1,6 +1,6 @@
 # AS Care
 
-AS Care is a mobile-first personal tracking PWA for people managing routines related to axial spondyloarthritis (AS / axSpA). It helps track movement, medication, symptoms, progress and health records.
+AS Care is a mobile-first personal tracking PWA for people managing routines related to axial spondyloarthritis (AS / axSpA). It helps track a personal movement routine, exercise completion, medication, symptoms, progress and health records.
 
 > **Clinical boundary:** AS Care is a self-monitoring companion, not a diagnostic, prescribing or emergency-care device.
 
