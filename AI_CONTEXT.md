@@ -65,7 +65,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Known mismatch requiring deliberate review: c3 catalogue instructions/position describe hands-and-knees thoracic rotation, while the current animation and caption depict a lying Open Book movement.
 - Known timer limitation: e1 and e2 have `durationSeconds: 0`; their guided-session timer consequently begins at zero even though their written activity durations are 30 minutes and 2 minutes.
 - `sw.js` now combines `CORE_SHELL`, `CLASSIC_RUNTIME` and `RUNTIME_MODULES` into `PRECACHE_ASSETS` and uses that manifest during install. All declared paths were checked against the repository tree; real browser installation and offline behavior remain unverified.
-- The current cleanup audit identified likely orphan candidates, but no such files should be deleted until all runtime, HTML, documentation and external references are checked.
+- A reference audit removed 57 confirmed orphan files: 24 legacy SVG animation factories, 25 unreferenced Lottie JSON files, six unreachable exercise images, the unused navigation-fallback module and the unused Lottie runtime. The Lottie license notice remains. The old `assets/js/app.js` and `assets/css/app.css` were deliberately retained for now.
 - Deployment success and static inspection do not prove that the app has been visually tested on Android, desktop or offline.
 
 Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `docs/REBUILD_PLAN.md`.
