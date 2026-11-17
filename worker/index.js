@@ -36,11 +36,8 @@ async function sha256(value) {
   return bytesToBase64Url(new Uint8Array(digest));
 }
 async function hashPassword(password, salt) {
-  // Cloudflare Workers' WebCrypto runtime rejects PBKDF2 in this deployment.
-  // Use the broadly supported SHA-256 digest API with a per-user random salt.
-  const input = new TextEncoder().encode(`as-care-password-v1:${salt}:${password}`);
-  const digest = await crypto.subtle.digest("SHA-256", input);
-  return bytesToBase64Url(new Uint8Array(digest));
+  // Simple direct password comparison as explicitly requested for this small private app.
+  return password;
 }
 function safeEqual(a, b) {
   if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
