@@ -22,7 +22,7 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <h2>1. Who may use the App</h2>
 <p>You may use the App only where its use is lawful and you are able to agree to these Terms. You are responsible for ensuring that your use complies with applicable laws and any requirements that apply to you.</p>
 <h2>2. Permitted use</h2>
-<p>You may use the App for personal exercise tracking, wellness monitoring, recording information you choose to enter, and creating personal backups. You agree not to misuse the App, interfere with its operation, attempt unauthorized access to systems or accounts, or use it for unlawful purposes.</p>
+<p>You may use the App for personal exercise tracking, wellness monitoring, recording information you choose to enter, and creating readable personal HTML reports. You agree not to misuse the App, interfere with its operation, attempt unauthorized access to systems or accounts, or use it for unlawful purposes.</p>
 <h2>3. No medical advice or emergency service</h2>
 <p>The App may display exercise suggestions, self-reported symptom trends, scores, summaries or reminders. These features are informational only and may be incomplete or inaccurate. They do not diagnose a condition, assess an emergency, recommend a medicine or determine a safe treatment plan.</p>
 <ul>
@@ -32,7 +32,7 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <li>For urgent symptoms or a medical emergency, contact local emergency services or seek immediate medical care.</li>
 </ul>
 <h2>4. Your data and backups</h2>
-<p>Cloudflare D1 is the App's primary data store. The App automatically loads the latest saved state and sends changes to the Cloudflare Worker. The browser retains a temporary cache and pending offline edits. No R2 bucket or scheduled cloud backup is configured. The App provides a manual JSON export; you are responsible for downloading and keeping independent copies. D1 is the primary database, not a backup.</p>
+<p>Cloudflare D1 is the App's primary data store. The App automatically loads the latest saved state and sends changes to the Cloudflare Worker. The browser retains a temporary cache and pending offline edits. No R2 bucket or scheduled cloud backup is configured. The App provides a readable HTML report export for viewing and printing. It is not a restorable backup, and no user-facing import/restore feature is currently available. D1 is the primary database, not a backup.</p>
 <p>Cloud data access requires a valid account session. Each account's state is stored separately and the Worker checks the session on every read/write. Passwords are currently stored as entered and compared directly, not hashed; this is a security limitation made by an explicit product decision. Logout revokes the current session. The persistent token is kept in browser Local Storage; users should protect their devices and use a unique password. Email verification and password reset are not currently available.</p>
 <h2>5. Cloudflare services</h2>
 <p>Cloudflare provides the database and Worker execution infrastructure and is subject to its own applicable terms and privacy policies. </p>
@@ -43,7 +43,7 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 <h2>8. Limitation of liability</h2>
 <p>To the maximum extent permitted by applicable law, the App maintainer will not be liable for indirect, incidental, special or consequential loss, loss of data, or loss arising from reliance on information displayed by the App or interruption of the App or third-party services. Nothing in these Terms excludes liability that cannot lawfully be excluded.</p>
 <h2>9. Suspension or termination</h2>
-<p>You may stop using the App at any time. The App maintainer may restrict or discontinue access where reasonably necessary for security, maintenance, legal compliance or misuse. Your local data and exported JSON copies may remain until you delete them yourself.</p>
+<p>You may stop using the App at any time. The App maintainer may restrict or discontinue access where reasonably necessary for security, maintenance, legal compliance or misuse. Your local data and downloaded HTML report copies may remain until you delete them yourself.</p>
 <h2>10. Governing law</h2>
 <p>These Terms are governed by the laws of Bangladesh, without limiting any mandatory consumer protections that may apply under the laws of your place of residence. Any dispute will be handled by a court with competent jurisdiction, subject to applicable law.</p>
 <h2>11. Contact</h2>
