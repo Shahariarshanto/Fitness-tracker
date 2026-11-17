@@ -260,23 +260,23 @@ if (movementTest.error || movementTest.status !== 0) {
   fail("Movement behavior tests failed: " + (movementTest.stderr?.trim() || movementTest.error?.message || movementTest.stdout?.trim()));
 } else pass("Movement behavior tests passed: full library, position filters, completion, stopwatch and counter");
 
-// 4. Settings backup workflow and manifest validation.
+// 4. Settings data export validation.
 const settingsMarkup = read("assets/js/features/settings/Preferences.js");
 const settingsRuntime = read("assets/js/features/settings/index.js");
-const backupService = read("assets/js/services/backup.js");
-if (!settingsRuntime.includes('from "../../services/backup.js"') ||
-    !["createBackup", "parseBackupText", "restoreBackup", "backupFileName"].every(name => settingsRuntime.includes(name))) {
-  fail("Settings must use the complete JSON backup service");
+if (!settingsMarkup.includes("data-backup-export") ||
+    !settingsMarkup.includes("HTML রিপোর্ট") ||
+    settingsMarkup.includes("data-backup-choose") ||
+    settingsMarkup.includes("data-backup-file") ||
+    settingsMarkup.includes("পুনরুদ্ধার")) {
+  fail("Settings must offer a readable data export and no restore controls");
 }
-if (!["data-backup-export", "data-backup-choose", "data-backup-file"].every(name => settingsMarkup.includes(name))) {
-  fail("Settings must expose JSON export and restore controls");
-}
-if (!settingsRuntime.includes("createConfirmDialog") || !settingsRuntime.includes("parseBackupText(await file.text())")) {
-  fail("Backup restore must validate the selected file and confirm before replacing state");
-}
-if (!backupService.includes("validateBackup(payload)") || !backupService.includes("updateState(() => payload.state)")) {
-  fail("Backup service validation/restore contract is incomplete");
-} else pass("Settings exposes validated JSON backup export and confirmed restore");
+if (!settingsRuntime.includes('type:"text/html;charset=utf-8"') ||
+    !settingsRuntime.includes("আমার স্বাস্থ্য ও যত্নের তথ্য") ||
+    !settingsRuntime.includes("createObjectURL(file)") ||
+    settingsRuntime.includes("restoreBackup") ||
+    settingsRuntime.includes("parseBackupText")) {
+  fail("Settings must generate a complete, readable HTML report without restore logic");
+} else pass("Settings offers formatted HTML data export without restore workflow");
 
 // 5. Cloudflare compare-and-swap sync: prevent stale device writes.
 const workerSource = read("worker/index.js");
