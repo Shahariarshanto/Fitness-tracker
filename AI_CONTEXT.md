@@ -65,10 +65,12 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - c3 animation and caption now align with the catalogue's existing hands-and-knees thoracic rotation instruction. This is a visual alignment only; catalogue suitability and dosage remain clinically unreviewed.
 - The current Movement page no longer uses catalogue `durationSeconds` as a countdown. Exercise Details contains a count-up stopwatch and optional manual repetition counter; neither sets a prescribed target.
 - `sw.js` now combines `CORE_SHELL`, `CLASSIC_RUNTIME` and `RUNTIME_MODULES` into `PRECACHE_ASSETS` and uses that manifest during install. All declared paths were checked against the repository tree; real browser installation and offline behavior remain unverified.
-- A reference audit removed 57 confirmed orphan files: 24 legacy SVG animation factories, 25 unreferenced Lottie JSON files, six unreachable exercise images, the unused navigation-fallback module and the unused Lottie runtime. The Lottie license notice remains. The old `assets/js/app.js` and `assets/css/app.css` were deliberately retained for now.
+- A reference audit removed 57 confirmed orphan files: 24 legacy SVG animation factories, 25 unreferenced Lottie JSON files, six unreachable exercise images, the unused navigation-fallback module and the unused Lottie runtime. The Lottie license notice remains. The unlinked `assets/css/app.css` was removed after confirming it is not referenced by `index.html`, the service-worker precache or active runtime imports. The old `assets/js/app.js` remains only as an inactive functional reference; do not delete it until its historical behavior has been checked against the modular implementation.
 - Deployment success and static inspection do not prove that the app has been visually tested on Android, desktop or offline.
 
 Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `docs/REBUILD_PLAN.md`.
+
+- Health Timeline and Personal Flare Plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain only because the Worker and version-1 backup validators currently require those top-level fields; do not delete them without a coordinated schema migration. Health still includes Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and Medication Management.
 
 ## Automated validation
 
