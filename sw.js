@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v108";
+const CACHE_NAME = "as-care-shell-v109";
 
 const CORE_SHELL = [
   "./",
@@ -12,6 +12,8 @@ const CORE_SHELL = [
   "./assets/css/movement.css",
   "./assets/css/overview.css",
   "./assets/css/theme-overrides.css",
+  "./assets/data/daily-checkin.json",
+  "./assets/images/daily-checkin-illustration.svg",
 ];
 
 // Complete ES-module dependency graph used by the active modular app.
@@ -26,6 +28,7 @@ const RUNTIME_MODULES = [
   "./assets/js/services/medication.js",
   "./assets/js/services/backup.js",
   "./assets/js/services/cloudflare.js",
+  "./assets/js/services/daily-content.js",
   "./assets/js/services/notifications.js",
   "./assets/js/data/exercises.js",
   "./assets/js/data/health-data.js",
