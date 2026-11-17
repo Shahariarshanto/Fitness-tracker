@@ -75,7 +75,11 @@ export function initMovement({ root = document.querySelector("[data-movement-con
       : root.querySelector('[data-view-content="' + viewMode + '"] [data-exercise-source="library"][data-exercise-card="' + expandedExerciseId + '"]');
     const slot = card?.querySelector("[data-exercise-detail-slot]");
     if (!slot) return;
-    const isInRoutine = routineIds().includes(expandedExerciseId);
+    const ids = routineIds();
+    const isInRoutine = ids.includes(expandedExerciseId);
+    const sequenceIndex = expandedSource === "routine" ? ids.indexOf(expandedExerciseId) : -1;
+    const nextExerciseId = sequenceIndex >= 0 ? ids[sequenceIndex + 1] || null : null;
+    const nextLabel = expandedSource === "routine" && isInRoutine && !nextExerciseId ? "return" : "";
     const isComplete = (activity().completedExerciseIds || []).includes(expandedExerciseId);
     slot.hidden = false;
     slot.innerHTML = renderExerciseDetails(expandedExerciseId, {
@@ -83,7 +87,9 @@ export function initMovement({ root = document.querySelector("[data-movement-con
       completed: isComplete,
       elapsedMs: elapsedNow(),
       running: stopwatch.running,
-      repetitionCount
+      repetitionCount,
+      nextExerciseId,
+      nextLabel
     });
     card.querySelector("[data-exercise-details]")?.setAttribute("aria-expanded", "true");
     startExerciseAnimation(slot.querySelector("[data-exercise-animation]"), expandedExerciseId);
@@ -182,6 +188,27 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     }
     if (target.dataset.exerciseDetails) {
       toggleDetails(target);
+      return;
+    }
+    if (target.hasAttribute("data-exercise-next")) {
+      const ids = routineIds();
+      const currentIndex = ids.indexOf(expandedExerciseId);
+      const nextId = currentIndex >= 0 ? ids[currentIndex + 1] : null;
+      if (nextId) {
+        expandedExerciseId = nextId;
+        expandedSource = "routine";
+        clearStopwatch(true);
+        repetitionCount = 0;
+        draw();
+        root.querySelector('[data-exercise-source="routine"][data-exercise-card="' + nextId + '"]')?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      return;
+    }
+    if (target.hasAttribute("data-exercise-close")) {
+      expandedExerciseId = null;
+      clearStopwatch(true);
+      repetitionCount = 0;
+      draw();
       return;
     }
     if (target.dataset.stopwatchAction) {
