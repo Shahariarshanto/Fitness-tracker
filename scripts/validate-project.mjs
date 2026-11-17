@@ -283,8 +283,8 @@ const workerSource = read("worker/index.js");
 const cloudSyncSource = read("assets/js/services/cloudflare.js");
 checkSyntax("worker/index.js", workerSource, true);
 if (!workerSource.includes("payload.expectedVersion") ||
-    !workerSource.includes("WHERE id = ? AND version = ?") ||
-    !workerSource.includes("ON CONFLICT(id) DO NOTHING") ||
+    !workerSource.includes("WHERE user_id = ? AND version = ?") ||
+    !workerSource.includes("ON CONFLICT(user_id) DO NOTHING") ||
     !workerSource.includes("}, 409, origin)")) {
   fail("Cloudflare Worker must reject stale writes using an atomic expected-version check");
 }
