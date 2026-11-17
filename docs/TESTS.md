@@ -124,10 +124,12 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] No medication or dose recommendations are hard-coded.
 
 ### Browser checks
-- [ ] Add a medication with name, dose, schedule, optional time and notes.
+- [ ] Add a medication with name, dose, 1–4 daily doses, per-dose labels/times and notes.
+- [ ] Changing dose count shows/hides the matching dose schedule fields.
 - [ ] Edit an existing medication without creating a duplicate.
-- [ ] Mark today's entry as taken, then change it to skipped; only the latest status remains for that medicine/date.
-- [ ] Daily summary counts active, taken and skipped entries correctly.
+- [ ] Mark one dose taken and another skipped; statuses remain independent.
+- [ ] Overview and Health medication management show and update the same per-dose statuses.
+- [ ] Daily summary counts scheduled doses, taken doses, pending doses and skipped doses correctly.
 - [ ] Archive a medication after confirmation; it leaves the active list but remains in past history.
 - [ ] Adherence history shows the correct medicine names and daily statuses.
 - [ ] Data persists after reload.
