@@ -34,7 +34,7 @@ The app is designed for Android Chrome and desktop browsers and can be installed
 - `assets/js/services/cloudflare.js` — Worker API and D1 persistence integration.
 - `worker/` — Cloudflare Worker API and D1 migrations.
 - `sw.js` — PWA service worker and offline cache.
-- `manifest.webmanifest`, `icon.svg` — PWA metadata and icon.
+- `manifest.webmanifest` — PWA metadata; `assets/images/as-care-spine-v1.svg` — shared spine brand mark used by the app header and PWA icon references.
 - `AI_CONTEXT.md`, `CONTRIBUTING.md` — development guidance.
 - `docs/` — architecture, data model, module map, tests and rebuild plan.
 
