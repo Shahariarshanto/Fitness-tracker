@@ -95,3 +95,12 @@ Health information is sensitive. The current single-user endpoint has no login o
 - Import accepts only this application identifier and schema version. It validates the envelope and state-domain shapes before calling the state store; invalid files are rejected before any state update.
 - Import replaces the current application state after explicit confirmation. Export is a user-triggered JSON download.
 - No R2 bucket, scheduled backup, or paid storage service is configured. Users should periodically export a JSON copy and keep it somewhere safe.
+
+
+## 7. Daily Check-in content library
+- The Overview hero reads educational content from `assets/data/daily-checkin.json`, a small, read-only curated content database separate from personal health records.
+- Each item stores a stable ID, category, Bengali headline, short supporting message and an HTTPS source label/URL.
+- `assets/js/services/daily-content.js` validates the content shape and selects one item deterministically from the user's local calendar date. Reopening the app on the same day does not change the message; the next date rotates to another item.
+- The JSON database and illustration are included in the service-worker precache so the hero remains available offline after the PWA shell has been installed.
+- This library is not stored in the personal-state D1 table and does not call a live third-party API at runtime. Content updates are reviewed and deployed with the app.
+- Messages are short educational paraphrases, not individualized medical advice or instructions to change treatment.
