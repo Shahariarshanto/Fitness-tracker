@@ -156,10 +156,12 @@ Add focused module-level and feature-level tests in the same step that implement
 
 ### Static checks
 - [ ] Movement entry and all renderer imports resolve.
+- [ ] `ExerciseAnimation.js` imports only the ASAN mount engine and has no imports to deleted legacy SVG factories.
 - [ ] Six Movement feature modules are accounted for: `index.js`, `Checklist.js`, `ExerciseDetails.js`, `ExerciseAnimation.js`, `BodyMap.js` and `GuidedSession.js`.
 - [ ] Six classic ASAN scripts are loaded before the module bootstrap in `index.html`; their relative paths resolve.
 - [ ] Every catalogue exercise ID is unique and maps to exactly one intended animation pose.
 - [ ] All 24 catalogue IDs have corresponding ASAN pose definitions.
+- [ ] No runtime, HTML or CSS reference points to removed Lottie JSON, legacy image or navigation-fallback assets.
 - [ ] Movement does not access localStorage directly or import another feature.
 - [ ] Checklist IDs resolve against the exercise catalogue.
 - [ ] Daily completion uses local date keys and does not overwrite other dates.
