@@ -60,3 +60,24 @@
 @media(prefers-reduced-motion:reduce){.movement-view-content,.movement-view-button{animation:none;transition:none}}
 @media(min-width:700px){.movement-tools{grid-template-columns:1fr 1fr}.movement-progress{grid-template-columns:1fr 1.2fr;align-items:center}.movement-progress-track{align-self:center}}
 @media(max-width:360px){.movement-exercise{padding:10px}.movement-exercise-actions{gap:5px}}
+
+/* Visual exercise guide card */
+.movement-detail-card{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface-soft);display:grid;gap:13px;animation:movement-view-in .18s ease both}
+.movement-guide-top{display:grid;grid-template-columns:104px minmax(0,1fr);gap:13px;align-items:center}
+.movement-guide-visual{min-height:112px;padding:8px 5px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--accent);display:grid;place-items:center;align-content:center;gap:3px}
+.movement-guide-visual svg{width:82px;height:76px}
+.movement-guide-visual span{font-size:10px;color:var(--muted);text-align:center}
+.movement-guide-heading{min-width:0}
+.movement-guide-heading .eyebrow{margin:0 0 5px;font-size:9px;letter-spacing:.08em;color:var(--accent)}
+.movement-guide-heading h4{margin:0;font-size:15px;line-height:1.45}
+.movement-guide-heading p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+.movement-guide-instruction{display:grid;grid-template-columns:27px minmax(0,1fr);gap:9px;align-items:start}
+.movement-guide-step{width:26px;height:26px;display:grid;place-items:center;border-radius:9px;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700}
+.movement-guide-instruction strong,.movement-guide-meta strong{display:block;margin-bottom:4px;font-size:12px}
+.movement-guide-instruction p{margin:0;font-size:13px;line-height:1.65;color:var(--text)}
+.movement-guide-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.movement-guide-meta>span{padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--surface);font-size:12px;line-height:1.5}
+.movement-guide-meta strong{color:var(--muted);font-size:10px}
+.movement-guide-caution{margin:0;padding:9px 10px;border-radius:10px;background:var(--surface);color:var(--muted);font-size:11px;line-height:1.55}
+.movement-guide-caution span{color:var(--accent);font-weight:700;margin-right:4px}
+@media(max-width:360px){.movement-guide-top{grid-template-columns:88px minmax(0,1fr);gap:9px}.movement-guide-visual{min-height:104px}.movement-guide-visual svg{width:72px}}
