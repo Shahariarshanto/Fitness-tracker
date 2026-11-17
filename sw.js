@@ -1,10 +1,10 @@
-const CACHE_NAME = "as-care-shell-v125";
+const CACHE_NAME = "as-care-shell-v126";
 
 const CORE_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./icon.svg",
+  "./assets/images/as-care-spine-v1.svg",
   "./assets/css/tokens.css",
   "./assets/css/base.css",
   "./assets/css/components.css",
