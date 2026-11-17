@@ -220,3 +220,21 @@
  .insight-chart-card { padding:11px; }
  .insight-bars { gap:3px; }
 }
+
+/* Medication dose-by-dose tracking */
+.medication-dose-list { display:grid; gap:10px; margin-top:14px; }
+.medication-dose-row { padding:11px; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); }
+.medication-dose-heading { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:9px; font-size:13px; }
+.medication-dose-heading span, .medication-note { color:var(--muted); font-size:12px; }
+.medication-dose-actions { margin-top:0; }
+.medication-slot-fields { display:grid; gap:8px; padding:12px; margin:10px 0; border:1px solid var(--line); border-radius:var(--radius-sm); }
+.medication-slot-fields[hidden] { display:none; }
+.medication-slot-fields > strong { font-size:13px; }
+.medication-note { line-height:1.5; margin:4px 0; }
+.overview-med-dose { display:grid; gap:6px; padding:8px 0; border-top:1px solid var(--line); }
+.overview-med-dose > div:first-child { display:flex; justify-content:space-between; gap:8px; font-size:12px; }
+.overview-med-dose > div:first-child span { color:var(--muted); }
+.overview-med-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.overview-med-actions button { min-height:32px; border:1px solid var(--line); border-radius:8px; background:var(--surface-soft); color:var(--text); font:inherit; font-size:12px; cursor:pointer; }
+.overview-med-actions button.is-selected { border-color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,var(--surface)); color:var(--accent); }
+.overview-med-actions button.is-skipped { border-color:#a34b35; color:#a34b35; }
