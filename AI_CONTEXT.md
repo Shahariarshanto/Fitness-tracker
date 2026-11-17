@@ -55,3 +55,17 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Do not change clinical exercise or medication guidance without appropriate review.
 - Preserve existing working features unless the agreed task requires a change.
 - Report only tests actually performed; distinguish code inspection, syntax checks, deployment confirmation and live browser/device testing.
+
+
+## Current implementation notes (2026-11-17)
+
+- The Movement catalogue contains 24 exercise IDs. Custom ASAN animation definitions cover a1, b1–b5, c1–c5, d1–d5, e1–e3 and f1–f5.
+- The six classic ASAN scripts are loaded directly by `index.html` before `bootstrap.js` is imported. `ExerciseAnimation.js` mounts the matching pose into the selected exercise detail.
+- Exercise details use a compact responsive animation stage and per-exercise Bengali captions. Treat all animations as illustrative only; the exercise catalogue remains marked `legacy-reference-unreviewed`.
+- Known mismatch requiring deliberate review: c3 catalogue instructions/position describe hands-and-knees thoracic rotation, while the current animation and caption depict a lying Open Book movement.
+- Known timer limitation: e1 and e2 have `durationSeconds: 0`; their guided-session timer consequently begins at zero even though their written activity durations are 30 minutes and 2 minutes.
+- `sw.js` currently declares `RUNTIME_MODULES` but does not use it in install/fetch logic. Do not assume the declared list proves offline coverage. The classic ASAN scripts are not included in that array.
+- The current cleanup audit identified likely orphan candidates, but no such files should be deleted until all runtime, HTML, documentation and external references are checked.
+- Deployment success and static inspection do not prove that the app has been visually tested on Android, desktop or offline.
+
+Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `docs/REBUILD_PLAN.md`.

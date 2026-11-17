@@ -11,7 +11,7 @@ Record actual results for each implementation step. Do not mark unrun tests as p
 - [ ] All imports resolve.
 - [ ] JavaScript syntax checks pass.
 - [ ] Manifest parses as JSON.
-- [ ] Every Step 1 runtime JavaScript module is listed in `sw.js`.
+- [ ] The service-worker asset inventory covers every runtime dependency and the install/fetch strategy actually uses it.
 - [ ] Service-worker cache name is incremented.
 
 ### Browser checks
@@ -155,34 +155,45 @@ Add focused module-level and feature-level tests in the same step that implement
 ## Step 6 — Movement feature
 
 ### Static checks
-- [ ] Movement entry and renderer imports resolve.
-- [ ] All five Movement JavaScript modules and `movement.css` are loaded/cached.
+- [ ] Movement entry and all renderer imports resolve.
+- [ ] Six Movement feature modules are accounted for: `index.js`, `Checklist.js`, `ExerciseDetails.js`, `ExerciseAnimation.js`, `BodyMap.js` and `GuidedSession.js`.
+- [ ] Six classic ASAN scripts are loaded before the module bootstrap in `index.html`; their relative paths resolve.
+- [ ] Every catalogue exercise ID is unique and maps to exactly one intended animation pose.
+- [ ] All 24 catalogue IDs have corresponding ASAN pose definitions.
 - [ ] Movement does not access localStorage directly or import another feature.
 - [ ] Checklist IDs resolve against the exercise catalogue.
 - [ ] Daily completion uses local date keys and does not overwrite other dates.
-- [ ] Guided-session records match the documented state model.
-- [ ] Only approved `workout:started` and `workout:finished` events are emitted.
+- [ ] Guided-session records match the actual event contract in `EVENTS.md`.
+- [ ] `sw.js` inventory and actual fetch/cache behavior are checked separately; the current `RUNTIME_MODULES` constant is not consumed by install/fetch logic.
+- [ ] e1/e2 zero-duration guided-session behavior is explicitly tested and resolved before treating those activities as timer-supported.
+- [ ] c3 catalogue position, instruction, animation pose and caption are reconciled after appropriate content/clinical review.
 
 ### Browser checks
 - [ ] Exercise groups and all 24 catalogue items render.
 - [ ] Session-selection checkboxes update the selected count.
 - [ ] Exercise details open/close and show the clinical-review notice.
+- [ ] The compact animation stage scales correctly at narrow and wide viewport sizes.
+- [ ] Each of the 24 animation IDs mounts the intended pose without clipping, missing limbs or unintended oversized elements.
+- [ ] Animation captions match the actual motion and catalogue instruction.
 - [ ] Body-region selection filters the related exercise mapping.
 - [ ] Daily completion can be toggled on/off and persists after reload.
 - [ ] Guided session starts only after selecting exercises.
 - [ ] Timer, pause/resume, previous, next, skip and finish controls work.
 - [ ] Session completion updates only completed exercises in daily activity.
 - [ ] Session history appears after finishing and persists after reload.
+- [ ] e1/e2 are not presented as normal timed exercises while their duration is zero.
 
 ### Device/PWA checks
 - [ ] Movement layout fits narrow Android screens without horizontal overflow.
 - [ ] Session controls remain reachable above the bottom navigation.
-- [ ] New modules and stylesheet load from the updated service-worker cache.
-- [ ] Offline Movement tab loads after the shell has been cached.
+- [ ] New modules, classic scripts and stylesheet load from the updated service-worker strategy.
+- [ ] Offline Movement tab loads after the required assets have actually been cached.
+- [ ] Animation performance and readability are acceptable on the target Android device.
 
-**Clinical limitation:** Catalogue text is legacy reference material and is not clinically reviewed. Exercise animations and personalized position recommendations are intentionally not fabricated. Assistant static review does not substitute for the user's live phone/browser test.
+**Clinical limitation:** Catalogue text remains legacy reference material and is not clinically reviewed. The custom ASAN stick-figure animations are visual illustrations, not clinical validation or proof that the movement/dosage is appropriate. c3 currently has a known catalogue-versus-animation mismatch. Assistant static review does not substitute for a clinician's review or the user's live phone/browser test.
 
-
+**Verification note:** Repository inspection only. The above browser/device checks remain unchecked until actually performed.
+ 
 ## Step 7 — Insights feature
 
 ### Static checks
@@ -232,9 +243,6 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Empty state renders cleanly with no movement, health, or medication records.
 - [ ] Daily movement count and weekly activity update after checklist/session changes.
 - [ ] Pain, symptom, BASDAI, and ASDAS-CRP snapshots update after Health saves.
-- [ ] Overview medication card lets the user mark each active medicine as taken or skipped; counts and status update immediately.
-- [ ] Overview medication check-in and Health → Medication Management show the same saved status.
-- [ ] Adding, editing and archiving medicines is available in Health → Medication Management, not in Overview.
 - [ ] Overview medication card lets the user mark each active medicine as taken or skipped; counts and status update immediately.
 - [ ] Overview medication check-in and Health → Medication Management show the same saved status.
 - [ ] Adding, editing and archiving medicines is available in Health → Medication Management, not in Overview.
