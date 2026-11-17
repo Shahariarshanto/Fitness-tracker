@@ -36,7 +36,14 @@ export function initMedication({ root = document.querySelector("[data-medication
     });
     showToast(mode === "edit" ? "ওষুধের তথ্য আপডেট হয়েছে।" : "ওষুধ তালিকায় যোগ হয়েছে।", "success");
   }
-  function change(event) {\n    if (event.target.matches("select[name=\\\"doseCount\\\"]")) {\n      const form = event.target.closest("form[data-med-form]");\n      const count = Number(event.target.value);\n      form?.querySelectorAll("[data-dose-slot]").forEach(slot => { slot.hidden = Number(slot.dataset.doseSlot) > count; });\n    }\n  }\n  function click(event) {
+  function change(event) {
+    if (event.target.matches("select[name=\\\"doseCount\\\"]")) {
+      const form = event.target.closest("form[data-med-form]");
+      const count = Number(event.target.value);
+      form?.querySelectorAll("[data-dose-slot]").forEach(slot => { slot.hidden = Number(slot.dataset.doseSlot) > count; });
+    }
+  }
+  function click(event) {
     const statusButton = event.target.closest("[data-med-status]");
     if (statusButton) {
       const { medId, medStatus, medDose } = statusButton.dataset;
@@ -62,7 +69,8 @@ export function initMedication({ root = document.querySelector("[data-medication
       showToast("ওষুধটি সক্রিয় তালিকা থেকে সরানো হয়েছে।", "success");
     });
   }
-  root.addEventListener("submit", submit);\n  root.addEventListener("change", change);
+  root.addEventListener("submit", submit);
+  root.addEventListener("change", change);
   root.addEventListener("click", click);
   draw();
   const unsubscribe = subscribe(draw);
