@@ -65,15 +65,15 @@ function mergeRemoteIntoLocal(remote) {
 
 export function getCloudStatus() { return status; }
 
-async function api(method = "GET", snapshot) {
+async function api(method = "GET", snapshot, expectedVersion) {
   const options = { method, headers: { "Accept": "application/json" } };
   if (method === "PUT") {
     options.headers["Content-Type"] = "application/json";
-    options.body = JSON.stringify({ app: "as-care", schemaVersion: 1, state: snapshot });
+    options.body = JSON.stringify({ app: "as-care", schemaVersion: 1, expectedVersion, state: snapshot });
   }
   const response = await fetch(API, options);
   const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.error || "Cloudflare অনুরোধ ব্যর্থ (" + response.status + ")।");
+  if (!response.ok) { const error = new Error(result.error || "Cloudflare অনুরোধ ব্যর্থ (" + response.status + ")।"); error.status = response.status; error.remoteVersion = result.version; throw error; }
   return result;
 }
 
@@ -95,24 +95,40 @@ async function upload() {
   // whether D1 already contains a newer/authoritative state.
   if (!remoteVerified) return false;
   if (inFlight) return inFlight;
-  const sentRevision = revision;
-  const snapshot = getState();
   inFlight = (async () => {
     setStatus("syncing", "Cloudflare-এ পরিবর্তন সেভ হচ্ছে…");
+    let sentRevision = revision;
+    let snapshot = getState();
     try {
-      const result = await api("PUT", snapshot);
-      version = result.version || version;
-      retryDelay = 3000;
-      pending = revision !== sentRevision;
-      if (!pending) clearCloudPending();
-      if (pending) {
-        setStatus("syncing", "নতুন পরিবর্তন সেভ হচ্ছে…");
-        clearTimeout(timer);
-        timer = setTimeout(() => upload().catch(() => {}), 150);
-      } else {
-        setStatus("success", "সব তথ্য Cloudflare-এ সেভ হয়েছে।");
+      // Compare-and-swap prevents one device from silently overwriting a
+      // snapshot saved by another device after our last successful read.
+      for (let attempt = 0; attempt < 5; attempt += 1) {
+        try {
+          const result = await api("PUT", snapshot, version);
+          version = result.version || version;
+          retryDelay = 3000;
+          pending = revision !== sentRevision;
+          if (!pending) clearCloudPending();
+          if (pending) {
+            setStatus("syncing", "নতুন পরিবর্তন সেভ হচ্ছে…");
+            clearTimeout(timer);
+            timer = setTimeout(() => upload().catch(() => {}), 150);
+          } else {
+            setStatus("success", "সব তথ্য Cloudflare-এ সেভ হয়েছে।");
+          }
+          return true;
+        } catch (error) {
+          if (error.status !== 409) throw error;
+          const remote = await api();
+          if (remote.state) mergeRemoteIntoLocal(remote);
+          else version = remote.version || 0;
+          // mergeRemoteIntoLocal preserves local pending edits while bringing
+          // in records from the latest remote version.
+          snapshot = getState();
+          sentRevision = revision;
+        }
       }
-      return true;
+      throw new Error("অন্য ডিভাইসেও পরিবর্তন হয়েছে। তথ্য ডিভাইসে রাখা আছে; আবার সিঙ্কের চেষ্টা হবে।");
     } catch (error) {
       pending = true;
       setStatus("offline", "পরিবর্তন ডিভাইসে অস্থায়ীভাবে রাখা হয়েছে; Cloudflare-এ পাঠানো যায়নি। " + error.message);
