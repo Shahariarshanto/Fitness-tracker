@@ -4,7 +4,7 @@ const ILLUSTRATIONS = Object.freeze({
   b1: ["chin-tuck.svg", "থুতনি ভেতরে টানার ভঙ্গি"],
   b2: ["neck-rotation.svg", "ঘাড় ডানে-বামে ঘোরানোর ভঙ্গি"],
   b3: ["neck-side-tilt.svg", "ঘাড় পাশে কাত করার ভঙ্গি"],
-  c1: ["cat-camel.webp", "ক্যাট-ক্যামেল করার ভঙ্গি"],
+  c1: ["cat-camel-three-steps.webp", "ক্যাট-ক্যামেল ব্যায়ামের তিনটি ধাপ: ক্যাট, নিরপেক্ষ ও ক্যামেল অবস্থান"],
   c2: ["bird-dog.webp", "বিপরীত হাত ও পা তোলার ভঙ্গি"],
   d2: ["glute-bridge.webp", "ব্রিজ ব্যায়ামের ভঙ্গি"]
 });
@@ -22,7 +22,7 @@ export function renderExerciseDetails(id) {
   const illustration = ILLUSTRATIONS[id];
   const duration = item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়";
   const visual = illustration
-    ? `<div class="movement-guide-visual"><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
+    ? `<div class="movement-guide-visual"${id === "c1" ? ' style="aspect-ratio:3/1;min-height:0;max-height:none"' : ""}><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
     : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
   return `<article class="movement-detail-card${id === "c1" ? " is-cat-camel-sample" : ""}">
     <header class="movement-guide-topbar">
