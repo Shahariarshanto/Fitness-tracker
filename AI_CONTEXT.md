@@ -69,3 +69,10 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - Deployment success and static inspection do not prove that the app has been visually tested on Android, desktop or offline.
 
 Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `docs/REBUILD_PLAN.md`.
+
+## Automated validation
+
+- Run `node scripts/validate-project.mjs` before merging project changes.
+- GitHub Actions runs this validator on pull requests and before GitHub Pages deployment.
+- The validator checks local imports/assets, the service-worker manifest, exercise/group IDs, ASAN pose coverage, animation captions and guided-session event shapes.
+- It is not a substitute for browser, Android, offline, D1 or clinical verification. Known c3 and e1/e2 issues remain warnings until separately resolved.
