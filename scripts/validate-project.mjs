@@ -116,6 +116,46 @@ if (classicRuntime.length !== 1 || !classicRuntime[0].endsWith("/animation-engin
 else pass("Shared animation engine is loaded once; individual poses are ES modules");
 if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
+// 2a. Curated Daily Check-in content database and deterministic rotation.
+const dailyContentPath = "assets/data/daily-checkin.json";
+if (!exists(dailyContentPath)) {
+  fail("Daily Check-in content database is missing");
+} else {
+  const failureCountBeforeDailyContent = failures.length;
+  try {
+    const database = JSON.parse(read(dailyContentPath));
+    const items = Array.isArray(database.items) ? database.items : [];
+    if (database.schemaVersion !== 1) fail("Daily Check-in database schemaVersion must be 1");
+    if (items.length < 20) fail(`Daily Check-in database should contain at least 20 items; found ${items.length}`);
+    const ids = items.map(item => item?.id).filter(Boolean);
+    if (ids.length !== items.length || new Set(ids).size !== ids.length) fail("Daily Check-in items must have unique, non-empty IDs");
+    for (const item of items) {
+      if (![item.category, item.headline, item.message, item.source?.label, item.source?.url].every(value => typeof value === "string" && value.trim())) {
+        fail(`Daily Check-in item ${item.id || "(unknown)"} is missing required text or source metadata`);
+        continue;
+      }
+      try {
+        if (new URL(item.source.url).protocol !== "https:") fail(`Daily Check-in item ${item.id} must use an HTTPS source URL`);
+      } catch { fail(`Daily Check-in item ${item.id} has an invalid source URL`); }
+      if (item.headline.length > 100 || item.message.length > 220) fail(`Daily Check-in item ${item.id} exceeds the supported text length`);
+    }
+    if (!runtimeModules.map(rel).includes("assets/js/services/daily-content.js")) fail("Daily content service is missing from the service-worker runtime inventory");
+    if (!coreShell.map(rel).includes(dailyContentPath)) fail("Daily content JSON is missing from the service-worker core shell");
+    if (!coreShell.map(rel).includes("assets/images/daily-checkin-illustration.svg")) fail("Daily Check-in illustration is missing from the service-worker core shell");
+    const { selectDailyContent } = await import("../assets/js/services/daily-content.js");
+    const first = selectDailyContent(items, "2026-11-17");
+    const repeated = selectDailyContent(items, "2026-11-17");
+    const next = selectDailyContent(items, "2026-11-18");
+    if (first?.id !== repeated?.id) fail("Daily Check-in selection must remain stable within the same date");
+    else pass("Daily Check-in selection is stable within the same local date");
+    if (items.length > 1 && first?.id === next?.id) fail("Daily Check-in selection should rotate on the next date");
+    else pass("Daily Check-in selection rotates on the next date");
+    if (failures.length === failureCountBeforeDailyContent) pass(`Daily Check-in content database validated (${items.length} source-linked items)`);
+  } catch (error) {
+    fail("Daily Check-in content database is invalid: " + error.message);
+  }
+}
+
 // 3. Exercise catalogue, groups, isolated pose modules, per-exercise docs and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");
 const records = exerciseSource.match(/const records\s*=\s*\[([\s\S]*?)\];/);
