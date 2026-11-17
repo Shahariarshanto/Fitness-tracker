@@ -96,21 +96,21 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     const day = state.dailyActivity[today()] || {};
     const ids = routineIds();
     const progress = getRoutineProgress(ids, day.completedExerciseIds || []);
-    root.innerHTML = \`<div class="movement-dashboard">
+    root.innerHTML = `<div class="movement-dashboard">
       <section class="movement-progress" aria-label="আজকের রুটিনের অগ্রগতি">
-        <div><p class="eyebrow">TODAY'S PROGRESS</p><strong>\${progress.done} / \${progress.total || "—"}</strong><span>\${progress.total ? "আজকের ব্যায়াম সম্পন্ন" : "রুটিনে ব্যায়াম যোগ করুন"}</span></div>
-        <div class="movement-progress-track" role="progressbar" aria-label="রুটিনের অগ্রগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="\${progress.percent}"><span style="width:\${progress.percent}%"></span></div>
+        <div><p class="eyebrow">TODAY'S PROGRESS</p><strong>${progress.done} / ${progress.total || "—"}</strong><span>${progress.total ? "আজকের ব্যায়াম সম্পন্ন" : "রুটিনে ব্যায়াম যোগ করুন"}</span></div>
+        <div class="movement-progress-track" role="progressbar" aria-label="রুটিনের অগ্রগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress.percent}"><span style="width:${progress.percent}%"></span></div>
       </section>
-      \${renderRoutine(today(), day, ids)}
+      ${renderRoutine(today(), day, ids)}
       <section class="movement-checklist" data-exercise-library>
         <div class="movement-section-heading"><div><p class="eyebrow">EXPLORE MOVEMENT</p><h3>অন্যান্য ব্যায়াম</h3></div><span>রুটিনে যোগ বা বাদ দিন</span></div>
-        <details class="movement-library-filters" \${filtersOpen ? "open" : ""}>
+        <details class="movement-library-filters" ${filtersOpen ? "open" : ""}>
           <summary>শরীরের অঞ্চল দিয়ে খুঁজুন</summary>
-          \${renderBodyMap(region)}
+          ${renderBodyMap(region)}
         </details>
-        \${renderChecklist(today(), ids, viewMode, region)}
+        ${renderChecklist(today(), ids, viewMode, region)}
       </section>
-    </div>\`;
+    </div>`;
     hydrateExpandedDetail();
   }
 
