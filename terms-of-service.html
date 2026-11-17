@@ -33,7 +33,7 @@ header{background:#20251f;color:#fff;padding:24px max(20px,calc((100% - 900px)/2
 </ul>
 <h2>4. Your data and backups</h2>
 <p>Cloudflare D1 is the App's primary data store. The App automatically loads the latest saved state and sends changes to the Cloudflare Worker. The browser retains a temporary cache and pending offline edits. No R2 bucket or scheduled cloud backup is configured. The App provides a manual JSON export; you are responsible for downloading and keeping independent copies. D1 is the primary database, not a backup.</p>
-<p>At the user's request, the current single-user API does not require login or authentication. CORS restrictions are not access control. Anyone who directly calls the public Worker endpoint may be able to read or change the stored health data. The App therefore does not promise confidentiality or protection against unauthorized access. Do not store highly sensitive information unless an access-control layer is added.</p>
+<p>Cloud data access requires a valid account session. Each account's state is stored separately and the Worker checks the session on every read/write. Passwords are stored as salted PBKDF2 hashes and logout revokes the current session. The persistent token is kept in browser Local Storage; users should protect their devices and use a unique password. Email verification and password reset are not currently available.</p>
 <h2>5. Cloudflare services</h2>
 <p>Cloudflare provides the database and Worker execution infrastructure and is subject to its own applicable terms and privacy policies. </p>
 <h2>6. Availability and changes</h2>
