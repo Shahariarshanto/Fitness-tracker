@@ -15,35 +15,35 @@ export function renderExerciseDetails(id, options = {}) {
   const asanAnimated = Boolean(animationLabels[id]);
   const animationLabel = animationLabels[id];
   const visual = asanAnimated
-    ? \`<div class="movement-guide-visual is-asan-animation"><div class="movement-animation-stage"><span class="movement-animation-kicker">MOVEMENT PREVIEW</span><div class="fg" data-id="\${id}" data-exercise-animation role="img" aria-label="\${esc(animationLabel[0])}"></div></div><span class="movement-animation-caption">\${esc(animationLabel[1])}</span></div>\`
-    : \`<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>\`;
+    ? `<div class="movement-guide-visual is-asan-animation"><div class="movement-animation-stage"><span class="movement-animation-kicker">MOVEMENT PREVIEW</span><div class="fg" data-id="${id}" data-exercise-animation role="img" aria-label="${esc(animationLabel[0])}"></div></div><span class="movement-animation-caption">${esc(animationLabel[1])}</span></div>`
+    : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
   const completionAction = options.inRoutine
-    ? \`<button class="button-primary movement-detail-complete" type="button" data-exercise-done="\${id}" aria-pressed="\${Boolean(options.completed)}">\${options.completed ? "সম্পন্ন হয়েছে · Undo" : "ব্যায়াম সম্পন্ন করুন"}</button>\`
-    : \`<button class="button-primary movement-detail-complete" type="button" data-routine-toggle="\${id}" aria-pressed="false">আমার রুটিনে যোগ করুন</button>\`;
-  return \`<article class="movement-detail-card">
+    ? `<button class="button-primary movement-detail-complete" type="button" data-exercise-done="${id}" aria-pressed="${Boolean(options.completed)}">${options.completed ? "সম্পন্ন হয়েছে · Undo" : "ব্যায়াম সম্পন্ন করুন"}</button>`
+    : `<button class="button-primary movement-detail-complete" type="button" data-routine-toggle="${id}" aria-pressed="false">আমার রুটিনে যোগ করুন</button>`;
+  return `<article class="movement-detail-card">
     <header class="movement-guide-topbar">
-      <div class="movement-guide-title"><span class="movement-guide-eyebrow">EXERCISE GUIDE</span><h4>\${esc(item.name)}</h4><p>\${esc(item.nameEn)}</p></div>
+      <div class="movement-guide-title"><span class="movement-guide-eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div>
     </header>
-    \${visual}
+    ${visual}
     <section class="movement-guide-instruction">
       <span class="movement-guide-step" aria-hidden="true">১</span>
-      <div><strong>যেভাবে করবেন</strong><p>\${esc(instruction)}</p></div>
+      <div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div>
     </section>
-    \${dose ? \`<section class="movement-guide-meta movement-guide-dose"><div class="movement-guide-meta-repeat"><span class="movement-guide-meta-icon" aria-hidden="true">↻</span><span><strong>ক্যাটালগে থাকা মাত্রা</strong><b>\${esc(dose)}</b></span></div></section>\` : ""}
+    ${dose ? `<section class="movement-guide-meta movement-guide-dose"><div class="movement-guide-meta-repeat"><span class="movement-guide-meta-icon" aria-hidden="true">↻</span><span><strong>ক্যাটালগে থাকা মাত্রা</strong><b>${esc(dose)}</b></span></div></section>` : ""}
     <section class="movement-exercise-tools" aria-label="ব্যায়ামের সহায়ক নিয়ন্ত্রণ">
       <div class="movement-stopwatch">
         <div class="movement-tool-heading"><strong>সময় মাপুন</strong><span>নিজের অনুশীলনের সময় মাপার Stopwatch</span></div>
-        <output class="movement-stopwatch-display" data-stopwatch-display aria-live="off">\${formatElapsedTime(options.elapsedMs || 0)}</output>
+        <output class="movement-stopwatch-display" data-stopwatch-display aria-live="off">${formatElapsedTime(options.elapsedMs || 0)}</output>
         <div class="movement-stopwatch-controls">
-          <button class="button-primary" type="button" data-stopwatch-action="start" \${options.running ? "disabled" : ""}>\${(options.elapsedMs || 0) > 0 ? "আবার শুরু" : "শুরু"}</button>
-          <button class="button-secondary" type="button" data-stopwatch-action="pause" \${options.running ? "" : "disabled"}>বিরতি</button>
+          <button class="button-primary" type="button" data-stopwatch-action="start" ${options.running ? "disabled" : ""}>${(options.elapsedMs || 0) > 0 ? "আবার শুরু" : "শুরু"}</button>
+          <button class="button-secondary" type="button" data-stopwatch-action="pause" ${options.running ? "" : "disabled"}>বিরতি</button>
           <button class="button-secondary" type="button" data-stopwatch-action="reset">রিসেট</button>
         </div>
       </div>
-      \${hasCounter ? \`<div class="movement-repetition-counter"><div class="movement-tool-heading"><strong>পুনরাবৃত্তি গণনা</strong><span>নিজে সম্পন্ন প্রতিটি বার গুনুন</span></div><div class="movement-counter-controls"><button type="button" data-repetition-action="decrease" aria-label="এক কমান">−</button><output data-repetition-count aria-live="polite">\${Number(options.repetitionCount) || 0}</output><button type="button" data-repetition-action="increase" aria-label="এক বাড়ান">＋</button></div></div>\` : ""}
+      ${hasCounter ? `<div class="movement-repetition-counter"><div class="movement-tool-heading"><strong>পুনরাবৃত্তি গণনা</strong><span>নিজে সম্পন্ন প্রতিটি বার গুনুন</span></div><div class="movement-counter-controls"><button type="button" data-repetition-action="decrease" aria-label="এক কমান">−</button><output data-repetition-count aria-live="polite">${Number(options.repetitionCount) || 0}</output><button type="button" data-repetition-action="increase" aria-label="এক বাড়ান">＋</button></div></div>` : ""}
     </section>
     <p class="movement-guide-caution"><span class="movement-guide-caution-icon" aria-hidden="true">!</span><span>এই ক্যাটালগের নির্দেশনা ও মাত্রা এখনো ক্লিনিক্যালি যাচাই করা হয়নি। ব্যক্তিগত উপযোগিতা স্বাস্থ্যপেশাজীবীর সঙ্গে মিলিয়ে নিন। ব্যথা বা অস্বস্তি বাড়লে থামুন।</span></p>
-    \${completionAction}
+    ${completionAction}
     <p class="movement-stopwatch-note">Stopwatch কেবল সময় মাপে—এটি কোনো নির্ধারিত ব্যায়ামের সময় বা চিকিৎসাগত মাত্রা নির্দেশ করে না।</p>
-  </article>\`;
+  </article>`;
 }
