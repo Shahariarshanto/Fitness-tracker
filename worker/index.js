@@ -21,6 +21,9 @@ function validateState(state) {
   const arrays = ["healthEvents", "workoutSessions"];
   if (!objects.every(key => state[key] && typeof state[key] === "object" && !Array.isArray(state[key]))) return false;
   if (!arrays.every(key => Array.isArray(state[key]))) return false;
+  if (state.movement !== undefined && (!state.movement || typeof state.movement !== "object" || Array.isArray(state.movement) ||
+      (state.movement.routineExerciseIds !== undefined && !Array.isArray(state.movement.routineExerciseIds)) ||
+      (state.movement.routineExerciseIds && !state.movement.routineExerciseIds.every(id => typeof id === "string")))) return false;
   if (!Array.isArray(state.medication.items) || !state.medication.dailyLogs || typeof state.medication.dailyLogs !== "object") return false;
   if (!state.symptoms.daily || typeof state.symptoms.daily !== "object") return false;
   if (!Array.isArray(state.healthScores.basdai) || !Array.isArray(state.healthScores.asdas)) return false;
