@@ -1,7 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="116" fill="#20251f"/>
-<path d="M256 82c-48 0-87 39-87 87v38c-36 24-59 65-59 111v65c0 31 25 56 56 56h180c31 0 56-25 56-56v-65c0-46-23-87-59-111v-38c0-48-39-87-87-87Z" fill="#c7e58b"/>
-<path d="M230 164a26 26 0 1 1 52 0v42h-52v-42Zm-47 89h146c18 0 32 14 32 32v99H151v-99c0-18 14-32 32-32Z" fill="#20251f"/>
-<path d="M256 284v76m-38-38h76" fill="none" stroke="#c7e58b" stroke-width="17" stroke-linecap="round"/>
-<path d="M333 115c27-29 60-36 91-27-8 31-30 56-66 62" fill="none" stroke="#c7e58b" stroke-width="13" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AS Care spine logo</title>
+  <desc id="desc">A clean white stylized spine centered on a rich purple rounded-square background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="64" y1="32" x2="448" y2="488" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B3DFA"/>
+      <stop offset="0.55" stop-color="#7026D9"/>
+      <stop offset="1" stop-color="#4D16B5"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="488" height="488" rx="112" fill="url(#bg)"/>
+  <path d="M166 158 C117 207 111 270 137 322 C154 357 156 393 143 427" fill="none" stroke="#E9DFFF" stroke-width="9" stroke-linecap="round" opacity=".88"/>
+  <path d="M346 86 C396 139 405 207 379 264 C359 308 356 365 373 410" fill="none" stroke="#E9DFFF" stroke-width="9" stroke-linecap="round" opacity=".88"/>
+  <g fill="#FFFFFF">
+    <path d="M258 70 C245 70 235 79 235 92 L235 101 C235 111 242 118 252 120 L282 126 C292 128 301 121 303 111 L305 99 C307 88 299 79 288 77 L267 72 C264 71 261 70 258 70Z"/>
+    <path d="M250 130 C237 128 226 136 224 148 L222 159 C220 170 228 179 239 181 L284 189 C295 191 304 184 306 173 L308 162 C310 151 302 142 291 140 L250 130Z"/>
+    <path d="M241 195 C228 193 217 201 215 213 L213 225 C211 237 219 246 231 248 L291 257 C303 259 312 251 314 239 L316 228 C318 216 310 207 298 205 L241 195Z"/>
+    <path d="M231 263 C218 261 207 269 205 281 L203 294 C201 306 210 315 222 317 L298 326 C310 328 320 320 322 308 L324 296 C326 284 318 275 306 273 L231 263Z"/>
+    <path d="M224 333 C211 331 200 339 198 351 L196 364 C194 376 203 385 215 387 L302 396 C314 398 324 390 326 378 L328 366 C330 354 322 345 310 343 L224 333Z"/>
+    <path d="M225 403 C212 401 201 409 199 421 L197 433 C195 445 204 454 216 456 L291 464 C303 466 313 458 315 446 L317 435 C319 423 311 414 299 412 L225 403Z"/>
+  </g>
+  <g fill="#DCCBFF" opacity=".9">
+    <path d="M250 119 L282 126 C288 127 293 125 297 121 C293 131 285 136 275 134 L244 128 C238 127 234 123 232 118 C237 120 243 120 250 119Z"/>
+    <path d="M239 180 L284 188 C291 189 297 187 302 182 C298 193 289 198 278 196 L233 188 C227 187 222 183 220 177 C226 180 232 181 239 180Z"/>
+    <path d="M231 247 L291 256 C299 257 306 255 311 250 C307 261 297 266 286 264 L225 255 C219 254 214 250 212 244 C218 247 224 248 231 247Z"/>
+    <path d="M222 316 L298 325 C306 326 314 324 319 319 C315 330 305 335 293 333 L216 324 C210 323 205 319 203 313 C209 316 215 317 222 316Z"/>
+    <path d="M215 386 L302 395 C310 396 318 394 323 389 C319 400 309 405 297 403 L209 394 C203 393 198 389 196 383 C202 386 208 387 215 386Z"/>
+  </g>
+  <path d="M220 462 C226 453 238 450 250 452 L287 456 C299 458 307 467 305 479 C303 489 292 495 280 492 L258 487 L239 497 C228 503 215 496 214 484 C213 475 215 468 220 462Z" fill="#FFFFFF"/>
 </svg>
