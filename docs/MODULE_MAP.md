@@ -109,7 +109,7 @@ Movement uses the existing `dailyActivity` and `workoutSessions` state domains. 
 
 `ExerciseDetails.js` provides the compact animation stage, per-exercise Bengali caption, instructions, dosage and caution text. `assets/css/movement.css` owns the responsive card/stage styling. All 24 catalogue IDs currently have an ASAN pose mapping.
 
-**Known content mismatch:** catalogue item c3 is listed as a hands-and-knees thoracic rotation, while its animation label/pose depicts a lying Open Book movement. Do not treat the animation as confirmation of the prescribed position; this needs a deliberate content/clinical correction.
+**c3 visual alignment:** the catalogue describes a hands-and-knees thoracic rotation. Its ASAN pose now shows a side-view quadruped position, keeping one hand grounded while the other reaches upward; the caption follows the existing Bengali instruction. This is a visual correction only, not clinical validation of the catalogue wording or dosage.
 
 **Timer limitation:** e1 (Brisk Walking) and e2 (Movement Break) have `durationSeconds: 0`; the guided session has no per-exercise countdown for these records; it now displays `নির্দেশনা অনুযায়ী` while the overall session elapsed time continues.
 
