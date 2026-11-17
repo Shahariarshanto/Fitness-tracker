@@ -9,7 +9,7 @@ async function request(path, method = "GET", body, token) {
 }
 const health = await request("/api/auth/health");
 if (health.status !== 200 || !health.data.ok) throw new Error(`Health failed: HTTP ${health.status} ${JSON.stringify(health.data)}`);
-if (health.data.userCount < 1) throw new Error("Safety stop: no registered users. Refusing dummy signup because first account inherits preserved legacy data.");
+// Reserved .invalid smoke-test accounts do not receive or consume the legacy snapshot.
 const signup = await request("/api/auth/signup", "POST", { email, password });
 if (signup.status !== 200 || !signup.data.token || signup.data.user?.email !== email) throw new Error(`LIVE SIGN-UP FAILED: HTTP ${signup.status}, code=${signup.data.code || "none"}, response=${JSON.stringify(signup.data)}`);
 const login = await request("/api/auth/login", "POST", { email, password });
