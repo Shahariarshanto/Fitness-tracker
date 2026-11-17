@@ -293,6 +293,21 @@ Add focused module-level and feature-level tests in the same step that implement
 **Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.
 
 
+## Manual JSON backup — Settings
+
+### Static checks
+- [ ] Settings exposes JSON export and restore controls.
+- [ ] Export includes the complete current state and the supported schema version.
+- [ ] Import rejects malformed JSON or an unsupported/incomplete backup before changing state.
+- [ ] Import asks for confirmation before replacing current app data.
+- [ ] A successful restore uses the shared state update path so Cloudflare sync is queued.
+
+### Browser checks
+- [ ] Export downloads a readable `.json` file.
+- [ ] A valid exported file restores the expected records after confirmation.
+- [ ] Cancelling the confirmation leaves current data unchanged.
+- [ ] An invalid file shows an error and leaves current data unchanged.
+
 ## Cloudflare-first persistence
 
 ### Static checks
