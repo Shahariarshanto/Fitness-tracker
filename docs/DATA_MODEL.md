@@ -15,6 +15,8 @@ The rebuild starts with a clean schema because there is no existing user data to
 | `medication` | Medication definitions and date-keyed adherence |
 | `symptoms` | Night mobility, stiffness, fatigue, sleep |
 | `healthScores` | BASDAI and ASDAS inputs/results/history |
+| `healthEvents` | Compatibility-only retained field; no Health UI |
+| `flarePlan` | Compatibility-only retained field; no Health UI |
 | `workoutSessions` | Historical guided workout records retained for existing summaries |
 
 ## 3. Initial state shape
@@ -29,6 +31,8 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
   symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
   healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
+  healthEvents: [], // retained for existing Worker/backup schema compatibility; no UI
+  flarePlan: { warningSigns: "", actions: "", contacts: "" }, // retained for schema compatibility; no UI
   workoutSessions: []
 }
 ```
@@ -39,7 +43,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - Daily symptom values (night mobility, stiffness, fatigue, sleep) are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`. The Health Journal combines these into one daily check-in UI.
 - Daily Check-in uses date-keyed records: saving again on the same date modifies that date's symptom values; other dates remain unchanged. Pain and the remaining symptom values are presented together as one daily entry.
 - BASDAI and ASDAS keep exactly one result per calendar day. Recalculation on the same date updates the existing record, including questionnaire inputs; ASDAS also updates CRP in mg/L. Previous dates remain in history. On state load, duplicate same-day score records are normalized to the last saved record for that date, then sorted by date. BASDAI and ASDAS range controls are prefilled from the saved same-day inputs.
-- Health event timeline and personal flare-plan UI were removed on 2026-11-17. Existing `healthEvents` and `flarePlan` values in previously saved snapshots are retained but ignored for backward compatibility; they are not read or written by the Health feature.
+- The Health event timeline and personal flare-plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain compatibility-only top-level fields because the current Worker state validator and version-1 backup validator require them. State normalization preserves existing values; the Health UI neither renders nor edits them. Do not remove these fields without a coordinated Worker, backup-schema and migration change.
 
 ## 4. Persistence and source of truth
 - Cloudflare D1 is the permanent primary source of truth for the complete AS Care state.
