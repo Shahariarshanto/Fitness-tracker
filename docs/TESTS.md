@@ -129,7 +129,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Health feature does not access localStorage directly.
 - [ ] Daily pain, symptom, BASDAI and ASDAS-CRP state domains match the data model.
 - [ ] Health Timeline and Personal Flare Plan sections and handlers are absent.
-- [ ] `healthEvents` and `flarePlan` remain accepted/preserved as compatibility-only fields by state normalization, Worker validation and version-1 backup validation; other Health records remain unaffected.
+- [ ] `healthEvents` and `flarePlan` remain accepted/preserved as compatibility-only fields by state normalization and Worker validation; other Health records remain unaffected.
 - [ ] BASDAI and ASDAS-CRP calculations are checked against independent reference cases.
 
 ### Browser checks
@@ -210,7 +210,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Repetition counter panel uses natural content height instead of stretching to match the taller stopwatch panel.
 - [ ] Stopwatch elapsed-time formatting and start/pause/reset controls pass checks.
 - [ ] Stopwatch is count-up only; no unreviewed `durationSeconds` value is presented as a prescribed countdown.
-- [ ] Existing version-1 D1 snapshots and backups without the optional `movement` field remain valid.
+- [ ] Existing D1 snapshots without the optional `movement` field remain valid.
 - [ ] `node scripts/test-movement.mjs` passes.
 - [ ] `node scripts/test-worker-sync.mjs` passes.
 - [ ] `node scripts/validate-project.mjs` passes.
@@ -305,20 +305,18 @@ Add focused module-level and feature-level tests in the same step that implement
 **Verification note:** Source changes and static review only; live Android/browser and deployed data checks remain for the user.
 
 
-## Manual JSON backup — Settings
+## Settings HTML report export
 
 ### Static checks
-- [ ] Settings exposes JSON export and restore controls.
-- [ ] Export includes the complete current state and the supported schema version.
-- [ ] Import rejects malformed JSON or an unsupported/incomplete backup before changing state.
-- [ ] Import asks for confirmation before replacing current app data.
-- [ ] A successful restore uses the shared state update path so Cloudflare sync is queued.
+- [ ] Settings exposes the HTML report download action.
+- [ ] No JSON import, restore input or restore confirmation controls are present.
+- [ ] Export reads current application state without mutating it.
 
 ### Browser checks
-- [ ] Export downloads a readable `.json` file.
-- [ ] A valid exported file restores the expected records after confirmation.
-- [ ] Cancelling the confirmation leaves current data unchanged.
-- [ ] An invalid file shows an error and leaves current data unchanged.
+- [ ] Export downloads a readable `.html` report.
+- [ ] The report includes the user's health, medication, movement and progress records.
+- [ ] The report opens as a readable document and is suitable for printing.
+- [ ] Export does not clear, overwrite or otherwise change the current application state.
 
 ## Cloudflare-first persistence
 
@@ -335,8 +333,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Pending local edits are uploaded before cloud hydration.
 - [ ] Cloudflare service and all modules are listed in `sw.js`; cache version increments.
 - [ ] No third-party account or cloud-drive integration is imported.
-- [ ] Manual JSON export downloads a complete valid state envelope.
-- [ ] Import validates the JSON envelope before replacing state.
+- [ ] Settings HTML report export is readable and does not mutate state; it is not a restorable backup.
 
 ### Browser checks
 - [ ] Existing local health records are copied into an empty D1 on first launch.
@@ -346,7 +343,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline edits remain after closing/reopening and sync after connectivity returns.
 - [ ] A second device loads the same cloud state.
 - [ ] A second device receives newer cloud state on refresh/poll without overwriting pending local edits.
-- [ ] Manual JSON export can be imported to restore the state.
+- [ ] No JSON import/restore control is present in the current Settings UI.
 - [ ] Every state API request without a valid bearer session is rejected; CORS is treated only as an origin policy.
 
 ### Device/PWA checks
@@ -354,7 +351,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Offline shell remains available; cloud-dependent data status is handled gracefully.
 - [ ] No duplicate or missing records after reload and multi-device edits.
 
-Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. Automated cloud snapshots are intentionally excluded; JSON export is the independent backup method.
+Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. Automated cloud snapshots are intentionally excluded; Settings' HTML report is not a restorable backup.
 
 
 
@@ -434,7 +431,7 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Load Previous Data refreshes the current user's remote state.
 - [ ] Logout clears app-owned Local Storage, revokes the session and leaves D1 user/state rows intact.
 - [ ] After logout, state GET/PUT returns 401 until login again.
-- [ ] JSON export/import continues to work independently of cloud login.
+- [ ] HTML report export works independently of cloud login; it is not a restore mechanism.
 
 ### Device/deployment checks
 - [ ] GitHub Pages preflight accepts the Authorization header from the configured origin.
