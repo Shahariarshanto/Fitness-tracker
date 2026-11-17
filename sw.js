@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v103";
+const CACHE_NAME = "as-care-shell-v104";
 
 const CORE_SHELL = [
   "./",
@@ -51,31 +51,7 @@ const RUNTIME_MODULES = [
   "./assets/js/features/insights/Calendar.js",
   "./assets/js/features/insights/Trends.js",
 
-  // Static imports retained by ExerciseAnimation.js until the legacy cleanup step.
-  "./assets/js/features/movement/animations/deep-breathing.js",
-  "./assets/js/features/movement/animations/chin-tuck.js",
-  "./assets/js/features/movement/animations/neck-rotation.js",
-  "./assets/js/features/movement/animations/neck-side-tilt.js",
-  "./assets/js/features/movement/animations/doorway-chest-stretch.js",
-  "./assets/js/features/movement/animations/wall-angels.js",
-  "./assets/js/features/movement/animations/cat-camel.js",
-  "./assets/js/features/movement/animations/bird-dog.js",
-  "./assets/js/features/movement/animations/thoracic-rotation.js",
-  "./assets/js/features/movement/animations/prone-press-up.js",
-  "./assets/js/features/movement/animations/lying-knee-cross.js",
-  "./assets/js/features/movement/animations/knees-to-chest.js",
-  "./assets/js/features/movement/animations/glute-bridge.js",
-  "./assets/js/features/movement/animations/hamstring-stretch.js",
-  "./assets/js/features/movement/animations/calf-stretch.js",
-  "./assets/js/features/movement/animations/quadriceps-stretch.js",
-  "./assets/js/features/movement/animations/walking.js",
-  "./assets/js/features/movement/animations/movement-break.js",
-  "./assets/js/features/movement/animations/squat-wall-push-up.js",
-  "./assets/js/features/movement/animations/wall-posture-stand.js",
-  "./assets/js/features/movement/animations/knee-plank.js",
-  "./assets/js/features/movement/animations/hip-flexor-stretch.js",
-  "./assets/js/features/movement/animations/shoulder-blade-squeeze.js",
-  "./assets/js/features/movement/animations/single-leg-balance.js"
+
 ];
 
 // These six scripts define window.ASAN and must execute before the ES-module app.
