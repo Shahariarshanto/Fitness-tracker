@@ -40,7 +40,8 @@ jobs:
         run: |
           npm install --no-save playwright
           npx playwright install --with-deps chromium
-      - name: Test live app features using isolated dummy account and data
+      - name: Test live app features using isolated dummy account and data (opt-in; records are retained)
+        if: ${{ vars.RUN_PRODUCTION_SMOKE_TESTS == 'true' }}
         env:
           APP_URL: https://shahariarshanto.github.io/Fitness-tracker/
         run: node scripts/test-ui-features.mjs
