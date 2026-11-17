@@ -49,12 +49,22 @@ function healthCard(state,today) {
 function medicationCard(state,today) {
   const active = (state.medication?.items || []).filter(item => item.active !== false);
   const logs = state.medication?.dailyLogs?.[today] || {};
-  const taken = active.filter(item => logs[item.id]?.status === "taken").length;
-  const skipped = active.filter(item => logs[item.id]?.status === "skipped").length;
-  const pending = active.length - taken - skipped;
+  const doseDefs = item => {
+    const count = Math.min(4, Math.max(1, Number(item.doseCount) || 1));
+    const slots = Array.isArray(item.doseSlots) ? item.doseSlots : [];
+    return Array.from({length:count},(_,index)=>({id:"dose"+(index+1),label:slots[index]?.label || ["সকাল","দুপুর","বিকাল","রাত"][index]}));
+  };
+  const all = active.flatMap(item => doseDefs(item).map(dose => logs[item.id]?.doses?.[dose.id]?.status));
+  const taken = all.filter(status => status === "taken").length;
+  const skipped = all.filter(status => status === "skipped").length;
+  const pending = all.length - taken - skipped;
   const names = active.slice(0,3).map(item => {
-    const status = logs[item.id]?.status;
-    return `<li><div class="overview-med-name"><strong>${esc(item.name)}</strong><span>${status === "taken" ? "গ্রহণ করা হয়েছে" : status === "skipped" ? "খাওয়া হয়নি" : "এখনো রেকর্ড হয়নি"}</span></div><div class="overview-med-actions"><button type="button" data-med-status="taken" data-med-id="${esc(item.id)}" aria-pressed="${status === "taken"}" class="${status === "taken" ? "is-selected" : ""}">✓ খেয়েছি</button><button type="button" data-med-status="skipped" data-med-id="${esc(item.id)}" aria-pressed="${status === "skipped"}" class="${status === "skipped" ? "is-selected is-skipped" : ""}">বাদ</button></div></li>`;
+    const doses = doseDefs(item);
+    const doseRows = doses.map(dose => {
+      const status = logs[item.id]?.doses?.[dose.id]?.status;
+      return `<div class="overview-med-dose"><div><strong>${esc(dose.label)}</strong><span>${status === "taken" ? "গ্রহণ করা হয়েছে" : status === "skipped" ? "খাওয়া হয়নি" : "রেকর্ড হয়নি"}</span></div><div class="overview-med-actions"><button type="button" data-med-status="taken" data-med-id="${esc(item.id)}" data-med-dose="${dose.id}" aria-pressed="${status === "taken"}" class="${status === "taken" ? "is-selected" : ""}">✓ খেয়েছি</button><button type="button" data-med-status="skipped" data-med-id="${esc(item.id)}" data-med-dose="${dose.id}" aria-pressed="${status === "skipped"}" class="${status === "skipped" ? "is-selected is-skipped" : ""}">খাইনি</button></div></div>`;
+    }).join("");
+    return `<li><div class="overview-med-name"><strong>${esc(item.name)}</strong><span>${doses.length}টি ডোজ · ${doses.filter(dose => logs[item.id]?.doses?.[dose.id]?.status === "taken").length}/${doses.length} গ্রহণ</span></div>${doseRows}</li>`;
   }).join("");
   return `<article class="overview-card overview-medication-card"><div class="overview-card-top"><span class="overview-icon overview-icon-medication">＋</span><div><p class="overview-kicker">MEDICATION</p><h3>আজকের ওষুধ</h3></div><span class="overview-count-pill">${active.length}টি সক্রিয়</span></div><div class="medication-summary"><div><strong>${taken}</strong><span>গ্রহণ</span></div><div><strong>${pending}</strong><span>রেকর্ড নেই</span></div><div><strong>${skipped}</strong><span>বাদ</span></div></div>${active.length ? `<ul class="overview-med-list">${names}</ul>` : '<div class="overview-empty"><span>＋</span><p>এখনো কোনো সক্রিয় ওষুধ যোগ করা হয়নি।</p></div>'}${active.length > 3 ? `<p class="overview-muted">আরও ${active.length - 3}টি ওষুধ</p>` : ""}<button type="button" class="overview-link" data-page="health">ওষুধ ব্যবস্থাপনা <span>→</span></button></article>`;
 }
