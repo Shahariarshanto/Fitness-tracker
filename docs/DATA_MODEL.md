@@ -3,7 +3,7 @@
 > This document defines the new application state. It intentionally does not preserve the old app's storage keys, object shape, exercise identifiers, or backup formats.
 
 ## 1. Fresh schema policy
-The rebuild starts with a clean schema because there is no existing user data to preserve. Do not implement compatibility with `spa-daily-v2`, `spa-daily-v1`, or legacy backup envelopes. Define and validate the new model before dependent features are implemented.
+The application state uses its documented versioned schema and does not restore obsolete browser storage formats. The current D1 single-row snapshot is a separate migration concern: preserve it in app_state_legacy and copy it to the first registered account. Do not delete the legacy row.
 
 ## 2. State domains
 | Domain | Purpose |
