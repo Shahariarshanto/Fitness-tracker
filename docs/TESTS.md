@@ -246,7 +246,6 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Overview medication card lets the user mark each active medicine as taken or skipped; counts and status update immediately.
 - [ ] Overview medication check-in and Health → Medication Management show the same saved status.
 - [ ] Adding, editing and archiving medicines is available in Health → Medication Management, not in Overview.
-- [ ] Adding, editing and archiving medicines is available in Health → Medication Management, not in Overview.
 - [ ] Medication counts/status update after taken/skipped changes and medication edits/archive.
 - [ ] Quick actions open Movement, Health, and Insights tabs.
 - [ ] Refresh preserves the same Overview summaries.
