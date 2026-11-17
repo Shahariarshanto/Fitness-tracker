@@ -108,3 +108,67 @@
 @keyframes movement-lottie-wait{to{transform:rotate(360deg)}}
 @media(max-width:380px){.movement-guide-animation{width:108px;height:108px}}
 @media(prefers-reduced-motion:reduce){.movement-guide-animation:empty::after,.breath-halo,.breath-person,.breath-pulse{animation:none}}
+
+/* Exercise-specific motion system: shared character, distinct movement per exercise. */
+.movement-guide-art svg{overflow:hidden}
+.movement-guide-art .scene-glow{fill:var(--accent-soft);opacity:.58}
+.movement-guide-art .scene-floor,.movement-guide-art .scene-mat,.movement-guide-art .scene-wall,.movement-guide-art .scene-prop{fill:none;stroke:var(--line);stroke-width:3;stroke-linecap:round}
+.movement-guide-art .scene-wall{stroke-width:4;opacity:.8}
+.movement-guide-art .scene-mat{stroke:var(--accent);opacity:.38}
+.movement-guide-art .person{color:var(--accent)}
+.movement-guide-art .person-head{fill:#E9B99A;stroke:#D49A79;stroke-width:1}
+.movement-guide-art .person-hair{fill:#344256}
+.movement-guide-art .person-torso{fill:var(--accent);stroke:var(--accent-strong,var(--accent));stroke-width:2;stroke-linejoin:round}
+.movement-guide-art .person-arm-a,.movement-guide-art .person-arm-b,.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{fill:none;stroke:#E9B99A;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{stroke:#344256;stroke-width:9}
+.movement-guide-art .person-limbs{transform-box:fill-box;transform-origin:center}
+.movement-guide-art .person-head,.movement-guide-art .person-torso,.movement-guide-art .person-arm-a,.movement-guide-art .person-arm-b,.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{transform-box:fill-box}
+.movement-guide-art .scene-cue{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;opacity:.7;transform-origin:center;animation:cue-pulse 2.4s ease-in-out infinite}
+.movement-guide-art .scene-dot{fill:var(--accent);opacity:.55;animation:cue-pulse 2.4s ease-in-out infinite}
+.movement-guide-art--b1 .person-head{transform-origin:bottom center;animation:chin-tuck 2.6s ease-in-out infinite}
+.movement-guide-art--b2 .person-head{transform-origin:center;animation:neck-turn 3.4s ease-in-out infinite}
+.movement-guide-art--b3 .person-head{transform-origin:bottom center;animation:neck-tilt 3.2s ease-in-out infinite}
+.movement-guide-art--b4 .person-limbs{animation:chest-open 3.4s ease-in-out infinite}
+.movement-guide-art--b5 .person-arm-a{transform-origin:top center;animation:wall-arm-a 3.6s ease-in-out infinite}.movement-guide-art--b5 .person-arm-b{transform-origin:top center;animation:wall-arm-b 3.6s ease-in-out infinite}
+.movement-guide-art--c1 .person-torso{transform-origin:center;animation:cat-camel 3.6s ease-in-out infinite}
+.movement-guide-art--c2 .person-arm-a{transform-origin:top center;animation:bird-arm 3.2s ease-in-out infinite}.movement-guide-art--c2 .person-leg-b{transform-origin:top center;animation:bird-leg 3.2s ease-in-out infinite}
+.movement-guide-art--c3 .person-arm-a{transform-origin:top center;animation:thoracic-turn 3.2s ease-in-out infinite}
+.movement-guide-art--c4 .person-torso{transform-origin:left center;animation:press-up 3.2s ease-in-out infinite}
+.movement-guide-art--c5 .person-leg-a{transform-origin:top center;animation:spinal-twist 3.6s ease-in-out infinite}
+.movement-guide-art--d1 .person-leg-a,.movement-guide-art--d1 .person-leg-b{transform-origin:top center;animation:knees-chest 3.4s ease-in-out infinite}
+.movement-guide-art--d2 .person-torso{transform-origin:center;animation:bridge-lift 3s ease-in-out infinite}
+.movement-guide-art--d3 .person-torso{transform-origin:bottom center;animation:hamstring-hinge 3.5s ease-in-out infinite}
+.movement-guide-art--d4 .person-torso{transform-origin:bottom center;animation:calf-lean 3.4s ease-in-out infinite}
+.movement-guide-art--d5 .person-leg-a{transform-origin:top center;animation:quad-stretch 3.4s ease-in-out infinite}
+.movement-guide-art--e1 .person-leg-a,.movement-guide-art--e2 .person-leg-a{transform-origin:top center;animation:walk-leg 1.2s ease-in-out infinite}.movement-guide-art--e1 .person-leg-b,.movement-guide-art--e2 .person-leg-b{transform-origin:top center;animation:walk-leg 1.2s ease-in-out infinite reverse}
+.movement-guide-art--e3 .person-torso{transform-origin:bottom center;animation:squat-bend 3.2s ease-in-out infinite}
+.movement-guide-art--f1 .person-torso{animation:posture-reset 3s ease-in-out infinite}
+.movement-guide-art--f2 .person-torso{transform-origin:left center;animation:plank-hold 3s ease-in-out infinite}
+.movement-guide-art--f3 .person-torso{transform-origin:bottom center;animation:lunge-shift 3.4s ease-in-out infinite}
+.movement-guide-art--f4 .person-arm-a{transform-origin:top center;animation:shoulder-squeeze 3s ease-in-out infinite}.movement-guide-art--f4 .person-arm-b{transform-origin:top center;animation:shoulder-squeeze 3s ease-in-out infinite reverse}
+.movement-guide-art--f5 .person-leg-b{transform-origin:top center;animation:balance-leg 3.4s ease-in-out infinite}
+@keyframes cue-pulse{0%,100%{opacity:.25}50%{opacity:.9}}
+@keyframes chin-tuck{0%,100%{transform:translateX(0)}45%,60%{transform:translateX(-4px)}}
+@keyframes neck-turn{0%,100%{transform:rotate(0)}30%,45%{transform:rotate(-20deg)}70%,85%{transform:rotate(20deg)}}
+@keyframes neck-tilt{0%,100%{transform:rotate(0)}45%,60%{transform:rotate(16deg)}}
+@keyframes chest-open{0%,100%{transform:translateY(0)}45%,60%{transform:translateY(-5px)}}
+@keyframes wall-arm-a{0%,100%{transform:rotate(0)}50%{transform:rotate(-38deg)}}@keyframes wall-arm-b{0%,100%{transform:rotate(0)}50%{transform:rotate(38deg)}}
+@keyframes cat-camel{0%,100%{transform:scaleY(.94) translateY(2px)}50%{transform:scaleY(1.08) translateY(-2px)}}
+@keyframes bird-arm{0%,100%{transform:rotate(0)}50%{transform:rotate(-28deg)}}@keyframes bird-leg{0%,100%{transform:rotate(0)}50%{transform:rotate(25deg)}}
+@keyframes thoracic-turn{0%,100%{transform:rotate(0)}50%{transform:rotate(-55deg)}}
+@keyframes press-up{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes spinal-twist{0%,100%{transform:rotate(0)}50%{transform:rotate(28deg)}}
+@keyframes knees-chest{0%,100%{transform:rotate(0)}50%{transform:rotate(-24deg)}}
+@keyframes bridge-lift{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(-9px) scaleY(.94)}}
+@keyframes hamstring-hinge{0%,100%{transform:rotate(0)}50%{transform:rotate(10deg)}}
+@keyframes calf-lean{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@keyframes quad-stretch{0%,100%{transform:rotate(0)}50%{transform:rotate(-22deg)}}
+@keyframes walk-leg{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+@keyframes squat-bend{0%,100%{transform:translateY(0) scaleY(1)}50%{transform:translateY(5px) scaleY(.9)}}
+@keyframes posture-reset{0%,100%{transform:translateY(1px)}50%{transform:translateY(-2px)}}
+@keyframes plank-hold{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes lunge-shift{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@keyframes shoulder-squeeze{0%,100%{transform:rotate(0)}50%{transform:rotate(-18deg)}}
+@keyframes balance-leg{0%,100%{transform:rotate(0)}50%{transform:rotate(18deg)}}
+@media(prefers-reduced-motion:reduce){.movement-guide-art .scene-cue,.movement-guide-art .scene-dot,.movement-guide-art [class*="person-"]{animation:none!important}}
+@media(max-width:380px){.movement-guide-art{width:108px;height:108px}}
