@@ -1,5 +1,6 @@
 import { getState, updateState, subscribe } from "../core/state.js";
 import { hasCloudPending, clearCloudPending } from "../core/storage.js";
+import { getAuthToken } from "./auth.js";
 
 const API = "https://fitnesstracker.sshahariar062.workers.dev/api/state";
 let initialized = false, hydrating = false, remoteVerified = false, timer = null, retryTimer = null;
@@ -66,7 +67,9 @@ function mergeRemoteIntoLocal(remote) {
 export function getCloudStatus() { return status; }
 
 async function api(method = "GET", snapshot, expectedVersion) {
-  const options = { method, headers: { "Accept": "application/json" } };
+  const token = getAuthToken();
+  if (!token) throw new Error("Login required.");
+  const options = { method, headers: { "Accept": "application/json", "Authorization": "Bearer " + token } };
   if (method === "PUT") {
     options.headers["Content-Type"] = "application/json";
     options.body = JSON.stringify({ app: "as-care", schemaVersion: 1, expectedVersion, state: snapshot });
@@ -180,7 +183,23 @@ function scheduleUpload() {
   timer = setTimeout(() => upload().catch(() => {}), 900);
 }
 
+export async function refreshCloudData() {
+  if (!getAuthToken()) throw new Error("আগের ডাটা লোড করতে Login করুন।");
+  const remote = await api();
+  if (!remote.state) {
+    version = remote.version || 0;
+    setStatus("success", "এই অ্যাকাউন্টে এখনো কোনো Cloud ডাটা নেই।");
+    return false;
+  }
+  await applyRemote(remote);
+  return true;
+}
+
 export async function initializeCloud() {
+  if (!getAuthToken()) {
+    setStatus("idle", "Cloud ডাটা ব্যবহার করতে Login করুন।");
+    return false;
+  }
   if (initialized) return;
   initialized = true;
   setStatus("loading", "Cloudflare থেকে সর্বশেষ তথ্য নেওয়া হচ্ছে…");
