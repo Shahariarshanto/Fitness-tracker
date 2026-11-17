@@ -1,0 +1,207 @@
+/* Theme compatibility layer: keep legacy feature styling on shared tokens. */
+
+/* Shared controls and interaction states */
+.button-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.button-primary:hover,
+.settings-actions button[data-backup-export]:hover {
+  filter: brightness(.96);
+}
+.button-secondary:hover,
+.settings-actions button:hover,
+.icon-button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+}
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--accent);
+}
+.toast[data-type="success"] { background: var(--success); color: var(--accent-contrast); }
+.toast[data-type="error"] { background: var(--danger); color: #fff; }
+
+/* Overview: replace legacy green, purple, blue and beige feature palettes. */
+.overview-welcome {
+  border-color: var(--overview-hero-mid);
+  background:
+    radial-gradient(circle at 82% 50%, #ffffff18 0 2px, transparent 3px 100%),
+    linear-gradient(125deg, var(--overview-hero-start), var(--overview-hero-mid) 55%, var(--overview-hero-end));
+  color: var(--overview-hero-text);
+  box-shadow: 0 16px 35px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.overview-welcome-label,
+.welcome-leaf { color: var(--overview-hero-muted); }
+.overview-welcome-copy > p:last-child { color: var(--overview-hero-text); }
+.overview-icon-movement { background: var(--success-soft); color: var(--success); }
+.overview-icon-health { background: var(--overview-health-icon-bg); color: var(--overview-health-icon); }
+.overview-icon-medication { background: var(--warning-soft); color: var(--warning); }
+.overview-icon-week { background: var(--overview-week-icon-bg); color: var(--overview-week-icon); }
+.overview-progress i { background: linear-gradient(90deg, var(--accent), var(--success)); }
+.overview-movement-card {
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--overview-movement-bg), var(--surface));
+  color: var(--overview-movement-ink);
+}
+.overview-movement-card .overview-kicker,
+.overview-movement-card .movement-stats span,
+.overview-movement-card .overview-goal-label { color: var(--overview-movement-muted); }
+.overview-movement-card .overview-icon-movement,
+.overview-movement-card .overview-tag { background: var(--success-soft); color: var(--success); }
+.overview-movement-card .movement-ring {
+  background: conic-gradient(var(--success) var(--ring-progress), var(--surface-soft) 0);
+}
+.overview-movement-card .movement-ring > div { background: var(--surface); }
+.overview-movement-card .movement-ring strong,
+.overview-movement-card .movement-stats strong,
+.overview-movement-card .overview-goal-label strong { color: var(--overview-movement-ink); }
+.overview-movement-card .overview-progress { background: var(--surface-soft); }
+.overview-movement-card .overview-progress i { background: linear-gradient(90deg, var(--accent), var(--success)); }
+.overview-movement-card .overview-link { color: var(--accent); }
+.overview-health-card .overview-icon-health { background: var(--overview-health-icon-bg); color: var(--overview-health-icon); }
+.overview-medication-card {
+  border-color: var(--overview-medication-border);
+  background: linear-gradient(145deg, var(--overview-medication-bg), var(--surface));
+}
+.overview-medication-card .overview-icon-medication { background: var(--warning-soft); color: var(--warning); }
+.overview-medication-card .medication-summary { background: var(--warning-soft); }
+.overview-medication-card .medication-summary > div { border-color: var(--overview-medication-border); }
+.overview-medication-card .overview-med-actions button { background: var(--surface); color: var(--text); }
+.overview-medication-card .overview-med-actions button.is-selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.overview-week-card .overview-icon-week { background: var(--overview-week-icon-bg); color: var(--overview-week-icon); }
+.overview-week-card .overview-week-bars i { background: var(--line); }
+.overview-week-card .overview-week-bars .has-activity i { background: linear-gradient(180deg, var(--success), var(--accent)); }
+.overview-quick-actions button:first-child .quick-action-icon { background: var(--success-soft); color: var(--success); }
+.overview-quick-actions button:nth-child(2) .quick-action-icon { background: var(--overview-health-icon-bg); color: var(--overview-health-icon); }
+.overview-quick-actions button:nth-child(3) .quick-action-icon { background: var(--overview-week-icon-bg); color: var(--overview-week-icon); }
+.overview-med-actions button.is-selected.is-skipped,
+.medication-actions button.is-selected.is-skipped {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #fff;
+}
+.overview-med-actions button.is-skipped,
+.medication-status[data-status="skipped"],
+.medication-actions button.is-selected.is-skipped { color: var(--danger); }
+.overview-med-actions button.is-selected.is-skipped,
+.medication-actions button.is-selected.is-skipped { color: #fff; }
+
+/* Insights charts use consistent, distinguishable semantic series. */
+.chart-series-0 { stroke: var(--chart-1); fill: var(--chart-1); }
+.chart-series-1 { stroke: var(--chart-2); fill: var(--chart-2); }
+.chart-legend i { background: var(--chart-1); }
+.chart-legend span:nth-child(2) i { background: var(--chart-2); }
+.chart-goal-line i { background: var(--chart-goal); }
+
+/* Movement exercise guide and animation stage. Preserve illustration artwork. */
+.movement-detail-card {
+  --guide-blue: var(--brand-primary);
+  --guide-blue-deep: var(--accent);
+  --guide-ink: var(--text);
+  --guide-pale: var(--surface-soft);
+  --guide-green: var(--success);
+  --guide-amber: var(--brand-secondary);
+  border-color: var(--guide-border);
+  background: var(--guide-card);
+  color: var(--guide-ink);
+}
+.movement-guide-topbar,
+.is-cat-camel-sample .movement-guide-topbar {
+  background: linear-gradient(112deg, var(--accent), color-mix(in srgb, var(--brand-primary) 75%, #16443F));
+}
+.movement-guide-visual,
+.is-cat-camel-sample .movement-guide-visual {
+  border-color: var(--guide-border);
+  background: linear-gradient(145deg, var(--guide-stage), var(--guide-stage-deep));
+}
+.movement-guide-visual.is-pending { color: var(--guide-stage-text); }
+.movement-guide-placeholder-art {
+  border-color: color-mix(in srgb, var(--brand-primary) 48%, var(--line));
+  color: var(--accent);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.movement-guide-step { background: linear-gradient(145deg, var(--brand-primary), var(--accent)); }
+.movement-guide-instruction strong { color: var(--accent); }
+.movement-guide-instruction p { color: var(--text); }
+.movement-guide-meta > div {
+  border-color: var(--line);
+  background: linear-gradient(140deg, var(--surface-soft), var(--surface));
+}
+.movement-guide-meta-icon { color: var(--accent); }
+.movement-guide-meta strong { color: var(--accent); }
+.movement-guide-meta b { color: var(--text); }
+.movement-guide-meta .movement-guide-meta-repeat {
+  border-color: color-mix(in srgb, var(--success) 35%, var(--line));
+  background: var(--success-soft);
+}
+.movement-guide-meta-repeat .movement-guide-meta-icon,
+.movement-guide-meta-repeat strong { color: var(--success); }
+.movement-guide-caution {
+  border-color: color-mix(in srgb, var(--warning) 30%, var(--line));
+  background: var(--warning-soft);
+  color: var(--text);
+}
+.movement-guide-caution-icon { background: var(--brand-secondary); color: #382516; }
+.movement-guide-visual.is-asan-animation {
+  border-color: var(--line);
+  background: linear-gradient(145deg, var(--guide-stage), var(--guide-stage-deep));
+}
+.movement-animation-stage {
+  background:
+    radial-gradient(ellipse at 50% 76%, color-mix(in srgb, var(--brand-primary) 13%, transparent), transparent 44%),
+    linear-gradient(180deg, var(--guide-stage), var(--guide-stage-deep));
+}
+.movement-animation-stage::after { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--guide-stage-text) 35%, transparent), transparent); }
+.movement-animation-kicker { color: var(--guide-stage-text); }
+.movement-animation-caption { color: var(--muted); }
+.movement-exercise-actions button.is-complete {
+  border-color: var(--success);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+/* Health, medication and shared form feedback. */
+.health-score,
+.health-range output,
+.health-question output,
+.health-input output { color: var(--accent); }
+.medication-status[data-status="taken"] { background: var(--success-soft); color: var(--success); }
+.medication-status[data-status="skipped"] { background: var(--danger-soft); color: var(--danger); }
+.medication-actions button.is-selected.is-skipped { box-shadow: 0 0 0 2px color-mix(in srgb, var(--danger) 20%, transparent); }
+.medication-meta [data-status="warning"] { color: var(--warning); }
+.insight-day.is-active { border-color: var(--accent); background: var(--accent); color: var(--accent-contrast); }
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus,
+.settings-field input:focus,
+.settings-field select:focus {
+  border-color: var(--accent);
+}
+.feedback-dialog::backdrop { background: rgb(10 24 22 / 55%); }
+
+:root[data-theme="dark"] .overview-movement-card,
+:root[data-theme="dark"] .overview-medication-card {
+  color: var(--text);
+}
