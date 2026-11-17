@@ -22,7 +22,7 @@ The rebuilt application uses a clean modular architecture. The old monolithic `a
 - When offline, changes should remain locally queued and sync when connectivity returns.
 - **Manual JSON export/import is the independent user-controlled backup method.**
 - No automatic third-party backup service is part of the plan.
-- Old test data is not important and does not need a preservation or migration project. Important personal records will be entered after the app is ready for regular use.
+- Preserve the existing D1 snapshot during the account migration. The first registered account receives a copy; the original legacy table remains intact.
 - Do not clear browser storage, delete current records, or perform destructive schema changes without an explicit reason and a safe, clearly explained plan.
 
 ### Explicitly excluded
@@ -155,7 +155,7 @@ The canonical app state covers the data actually used by the application. Expect
 - Handle request failures without silently discarding local pending changes.
 - Do not claim that D1 itself is a backup.
 - No R2 snapshots or automated cloud backup are planned.
-- The endpoint currently has no user authentication by design. Do not describe CORS as authentication or as a security boundary.
+- The Worker now requires bearer authentication for every state request and enforces per-user data access. CORS remains an origin policy, not the authentication mechanism.
 - Do not store credentials, tokens or secrets in the repository.
 
 ### Manual JSON backup
@@ -426,7 +426,7 @@ This document describes the intended architecture and acceptance criteria; it do
 - A Node built-in static validator now runs through GitHub Actions on pull requests and before Pages deployment. It checks local imports/assets, precache coverage, exercise/group IDs, ASAN pose mapping, captions and Movement routine/inline-control behavior. It does not test rendering or runtime behavior.
 - Documentation and source inspection are not live browser/device verification. Android rendering, desktop interaction, offline startup and clinical review remain pending.
 
-Update the feature checklist and current implementation status only after inspecting the latest repository and verifying the relevant behavior. Old test data does not need a migration or preservation phase. The important data-entry period begins when the app is ready for regular use.
+Update the feature checklist and current implementation status only after inspecting the latest repository and verifying the relevant behavior. The existing D1 snapshot is preserved as app_state_legacy and assigned to the first registered account; never delete it as part of the migration.
 
 
 ## Account authentication implementation
