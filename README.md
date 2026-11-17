@@ -17,9 +17,11 @@ The app is designed for Android Chrome and desktop browsers and can be installed
 - Changes are sent to the Worker automatically when connectivity is available.
 - Manual JSON export/import is the independent backup and restore method.
 - D1 is the primary database, not a backup. Keep exported JSON copies somewhere safe.
-- The current Worker API has no login or authentication. CORS restrictions are not authentication; the public endpoint must not be considered private. Do not enter information that requires confidentiality.
-
-Old test data does not require a migration or preservation project. Important personal records are expected to be entered once the app is ready for regular use.
+- Account access is provided by the app's own Sign Up / Login flow. The Worker verifies sessions and scopes each D1 state record to its user ID.
+- Passwords are stored as PBKDF2 hashes; only a hash of each persistent session token is stored in D1.
+- Logout revokes the current session and clears app-owned `as-care-*` Local Storage keys. It does not delete the user's D1 data.
+- The first registered account receives the previous single-record D1 snapshot. The migration retains the original table as `app_state_legacy`; it is not deleted.
+- Email verification and password reset are not included. Use a unique password and keep it private.
 
 ## Repository map
 
@@ -46,7 +48,7 @@ Read `AI_CONTEXT.md`, `CONTRIBUTING.md`, and the relevant documents in `docs/`. 
 - Cloudflare Workers provides the API. The Worker entry point is `worker/index.js`; `wrangler.toml` defines the D1 binding and migration directory.
 - The current Cloudflare deployment command applies pending D1 migrations before deploying the Worker:
   `npx wrangler d1 migrations apply as-care-auth --remote && npx wrangler deploy`
-- Do not add paid services, billing, account/login flows or extra storage infrastructure without an explicit product decision.
+- Do not add paid services, billing, third-party authentication or extra storage infrastructure without an explicit product decision.
 
 ## Testing
 
