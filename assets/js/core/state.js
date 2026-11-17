@@ -3,7 +3,7 @@ import { loadState, saveState, markCloudPending } from "./storage.js";
 const INITIAL_STATE = {
   preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
   movement: { routineExerciseIds: [] },
-  dailyActivity: {}, painLogs: {},
+  dailyActivity: {}, painLogs: {}, painRegionLogs: [],
   medication: { items: [], dailyLogs: {} },
   symptoms: { daily: {} },
   healthScores: { basdai: [], asdas: [] },
