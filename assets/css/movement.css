@@ -84,3 +84,9 @@
 @keyframes guide-gentle-motion{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
 @media(prefers-reduced-motion:reduce){.movement-detail-card,.movement-guide-visual svg g{animation:none}}
 @media(max-width:360px){.movement-detail-card{padding:9px;gap:8px}.movement-guide-top{grid-template-columns:60px minmax(0,1fr);gap:8px}.movement-guide-visual{width:60px;height:60px}.movement-guide-visual svg{width:48px;height:44px}}
+
+/* Doorway chest stretch: gentle forward-lean sample */
+.movement-guide-visual--doorway svg{width:58px;height:52px}
+.movement-guide-visual--doorway .doorway-person{transform-box:view-box;transform-origin:55px 59px;animation:doorway-chest-lean 3.2s ease-in-out infinite}
+@keyframes doorway-chest-lean{0%,100%{transform:translateX(0)}45%,60%{transform:translateX(2px)}}
+@media(prefers-reduced-motion:reduce){.movement-guide-visual--doorway .doorway-person{animation:none}}
