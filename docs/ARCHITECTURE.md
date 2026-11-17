@@ -60,3 +60,7 @@ Use relative paths for GitHub Pages deployment under `/Fitness-tracker/`. Every 
 - Sessions persist until explicit logout. Logout revokes the server-side session and clears app-owned as-care-* Local Storage keys; it does not delete remote records.
 - Migration 0002_user_accounts.sql renames the original table to app_state_legacy and creates user-scoped tables. The legacy snapshot is retained; the first registered account receives a copy. Later accounts start with their own empty state.
 - The existing app remains usable locally without an account, but Cloudflare synchronization and restoration require login.
+
+
+## Compact global brand header
+The global `index.html` header is intentionally content-sized and compact. Its left brand group contains a fixed 42×42px spine SVG mark followed horizontally by a copy column: `A Square` (16px) above the secondary tagline `Your Personal AXSpA Companion` (10px). Date/status metadata remains aligned to the right in the same row. The logo must not shrink; the text column may use the remaining width and the tagline may wrap on narrow screens. Use responsive horizontal padding and avoid a large fixed/minimum header height. Keep the logo/name/tagline hierarchy restrained so neither text line visually exceeds the logo's prominence. Header structure belongs in `index.html`, styles in `assets/css/base.css`, and the shared spine artwork is `assets/images/as-care-spine-v1.svg`. The PWA shell cache was advanced to `as-care-shell-v128` for this update. Physical-device and live visual checks remain separate release gates.
