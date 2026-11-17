@@ -54,3 +54,15 @@ Read `AI_CONTEXT.md`, `CONTRIBUTING.md`, and the relevant documents in `docs/`. 
 ## Testing
 
 Run `node scripts/validate-project.mjs` from the repository root for JS syntax, dependency, asset, catalogue, animation-pose and event-contract checks. GitHub Actions runs it on pull requests and before deployment. Static checks are not browser tests: verify the deployed app, data persistence, JSON export/import, mobile layout and offline recovery before calling a release complete. Report only tests actually performed.
+
+
+### Account rollout and deployment automation
+
+Production rollout is deliberately ordered so the new Pages UI is not published before the authenticated Worker is live:
+
+1. Add GitHub repository Actions secrets named `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Never commit or share the token in chat. The token needs permission to deploy Workers scripts and apply D1 migrations for this account/database.
+2. Merge the account-auth pull request. The `Deploy Cloudflare Worker` workflow applies pending D1 migrations first, then deploys `worker/index.js`.
+3. Only after that workflow succeeds, `Deploy GitHub Pages` publishes the frontend. If Cloudflare secrets are missing or deployment fails, Pages deployment is intentionally held back.
+4. The same Worker workflow can be rerun manually from GitHub Actions after correcting credentials or configuration.
+
+The migration renames the old `app_state` table to `app_state_legacy` and keeps its records. Do not manually delete that table or its data.
