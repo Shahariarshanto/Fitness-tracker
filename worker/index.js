@@ -173,7 +173,7 @@ export default {
 
     if (url.pathname.startsWith("/api/auth/")) {
       try { return await handleAuth(request, env, url.pathname, origin); }
-      catch (error) { console.error("AS Care authentication error:", { stage: authStage, message: String(error?.message || error) }); return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি।", code: "AUTH_" + authStage.toUpperCase().replace(/-/g, "_") }, 500, origin); }
+      catch (error) { console.error("AS Care authentication error:", String(error?.message || error)); return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি।", code: "AUTH_INTERNAL" }, 500, origin); }
     }
 
     if (url.pathname !== "/api/state") return json({ error: "Not found" }, 404, origin);
