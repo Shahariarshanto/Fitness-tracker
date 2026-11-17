@@ -205,3 +205,56 @@ input[type="range"] {
 :root[data-theme="dark"] .overview-medication-card {
   color: var(--text);
 }
+
+/* Explicit dark selectors outrank legacy dark rules in overview.css. */
+:root[data-theme="dark"] .overview-movement-card {
+  border-color: var(--line);
+  background: linear-gradient(135deg, var(--overview-movement-bg), var(--surface));
+  color: var(--overview-movement-ink);
+}
+:root[data-theme="dark"] .overview-movement-card .overview-kicker,
+:root[data-theme="dark"] .overview-movement-card .movement-stats span,
+:root[data-theme="dark"] .overview-movement-card .overview-goal-label { color: var(--overview-movement-muted); }
+:root[data-theme="dark"] .overview-movement-card .overview-icon-movement,
+:root[data-theme="dark"] .overview-movement-card .overview-tag { background: var(--success-soft); color: var(--success); }
+:root[data-theme="dark"] .overview-movement-card .movement-ring { background: conic-gradient(var(--success) var(--ring-progress), var(--surface-soft) 0); }
+:root[data-theme="dark"] .overview-movement-card .movement-ring > div { background: var(--surface); }
+:root[data-theme="dark"] .overview-movement-card .movement-ring strong,
+:root[data-theme="dark"] .overview-movement-card .movement-stats strong,
+:root[data-theme="dark"] .overview-movement-card .overview-goal-label strong { color: var(--overview-movement-ink); }
+:root[data-theme="dark"] .overview-movement-card .overview-progress { background: var(--surface-soft); }
+:root[data-theme="dark"] .overview-movement-card .overview-link { color: var(--brand-primary); }
+:root[data-theme="dark"] .overview-medication-card {
+  border-color: var(--overview-medication-border);
+  background: linear-gradient(145deg, var(--overview-medication-bg), var(--surface));
+}
+:root[data-theme="dark"] .overview-medication-card .medication-summary { background: var(--warning-soft); }
+:root[data-theme="dark"] .overview-medication-card .medication-summary > div { border-color: var(--overview-medication-border); }
+:root[data-theme="dark"] .overview-medication-card .overview-med-actions button { background: var(--surface); color: var(--text); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .overview-movement-card {
+    border-color: var(--line);
+    background: linear-gradient(135deg, var(--overview-movement-bg), var(--surface));
+    color: var(--overview-movement-ink);
+  }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-kicker,
+  :root:not([data-theme="light"]) .overview-movement-card .movement-stats span,
+  :root:not([data-theme="light"]) .overview-movement-card .overview-goal-label { color: var(--overview-movement-muted); }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-icon-movement,
+  :root:not([data-theme="light"]) .overview-movement-card .overview-tag { background: var(--success-soft); color: var(--success); }
+  :root:not([data-theme="light"]) .overview-movement-card .movement-ring { background: conic-gradient(var(--success) var(--ring-progress), var(--surface-soft) 0); }
+  :root:not([data-theme="light"]) .overview-movement-card .movement-ring > div { background: var(--surface); }
+  :root:not([data-theme="light"]) .overview-movement-card .movement-ring strong,
+  :root:not([data-theme="light"]) .overview-movement-card .movement-stats strong,
+  :root:not([data-theme="light"]) .overview-movement-card .overview-goal-label strong { color: var(--overview-movement-ink); }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-progress { background: var(--surface-soft); }
+  :root:not([data-theme="light"]) .overview-movement-card .overview-link { color: var(--brand-primary); }
+  :root:not([data-theme="light"]) .overview-medication-card {
+    border-color: var(--overview-medication-border);
+    background: linear-gradient(145deg, var(--overview-medication-bg), var(--surface));
+  }
+  :root:not([data-theme="light"]) .overview-medication-card .medication-summary { background: var(--warning-soft); }
+  :root:not([data-theme="light"]) .overview-medication-card .medication-summary > div { border-color: var(--overview-medication-border); }
+  :root:not([data-theme="light"]) .overview-medication-card .overview-med-actions button { background: var(--surface); color: var(--text); }
+}
