@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v98";
+const CACHE_NAME = "as-care-shell-v99";
 const SHELL = [
   "./",
   "./index.html",
@@ -6,31 +6,6 @@ const SHELL = [
   "./manifest.webmanifest",
   "./icon.svg",
   "./assets/css/overview.css",
-  "./assets/vendor/lottie.min.js",
-  "./assets/animations/exercises/a1.json",
-  "./assets/animations/exercises/b1.json",
-  "./assets/animations/exercises/b2.json",
-  "./assets/animations/exercises/b3.json",
-  "./assets/animations/exercises/b4.json",
-  "./assets/animations/exercises/b5.json",
-  "./assets/animations/exercises/c1.json",
-  "./assets/animations/exercises/c2.json",
-  "./assets/animations/exercises/c3.json",
-  "./assets/animations/exercises/c4.json",
-  "./assets/animations/exercises/c5.json",
-  "./assets/animations/exercises/d1.json",
-  "./assets/animations/exercises/d2.json",
-  "./assets/animations/exercises/d3.json",
-  "./assets/animations/exercises/d4.json",
-  "./assets/animations/exercises/d5.json",
-  "./assets/animations/exercises/e1.json",
-  "./assets/animations/exercises/e2.json",
-  "./assets/animations/exercises/e3.json",
-  "./assets/animations/exercises/f1.json",
-  "./assets/animations/exercises/f2.json",
-  "./assets/animations/exercises/f3.json",
-  "./assets/animations/exercises/f4.json",
-  "./assets/animations/exercises/f5.json",
   "./assets/animations/exercises/default.json"
 ];
 
