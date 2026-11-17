@@ -26,7 +26,6 @@ const RUNTIME_MODULES = [
   "./assets/js/core/dates.js",
   "./assets/js/core/router.js",
   "./assets/js/services/medication.js",
-  "./assets/js/services/backup.js",
   "./assets/js/services/cloudflare.js",
   "./assets/js/services/auth.js",
   "./assets/js/services/daily-content.js",
