@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v104";
+const CACHE_NAME = "as-care-shell-v105";
 
 const CORE_SHELL = [
   "./",
@@ -52,16 +52,36 @@ const RUNTIME_MODULES = [
   "./assets/js/features/insights/Trends.js",
 
 
+
+  "./assets/js/features/movement/animations/a1.js",
+  "./assets/js/features/movement/animations/b1.js",
+  "./assets/js/features/movement/animations/b2.js",
+  "./assets/js/features/movement/animations/b3.js",
+  "./assets/js/features/movement/animations/b4.js",
+  "./assets/js/features/movement/animations/b5.js",
+  "./assets/js/features/movement/animations/c1.js",
+  "./assets/js/features/movement/animations/c2.js",
+  "./assets/js/features/movement/animations/c3.js",
+  "./assets/js/features/movement/animations/c4.js",
+  "./assets/js/features/movement/animations/c5.js",
+  "./assets/js/features/movement/animations/d1.js",
+  "./assets/js/features/movement/animations/d2.js",
+  "./assets/js/features/movement/animations/d3.js",
+  "./assets/js/features/movement/animations/d4.js",
+  "./assets/js/features/movement/animations/d5.js",
+  "./assets/js/features/movement/animations/e1.js",
+  "./assets/js/features/movement/animations/e2.js",
+  "./assets/js/features/movement/animations/e3.js",
+  "./assets/js/features/movement/animations/f1.js",
+  "./assets/js/features/movement/animations/f2.js",
+  "./assets/js/features/movement/animations/f3.js",
+  "./assets/js/features/movement/animations/f4.js",
+  "./assets/js/features/movement/animations/f5.js",
 ];
 
 // These six scripts define window.ASAN and must execute before the ES-module app.
 const CLASSIC_RUNTIME = [
-  "./assets/js/features/movement/asan_01_engine_a1.js",
-  "./assets/js/features/movement/asan_02_neck_shoulder.js",
-  "./assets/js/features/movement/asan_03_spine.js",
-  "./assets/js/features/movement/asan_04_hip_leg.js",
-  "./assets/js/features/movement/asan_05_daytime.js",
-  "./assets/js/features/movement/asan_06_additional.js"
+  "./assets/js/features/movement/animation-engine.js"
 ];
 
 // Install the complete app shell, including styles and every statically imported

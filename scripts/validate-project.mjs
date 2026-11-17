@@ -101,8 +101,8 @@ for (const file of classicRuntime.map(rel)) {
   if (!html.includes(`src="./${file}"`)) fail(`Classic runtime script is not loaded by index.html: ${file}`);
   checkSyntax(file, read(file));
 }
-if (classicRuntime.length !== 6) fail(`Expected 6 classic ASAN scripts, found ${classicRuntime.length}`);
-else pass("All six classic ASAN scripts are precached and loaded by index.html");
+if (classicRuntime.length !== 1 || !classicRuntime[0].endsWith("/animation-engine.js")) fail("Expected exactly one shared classic animation engine");
+else pass("Shared animation engine is loaded once; individual poses are ES modules");
 if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
 // 3. Exercise catalogue, groups, pose definitions and animation labels.
@@ -122,11 +122,15 @@ if (unknownGroupIds.length || ungroupedIds.length) {
   fail(`Exercise group mapping mismatch; unknown: ${unknownGroupIds.join(", ") || "none"}; ungrouped: ${ungroupedIds.join(", ") || "none"}`);
 } else pass("Exercise groups reference valid catalogue IDs");
 
+const animationFiles = walk("assets/js/features/movement/animations").filter(file => file.endsWith(".js"));
 const poseIds = [];
-for (const file of classicRuntime.map(rel)) {
+for (const file of animationFiles) {
   const source = read(file);
-  poseIds.push(...[...source.matchAll(/(?:A|w\.ASAN)\.POSES\.([a-z]\d+)\s*=/g)].map(m => m[1]));
+  checkSyntax(file, source, true);
+  poseIds.push(...[...source.matchAll(/A\.POSES\.([a-z]\d+)\s*=/g)].map(m => m[1]));
+  if (!runtimeSet.has(file)) fail(`Animation module missing from RUNTIME_MODULES: ${file}`);
 }
+if (animationFiles.length !== 24) fail(`Expected 24 independent animation modules, found ${animationFiles.length}`);
 const duplicatePoses = poseIds.filter((id, index) => poseIds.indexOf(id) !== index);
 const missingPoses = exerciseIds.filter(id => !poseIds.includes(id));
 const extraPoses = poseIds.filter(id => !exerciseIds.includes(id));
@@ -141,10 +145,10 @@ const missingLabels = exerciseIds.filter(id => !labelIds.includes(id));
 if (missingLabels.length) fail(`Missing Bengali animation captions for: ${missingLabels.join(", ")}`);
 else pass("Every exercise has an animation caption");
 
-const spinePoses = read("assets/js/features/movement/asan_03_spine.js");
-if (!spinePoses.includes("Quadruped thoracic rotation") || !details.includes('c3: ["হাত-হাঁটুতে বুক ঘোরানোর অ্যানিমেশন"')) {
-  fail("c3 animation must remain aligned with its hands-and-knees catalogue instruction");
-} else pass("c3 pose and Bengali caption identify the instructed quadruped thoracic rotation");
+const c3Pose = read("assets/js/features/movement/animations/c3.js");
+if (!c3Pose.includes("c3right") || !details.includes('c3: ["হাত-হাঁটুতে বুক ঘোরানোর অ্যানিমেশন"')) {
+  fail("c3 animation must remain an independent quadruped thoracic rotation module");
+} else pass("c3 has an independent pose module and matching Bengali caption");
 
 if (!/emit\(["']workout:started["'],\s*\{\s*exerciseIds:/.test(read("assets/js/features/movement/index.js"))) {
   fail("workout:started event payload no longer matches the documented exerciseIds contract");
