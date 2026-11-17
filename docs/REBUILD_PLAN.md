@@ -220,13 +220,15 @@ Work in small, reviewable steps. Before changing code, inspect the current imple
 
 ### Step 6 — Movement
 
-- Exercise checklist, groups and daily progress.
-- Exercise instructions and details.
-- Body-region visualization where implemented.
-- Guided session controls and summary.
+- Save a user-selected daily routine in the shared application state.
+- Show the selected routine and its date-scoped completion progress before the exercise library.
+- Use one completion checkbox per routine exercise; allow undo.
+- Keep the exercise library for adding/removing exercises and browsing by body region or starting position.
+- Put the animation, concise instructions, optional manual repetition counter, elapsed-time stopwatch, safety note and completion action inside each Exercise Details panel.
+- Remove the standalone Guided Session UI. Preserve historical `workoutSessions` records for existing Overview/Insights calculations.
+- Keep unreviewed catalogue doses and durations unchanged; the stopwatch is not a prescribed countdown.
 
-**Verification:** completion, timer, pause/resume, skip and finish behavior work; state survives reload.
-
+**Verification:** routine selection and completion persist; progress counts only selected routine exercises; inline stopwatch/counter work; existing D1/backups remain compatible; mobile and offline checks are recorded separately.
 ### Step 7 — Insights
 
 - Calendar and day details.
@@ -416,7 +418,7 @@ This document describes the intended architecture and acceptance criteria; it do
 - The Movement detail card now uses a compact responsive animation stage with per-exercise Bengali captions. The related layout and mobile readability refinements are present in `ExerciseDetails.js` and `movement.css`.
 - The catalogue is still marked `legacy-reference-unreviewed`; the animations are illustrative and do not constitute clinical approval.
 - c3 animation and Bengali caption now depict the hands-and-knees thoracic rotation already described by the catalogue. This aligns the visual with existing text only; catalogue suitability and dosage remain unreviewed clinically.
-- e1 and e2 intentionally retain `durationSeconds: 0` because the catalogue does not define an explicit countdown policy (e1 allows 30 minutes or 3 × 10 minutes). GuidedSession now displays `নির্দেশনা অনুযায়ী` instead of a misleading `0s`; overall session elapsed time still accumulates.
+- The Movement feature now uses a count-up stopwatch inside Exercise Details. It does not use catalogue `durationSeconds` values as a countdown because the exercise timing/dosage semantics remain unreviewed.
 - Other catalogue durations also differ from the arithmetic implied by their repetition instructions (b1–b4, c5, d1, f1, f3 and f5 are listed in `TESTS.md`). Do not normalize them until the meaning of `durationSeconds` (hold/activity/rest/transition total) is defined and the exercise dosage is reviewed.
 - The service worker combines `CORE_SHELL`, `CLASSIC_RUNTIME` and `RUNTIME_MODULES` into `PRECACHE_ASSETS` and uses `cache.addAll()` during install. The six classic ASAN scripts and active ES-module graph are included; obsolete SVG factory imports have now been removed from `ExerciseAnimation.js`. Repository-path validation passed; real browser install/offline verification is still pending.
 - Confirmed orphan cleanup removed 57 files: 24 unused legacy SVG animation factories, 25 unreferenced Lottie JSON files (including `default.json`, which shared the exact blob SHA/content with `a1.json`), six unreachable exercise illustrations, the unreferenced navigation fallback module and the unused Lottie runtime. The Lottie license notice is retained. The old monolithic `assets/js/app.js` and unreferenced `assets/css/app.css` remain intentionally untouched pending a separate legacy-reference decision.
