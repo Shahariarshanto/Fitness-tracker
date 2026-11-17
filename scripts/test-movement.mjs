@@ -64,11 +64,12 @@ assert.doesNotMatch(untimedDetail, /data-repetition-action/);
 assert.match(untimedDetail, /movement-exercise-tools is-timer-only/);
 
 const movementCss = readFileSync(new URL("../assets/css/movement.css", import.meta.url), "utf8");
-assert.match(movementCss, /\.movement-guide-instruction p[^}]*color:\s*#352d40/s);
-assert.match(movementCss, /\.movement-counter-controls output[^}]*color:\s*#302344/s);
-assert.match(movementCss, /\.movement-exercise-tools\s*\{[^}]*grid-template-columns:\s*repeat\(2,minmax\(0,1fr\)\)/s);
-assert.match(movementCss, /\.movement-counter-controls button\[data-repetition-action="increase"\]/);
-assert.match(movementCss, /\.movement-stopwatch-controls button:disabled\s*\{[^}]*opacity:\s*1/s);
+const detailCss = movementCss.slice(movementCss.lastIndexOf("/* Exercise detail controls — consolidated mobile-first styles. */"));
+assert.ok(detailCss.includes(".movement-guide-instruction p{") && detailCss.includes("color:#352d40"));
+assert.ok(detailCss.includes(".movement-counter-controls output{") && detailCss.includes("color:#302344"));
+assert.ok(detailCss.includes("grid-template-columns:repeat(2,minmax(0,1fr))"));
+assert.ok(detailCss.includes('button[data-repetition-action="increase"]'));
+assert.ok(detailCss.includes(".movement-stopwatch-controls button:disabled{") && detailCss.includes("opacity:1"));
 assert.doesNotMatch(movementCss, /Exercise detail polish — compact hierarchy|Compact, calmer exercise detail layout — v2/);
 
 const storage = new Map();
