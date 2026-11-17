@@ -72,6 +72,13 @@ assert.ok(detailCss.includes('button[data-repetition-action="increase"]'));
 assert.ok(detailCss.includes(".movement-stopwatch-controls button:disabled{") && detailCss.includes("opacity:1"));
 assert.doesNotMatch(movementCss, /Exercise detail polish — compact hierarchy|Compact, calmer exercise detail layout — v2/);
 
+const headerCss = detailCss.slice(detailCss.lastIndexOf("/* Exercise guide header: explicit contrast for the current compact markup. */"));
+assert.ok(headerCss.includes(".movement-detail-card .movement-guide-topbar .movement-guide-eyebrow"));
+assert.ok(headerCss.includes("background:#6841a7!important;color:#fff!important"));
+assert.ok(headerCss.includes(".movement-detail-card .movement-guide-topbar .movement-guide-section-title"));
+assert.ok(headerCss.includes("color:#38264f!important"));
+
+
 const storage = new Map();
 const legacySnapshot = {
   preferences: { theme: "system", language: "bn", dailyGoal: 20 },
