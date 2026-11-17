@@ -12,7 +12,7 @@ The active architecture, scope and acceptance criteria are maintained in [REBUIL
 6. Movement.
 7. Insights.
 8. Overview.
-9. Cloud persistence, manual JSON backup/import and notification helpers where required.
+9. Cloud persistence, readable HTML report export and notification helpers where required.
 10. Integration, cleanup and final verification.
 
 ## Current repository position
@@ -23,7 +23,7 @@ This is not a claim that all acceptance tests have passed. Browser, Android-devi
 
 ## Explicit exclusions
 
-Google Drive, Google OAuth, paid backup services and Cloudflare R2 snapshots are not part of the approved roadmap. Manual JSON export/import remains the independent user-controlled backup method.
+Google Drive, Google OAuth, paid backup services and Cloudflare R2 snapshots are not part of the approved roadmap. The current Settings feature provides a readable HTML report export only; it is not a restorable backup.
 
 ## Working protocol
 
