@@ -319,10 +319,10 @@ Do not mark a step complete if a required runtime module is missing from the ser
 
 **Mitigation:** Keep a durable local pending queue, reconcile pending edits before remote hydration can replace state, validate server responses and retain pending changes until a confirmed successful write.
 
-### No authentication
-**Risk:** The current Worker endpoint has no user authentication. CORS is not an access-control substitute.
+### Account authentication and user isolation
+**Risk:** A frontend-only login could leave the Worker state API publicly accessible or allow one account to read another account's data.
 
-**Mitigation:** Do not put secrets or sensitive credentials in client code. Keep the endpoint's current limitations documented and avoid claiming that the database is private or access-controlled by authentication.
+**Mitigation:** Require a verified bearer session for every state request; derive the user ID on the Worker; use per-user state rows; revoke sessions on logout; preserve the legacy snapshot during migration.
 
 ### Service-worker cache completeness
 **Risk:** A module missing from the shell cache can break offline startup.
@@ -380,7 +380,7 @@ Never claim a phone, browser, offline or deployment test passed unless it was ac
 - [ ] Local cache and offline pending queue preserve edits.
 - [ ] Manual JSON export/import validates and restores data.
 - [ ] No unapproved third-party account or backup integration.
-- [ ] No login/account/password flow.
+- [ ] Sign Up, Login and Logout use the app's native Worker/D1 account system; no third-party auth provider.
 - [ ] No paid service dependency.
 
 ### Features
