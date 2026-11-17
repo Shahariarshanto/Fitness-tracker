@@ -18,7 +18,7 @@ Before editing, read `AI_CONTEXT.md`, `docs/REBUILD_PLAN.md`, `docs/ARCHITECTURE
 - Cloudflare D1 is the permanent primary data store.
 - Local Storage is a cache and offline pending queue.
 - Preserve pending edits during remote-state reconciliation.
-- Manual JSON export/import is the independent backup method.
+- Settings provides a readable HTML report export only; it is not a restorable backup. Do not add import/restore controls without an explicit product decision.
 - Do not add R2, paid storage, billing or scheduled backup services.
 - Do not perform destructive storage or schema changes without a clear need and a safe plan.
 - Worker state endpoints require bearer authentication and enforce per-user data isolation. CORS is still only an origin policy.
