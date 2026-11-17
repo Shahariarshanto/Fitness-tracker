@@ -9,6 +9,7 @@ The rebuild starts with a clean schema because there is no existing user data to
 | Domain | Purpose |
 |---|---|
 | `preferences` | Theme, language, daily goal, medication reminder, sound, voice, vibration preferences |
+| `movement` | User-selected daily routine exercise IDs |
 | `dailyActivity` | Date-keyed exercise completion and daily activity |
 | `painLogs` | Date-keyed pain ratings |
 | `medication` | Medication definitions and date-keyed adherence |
@@ -24,6 +25,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
 ```js
 {
   preferences: { theme: "system", language: "bn", dailyGoal: 20, medicationReminders: false, sound: false, voiceGuidance: false, vibration: false },
+  movement: { routineExerciseIds: [] },
   dailyActivity: {},
   painLogs: {},
   medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
@@ -69,10 +71,12 @@ Health information is sensitive. The current single-user endpoint has no login o
 
 
 ### Movement records
-- Daily completion is stored in `dailyActivity[YYYY-MM-DD]` as `{ completedExerciseIds: string[], updatedAt: ISO-8601 }`. Toggling a checklist item adds or removes its exercise ID for that local calendar date.
-- Guided sessions are appended to `workoutSessions` with an ID, local date, start/end timestamps, elapsed seconds, selected exercise IDs, completed IDs, and skipped IDs.
-- Finishing a guided session adds only its completed exercises to that date's checklist; skipped exercises are not marked complete.
-- Exercise catalogue wording is marked `legacy-reference-unreviewed`. The app presents it as unverified reference material and does not claim that an exercise is suitable for a particular person.
+- The user's chosen routine is stored in `movement.routineExerciseIds` as an ordered array of exercise IDs. It is shared across dates and devices through the normal application state and Cloudflare D1 sync.
+- For backward compatibility, `movement` is optional in older D1 snapshots and version-1 JSON backups. `core/state.js` normalizes a missing or malformed routine to an empty list; the Worker and backup validator accept older snapshots while validating the new field when present.
+- Daily completion is stored in `dailyActivity[YYYY-MM-DD]` as `{ completedExerciseIds: string[], updatedAt: ISO-8601 }`. The Movement checklist only counts completed IDs that also belong to the saved routine when calculating today's routine progress.
+- The stopwatch and manual repetition counter inside Exercise Details are temporary UI controls. They are not saved as clinical dosage, do not auto-complete an exercise, and do not impose a target time or repetition count.
+- `workoutSessions` remains in the state for historical records created by the previous Guided Session implementation and for existing Overview/Insights calculations. The current Movement page no longer creates new guided-session records.
+- Exercise catalogue wording remains marked `legacy-reference-unreviewed`. Catalogue doses and `durationSeconds` values are not treated as verified prescriptions; the UI does not convert them into a countdown target.
 
 
 ### Insights calculations (derived, not persisted)
