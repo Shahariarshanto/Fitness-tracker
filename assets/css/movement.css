@@ -289,3 +289,165 @@
 .is-asan-animation .fg{display:flex;align-items:center;justify-content:center;width:min(100%,240px);min-height:90px}
 .is-asan-animation .fg svg{width:100%;height:auto;max-height:145px;overflow:visible}
 .movement-animation-caption{color:var(--muted,#687386);font-size:12px;font-weight:650;text-align:center}
+
+
+/* Compact motion-first exercise guide — responsive animation stage */
+.movement-detail-card{
+  gap:12px;
+  padding:12px;
+  border-color:var(--bd,#dce4ee);
+  border-radius:22px;
+  background:var(--card,#fff);
+  box-shadow:0 8px 24px rgba(20,42,74,.07);
+}
+.movement-guide-topbar{
+  min-height:76px;
+  padding:12px 14px;
+  border-radius:16px;
+  background:linear-gradient(112deg,#123d69 0%,#1769a8 58%,#2385bd 100%);
+}
+.movement-guide-title h4{font-size:clamp(16px,3.8vw,19px);line-height:1.3}
+.movement-guide-title p{font-size:11px;opacity:.9}
+.movement-guide-duration-pill{padding:8px 10px;font-size:11px}
+.movement-guide-visual.is-asan-animation{
+  display:grid;
+  grid-template-rows:minmax(126px,1fr) auto;
+  align-items:stretch;
+  justify-items:stretch;
+  gap:8px;
+  width:100%;
+  min-height:0;
+  max-height:none;
+  aspect-ratio:auto;
+  padding:9px;
+  overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--accent,#2878bd) 16%,var(--bd,#dce4ee));
+  border-radius:18px;
+  background:linear-gradient(145deg,#f4f8fc 0%,#eaf1f8 100%);
+}
+.movement-animation-stage{
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:100%;
+  min-height:126px;
+  max-height:166px;
+  overflow:hidden;
+  border-radius:13px;
+  background:
+    radial-gradient(ellipse at 50% 76%,rgba(65,133,190,.13),transparent 44%),
+    linear-gradient(180deg,#f8fbfe 0%,#e9f1f8 100%);
+}
+.movement-animation-stage::after{
+  content:"";
+  position:absolute;
+  left:12%;
+  right:12%;
+  bottom:13px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(65,105,145,.24),transparent);
+  pointer-events:none;
+}
+.movement-animation-kicker{
+  position:absolute;
+  top:9px;
+  left:10px;
+  z-index:1;
+  color:#58718b;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.14em;
+  line-height:1;
+}
+.is-asan-animation .fg{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:min(100%,190px);
+  height:116px;
+  min-height:0;
+  margin-top:8px;
+}
+.is-asan-animation .fg svg{
+  display:block;
+  width:100%;
+  height:100%;
+  max-height:124px;
+  overflow:visible;
+}
+.movement-animation-caption{
+  display:block;
+  width:100%;
+  margin:0;
+  padding:1px 7px 3px;
+  color:var(--muted,#65758a);
+  font-size:12px;
+  font-weight:650;
+  line-height:1.55;
+  text-align:center;
+}
+.movement-guide-instruction{
+  grid-template-columns:38px minmax(0,1fr);
+  gap:10px;
+  align-items:start;
+  padding:2px 4px;
+}
+.movement-guide-step{
+  width:38px;height:38px;border-radius:12px;
+  background:var(--accent,#2878bd);
+  box-shadow:none;
+  font-size:18px;
+}
+.movement-guide-instruction strong{font-size:14px}
+.movement-guide-instruction p{font-size:13px;line-height:1.65}
+.movement-guide-meta{gap:8px}
+.movement-guide-meta>div{
+  min-height:70px;
+  padding:10px;
+  border-color:var(--bd,#dce4ee);
+  border-radius:14px;
+  background:var(--surface,#f5f8fb);
+}
+.movement-guide-meta .movement-guide-meta-repeat{
+  border-color:#cfe8dc;
+  background:#f0faf5;
+}
+.movement-guide-caution{
+  padding:10px 12px;
+  border-radius:14px;
+  font-size:11px;
+}
+@media(max-width:420px){
+  .movement-detail-card{padding:9px;gap:10px;border-radius:19px}
+  .movement-guide-topbar{min-height:68px;padding:10px 11px;gap:8px;border-radius:14px}
+  .movement-guide-title h4{font-size:15px}
+  .movement-guide-title p{font-size:10px}
+  .movement-guide-duration-pill{padding:7px 8px;font-size:10px}
+  .movement-guide-visual.is-asan-animation{
+    grid-template-rows:minmax(116px,1fr) auto;
+    gap:6px;padding:7px;border-radius:15px
+  }
+  .movement-animation-stage{min-height:116px;max-height:144px;border-radius:11px}
+  .is-asan-animation .fg{width:min(100%,172px);height:104px}
+  .is-asan-animation .fg svg{max-height:110px}
+  .movement-animation-kicker{top:8px;left:8px;font-size:7px}
+  .movement-animation-caption{font-size:11px;line-height:1.45;padding:1px 5px 2px}
+  .movement-guide-instruction{grid-template-columns:34px minmax(0,1fr);gap:8px}
+  .movement-guide-step{width:34px;height:34px;font-size:16px}
+  .movement-guide-instruction strong{font-size:13px}
+  .movement-guide-instruction p{font-size:12px}
+  .movement-guide-meta>div{min-height:64px;padding:8px;gap:6px}
+  .movement-guide-meta-icon{flex-basis:26px;width:26px;height:26px}
+  .movement-guide-meta-icon svg{width:24px;height:24px}
+  .movement-guide-meta strong{font-size:9px}
+  .movement-guide-meta b{font-size:12px}
+}
+@media(max-width:350px){
+  .movement-guide-meta{grid-template-columns:1fr}
+  .movement-guide-meta>div{min-height:54px}
+}
+@media(prefers-reduced-motion:reduce){
+  .movement-animation-stage,.movement-animation-stage::after{scroll-behavior:auto}
+}
