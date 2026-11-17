@@ -427,8 +427,8 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Apply migration 0002_user_accounts.sql against a disposable D1 database and verify the original app_state_legacy row remains unchanged.
 
 ### Browser checks
-- [ ] Sign Up validates username, email, password and confirmation; duplicate username/email is rejected.
-- [ ] Login accepts username or email and rejects incorrect passwords.
+- [ ] Sign Up validates email, password and confirmation; duplicate email is rejected.
+- [ ] Login accepts email and rejects incorrect passwords.
 - [ ] Reloading the app retains the logged-in state without another login.
 - [ ] First account restores the previous D1 snapshot; a later account cannot see or overwrite it.
 - [ ] Load Previous Data refreshes the current user's remote state.
