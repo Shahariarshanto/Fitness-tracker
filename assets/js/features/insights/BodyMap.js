@@ -1,63 +1,76 @@
 import { dateKey, addDays } from "../../core/dates.js";
 
 const REGIONS = [
-  ["neck","ঘাড়",120,105],["left-shoulder","বাম কাঁধ",69,137],["right-shoulder","ডান কাঁধ",171,137],
-  ["chest","বুক",120,177],["abdomen","পেট",120,228],["lower-back","কোমর",120,279],
-  ["left-hip","বাম নিতম্ব",99,300],["right-hip","ডান নিতম্ব",141,300],
-  ["left-knee","বাম হাঁটু",98,381],["right-knee","ডান হাঁটু",142,381],
-  ["left-ankle","বাম গোড়ালি",94,475],["right-ankle","ডান গোড়ালি",146,475]
+  ["neck","ঘাড়",130,101],["left-shoulder","বাম কাঁধ",75,128],["right-shoulder","ডান কাঁধ",185,128],
+  ["chest","বুক",130,177],["abdomen","পেট",130,231],["lower-back","কোমর",130,291],
+  ["left-hip","বাম নিতম্ব",108,321],["right-hip","ডান নিতম্ব",152,321],
+  ["left-knee","বাম হাঁটু",106,414],["right-knee","ডান হাঁটু",154,414],
+  ["left-ankle","বাম গোড়ালি",103,516],["right-ankle","ডান গোড়ালি",157,516]
 ];
 
 const esc = value => String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const recordFor = (logs, region, date) => logs.find(x=>x.region===region&&x.date===date);
 
 function bodyArtwork() {
-  return `<svg viewBox="0 0 240 520" class="body-map-silhouette" aria-hidden="true" focusable="false">
+  return `<svg viewBox="0 0 260 560" class="body-map-silhouette" aria-hidden="true" focusable="false">
     <defs>
-      <linearGradient id="bodyMapSkin" x1="0" y1="0" x2="1" y2="1">
+      <linearGradient id="bodyMapForm" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" stop-color="var(--surface)"/>
-        <stop offset=".48" stop-color="var(--accent-soft)"/>
+        <stop offset=".38" stop-color="var(--accent-soft)"/>
         <stop offset="1" stop-color="var(--surface-soft)"/>
       </linearGradient>
-      <linearGradient id="bodyMapLimb" x1="0" y1="0" x2="1" y2="0">
+      <linearGradient id="bodyMapSide" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0" stop-color="var(--surface-soft)"/>
-        <stop offset=".52" stop-color="var(--accent-soft)"/>
+        <stop offset=".5" stop-color="var(--accent-soft)"/>
         <stop offset="1" stop-color="var(--surface)"/>
       </linearGradient>
-      <filter id="bodyMapShadow" x="-30%" y="-15%" width="160%" height="140%">
-        <feGaussianBlur stdDeviation="5"/>
+      <linearGradient id="bodyMapHighlight" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="white" stop-opacity=".42"/>
+        <stop offset="1" stop-color="white" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="bodyMapShadow" x="-35%" y="-15%" width="170%" height="140%">
+        <feGaussianBlur stdDeviation="7"/>
       </filter>
     </defs>
-    <ellipse cx="120" cy="505" rx="54" ry="5" fill="var(--accent)" opacity=".10" filter="url(#bodyMapShadow)"/>
-    <g class="body-map-limbs">
-      <path d="M68 113 C58 115 53 124 49 137 L32 184 C29 193 33 202 41 205 C48 207 53 201 56 192 L76 146 C82 133 80 120 68 113Z"/>
-      <path d="M172 113 C182 115 187 124 191 137 L208 184 C211 193 207 202 199 205 C192 207 187 201 184 192 L164 146 C158 133 160 120 172 113Z"/>
-      <path d="M34 188 C29 194 28 202 31 209 L37 220 Q41 225 45 220 L49 208 L44 194Z"/>
-      <path d="M206 188 C211 194 212 202 209 209 L203 220 Q199 225 195 220 L191 208 L196 194Z"/>
-      <path d="M94 265 C88 285 88 315 90 345 L94 377 C96 386 104 388 110 380 L117 350 L120 289Z"/>
-      <path d="M146 265 C152 285 152 315 150 345 L146 377 C144 386 136 388 130 380 L123 350 L120 289Z"/>
-      <path d="M94 373 C91 401 87 440 87 475 L83 494 Q91 501 103 496 L106 475 L120 382Z"/>
-      <path d="M146 373 C149 401 153 440 153 475 L157 494 Q149 501 137 496 L134 475 L120 382Z"/>
-      <path d="M84 491 Q77 495 75 502 Q75 507 82 508 L111 508 Q116 507 115 502 L105 494 L103 496 Q92 501 84 491Z"/>
-      <path d="M156 491 Q163 495 165 502 Q165 507 158 508 L129 508 Q124 507 125 502 L135 494 L137 496 Q148 501 156 491Z"/>
+    <ellipse cx="130" cy="544" rx="61" ry="7" fill="var(--accent)" opacity=".13" filter="url(#bodyMapShadow)"/>
+    <g class="body-map-form">
+      <!-- Arms: softly tapered upper arms, forearms and open hands -->
+      <path d="M78 111 C67 111 59 119 55 132 L35 190 C31 201 34 211 43 214 C51 216 57 210 60 201 L83 151 C90 137 91 119 78 111Z"/>
+      <path d="M182 111 C193 111 201 119 205 132 L225 190 C229 201 226 211 217 214 C209 216 203 210 200 201 L177 151 C170 137 169 119 182 111Z"/>
+      <path d="M39 207 C34 210 31 218 33 225 L38 238 Q41 244 46 239 L52 226 L49 214Z"/>
+      <path d="M221 207 C226 210 229 218 227 225 L222 238 Q219 244 214 239 L208 226 L211 214Z"/>
+      <!-- Fingers -->
+      <path d="M35 235 L31 246 Q30 250 34 251 Q38 252 40 246 L43 239 M41 239 L39 252 Q39 256 43 256 Q47 256 47 250 L48 239 M48 238 L48 250 Q49 254 53 252 Q56 251 55 246 L54 235" class="body-map-finger"/>
+      <path d="M225 235 L229 246 Q230 250 226 251 Q222 252 220 246 L217 239 M219 239 L221 252 Q221 256 217 256 Q213 256 213 250 L212 239 M212 238 L212 250 Q211 254 207 252 Q204 251 205 246 L206 235" class="body-map-finger"/>
+      <!-- Legs, with natural thigh, knee and calf transitions -->
+      <path d="M99 282 C91 307 91 337 95 367 L100 411 C101 421 111 424 117 415 L127 374 L130 305Z"/>
+      <path d="M161 282 C169 307 169 337 165 367 L160 411 C159 421 149 424 143 415 L133 374 L130 305Z"/>
+      <path d="M101 408 C98 440 94 481 94 518 L89 537 Q101 544 116 538 L119 518 L130 421Z"/>
+      <path d="M159 408 C162 440 166 481 166 518 L171 537 Q159 544 144 538 L141 518 L130 421Z"/>
+      <path d="M91 533 Q83 538 81 546 Q81 552 89 553 L119 553 Q124 552 122 546 L116 538 Q102 544 91 533Z"/>
+      <path d="M169 533 Q177 538 179 546 Q179 552 171 553 L141 553 Q136 552 138 546 L144 538 Q158 544 169 533Z"/>
+      <!-- Main torso and pelvis -->
+      <path d="M111 83 C105 91 94 96 82 101 C70 106 66 117 69 132 L83 172 L86 220 C86 244 98 263 111 275 L109 292 C116 302 122 307 130 309 C138 307 144 302 151 292 L149 275 C162 263 174 244 174 220 L177 172 L191 132 C194 117 190 106 178 101 C166 96 155 91 149 83 C144 94 116 94 111 83Z"/>
+      <!-- Neck and head -->
+      <path d="M116 68 L116 94 Q130 103 144 94 L144 68Z"/>
+      <path d="M130 12 C145 12 157 25 157 43 C157 62 145 76 130 76 C115 76 103 62 103 43 C103 25 115 12 130 12Z"/>
     </g>
-    <g class="body-map-torso">
-      <ellipse cx="120" cy="43" rx="22" ry="27"/>
-      <path d="M108 68 L108 91 Q120 98 132 91 L132 68Z"/>
-      <path d="M104 91 C90 94 77 101 64 112 C58 117 58 127 63 137 L78 165 L83 218 C85 236 97 249 108 254 L132 254 C143 249 155 236 157 218 L162 165 L177 137 C182 127 182 117 176 112 C163 101 150 94 136 91 C132 103 108 103 104 91Z"/>
-      <path d="M91 239 C98 250 105 258 120 261 C135 258 142 250 149 239 L151 270 C143 284 133 291 120 293 C107 291 97 284 89 270Z"/>
+    <g class="body-map-highlight">
+      <path d="M108 25 C100 42 108 63 121 68" />
+      <path d="M88 119 C83 145 96 165 101 184"/>
+      <path d="M106 192 C111 205 111 223 108 239"/>
+      <path d="M100 307 C96 335 104 361 108 382"/>
+      <path d="M101 433 C98 465 99 492 98 511"/>
     </g>
-    <g class="body-map-anatomy">
-      <path d="M83 119 Q101 129 120 128 Q139 129 157 119"/>
-      <path d="M120 129 L120 239"/>
-      <path d="M92 164 Q105 171 120 171 Q135 171 148 164"/>
-      <path d="M98 202 Q120 209 142 202"/>
-      <path d="M104 225 Q120 230 136 225"/>
-      <path d="M120 235 Q117 239 120 242 Q123 239 120 235Z"/>
-      <path d="M96 277 Q120 285 144 277"/>
-      <path d="M93 376 Q103 382 113 376 M127 376 Q137 382 147 376"/>
-      <path d="M91 414 Q101 418 109 414 M131 414 Q139 418 149 414"/>
-      <path d="M90 474 Q98 478 106 474 M134 474 Q142 478 150 474"/>
+    <g class="body-map-detail-lines">
+      <path d="M85 126 Q105 139 130 139 Q155 139 175 126"/>
+      <path d="M130 139 L130 255"/>
+      <path d="M94 175 Q111 184 130 184 Q149 184 166 175"/>
+      <path d="M101 215 Q130 224 159 215"/>
+      <path d="M107 246 Q130 253 153 246"/>
+      <path d="M100 283 Q130 296 160 283"/>
+      <path d="M99 414 Q110 423 121 414 M139 414 Q150 423 161 414"/>
+      <path d="M97 470 Q108 475 118 470 M142 470 Q152 475 163 470"/>
     </g>
   </svg>`;
 }
@@ -69,7 +82,7 @@ export function renderBodyMap(state, selectedDate=dateKey(), selectedRegion=null
   const markers=REGIONS.map(([id,label,x,y])=>{
     const record=recordFor(logs,id,current);
     const level=record?(record.score>=7?"high":record.score>=4?"mid":"low"):"none";
-    return `<button type="button" class="body-map-marker level-${level} ${active===id?"is-selected":""}" data-body-region="${id}" style="--map-x:${x/240*100}%;--map-y:${y/520*100}%" aria-pressed="${active===id}" aria-label="${label}: ${record?record.score+"/১০":"কোনো রেকর্ড নেই"}" title="${label}"><span></span></button>`;
+    return `<button type="button" class="body-map-marker level-${level} ${active===id?"is-selected":""}" data-body-region="${id}" style="--map-x:${x/260*100}%;--map-y:${y/560*100}%" aria-pressed="${active===id}" aria-label="${label}: ${record?record.score+"/১০":"কোনো রেকর্ড নেই"}" title="${label}"><span></span></button>`;
   }).join("");
   const selectedRecord=active?recordFor(logs,active,current):null;
   const selectedLabel=REGIONS.find(x=>x[0]===active)?.[1];

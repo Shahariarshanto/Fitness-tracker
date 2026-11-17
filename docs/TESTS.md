@@ -408,3 +408,12 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Empty regions remain neutral; saved scores map to low, medium and high severity colors.
 - [ ] Selected region and selected calendar date continue to display the correct record.
 - [ ] Theme tokens preserve contrast in light and dark modes.
+
+
+### Body Map illustration redesign regression checks
+- [ ] Front-view illustration has a clearly recognizable head, neck, shoulders, torso, arms, hands, pelvis, legs and feet.
+- [ ] Silhouette remains balanced and proportionate in the 260 × 560 viewBox.
+- [ ] All twelve region hotspots align with their intended body regions at 320px, 360px and desktop widths.
+- [ ] Saved pain scores map to the correct severity colors; empty regions remain neutral.
+- [ ] Selected region and selected calendar date show the matching pain record.
+- [ ] Light and dark themes retain readable contrast and keyboard focus.
