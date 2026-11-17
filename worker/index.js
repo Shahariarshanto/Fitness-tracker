@@ -55,10 +55,27 @@ export default {
         return json({ error: "Invalid AS Care state payload" }, 400, origin);
       }
       delete payload.state.labs; // Retire the removed experimental lab-record field.
+      if (!Number.isInteger(payload.expectedVersion) || payload.expectedVersion < 0) {
+        return json({ error: "A valid expectedVersion is required" }, 400, origin);
+      }
       const updatedAt = new Date().toISOString();
-      await env.DB.prepare(
-        "INSERT INTO app_state (id, state_json, version, updated_at) VALUES (?, ?, 1, ?) ON CONFLICT(id) DO UPDATE SET state_json = excluded.state_json, version = app_state.version + 1, updated_at = excluded.updated_at"
-      ).bind("primary", JSON.stringify(payload.state), updatedAt).run();
+      let write;
+      if (payload.expectedVersion === 0) {
+        write = await env.DB.prepare(
+          "INSERT INTO app_state (id, state_json, version, updated_at) VALUES (?, ?, 1, ?) ON CONFLICT(id) DO NOTHING"
+        ).bind("primary", JSON.stringify(payload.state), updatedAt).run();
+      } else {
+        write = await env.DB.prepare(
+          "UPDATE app_state SET state_json = ?, version = version + 1, updated_at = ? WHERE id = ? AND version = ?"
+        ).bind(JSON.stringify(payload.state), updatedAt, "primary", payload.expectedVersion).run();
+      }
+      if (write.meta?.changes !== 1) {
+        const current = await env.DB.prepare("SELECT version FROM app_state WHERE id = ?").bind("primary").first();
+        return json({
+          error: "State changed on another device. Fetch the latest version and merge before saving.",
+          version: current?.version || 0
+        }, 409, origin);
+      }
       const row = await env.DB.prepare("SELECT version FROM app_state WHERE id = ?").bind("primary").first();
       return json({ ok: true, version: row.version, updatedAt }, 200, origin);
     }
