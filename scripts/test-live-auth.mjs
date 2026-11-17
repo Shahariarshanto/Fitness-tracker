@@ -3,23 +3,47 @@ const base = process.env.AUTH_BASE_URL || "https://fitnesstracker.sshahariar062.
 const origin = "https://shahariarshanto.github.io";
 const password = randomBytes(24).toString("base64url") + "A1!";
 const email = `as-care-smoke+${randomUUID()}@example.invalid`;
+const emailB = `as-care-smoke+${randomUUID()}@example.invalid`;
 async function request(path, method = "GET", body, token) {
   const response = await fetch(new URL(path, base), { method, headers: { Origin: origin, ...(body ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
   return { status: response.status, data: await response.json().catch(() => ({})) };
 }
+function assert(ok, message) { if (!ok) throw new Error(message); }
 const health = await request("/api/auth/health");
-if (health.status !== 200 || !health.data.ok) throw new Error(`Health failed: HTTP ${health.status} ${JSON.stringify(health.data)}`);
-// Reserved .invalid smoke-test accounts do not receive or consume the legacy snapshot.
+assert(health.status === 200 && health.data.ok, `Health failed: ${JSON.stringify(health.data)}`);
 const signup = await request("/api/auth/signup", "POST", { email, password });
-if (signup.status !== 200 || !signup.data.token || signup.data.user?.email !== email) throw new Error(`LIVE SIGN-UP FAILED: HTTP ${signup.status}, code=${signup.data.code || "none"}, response=${JSON.stringify(signup.data)}`);
+assert(signup.status === 200 && signup.data.token && signup.data.user?.email === email, `SIGN-UP failed: HTTP ${signup.status} ${JSON.stringify(signup.data)}`);
+const duplicate = await request("/api/auth/signup", "POST", { email, password });
+assert(duplicate.status === 409, `Duplicate signup expected 409, got ${duplicate.status}`);
+const badLogin = await request("/api/auth/login", "POST", { email, password: "wrong-password" });
+assert(badLogin.status === 401, `Wrong password expected 401, got ${badLogin.status}`);
 const login = await request("/api/auth/login", "POST", { email, password });
-if (login.status !== 200 || !login.data.token || login.data.user?.email !== email) throw new Error(`LIVE LOGIN FAILED: HTTP ${login.status}, code=${login.data.code || "none"}, response=${JSON.stringify(login.data)}`);
-const session = await request("/api/state", "GET", undefined, login.data.token);
-if (session.status !== 200) throw new Error(`SESSION CHECK FAILED: HTTP ${session.status} ${JSON.stringify(session.data)}`);
+assert(login.status === 200 && login.data.token, `LOGIN failed: HTTP ${login.status} ${JSON.stringify(login.data)}`);
+const initial = await request("/api/state", "GET", undefined, login.data.token);
+assert(initial.status === 200 && initial.data.state === null && initial.data.version === 0, `Initial state failed: ${JSON.stringify(initial.data)}`);
+const state = { preferences: { smokeTest: "first-write" }, dailyActivity: {}, painLogs: {}, medication: { items: [], dailyLogs: {} }, symptoms: { daily: {} }, healthScores: { basdai: [], asdas: [] }, flarePlan: {}, healthEvents: [], workoutSessions: [], movement: {} };
+const write = await request("/api/state", "PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 0, state }, login.data.token);
+assert(write.status === 200 && write.data.version === 1, `First WRITE failed: ${JSON.stringify(write.data)}`);
+const read = await request("/api/state", "GET", undefined, login.data.token);
+assert(read.status === 200 && read.data.state?.preferences?.smokeTest === "first-write" && read.data.version === 1, `READ after write failed: ${JSON.stringify(read.data)}`);
+const updatedState = { ...state, preferences: { smokeTest: "updated-value" } };
+const update = await request("/api/state", "PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 1, state: updatedState }, login.data.token);
+assert(update.status === 200 && update.data.version === 2, `UPDATE failed: ${JSON.stringify(update.data)}`);
+const reread = await request("/api/state", "GET", undefined, login.data.token);
+assert(reread.status === 200 && reread.data.state?.preferences?.smokeTest === "updated-value" && reread.data.version === 2, `READ after update failed: ${JSON.stringify(reread.data)}`);
+const stale = await request("/api/state", "PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 1, state }, login.data.token);
+assert(stale.status === 409, `Stale version expected 409, got ${stale.status}`);
+const signupB = await request("/api/auth/signup", "POST", { email: emailB, password });
+assert(signupB.status === 200 && signupB.data.token, `Second account signup failed: ${JSON.stringify(signupB.data)}`);
+const isolated = await request("/api/state", "GET", undefined, signupB.data.token);
+assert(isolated.status === 200 && isolated.data.state === null && isolated.data.version === 0, `Account data isolation failed: ${JSON.stringify(isolated.data)}`);
+const noAuth = await request("/api/state");
+assert(noAuth.status === 401, `Unauthenticated access expected 401, got ${noAuth.status}`);
 const signupLogout = await request("/api/auth/logout", "POST", {}, signup.data.token);
-if (signupLogout.status !== 200) throw new Error(`SIGN-UP SESSION CLEANUP FAILED: HTTP ${signupLogout.status}`);
+assert(signupLogout.status === 200, "Sign-up session logout failed");
 const logout = await request("/api/auth/logout", "POST", {}, login.data.token);
-if (logout.status !== 200) throw new Error(`LOGOUT FAILED: HTTP ${logout.status}`);
+assert(logout.status === 200, "Logout failed");
 const revoked = await request("/api/state", "GET", undefined, login.data.token);
-if (revoked.status !== 401) throw new Error(`SESSION REVOCATION FAILED: expected 401, got ${revoked.status}`);
-console.log(JSON.stringify({ ok: true, signup: "passed", login: "passed", session: "passed", logout: "passed", revoked: "passed", testAccountEmail: email, testAccountRetained: true }, null, 2));
+assert(revoked.status === 401, `Revoked session expected 401, got ${revoked.status}`);
+await request("/api/auth/logout", "POST", {}, signupB.data.token);
+console.log(JSON.stringify({ ok: true, tests: { health: "passed", signup: "passed", duplicateSignup: "passed", wrongPassword: "passed", login: "passed", initialRead: "passed", createWrite: "passed", readBack: "passed", updateWrite: "passed", updatedReadBack: "passed", staleVersionConflict: "passed", accountIsolation: "passed", unauthenticatedReadBlocked: "passed", logout: "passed", revokedSessionBlocked: "passed" }, testAccountsRetained: true }, null, 2));
