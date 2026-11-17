@@ -21,10 +21,12 @@ export function renderExerciseDetails(id) {
   const dose = parts.join(" · ");
   const illustration = ILLUSTRATIONS[id];
   const duration = item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়";
-  const visual = illustration
-    ? `<div class="movement-guide-visual"${id === "c1" ? ' style="aspect-ratio:3/1;min-height:0;max-height:none"' : ""}><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
-    : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
-  return `<article class="movement-detail-card${id === "c1" ? " is-cat-camel-sample" : ""}">
+  const visual = id === "a1"
+    ? `<div class="movement-guide-visual is-asan-animation"><div class="fg" data-id="a1" data-exercise-animation role="img" aria-label="গভীর শ্বাসের অ্যানিমেশন"></div><span class="movement-animation-caption">ধীরে শ্বাস নিন, তারপর ছাড়ুন</span></div>`
+    : illustration
+      ? `<div class="movement-guide-visual"${id === "c1" ? ' style="aspect-ratio:3/1;min-height:0;max-height:none"' : ""}><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
+      : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
+  return `<article class="movement-detail-card">
     <header class="movement-guide-topbar">
       <div class="movement-guide-title"><span class="movement-guide-eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div>
       <span class="movement-guide-duration-pill">${timerIcon}<b>${esc(duration)}</b></span>
