@@ -51,5 +51,12 @@
 .movement-history{display:grid;gap:9px}
 .movement-history article{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}
 .movement-history article span,.movement-history>p{color:var(--muted)}
+.movement-view-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border:1px solid var(--line);border-radius:13px;background:var(--surface-soft);margin:4px 0 14px}
+.movement-view-button{min-height:40px;padding:8px 10px;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:background .18s ease,color .18s ease,border-color .18s ease}
+.movement-view-button.is-active{border-color:var(--line);background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(15,23,42,.06)}
+.movement-view-content{display:grid;gap:12px;animation:movement-view-in .2s ease both}
+.movement-position-group{padding-bottom:4px}
+@keyframes movement-view-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.movement-view-content,.movement-view-button{animation:none;transition:none}}
 @media(min-width:700px){.movement-tools{grid-template-columns:1fr 1fr}.movement-progress{grid-template-columns:1fr 1.2fr;align-items:center}.movement-progress-track{align-self:center}}
 @media(max-width:360px){.movement-exercise{padding:10px}.movement-exercise-actions{gap:5px}}
