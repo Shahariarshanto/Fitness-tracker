@@ -75,6 +75,8 @@ function startApp() {
       import("./core/events.js")
     ]);
   }).then(function (modules) {
+    var toastShowTimer = 0;
+    var toastHideTimer = 0;
     var state = modules[0];
     var events = modules[1];
     function applyTheme(theme) {
@@ -94,12 +96,26 @@ function startApp() {
     cleanupTasks.push(events.on("toast:show", function (payload) {
       var toast = document.querySelector("#toast");
       if (!toast) return;
-      toast.textContent = String(payload.message || "");
+      window.clearTimeout(toastShowTimer);
+      window.clearTimeout(toastHideTimer);
+      toast.classList.remove("is-visible");
+      var message = String(payload.message || "");
+      toast.textContent = message;
       toast.dataset.type = payload.type || "info";
-      toast.hidden = !payload.message;
-      if (payload.message) {
-        window.setTimeout(function () { toast.hidden = true; }, 2600);
+      if (!message) {
+        toast.hidden = true;
+        return;
       }
+      toast.hidden = false;
+      toastShowTimer = window.requestAnimationFrame(function () {
+        toast.classList.add("is-visible");
+      });
+      toastHideTimer = window.setTimeout(function () {
+        toast.classList.remove("is-visible");
+        window.setTimeout(function () {
+          if (!toast.classList.contains("is-visible")) toast.hidden = true;
+        }, 280);
+      }, 2300);
     }));
   }).catch(function (error) {
     showError("[data-overview-content]", "Application startup failed", error);
