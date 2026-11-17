@@ -12,7 +12,7 @@ export function initInsights({ root = document.querySelector("[data-insights-con
   let month=today.slice(0,7), selected=today, selectedRegion=null, period=30;
   const draw=()=>{
     const state=getState();
-    root.innerHTML=renderTrends(state,period)+renderBodyMap(state,selectedRegion)+renderActivityVisuals(state)+renderScoreTrends(state)+renderCalendar(state,month,selected);
+    root.innerHTML=renderTrends(state,period)+renderBodyMap(state,selected,selectedRegion)+renderActivityVisuals(state)+renderScoreTrends(state)+renderCalendar(state,month,selected);
   };
   function click(event){
     const region=event.target.closest("[data-body-region]");

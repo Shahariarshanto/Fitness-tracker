@@ -1,31 +1,11 @@
 import { dateKey, addDays } from "../../core/dates.js";
-
-const REGIONS = [
-  ["neck","ঘাড়",50,22],["left-shoulder","বাম কাঁধ",30,39],["right-shoulder","ডান কাঁধ",70,39],
-  ["chest","বুক",50,57],["abdomen","পেট",50,78],["lower-back","কোমর",50,101],
-  ["left-hip","বাম নিতম্ব",39,116],["right-hip","ডান নিতম্ব",61,116],
-  ["left-knee","বাম হাঁটু",39,163],["right-knee","ডান হাঁটু",61,163],
-  ["left-ankle","বাম গোড়ালি",39,211],["right-ankle","ডান গোড়ালি",61,211]
-];
-const esc = value => String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const latestFor = (logs, region) => logs.filter(x=>x.region===region).sort((a,b)=>b.date.localeCompare(a.date))[0];
-
-export function renderBodyMap(state, selected=null) {
-  const logs=Array.isArray(state.painRegionLogs)?state.painRegionLogs:[];
-  const today=dateKey(), current=selected||today;
-  const active=REGIONS.find(x=>x[0]===selected)?.[0]||null;
-  const markers=REGIONS.map(([id,label,x,y])=>{
-    const record=latestFor(logs.filter(v=>v.date===current),id);
-    const color=record ? (record.score>=7?"var(--danger)":record.score>=4?"var(--brand-secondary)":"var(--brand-primary)") : "var(--line)";
-    return `<button type="button" class="body-map-marker ${active===id?"is-selected":""}" data-body-region="${id}" style="left:${x}%;top:${y}px;--marker-color:${color}" aria-label="${label}: ${record?record.score+"/১০":"কোনো রেকর্ড নেই"}"><span></span></button>`;
-  }).join("");
-  const selectedRecord=active?latestFor(logs.filter(x=>x.date===current),active):null;
-  const selectedLabel=REGIONS.find(x=>x[0]===active)?.[1];
-  const recent=logs.filter(x=>x.date>=addDays(today,-6)).length;
-  return `<section class="insight-section body-map-section"><div class="insight-section-heading"><div><p class="eyebrow">BODY MAP</p><h3>শরীরের ব্যথার মানচিত্র</h3></div><span>সামনের দৃশ্য · ${recent}টি রেকর্ড / ৭ দিন</span></div>
-    <div class="insight-chart-card body-map-card"><div class="body-map-figure" role="group" aria-label="সামনের মানবদেহের অঞ্চল নির্বাচন">
-      <svg viewBox="0 0 100 235" aria-hidden="true" class="body-map-silhouette"><circle cx="50" cy="15" r="10"/><path d="M43 28 Q50 25 57 28 L64 88 Q62 105 59 119 L65 165 L62 222 M41 28 L36 88 Q38 105 41 119 L35 165 L38 222 M36 40 L17 80 M64 40 L83 80 M41 119 L59 119 M35 165 L65 165" /></svg>
-      ${markers}</div><div class="body-map-legend"><span><i class="map-low"></i> হালকা</span><span><i class="map-mid"></i> মাঝারি</span><span><i class="map-high"></i> বেশি</span></div>
-      <div class="body-map-detail">${active?`<strong>${esc(selectedLabel)}</strong><span>${selectedRecord?"সর্বশেষ রেকর্ড: "+selectedRecord.score+"/১০ · "+esc(selectedRecord.date):"এই তারিখে কোনো রেকর্ড নেই"}</span>`:"<strong>শরীরের একটি অঞ্চল নির্বাচন করুন</strong><span>Health Journal-এ ব্যথার অঞ্চল ও মাত্রা সংরক্ষণ করলে এখানে দেখা যাবে।</span>"}</div>
-    </div><p class="insight-chart-note">এটি ব্যক্তিগত ব্যথার রেকর্ডের ভিজ্যুয়াল; প্রদাহ বা রোগের বিস্তার নির্ণয় করে না।</p></section>`;
+const REGIONS=[["neck","ঘাড়",50,22],["left-shoulder","বাম কাঁধ",31,40],["right-shoulder","ডান কাঁধ",69,40],["chest","বুক",50,61],["abdomen","পেট",50,84],["lower-back","কোমর",50,108],["left-hip","বাম নিতম্ব",41,126],["right-hip","ডান নিতম্ব",59,126],["left-knee","বাম হাঁটু",41,171],["right-knee","ডান হাঁটু",59,171],["left-ankle","বাম গোড়ালি",41,218],["right-ankle","ডান গোড়ালি",59,218]];
+const esc=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const recordFor=(logs,region,date)=>logs.find(x=>x.region===region&&x.date===date);
+const artwork=()=>`<svg viewBox="0 0 240 400" class="body-map-silhouette" aria-hidden="true"><defs><linearGradient id="bodyMapFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--surface-soft)"/><stop offset="1" stop-color="var(--accent-soft)"/></linearGradient></defs><g class="body-map-shape"><ellipse cx="120" cy="39" rx="23" ry="27"/><path d="M108 65 L108 79 Q120 85 132 79 L132 65"/><path d="M105 79 C91 82 79 87 69 96 C63 103 66 119 72 139 L84 181 C88 194 96 204 105 209 L135 209 C144 204 152 194 156 181 L168 139 C174 119 177 103 171 96 C161 87 149 82 135 79 C130 89 110 89 105 79Z"/><path d="M70 97 C59 101 53 115 48 130 L29 184 Q26 194 33 198 Q41 201 46 191 L70 145"/><path d="M170 97 C181 101 187 115 192 130 L211 184 Q214 194 207 198 Q199 201 194 191 L170 145"/><path d="M105 207 C100 216 91 227 89 242 L84 292 Q83 302 91 303 Q99 304 101 294 L115 248 L120 216"/><path d="M135 207 C140 216 149 227 151 242 L156 292 Q157 302 149 303 Q141 304 139 294 L125 248 L120 216"/><path d="M84 292 L80 369 Q80 379 90 380 L99 380 L103 369 L101 294"/><path d="M156 292 L160 369 Q160 379 150 380 L141 380 L137 369 L139 294"/></g><g class="body-map-detail-lines"><path d="M91 104 Q120 117 149 104 M120 112 L120 202 M96 208 Q120 218 144 208 M89 243 L101 243 M139 243 L151 243"/></g></svg>`;
+export function renderBodyMap(state,selectedDate=dateKey(),selectedRegion=null){
+ const logs=Array.isArray(state.painRegionLogs)?state.painRegionLogs:[],today=dateKey(),current=selectedDate||today,active=REGIONS.find(x=>x[0]===selectedRegion)?.[0]||null;
+ const markers=REGIONS.map(([id,label,x,y])=>{const r=recordFor(logs,id,current),level=r?(r.score>=7?"high":r.score>=4?"mid":"low"):"none";return `<button type="button" class="body-map-marker level-${level} ${active===id?"is-selected":""}" data-body-region="${id}" style="left:${x}%;top:${y/235*100}%" aria-pressed="${active===id}" aria-label="${label}: ${r?r.score+"/১০":"কোনো রেকর্ড নেই"}" title="${label}"><span></span></button>`;}).join("");
+ const r=active?recordFor(logs,active,current):null,label=REGIONS.find(x=>x[0]===active)?.[1],recent=logs.filter(x=>x.date>=addDays(today,-6)&&x.date<=today).length;
+ return `<section class="insight-section body-map-section"><div class="insight-section-heading"><div><p class="eyebrow">BODY MAP</p><h3>শরীরের ব্যথার মানচিত্র</h3></div><span>সামনের দৃশ্য · ৭ দিনে ${recent}টি রেকর্ড</span></div><div class="insight-chart-card body-map-card"><div class="body-map-stage"><div class="body-map-figure" role="group" aria-label="সামনের মানবদেহের অঞ্চল নির্বাচন">${artwork()}${markers}</div><div class="body-map-legend"><span><i class="map-low"></i>হালকা</span><span><i class="map-mid"></i>মাঝারি</span><span><i class="map-high"></i>বেশি</span></div></div><div class="body-map-detail ${active?"has-selection":""}"><span class="body-map-detail-kicker">${active?"SELECTED AREA":"PAIN CHECK-IN"}</span><strong>${active?esc(label):"শরীরের একটি অঞ্চল নির্বাচন করুন"}</strong><span>${active?(r?"ব্যথার মাত্রা: "+r.score+"/১০ · "+esc(r.date):"এই তারিখে এই অঞ্চলের কোনো ব্যথার রেকর্ড নেই"):"Health Journal-এ ব্যথার অঞ্চল ও মাত্রা সংরক্ষণ করলে এখানে দেখা যাবে।"}</span></div></div><p class="insight-chart-note">এটি ব্যক্তিগত ব্যথার রেকর্ডের ভিজ্যুয়াল; প্রদাহ বা রোগের বিস্তার নির্ণয় করে না।</p></section>`;
 }
