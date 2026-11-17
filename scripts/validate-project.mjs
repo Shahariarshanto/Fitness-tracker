@@ -179,7 +179,24 @@ if (!/if\s*\(currentItem\?\.durationSeconds\s*>\s*0\)/.test(movementRuntime)) {
   fail("Guided-session countdown must update only for exercises with a positive duration");
 } else pass("Untimed guided-session steps retain the instruction-driven label");
 
-// 4. Parse JSON and guard against references to removed assets.
+// 4. Settings backup workflow and manifest validation.
+const settingsMarkup = read("assets/js/features/settings/Preferences.js");
+const settingsRuntime = read("assets/js/features/settings/index.js");
+const backupService = read("assets/js/services/backup.js");
+if (!settingsRuntime.includes('from "../../services/backup.js"') ||
+    !["createBackup", "parseBackupText", "restoreBackup", "backupFileName"].every(name => settingsRuntime.includes(name))) {
+  fail("Settings must use the complete JSON backup service");
+}
+if (!["data-backup-export", "data-backup-choose", "data-backup-file"].every(name => settingsMarkup.includes(name))) {
+  fail("Settings must expose JSON export and restore controls");
+}
+if (!settingsRuntime.includes("createConfirmDialog") || !settingsRuntime.includes("parseBackupText(await file.text())")) {
+  fail("Backup restore must validate the selected file and confirm before replacing state");
+}
+if (!backupService.includes("validateBackup(payload)") || !backupService.includes("updateState(() => payload.state)")) {
+  fail("Backup service validation/restore contract is incomplete");
+} else pass("Settings exposes validated JSON backup export and confirmed restore");
+
 JSON.parse(read("manifest.webmanifest"));
 pass("PWA manifest is valid JSON");
 
