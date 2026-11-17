@@ -37,7 +37,6 @@ Do not assume `durationSeconds` equals the sum of all holds/repetitions in the B
 These may reflect rest/transition estimates, but the current data does not define that. Do not change these values until the project defines what `durationSeconds` represents and the exercise dosage is reviewed.
 
 ## Step 1 — New application foundation
-## Step 1 — New application foundation
 
 ### Static checks
 - [ ] New HTML references only the clean module entry point.
@@ -129,15 +128,16 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Health entry module is listed in the service-worker shell.
 - [ ] Health feature does not access localStorage directly.
 - [ ] Daily pain, symptom, BASDAI and ASDAS-CRP state domains match the data model.
-- [ ] Health timeline and personal flare-plan sections are absent; existing legacy fields are ignored without affecting other Health records.
+- [ ] Health Timeline and Personal Flare Plan sections and handlers are absent.
+- [ ] `healthEvents` and `flarePlan` remain accepted/preserved as compatibility-only fields by state normalization, Worker validation and version-1 backup validation; other Health records remain unaffected.
 - [ ] BASDAI and ASDAS-CRP calculations are checked against independent reference cases.
 
 ### Browser checks
-- [ ] Health page shows a distinct journal introduction and three summary values.
+- [ ] Health page shows a distinct journal introduction, three summary values, Daily Check-in, Pain Location, BASDAI and ASDAS-CRP sections; medication management remains mounted below it.
 - [ ] Daily pain, night mobility, stiffness, fatigue and sleep values save and re-render.
 - [ ] BASDAI six-question form calculates and saves dated history.
 - [ ] ASDAS-CRP form calculates with CRP in mg/L and saves dated history.
-- [ ] Flare plan notes save and remain after reload.
+- [ ] Health page does not render or mutate the compatibility-only `healthEvents` and `flarePlan` fields.
 - [ ] Invalid and empty inputs are handled without breaking the page.
 
 ### Device/PWA checks
