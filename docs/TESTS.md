@@ -206,6 +206,8 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Stopwatch start/pause/reset controls retain readable text in enabled and disabled states.
 - [ ] Exercise guide labels, instructions, dose, timer and counter maintain readable text contrast against their backgrounds.
 - [ ] The compact Exercise Guide header uses a distinct high-contrast eyebrow badge and readable section title; no inherited gradient/text color may reduce legibility.
+- [ ] Repetition minus/plus buttons share a fixed box size, align vertically with the count, and remain in normal layout flow (no inherited positional offset).
+- [ ] Repetition counter panel uses natural content height instead of stretching to match the taller stopwatch panel.
 - [ ] Stopwatch elapsed-time formatting and start/pause/reset controls pass checks.
 - [ ] Stopwatch is count-up only; no unreviewed `durationSeconds` value is presented as a prescribed countdown.
 - [ ] Existing version-1 D1 snapshots and backups without the optional `movement` field remain valid.
