@@ -21,9 +21,8 @@ export function renderPreferences() {
     '<p class="settings-note">বর্তমানে অ্যাপের ভাষা বাংলা। অন্যান্য ভাষা এখনো যোগ করা হয়নি।</p>' +
     '<label class="settings-field" for="pref-dailyGoal"><span>দৈনিক ব্যায়ামের লক্ষ্য (মিনিট)</span><input id="pref-dailyGoal" data-preference="dailyGoal" type="number" inputmode="numeric" min="1" max="240" step="1" value="' + escapeHTML(preferences.dailyGoal) + '"></label></section>' +
     '<section class="settings-section"><h3>রিমাইন্ডার ও ইন্টারঅ্যাকশন</h3>' + toggles + '<p class="settings-note">এই পছন্দগুলো সংরক্ষিত হচ্ছে।</p></section>' +
-    '<section class="settings-section"><h3>ডেটা ব্যাকআপ</h3><div data-account-panel></div><p class="settings-note">আপনার স্বাস্থ্য, ওষুধ ও ব্যায়ামের তথ্য JSON ফাইলে সংরক্ষণ করুন। প্রয়োজনে সেই ফাইল থেকে তথ্য ফিরিয়ে আনতে পারবেন।</p>' +
-    '<div class="settings-actions"><button type="button" data-backup-export>JSON ব্যাকআপ ডাউনলোড</button><button type="button" data-backup-choose>ব্যাকআপ থেকে পুনরুদ্ধার</button><input type="file" data-backup-file accept=".json,application/json" hidden></div>' +
-    '<p class="settings-note">পুনরুদ্ধার করলে বর্তমান অ্যাপের তথ্য ব্যাকআপ ফাইলের তথ্য দিয়ে প্রতিস্থাপিত হবে।</p></section>';
+    '<section class="settings-section"><h3>ডেটা এক্সপোর্ট</h3><div data-account-panel></div><p class="settings-note">আপনার স্বাস্থ্য, ওষুধ, ব্যায়াম ও অগ্রগতির তথ্য সুন্দরভাবে সাজানো একটি HTML রিপোর্ট হিসেবে ডাউনলোড করুন। ফাইলটি মোবাইল বা কম্পিউটারে ব্রাউজার দিয়ে খুলে পড়তে এবং প্রিন্ট করতে পারবেন।</p>' +
+    '<div class="settings-actions"><button type="button" data-backup-export>আমার ডেটা ডাউনলোড</button></div></section>';
 }
 
 export function savePreference(key, rawValue) {
