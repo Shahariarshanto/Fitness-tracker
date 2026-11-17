@@ -80,3 +80,16 @@ Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `do
 ## Exercise timing data caution
 
 The catalogue's `durationSeconds` values do not consistently equal the sum implied by the instruction holds/repetitions. The known examples and differences are listed in `docs/TESTS.md`. Do not normalize or change those values by guesswork. First define whether the field represents active exercise time, total session estimate, rest/transition time or something else, then review dosage with an appropriate clinical source.
+
+## Exercise module authoring standard (2026-11-17)
+
+- Shared renderer: `assets/js/features/movement/animation-engine.js` (one classic script before app module bootstrap).
+- One pose per ES module: `assets/js/features/movement/animations/<id>.js`.
+- Explicit side-effect import registry: `ExerciseAnimation.js`.
+- One developer/AI reference per exercise: `docs/exercises/<id>.md`.
+- New exercise procedure: `docs/NEW_EXERCISE_TEMPLATE.md`.
+- Clinical references/policy: `docs/clinical/REFERENCES.md`, `docs/clinical/EXERCISE_REVIEW_POLICY.md`.
+- Each pose module registers exactly one pose. Shared engine changes affect all poses and require regression review.
+- Add every new pose to `sw.js` → `RUNTIME_MODULES` and increment cache version.
+- Animation `dur` is visual loop timing only, never prescribed exercise dosage.
+- Clinical review and software validation statuses are separate; current catalogue remains unreviewed.

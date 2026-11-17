@@ -150,3 +150,18 @@ Overview reads the shared state only. Medication remains independently mounted a
 | `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
 
 D1 is the permanent primary cloud source. R2 and paid storage are not used. Manual JSON export is the independent backup method. Google Drive and Google OAuth are removed. The Worker has no login/authentication; origin checks are CORS policy only and are not a security boundary.
+
+
+## Exercise module standard (2026-11-17)
+
+| Path | Responsibility |
+|---|---|
+| `assets/js/features/movement/animation-engine.js` | Shared SVG renderer/loop; no exercise-specific poses |
+| `assets/js/features/movement/animations/<id>.js` | Exactly one pose registration per ES module |
+| `assets/js/features/movement/ExerciseAnimation.js` | Explicit side-effect import registry and mount adapter |
+| `docs/exercises/<id>.md` | Per-exercise technique, evidence, dose, review status and animation notes |
+| `docs/NEW_EXERCISE_TEMPLATE.md` | Repeatable developer/AI implementation checklist |
+| `docs/clinical/REFERENCES.md` | axSpA guideline references and citation rules |
+| `docs/clinical/EXERCISE_REVIEW_POLICY.md` | Evidence and clinical approval policy |
+
+A new exercise requires catalogue/group/position mappings, one pose module, registry import, detail caption, one documentation file and Service Worker inventory entry. Pose modules must not define other poses. Shared engine changes are cross-exercise changes requiring broad regression review.

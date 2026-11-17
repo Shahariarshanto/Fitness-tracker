@@ -101,11 +101,11 @@ for (const file of classicRuntime.map(rel)) {
   if (!html.includes(`src="./${file}"`)) fail(`Classic runtime script is not loaded by index.html: ${file}`);
   checkSyntax(file, read(file));
 }
-if (classicRuntime.length !== 6) fail(`Expected 6 classic ASAN scripts, found ${classicRuntime.length}`);
-else pass("All six classic ASAN scripts are precached and loaded by index.html");
+if (classicRuntime.length !== 1 || !classicRuntime[0].endsWith("/animation-engine.js")) fail("Expected exactly one shared classic animation engine");
+else pass("Shared animation engine is loaded once; individual poses are ES modules");
 if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
-// 3. Exercise catalogue, groups, pose definitions and animation labels.
+// 3. Exercise catalogue, groups, isolated pose modules, per-exercise docs and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");
 const records = exerciseSource.match(/const records\s*=\s*\[([\s\S]*?)\];/);
 if (!records) fail("Could not parse exercise records");
@@ -122,11 +122,29 @@ if (unknownGroupIds.length || ungroupedIds.length) {
   fail(`Exercise group mapping mismatch; unknown: ${unknownGroupIds.join(", ") || "none"}; ungrouped: ${ungroupedIds.join(", ") || "none"}`);
 } else pass("Exercise groups reference valid catalogue IDs");
 
+const animationFiles = walk("assets/js/features/movement/animations").filter(file => file.endsWith(".js"));
 const poseIds = [];
-for (const file of classicRuntime.map(rel)) {
+for (const file of animationFiles) {
   const source = read(file);
-  poseIds.push(...[...source.matchAll(/(?:A|w\.ASAN)\.POSES\.([a-z]\d+)\s*=/g)].map(m => m[1]));
+  checkSyntax(file, source, true);
+  poseIds.push(...[...source.matchAll(/A\.POSES\.([a-z]\d+)\s*=/g)].map(m => m[1]));
+  if (!runtimeSet.has(file)) fail(`Animation module missing from RUNTIME_MODULES: ${file}`);
 }
+if (animationFiles.length !== 24) fail(`Expected 24 independent animation modules, found ${animationFiles.length}`);
+const registry = read("assets/js/features/movement/ExerciseAnimation.js");
+const engineSource = read("assets/js/features/movement/animation-engine.js");
+if (/A\.POSES\.[a-z]\d+\s*=/.test(engineSource)) fail("Shared animation engine must not contain exercise-specific pose definitions");
+for (const id of exerciseIds) {
+  const file = `assets/js/features/movement/animations/${id}.js`;
+  const doc = `docs/exercises/${id}.md`;
+  if (!exists(file)) { fail(`Missing animation module: ${file}`); continue; }
+  const matches = [...read(file).matchAll(/A\.POSES\.([a-z]\d+)\s*=/g)].map(m => m[1]);
+  if (matches.length !== 1 || matches[0] !== id) fail(`${file}: expected exactly one matching pose registration`);
+  if (!exists(doc)) fail(`Missing per-exercise documentation: ${doc}`);
+  const importLine = `import "./animations/${id}.js";`;
+  if (registry.split(importLine).length !== 2) fail(`ExerciseAnimation.js must import ${id} exactly once`);
+}
+if (animationFiles.some(file => !exerciseIds.includes(path.basename(file, ".js")))) fail("Unexpected animation module without a catalogue exercise");
 const duplicatePoses = poseIds.filter((id, index) => poseIds.indexOf(id) !== index);
 const missingPoses = exerciseIds.filter(id => !poseIds.includes(id));
 const extraPoses = poseIds.filter(id => !exerciseIds.includes(id));
@@ -141,10 +159,10 @@ const missingLabels = exerciseIds.filter(id => !labelIds.includes(id));
 if (missingLabels.length) fail(`Missing Bengali animation captions for: ${missingLabels.join(", ")}`);
 else pass("Every exercise has an animation caption");
 
-const spinePoses = read("assets/js/features/movement/asan_03_spine.js");
-if (!spinePoses.includes("Quadruped thoracic rotation") || !details.includes('c3: ["হাত-হাঁটুতে বুক ঘোরানোর অ্যানিমেশন"')) {
-  fail("c3 animation must remain aligned with its hands-and-knees catalogue instruction");
-} else pass("c3 pose and Bengali caption identify the instructed quadruped thoracic rotation");
+const c3Pose = read("assets/js/features/movement/animations/c3.js");
+if (!c3Pose.includes("c3right") || !details.includes('c3: ["হাত-হাঁটুতে বুক ঘোরানোর অ্যানিমেশন"')) {
+  fail("c3 animation must remain an independent quadruped thoracic rotation module");
+} else pass("c3 has an independent pose module and matching Bengali caption");
 
 if (!/emit\(["']workout:started["'],\s*\{\s*exerciseIds:/.test(read("assets/js/features/movement/index.js"))) {
   fail("workout:started event payload no longer matches the documented exerciseIds contract");
@@ -167,7 +185,7 @@ pass("PWA manifest is valid JSON");
 
 const sourceFiles = ["index.html", "sw.js", ...walk("assets/js"), ...walk("assets/css")];
 const sourceText = sourceFiles.map(file => read(file)).join("\n");
-for (const stale of ["getExerciseAnimation", "assets/animations/exercises/", "assets/images/exercises/", "navigation-fallback.js", "lottie.min.js", "/movement/animations/"]) {
+for (const stale of ["getExerciseAnimation", "assets/animations/exercises/", "assets/images/exercises/", "navigation-fallback.js", "lottie.min.js"]) {
   if (sourceText.includes(stale)) fail(`Removed legacy asset reference remains in runtime source: ${stale}`);
 }
 if (!failures.some(message => message.includes("Removed legacy asset"))) pass("No runtime references to removed legacy assets");

@@ -193,7 +193,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Movement entry and all renderer imports resolve.
 - [ ] `ExerciseAnimation.js` imports only the ASAN mount engine and has no imports to deleted legacy SVG factories.
 - [ ] Six Movement feature modules are accounted for: `index.js`, `Checklist.js`, `ExerciseDetails.js`, `ExerciseAnimation.js`, `BodyMap.js` and `GuidedSession.js`.
-- [ ] Six classic ASAN scripts are loaded before the module bootstrap in `index.html`; their relative paths resolve.
+- [ ] One shared classic animation engine loads before bootstrap; 24 exercise pose modules are imported by `ExerciseAnimation.js` and included in the Service Worker ES-module inventory.
 - [ ] Every catalogue exercise ID is unique and maps to exactly one intended animation pose.
 - [ ] All 24 catalogue IDs have corresponding ASAN pose definitions.
 - [ ] No runtime, HTML or CSS reference points to removed Lottie JSON, legacy image or navigation-fallback assets.
@@ -329,3 +329,16 @@ Add focused module-level and feature-level tests in the same step that implement
 
 Verification note: Worker source, D1 migration, and frontend integration are committed. Deployment, D1 migration execution, live API, browser, Android and offline tests remain pending. Automated cloud snapshots are intentionally excluded; JSON export is the independent backup method.
 
+
+
+## Exercise module standard regression checks
+
+- [ ] Exactly one shared classic engine loads before bootstrap.
+- [ ] Every catalogue exercise has one independent animation module and one docs/exercises/<id>.md file.
+- [ ] Every pose module registers exactly one matching ID and is in RUNTIME_MODULES.
+- [ ] ExerciseAnimation.js imports every animation module exactly once.
+- [ ] Shared engine contains no exercise-specific pose definitions.
+- [ ] A pose module does not define another exercise's pose.
+- [ ] New exercise checklist is followed and cache version increments.
+- [ ] Clinical review status is separate from software test status.
+- [ ] Browser/device visual review is completed before claiming rendering verified.
