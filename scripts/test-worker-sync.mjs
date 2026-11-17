@@ -19,13 +19,11 @@ class MemoryD1 {
           if (sql.includes("FROM auth_sessions JOIN users")) {
             const userId = this.sessions.get(values[0]);
             const user = userId && this.users.get(userId);
-            return user ? { id: user.id, username: user.username, email: user.email } : null;
+            return user ? { id: user.id, email: user.email } : null;
           }
-          if (sql.includes("FROM users WHERE username")) {
-            const identity = String(values[0]).toLowerCase();
-            return [...this.users.values()].find(user =>
-              user.username.toLowerCase() === identity || user.email.toLowerCase() === identity
-            ) || null;
+          if (sql.includes("FROM users WHERE email")) {
+            const email = String(values[0]).toLowerCase();
+            return [...this.users.values()].find(user => user.email.toLowerCase() === email) || null;
           }
           if (sql.includes("FROM app_state WHERE user_id")) {
             const row = this.states.get(values[0]);
@@ -36,7 +34,7 @@ class MemoryD1 {
         run: async () => {
           if (sql.startsWith("INSERT INTO users")) {
             const [id, username, email, password_hash, password_salt, created_at] = values;
-            if ([...this.users.values()].some(user => user.username.toLowerCase() === username.toLowerCase() || user.email.toLowerCase() === email.toLowerCase())) {
+            if ([...this.users.values()].some(user => user.email.toLowerCase() === email.toLowerCase())) {
               throw new Error("UNIQUE constraint failed: users.username");
             }
             this.users.set(id, { id, username, email, password_hash, password_salt, created_at });
@@ -114,7 +112,7 @@ legacy.preferences.dailyGoal = 27;
 db.legacy = { state_json: JSON.stringify(legacy), version: 7, updated_at: "2026-11-17T00:00:00.000Z" };
 
 assert.equal((await send("/api/state", "GET")).status, 401, "state must require login");
-const signupA = await send("/api/auth/signup", "POST", { username: "shanto", email: "shanto@example.com", password: "strong-pass-123" });
+const signupA = await send("/api/auth/signup", "POST", { email: "shanto@example.com", password: "strong-pass-123" });
 assert.equal(signupA.status, 200);
 const accountA = await body(signupA);
 assert.ok(accountA.token);
@@ -122,7 +120,7 @@ const restoredA = await body(await send("/api/state", "GET", null, accountA.toke
 assert.equal(restoredA.state.preferences.dailyGoal, 27, "first account must receive the preserved legacy snapshot");
 assert.equal(restoredA.version, 7);
 
-const signupB = await send("/api/auth/signup", "POST", { username: "second_user", email: "second@example.com", password: "another-pass-456" });
+const signupB = await send("/api/auth/signup", "POST", { email: "second@example.com", password: "another-pass-456" });
 assert.equal(signupB.status, 200);
 const accountB = await body(signupB);
 assert.equal((await body(await send("/api/state", "GET", null, accountB.token))).state, null, "a later account must not see the first account's data");
@@ -137,11 +135,11 @@ assert.equal((await body(await send("/api/state", "GET", null, accountA.token)))
 const logoutA = await send("/api/auth/logout", "POST", {}, accountA.token);
 assert.equal(logoutA.status, 200);
 assert.equal((await send("/api/state", "GET", null, accountA.token)).status, 401, "logout must revoke the session");
-const loginA = await send("/api/auth/login", "POST", { identity: "shanto@example.com", password: "strong-pass-123" });
+const loginA = await send("/api/auth/login", "POST", { email: "shanto@example.com", password: "strong-pass-123" });
 assert.equal(loginA.status, 200);
 const reloggedA = await body(loginA);
 assert.equal((await body(await send("/api/state", "GET", null, reloggedA.token))).state.preferences.dailyGoal, 27);
-assert.equal((await send("/api/auth/login", "POST", { identity: "shanto", password: "wrong-password" })).status, 401);
+assert.equal((await send("/api/auth/login", "POST", { email: "shanto@example.com", password: "wrong-password" })).status, 401);
 
 const badPayload = await send("/api/state", "PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 7, state: { broken: true } }, reloggedA.token);
 assert.equal(badPayload.status, 400);
