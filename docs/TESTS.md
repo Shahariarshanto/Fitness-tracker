@@ -461,3 +461,15 @@ Verification note: Static source and Node tests do not prove a live Cloudflare d
 - [ ] Verify the updated service-worker cache replaces the prior shell and that the new SVG appears in the installed PWA.
 
 **Verification note (2026-11-18):** GitHub Actions static validation passed for the latest compact-header commit. The Cloudflare Worker workflow was still pending when checked; GitHub Pages deployment and live/browser/device visual verification are not confirmed. Do not mark the unchecked visual tests as passed.
+
+
+### Review follow-up — source/documentation alignment (2026-11-18)
+- [ ] Verify the Health daily symptom form submits in the live browser after explicit submit button types were added.
+- [ ] Confirm the root-level duplicate `icon.svg` is absent and all active icon references use `assets/images/as-care-spine-v1.svg`.
+- [ ] Confirm no obsolete global brand header selectors remain in theme overrides.
+- [ ] Confirm README, AI context, architecture, data model, rebuild plan, Privacy Policy and Terms describe the current direct password storage accurately.
+- [ ] Review the inactive monolithic `assets/js/app.js` against the modular runtime before any deletion decision; it remains intentionally retained as a historical functional reference.
+- [ ] Review test-only accounts and dummy health/medication records created by live smoke tests. Current scripts create `@example.invalid` accounts and retain them; do not delete production D1 rows without a scoped cleanup plan and confirmation.
+- [ ] Repair or redesign the live UI smoke test if it fails; a successful Pages upload alone is not a successful end-to-end test.
+
+**Security note:** The Worker currently stores the submitted password value directly in the legacy `password_hash` column and compares it directly. This is a known limitation explicitly accepted for the current small private app; the `password_salt` field is unused. Never describe this as PBKDF2 or hashed-password storage.
