@@ -13,7 +13,7 @@
   --radius-lg: 22px;
   --radius-md: 15px;
   --radius-sm: 11px;
-  --content-width: 980px;
+  --content-width: 1120px;
   font-family: "Hind Siliguri", system-ui, sans-serif;
 }
 :root[data-theme="dark"] {
