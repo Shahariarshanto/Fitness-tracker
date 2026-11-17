@@ -172,3 +172,9 @@
 @keyframes balance-leg{0%,100%{transform:rotate(0)}50%{transform:rotate(18deg)}}
 @media(prefers-reduced-motion:reduce){.movement-guide-art .scene-cue,.movement-guide-art .scene-dot,.movement-guide-art [class*="person-"]{animation:none!important}}
 @media(max-width:380px){.movement-guide-art{width:108px;height:108px}}
+
+/* Anatomical pivots keep each limb moving from its joint, not its center. */
+.movement-guide-art .person-head{transform-origin:50% 85%}
+.movement-guide-art .person-torso{transform-origin:50% 50%}
+.movement-guide-art .person-arm-a,.movement-guide-art .person-arm-b{transform-origin:50% 5%}
+.movement-guide-art .person-leg-a,.movement-guide-art .person-leg-b{transform-origin:50% 5%}
