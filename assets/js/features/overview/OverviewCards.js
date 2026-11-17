@@ -84,7 +84,7 @@ function weekCard(state,today) {
 }
 
 function headlineLength(value) {
-  const words = String(value || "").trim().split(/\\s+/).filter(Boolean).length;
+  const words = String(value || "").trim().split(" ").filter(Boolean).length;
   return words > 8 ? "long" : words > 5 ? "medium" : "short";
 }
 
@@ -96,7 +96,7 @@ export function renderOverview(state, dailyContent = null) {
     message: "নিজের সামর্থ্য অনুযায়ী ধীরে এগোন; প্রয়োজন হলে স্বাস্থ্যপেশাজীবীর পরামর্শ নিন।",
     source: null
   };
-  const sourceUrl = typeof content.source?.url === "string" && /^https:\\/\\//i.test(content.source.url)
+  const sourceUrl = typeof content.source?.url === "string" && content.source.url.startsWith("https://")
     ? content.source.url : "";
   const sourceLabel = content.source?.label || "তথ্যসূত্র";
   const sourceLink = sourceUrl
