@@ -32,7 +32,7 @@ export function getExerciseAnimation(id) {
 }
 
 export function startExerciseAnimation(element, id) {
-  if ((id === "a1" || /^b[1-5]$/.test(id) || /^c[1-5]$/.test(id)) && element && window.ASAN) {
+  if ((id === "a1" || /^b[1-5]$/.test(id) || /^c[1-5]$/.test(id) || /^d[1-5]$/.test(id)) && element && window.ASAN) {
     window.ASAN.mountAll(".fg[data-id='" + id + "']");
   }
 }
