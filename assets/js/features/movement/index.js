@@ -108,7 +108,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
           <summary>শরীরের অঞ্চল দিয়ে খুঁজুন</summary>
           \${renderBodyMap(region)}
         </details>
-        \${renderChecklist(today(), ids, viewMode)}
+        \${renderChecklist(today(), ids, viewMode, region)}
       </section>
     </div>\`;
     hydrateExpandedDetail();
