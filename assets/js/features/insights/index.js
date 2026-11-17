@@ -3,16 +3,20 @@ import { dateKey } from "../../core/dates.js";
 import { renderCalendar } from "./Calendar.js";
 import { renderTrends } from "./Trends.js";
 import { renderScoreTrends } from "./ScoreTrends.js";
+import { renderBodyMap } from "./BodyMap.js";
+import { renderActivityVisuals } from "./ActivityVisuals.js";
 
 export function initInsights({ root = document.querySelector("[data-insights-content]") } = {}) {
   if (!root) return () => {};
   const today=dateKey();
-  let month=today.slice(0,7), selected=today, period=30;
+  let month=today.slice(0,7), selected=today, selectedRegion=null, period=30;
   const draw=()=>{
     const state=getState();
-    root.innerHTML=renderTrends(state,period)+renderScoreTrends(state)+renderCalendar(state,month,selected);
+    root.innerHTML=renderTrends(state,period)+renderBodyMap(state,selectedRegion)+renderActivityVisuals(state)+renderScoreTrends(state)+renderCalendar(state,month,selected);
   };
   function click(event){
+    const region=event.target.closest("[data-body-region]");
+    if(region){selectedRegion=region.dataset.bodyRegion;draw();return;}
     const periodButton=event.target.closest("[data-insight-period]");
     if(periodButton){period=Number(periodButton.dataset.insightPeriod);draw();return;}
     const day=event.target.closest("[data-insight-day]");
