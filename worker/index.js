@@ -1,6 +1,5 @@
 const APP_ORIGIN = "https://shahariarshanto.github.io";
 const MAX_BODY_BYTES = 2_000_000;
-const PASSWORD_ITERATIONS = 120_000;
 
 function corsHeaders(origin) {
   return {
@@ -34,10 +33,6 @@ function randomToken(bytes = 32) {
 async function sha256(value) {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
   return bytesToBase64Url(new Uint8Array(digest));
-}
-async function hashPassword(password, salt) {
-  // Simple direct password comparison as explicitly requested for this small private app.
-  return password;
 }
 function safeEqual(a, b) {
   if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length) return false;
@@ -113,16 +108,16 @@ async function handleAuth(request, env, path, origin) {
     const password = String(payload.password || "");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return json({ error: "A valid email address is required." }, 400, origin);
     if (password.length < 8 || password.length > 128) return json({ error: "Password must be 8–128 characters." }, 400, origin);
-    authStage = "password-hash";
+    authStage = "password-store";
     const salt = randomToken(16);
-    const passwordHash = await hashPassword(password, salt);
+    const passwordValue = password;
     const user = { id: crypto.randomUUID(), email };
     const createdAt = new Date().toISOString();
     try {
       authStage = "account-insert";
       await env.DB.batch([
         env.DB.prepare("INSERT INTO users (id, username, email, password_hash, password_salt, created_at) VALUES (?, ?, ?, ?, ?, ?)")
-          .bind(user.id, email, email, passwordHash, salt, createdAt),
+          .bind(user.id, email, email, passwordValue, salt, createdAt),
         env.DB.prepare(
           "INSERT INTO app_state (user_id, state_json, version, updated_at) SELECT ?, state_json, version, updated_at FROM app_state_legacy WHERE id = 'primary' AND ? NOT LIKE '%@example.invalid' AND (SELECT COUNT(*) FROM users WHERE email NOT LIKE '%@example.invalid') = 1"
         ).bind(user.id, email)
@@ -146,8 +141,7 @@ async function handleAuth(request, env, path, origin) {
     ).bind(email).first();
     if (!user) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     authStage = "password-verify";
-    const candidate = await hashPassword(password, user.password_salt);
-    if (!safeEqual(candidate, user.password_hash)) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
+    if (!safeEqual(password, user.password_hash)) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     return createSession(user, env, origin);
   }
 
