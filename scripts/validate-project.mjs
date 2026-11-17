@@ -58,6 +58,9 @@ if (!html.includes('class="brand-name">A Square</span>') ||
   fail("Compact responsive brand header must include the spine logo, A Square name and tagline");
 } else pass("Compact responsive brand header includes the spine logo, A Square name and tagline");
 if (html.includes('class="brand-mark"')) fail("Old letter-only brand mark must be removed");
+if (exists("icon.svg")) fail("Obsolete duplicate root icon.svg must be removed; use the versioned spine asset");
+const themeOverrides = read("assets/css/theme-overrides.css");
+if (/\\.brand-mark|\\.brand strong/.test(themeOverrides)) fail("Obsolete brand header CSS selectors remain in theme overrides");
 const htmlRefs = [
   ...[...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)].map(m => m[1]),
   ...[...html.matchAll(/<link\b[^>]*\bhref=["']([^"']+)["']/gi)].map(m => m[1])
