@@ -1,8 +1,8 @@
 import { getState, updateState } from "../../core/state.js";
 import { emit } from "../../core/events.js";
 
-const HTML_ESCAPES = { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"' :"&quot;", "\'":"&#39;" };
-const escapeHTML = value => String(value ?? "").replace(/[&<>"\']/g, c => HTML_ESCAPES[c]);
+const HTML_ESCAPES = { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" };
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => HTML_ESCAPES[c]);
 const themes = [["system","ডিভাইসের থিম"],["light","লাইট"],["dark","ডার্ক"]];
 const preferenceOptions = [
   ["medicationReminders","মেডিকেশন রিমাইন্ডার","নির্ধারিত সময়ে ওষুধের কথা মনে করিয়ে দেওয়ার পছন্দ।"],
@@ -20,7 +20,10 @@ export function renderPreferences() {
     '<label class="settings-field" for="pref-theme"><span>অ্যাপের থিম</span><select id="pref-theme" data-preference="theme">' + themeOptions + '</select></label>' +
     '<p class="settings-note">বর্তমানে অ্যাপের ভাষা বাংলা। অন্যান্য ভাষা এখনো যোগ করা হয়নি।</p>' +
     '<label class="settings-field" for="pref-dailyGoal"><span>দৈনিক ব্যায়ামের লক্ষ্য (মিনিট)</span><input id="pref-dailyGoal" data-preference="dailyGoal" type="number" inputmode="numeric" min="1" max="240" step="1" value="' + escapeHTML(preferences.dailyGoal) + '"></label></section>' +
-    '<section class="settings-section"><h3>রিমাইন্ডার ও ইন্টারঅ্যাকশন</h3>' + toggles + '<p class="settings-note">এই পছন্দগুলো সংরক্ষিত হচ্ছে।</p></section>';
+    '<section class="settings-section"><h3>রিমাইন্ডার ও ইন্টারঅ্যাকশন</h3>' + toggles + '<p class="settings-note">এই পছন্দগুলো সংরক্ষিত হচ্ছে।</p></section>' +
+    '<section class="settings-section"><h3>ডেটা ব্যাকআপ</h3><p class="settings-note">আপনার স্বাস্থ্য, ওষুধ ও ব্যায়ামের তথ্য JSON ফাইলে সংরক্ষণ করুন। প্রয়োজনে সেই ফাইল থেকে তথ্য ফিরিয়ে আনতে পারবেন।</p>' +
+    '<div class="settings-actions"><button type="button" data-backup-export>JSON ব্যাকআপ ডাউনলোড</button><button type="button" data-backup-choose>ব্যাকআপ থেকে পুনরুদ্ধার</button><input type="file" data-backup-file accept=".json,application/json" hidden></div>' +
+    '<p class="settings-note">পুনরুদ্ধার করলে বর্তমান অ্যাপের তথ্য ব্যাকআপ ফাইলের তথ্য দিয়ে প্রতিস্থাপিত হবে।</p></section>';
 }
 
 export function savePreference(key, rawValue) {
