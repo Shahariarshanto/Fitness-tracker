@@ -124,7 +124,7 @@ async function handleAuth(request, env, path, origin) {
     ).bind(email).first();
     if (!user) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     const candidate = await hashPassword(password, user.password_salt);
-    if (!safeEqual(candidate, user.password_hash)) return json({ error: "Username/Email অথবা Password সঠিক নয়।" }, 401, origin);
+    if (!safeEqual(candidate, user.password_hash)) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     return createSession(user, env, origin);
   }
 
