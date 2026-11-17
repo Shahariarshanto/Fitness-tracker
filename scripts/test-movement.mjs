@@ -27,7 +27,7 @@ assert.match(completed, /aria-valuenow="8"/);
 
 for (const position of EXERCISE_POSITIONS) {
   const filtered = renderChecklist("2026-11-17", [], position.id);
-  assert.match(filtered, new RegExp(`data-position-filter="${position.id}"[^>]*is-active`));
+  assert.match(filtered, new RegExp(`class="movement-position-chip is-active" data-position-filter="${position.id}"`));
   for (const id of position.exerciseIds) assert.match(filtered, new RegExp(`data-exercise-card="${id}"`));
   const outside = EXERCISES.filter(item => !position.exerciseIds.includes(item.id));
   for (const item of outside) assert.doesNotMatch(filtered, new RegExp(`data-exercise-card="${item.id}"`));
