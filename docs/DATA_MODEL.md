@@ -58,9 +58,9 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
 - The Worker validates the application identifier, schema version, required state domains and payload size before writing.
 - D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Use the app's manual JSON export for an independent copy; D1 itself is not a backup.
-- Cloudflare Worker API currently permits requests from the GitHub Pages site origin; CORS origin checks are not authentication and do not protect health data from non-browser callers.
+- The Worker accepts state requests only with a valid bearer session token. CORS remains an origin policy, while authentication and per-user authorization are enforced by the Worker.
 ## 6. Privacy
-Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
+The app supports username/email and password registration and login. Passwords are PBKDF2-SHA-256 hashes with per-user salts; D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
 
 
 ### Medication records
