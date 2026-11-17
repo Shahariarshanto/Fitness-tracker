@@ -94,7 +94,23 @@ Medication management is mounted as a dedicated section inside the Health tab, p
 | `assets/js/features/movement/GuidedSession.js` | Renders guided-session controls, timer display, completion state and recent history | exercise data | Pure rendering |
 | `assets/css/movement.css` | Responsive Movement-specific layout and controls | design tokens/components | Styles only |
 
-Movement uses the existing `dailyActivity` and `workoutSessions` state domains. Only `workout:started` and `workout:finished` are emitted; ordinary checklist changes use state subscriptions. The legacy exercise catalogue is explicitly unreviewed clinical reference material. No exercise-specific animation or prescribed positioning has been added without reviewed source media/instructions.
+Movement uses the existing `dailyActivity` and `workoutSessions` state domains. Only `workout:started` and `workout:finished` are emitted; ordinary checklist changes use state subscriptions. The exercise catalogue remains legacy reference material with `reviewStatus: "legacy-reference-unreviewed"`; the animations are illustrative custom stick-figure motion, not clinically approved instruction. The animation layer currently consists of:
+
+| Module | Responsibility | Loading/ownership |
+|---|---|---|
+| `assets/js/features/movement/ExerciseAnimation.js` | Starts the ASAN animation for the selected exercise ID; also retains legacy SVG factory imports and `getExerciseAnimation()`. | Imported by Movement entry; calls the global ASAN engine. The legacy factory output has no known caller in the current app, but its imports remain present and need a separate reference/cleanup review. |
+| `asan_01_engine_a1.js` | Shared animation engine and pose a1 (Deep Breathing). | Classic script loaded by `index.html` before the module bootstrap. |
+| `asan_02_neck_shoulder.js` | Poses b1–b5. | Classic script loaded by `index.html`. |
+| `asan_03_spine.js` | Poses c1–c5. | Classic script loaded by `index.html`. |
+| `asan_04_hip_leg.js` | Poses d1–d5. | Classic script loaded by `index.html`. |
+| `asan_05_daytime.js` | Poses e1–e3. | Classic script loaded by `index.html`. |
+| `asan_06_additional.js` | Poses f1–f5. | Classic script loaded by `index.html`. |
+
+`ExerciseDetails.js` provides the compact animation stage, per-exercise Bengali caption, instructions, dosage and caution text. `assets/css/movement.css` owns the responsive card/stage styling. All 24 catalogue IDs currently have an ASAN pose mapping.
+
+**Known content mismatch:** catalogue item c3 is listed as a hands-and-knees thoracic rotation, while its animation label/pose depicts a lying Open Book movement. Do not treat the animation as confirmation of the prescribed position; this needs a deliberate content/clinical correction.
+
+**Timer limitation:** e1 (Brisk Walking) and e2 (Movement Break) have `durationSeconds: 0`; the guided-session clock therefore starts at zero for these records even though their instructions describe 30-minute and 2-minute activities.
 
 
 ## Step 7 — Insights feature
