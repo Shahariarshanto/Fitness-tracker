@@ -427,3 +427,8 @@ This document describes the intended architecture and acceptance criteria; it do
 - Documentation and source inspection are not live browser/device verification. Android rendering, desktop interaction, offline startup and clinical review remain pending.
 
 Update the feature checklist and current implementation status only after inspecting the latest repository and verifying the relevant behavior. Old test data does not need a migration or preservation phase. The important data-entry period begins when the app is ready for regular use.
+
+
+## Account authentication implementation
+
+The app uses its own small Sign Up / Login / Logout flow in Settings → Data Backup. Cloudflare Worker verifies bearer tokens for every state API request and derives the user ID server-side. D1 stores password hashes, token hashes, and one app_state row per user. Sessions remain active until logout. Logout clears app-owned Local Storage and revokes the current session without deleting remote records. Migration 0002_user_accounts.sql preserves the original app_state table as app_state_legacy; the first registered account receives its snapshot and later accounts start independently. No third-party authentication provider or email verification is included.
