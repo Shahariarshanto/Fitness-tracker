@@ -379,3 +379,13 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] The hero expands naturally for longer headlines/messages without clipping or shifting the illustration out of alignment.
 - [ ] Check the hero at narrow mobile widths, tablet and desktop; verify light/dark app themes.
 - [ ] Verify the cached content and illustration remain available offline after the service worker has installed.
+
+
+### Step 7 follow-up — Body Map and activity visuals
+- [ ] Body Map uses a front-view silhouette and saved region-specific pain records only.
+- [ ] Missing region records remain neutral; visualization does not imply inflammation or diagnosis.
+- [ ] Health Journal region form saves date, region and 0–10 score through shared state.
+- [ ] Existing backups without painRegionLogs normalize safely.
+- [ ] Progress rings and heatmap use saved activity and distinguish no record from zero activity.
+- [ ] New Insights modules are precached and use shared theme tokens in light/dark modes.
+- [ ] Verify narrow mobile layout, persistence, calendar navigation and offline module loading.
