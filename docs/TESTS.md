@@ -470,3 +470,9 @@ Verification note: Static source and Node tests do not prove a live Cloudflare d
 - [ ] Repair or redesign the live UI smoke test if it fails; a successful Pages upload alone is not a successful end-to-end test.
 
 **Security note:** The Worker currently stores the submitted password value directly in the legacy `password_hash` column and compares it directly. This is a known limitation explicitly accepted for the current small private app; the `password_salt` field is unused. Never describe this as PBKDF2 or hashed-password storage.
+
+
+### Production smoke-test data safety (2026-11-18)
+- [x] Production live smoke-test workflow steps are opt-in via repository variable `RUN_PRODUCTION_SMOKE_TESTS=true`; default deployments do not create additional dummy accounts or health/medication records.
+- [ ] If opt-in is enabled, run only with a documented test-data cleanup plan. Current live test scripts retain `@example.invalid` accounts and test state; they do not clean up D1 rows.
+- [ ] Existing test-only rows in production D1 require a separately scoped cleanup review; do not delete or reset the database as part of routine repository cleanup.
