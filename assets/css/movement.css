@@ -711,3 +711,56 @@
 .movement-detail-actions .movement-detail-complete{min-width:0}
 .movement-detail-next{min-height:44px;border-radius:12px;font-size:11px;font-weight:800}
 @media(max-width:380px){.movement-detail-actions{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Daily exercise library: compact, position-first and responsive. */
+.movement-dashboard-clean{display:block;min-width:0}
+.movement-exercise-library{display:grid;gap:12px;min-width:0}
+.movement-library-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 1px}
+.movement-library-heading>div{display:grid;gap:3px;min-width:0}
+.movement-library-heading .eyebrow{margin:0;color:var(--accent);font-size:9px;font-weight:850;letter-spacing:.14em}
+.movement-library-heading h3{margin:0;color:var(--text);font-size:clamp(19px,4vw,23px);line-height:1.25;letter-spacing:-.025em}
+.movement-library-heading p:last-child{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+.movement-library-count{flex:0 0 auto;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:10px;font-weight:800;font-variant-numeric:tabular-nums}
+.movement-position-filter{display:flex;gap:7px;flex-wrap:wrap;align-items:center;min-width:0}
+.movement-position-chip{min-height:32px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:inherit;font-size:10px;font-weight:750;line-height:1.2;white-space:nowrap;cursor:pointer;transition:background .18s,border-color .18s,color .18s,transform .18s}
+.movement-position-chip:hover{border-color:color-mix(in srgb,var(--accent) 38%,var(--line));color:var(--accent)}
+.movement-position-chip:active{transform:scale(.97)}
+.movement-position-chip.is-active{border-color:var(--accent);background:var(--accent);color:var(--accent-contrast,#fff);box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 20%,transparent)}
+.movement-position-chip:focus-visible,.movement-exercise-name:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 28%,transparent);outline-offset:2px}
+.movement-library-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.movement-library-summary strong{color:var(--text);font-size:12px;font-weight:850;font-variant-numeric:tabular-nums}
+.movement-library-summary span{color:var(--muted);font-size:10px;text-align:right}
+.movement-library-progress{height:5px;overflow:hidden;border-radius:999px;background:var(--surface-soft)}
+.movement-library-progress>span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--brand-secondary,var(--accent)));transition:width .28s ease}
+.movement-exercise-list{display:grid;gap:9px;min-width:0}
+.movement-exercise-card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 2px 8px rgba(27,24,54,.035);transition:border-color .2s,background .2s,box-shadow .2s}
+.movement-exercise-card:hover{border-color:color-mix(in srgb,var(--accent) 26%,var(--line));box-shadow:0 5px 16px rgba(27,24,54,.06)}
+.movement-exercise-card.is-complete{border-color:color-mix(in srgb,#26966b 30%,var(--line));background:color-mix(in srgb,#26966b 5%,var(--surface))}
+.movement-exercise-card.is-expanded{border-color:color-mix(in srgb,var(--accent) 42%,var(--line));box-shadow:0 6px 20px color-mix(in srgb,var(--accent) 8%,transparent)}
+.movement-exercise-card-main{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px}
+.movement-exercise-name{display:grid;gap:3px;min-width:0;flex:1;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.movement-exercise-name strong{overflow-wrap:anywhere;color:var(--text);font-size:13px;font-weight:800;line-height:1.4}
+.movement-exercise-name>span{overflow-wrap:anywhere;color:var(--muted);font-size:10px;line-height:1.4}
+.movement-exercise-name small{overflow-wrap:anywhere;color:var(--muted);font-size:9px;line-height:1.45}
+.movement-exercise-status{flex:0 0 auto;color:var(--accent);font-size:10px;font-weight:800;white-space:nowrap}
+.movement-exercise-status.is-done{color:#21845e}
+.movement-exercise-card.is-complete .movement-exercise-name strong{color:color-mix(in srgb,var(--text) 82%,#21845e)}
+.movement-exercise-card [data-exercise-detail-slot]:not([hidden]){padding:0 10px 10px}
+.movement-exercise-card .movement-detail-card{margin:0}
+@media(min-width:700px){
+  .movement-exercise-list{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  .movement-exercise-card.is-expanded{grid-column:1/-1}
+}
+@media(max-width:420px){
+  .movement-library-heading h3{font-size:19px}
+  .movement-position-filter{gap:6px}
+  .movement-position-chip{min-height:30px;padding:6px 9px;font-size:9px}
+  .movement-library-summary span{max-width:52%;font-size:9px}
+  .movement-exercise-card-main{padding:12px;gap:8px}
+  .movement-exercise-name strong{font-size:12px}
+  .movement-exercise-status{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  .movement-position-chip,.movement-library-progress>span,.movement-exercise-card{transition:none}
+}
