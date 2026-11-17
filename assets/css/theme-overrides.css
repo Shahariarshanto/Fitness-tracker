@@ -534,3 +534,175 @@ input[type="range"] {
 @media (prefers-reduced-motion: reduce) {
   .overview-welcome-art img { animation: none; }
 }
+
+
+/* Daily Check-in final polish: compact copy, balanced art and responsive type. */
+.overview-welcome {
+  grid-template-columns: minmax(0, 1.24fr) minmax(96px, .76fr);
+  min-height: 204px;
+  gap: clamp(5px, 1.6vw, 14px);
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 26px;
+}
+.overview-welcome-copy {
+  align-self: stretch;
+  justify-content: center;
+  gap: 11px;
+}
+.overview-welcome-topline {
+  gap: 0;
+}
+.overview-welcome-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  letter-spacing: .16em;
+}
+.overview-welcome-label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #FF9B72;
+  box-shadow: 0 0 0 4px rgba(255,155,114,.13);
+}
+.overview-welcome-content {
+  gap: 8px;
+}
+.overview-welcome-category {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 8px;
+  border: 1px solid rgba(255,178,127,.25);
+  border-radius: 999px;
+  background: rgba(255,178,127,.09);
+  font-size: 8px;
+  letter-spacing: .14em;
+}
+.overview-welcome-title {
+  max-width: 16ch;
+  font-size: clamp(1.72rem, 4.1vw, 2.3rem);
+  line-height: 1.19;
+  letter-spacing: -.03em;
+}
+.overview-welcome-title[data-length="medium"] {
+  font-size: clamp(1.52rem, 3.7vw, 2.02rem);
+}
+.overview-welcome-title[data-length="long"] {
+  font-size: clamp(1.34rem, 3.25vw, 1.76rem);
+  line-height: 1.24;
+}
+.overview-welcome-message {
+  max-width: 34ch;
+  font-size: 10px;
+  line-height: 1.48;
+  color: #F4ECFF;
+}
+.overview-welcome-footer {
+  min-height: 12px;
+}
+.overview-welcome-source {
+  font-size: 9px;
+  color: #FFD2BC;
+}
+.overview-welcome-art {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1;
+  justify-self: end;
+  overflow: visible;
+}
+.overview-welcome-art img {
+  width: 100%;
+  max-width: 220px;
+  max-height: 220px;
+  height: auto;
+  object-fit: contain;
+}
+@media (min-width: 650px) {
+  .overview-welcome {
+    min-height: 226px;
+    grid-template-columns: minmax(0, 1.28fr) minmax(150px, .72fr);
+    padding: 28px 32px;
+  }
+  .overview-welcome-title {
+    font-size: clamp(2rem, 3.4vw, 2.5rem);
+  }
+  .overview-welcome-title[data-length="medium"] {
+    font-size: clamp(1.78rem, 3vw, 2.15rem);
+  }
+  .overview-welcome-title[data-length="long"] {
+    font-size: clamp(1.55rem, 2.65vw, 1.95rem);
+  }
+  .overview-welcome-message {
+    font-size: 11px;
+  }
+}
+@media (max-width: 480px) {
+  .overview-welcome {
+    grid-template-columns: minmax(0, 1.2fr) minmax(90px, .8fr);
+    min-height: 184px;
+    gap: 4px;
+    padding: 18px 16px;
+    border-radius: 23px;
+  }
+  .overview-welcome-copy {
+    gap: 10px;
+  }
+  .overview-welcome-label {
+    font-size: 8px;
+    letter-spacing: .12em;
+  }
+  .overview-welcome-category {
+    padding: 3px 7px;
+    font-size: 7.5px;
+  }
+  .overview-welcome-title {
+    font-size: clamp(1.48rem, 5.8vw, 1.78rem);
+  }
+  .overview-welcome-title[data-length="medium"] {
+    font-size: clamp(1.34rem, 5.2vw, 1.62rem);
+  }
+  .overview-welcome-title[data-length="long"] {
+    font-size: clamp(1.2rem, 4.7vw, 1.46rem);
+  }
+  .overview-welcome-message {
+    font-size: 9.5px;
+    line-height: 1.45;
+  }
+  .overview-welcome-art {
+    max-width: 150px;
+  }
+  .overview-welcome-art img {
+    width: 100%;
+    max-width: 150px;
+    max-height: 150px;
+  }
+}
+@media (max-width: 360px) {
+  .overview-welcome {
+    grid-template-columns: minmax(0, 1.22fr) minmax(82px, .78fr);
+    padding: 16px 13px;
+  }
+  .overview-welcome-label {
+    font-size: 7.5px;
+    letter-spacing: .1em;
+  }
+  .overview-welcome-title {
+    font-size: 1.38rem;
+  }
+  .overview-welcome-title[data-length="medium"] {
+    font-size: 1.25rem;
+  }
+  .overview-welcome-title[data-length="long"] {
+    font-size: 1.12rem;
+  }
+  .overview-welcome-art,
+  .overview-welcome-art img {
+    max-width: 128px;
+    max-height: 128px;
+  }
+}

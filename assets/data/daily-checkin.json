@@ -9,7 +9,7 @@
       "id": "move-01",
       "category": "MOVEMENT",
       "headline": "নিয়মিত নড়াচড়া গুরুত্বপূর্ণ",
-      "message": "axSpA-তে উপযোগী নিয়মিত ব্যায়াম চলাচল, নমনীয়তা ও ভঙ্গি ধরে রাখতে সহায়তা করতে পারে.",
+      "message": "নিয়মিত ব্যায়াম চলাচল ও নমনীয়তায় সহায়ক হতে পারে।",
       "source": {
         "label": "NASS · Exercise",
         "url": "https://nass.co.uk/managing-my-as/exercise/"
@@ -19,7 +19,7 @@
       "id": "move-02",
       "category": "EXERCISE",
       "headline": "ব্যায়ামে থাকুক বৈচিত্র্য",
-      "message": "একটি কাঠামোবদ্ধ পরিকল্পনায় স্ট্রেচিং, শক্তিবর্ধক, ভঙ্গি, শ্বাস ও অ্যারোবিক অনুশীলন থাকতে পারে.",
+      "message": "স্ট্রেচিং, শক্তি, শ্বাস ও অ্যারোবিক অনুশীলনও থাকতে পারে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
@@ -29,7 +29,7 @@
       "id": "move-03",
       "category": "BREATHING",
       "headline": "শ্বাসের অনুশীলনও গুরুত্বপূর্ণ",
-      "message": "axSpA-র ব্যায়াম পরিকল্পনায় গভীর শ্বাসের অনুশীলনও অন্তর্ভুক্ত থাকে.",
+      "message": "ব্যায়াম পরিকল্পনায় গভীর শ্বাসের অনুশীলনও থাকতে পারে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
@@ -39,7 +39,7 @@
       "id": "posture-01",
       "category": "POSTURE",
       "headline": "ভঙ্গির যত্ন নিন",
-      "message": "ভঙ্গি নিয়ন্ত্রণের অনুশীলন axSpA-র ব্যক্তিগত ব্যায়াম পরিকল্পনার একটি অংশ হতে পারে.",
+      "message": "ভঙ্গির অনুশীলনও ব্যক্তিগত পরিকল্পনার অংশ হতে পারে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
@@ -49,7 +49,7 @@
       "id": "mobility-01",
       "category": "MOBILITY",
       "headline": "চলাচলের পরিসর ধরে রাখুন",
-      "message": "মেরুদণ্ডের বিভিন্ন অংশের নড়াচড়ার পরিসর বজায় রাখার অনুশীলন নির্দেশিকায় অন্তর্ভুক্ত.",
+      "message": "মেরুদণ্ডের নড়াচড়ার পরিসর ধরে রাখুন।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
@@ -59,7 +59,7 @@
       "id": "move-04",
       "category": "MOVEMENT",
       "headline": "নিজের পছন্দের নড়াচড়া বেছে নিন",
-      "message": "যে কার্যক্রম উপভোগ করেন, সেটি নিয়মিত চালিয়ে যাওয়া সহজ হতে পারে.",
+      "message": "পছন্দের কার্যক্রম নিয়মিত চালিয়ে যাওয়া সহজ হতে পারে।",
       "source": {
         "label": "NASS · Exercise",
         "url": "https://nass.co.uk/managing-my-as/exercise/"
@@ -69,7 +69,7 @@
       "id": "safety-01",
       "category": "SAFETY",
       "headline": "ধীরে শুরু করুন",
-      "message": "নতুন ব্যায়াম শুরু করলে ধীরে শুরু করে সক্ষমতা অনুযায়ী সময় বাড়ানোর পরামর্শ দেয় NASS.",
+      "message": "নতুন ব্যায়াম ধীরে শুরু করে সক্ষমতা অনুযায়ী বাড়ান।",
       "source": {
         "label": "NASS · Exercising at Home",
         "url": "https://nass.co.uk/wp-content/uploads/2020/06/Exercising-at-home.pdf"
@@ -79,7 +79,7 @@
       "id": "safety-02",
       "category": "SAFETY",
       "headline": "প্রতিদিনের সক্ষমতা এক নয়",
-      "message": "ভালো ও খারাপ দিন থাকতে পারে; সেদিনের অবস্থার সঙ্গে ব্যায়ামের পরিমাণ মানিয়ে নিন.",
+      "message": "ভালো-মন্দ দিনের সঙ্গে ব্যায়ামের পরিমাণ মানিয়ে নিন।",
       "source": {
         "label": "NASS · Safety First",
         "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
@@ -89,7 +89,7 @@
       "id": "safety-03",
       "category": "SAFETY",
       "headline": "নিজের সীমা মেনে চলুন",
-      "message": "শুরুতেই অতিরিক্ত চাপ দেবেন না; আরামদায়ক সীমার মধ্যে থেকে ধীরে অগ্রসর হোন.",
+      "message": "অতিরিক্ত চাপ নয়—আরামদায়ক সীমায় ধীরে এগোন।",
       "source": {
         "label": "NASS · Safety First",
         "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
@@ -99,7 +99,7 @@
       "id": "physio-01",
       "category": "PHYSIOTHERAPY",
       "headline": "ফিজিওথেরাপিস্টের পরিকল্পনা নিন",
-      "message": "ফিজিওথেরাপিস্ট আপনার ইতিহাস, ভঙ্গি ও চলাচল মূল্যায়ন করে ব্যক্তিগত পরিকল্পনা সাজাতে পারেন.",
+      "message": "ফিজিওথেরাপিস্ট ব্যক্তিগত ব্যায়াম পরিকল্পনা সাজাতে পারেন।",
       "source": {
         "label": "NASS · Physiotherapy",
         "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/"
@@ -109,7 +109,7 @@
       "id": "strength-01",
       "category": "STRENGTH",
       "headline": "শক্তিবর্ধক অনুশীলনও দরকার",
-      "message": "শক্তিবর্ধক অনুশীলন পেশির সক্ষমতা ও দৈনন্দিন কাজের জন্য সহায়ক হতে পারে.",
+      "message": "শক্তিবর্ধক অনুশীলন পেশির সক্ষমতায় সহায়ক হতে পারে।",
       "source": {
         "label": "Arthritis Foundation · axSpA",
         "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
@@ -119,7 +119,7 @@
       "id": "posture-02",
       "category": "POSTURE",
       "headline": "এক ভঙ্গিতে বেশি সময় নয়",
-      "message": "দীর্ঘক্ষণ ঝুঁকে থাকা বা একই ভঙ্গিতে থাকা কমাতে কাজের মাঝে অবস্থান বদলান.",
+      "message": "এক ভঙ্গিতে দীর্ঘক্ষণ নয়; মাঝে মাঝে অবস্থান বদলান।",
       "source": {
         "label": "Arthritis Foundation · axSpA",
         "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
@@ -129,7 +129,7 @@
       "id": "posture-03",
       "category": "POSTURE",
       "headline": "কাজের জায়গা সাজান",
-      "message": "মনিটর ও ডেস্কের উচ্চতা ঠিক রাখা দৈনন্দিন ভঙ্গির যত্নের অংশ হতে পারে.",
+      "message": "ডেস্ক ও মনিটরের উচ্চতা আরামদায়ক ভঙ্গিতে সহায়ক।",
       "source": {
         "label": "Arthritis Foundation · axSpA",
         "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
@@ -139,7 +139,7 @@
       "id": "selfcare-01",
       "category": "SELF-CARE",
       "headline": "কাজ ও বিশ্রামের ভারসাম্য",
-      "message": "দৈনন্দিন কাজের পাশাপাশি বিশ্রামের ভারসাম্যও axSpA self-management-এর অংশ.",
+      "message": "কাজের পাশাপাশি বিশ্রামের ভারসাম্যও জরুরি।",
       "source": {
         "label": "Arthritis Foundation · axSpA",
         "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
@@ -149,7 +149,7 @@
       "id": "safety-04",
       "category": "SAFETY",
       "headline": "শরীরের সংকেত শুনুন",
-      "message": "মাথা ঘোরা, অস্বাভাবিক শ্বাসকষ্ট বা অসুস্থ লাগলে ব্যায়াম থামিয়ে চিকিৎসা পরামর্শ নিন.",
+      "message": "মাথা ঘোরা বা শ্বাসকষ্ট হলে থামুন ও পরামর্শ নিন।",
       "source": {
         "label": "NASS · Safety First",
         "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
@@ -159,7 +159,7 @@
       "id": "safety-05",
       "category": "SAFETY",
       "headline": "ব্যথা বাড়লে পরামর্শ নিন",
-      "message": "ব্যায়ামের পর অস্বাভাবিক বা তীব্র ব্যথা থাকলে স্বাস্থ্যপেশাজীবীর সঙ্গে কথা বলুন.",
+      "message": "তীব্র ব্যথা থাকলে স্বাস্থ্যপেশাজীবীর পরামর্শ নিন।",
       "source": {
         "label": "NASS · Safety First",
         "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
@@ -169,7 +169,7 @@
       "id": "knowledge-01",
       "category": "AS KNOWLEDGE",
       "headline": "ব্যায়াম চিকিৎসার একটি অংশ",
-      "message": "AS-এর ব্যবস্থাপনায় ব্যায়াম, ফিজিওথেরাপি ও ওষুধ—সবই বিবেচিত হতে পারে.",
+      "message": "AS ব্যবস্থাপনায় ব্যায়াম, ফিজিওথেরাপি ও ওষুধও বিবেচ্য।",
       "source": {
         "label": "NHS · AS Treatment",
         "url": "https://www.nhs.uk/conditions/ankylosing-spondylitis/treatment/"
@@ -179,7 +179,7 @@
       "id": "move-05",
       "category": "MOVEMENT",
       "headline": "নিয়মিততা ধরে রাখুন",
-      "message": "axSpA-তে ব্যায়াম নিয়মিত ও ধারাবাহিকভাবে দীর্ঘমেয়াদে চালিয়ে যাওয়ার ওপর গুরুত্ব দেওয়া হয়.",
+      "message": "ব্যায়াম নিয়মিত ও ধারাবাহিকভাবে চালিয়ে যান।",
       "source": {
         "label": "NASS · Exercise",
         "url": "https://nass.co.uk/managing-my-as/exercise/"
@@ -189,7 +189,7 @@
       "id": "fitness-01",
       "category": "FITNESS",
       "headline": "অ্যারোবিক সক্ষমতাও লক্ষ্য",
-      "message": "হৃদ্‌যন্ত্র ও ফুসফুসের সক্ষমতা বাড়ানোর অ্যারোবিক কার্যক্রমও axSpA ব্যায়াম পরিকল্পনায় থাকতে পারে.",
+      "message": "অ্যারোবিক কাজ হৃদ্‌যন্ত্র ও ফুসফুসের সক্ষমতায় সহায়ক।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
@@ -199,7 +199,7 @@
       "id": "mobility-02",
       "category": "MOBILITY",
       "headline": "নমনীয়তা দৈনন্দিন কাজে সহায়ক",
-      "message": "নমনীয়তা ও চলাচলের পরিসর ধরে রাখা দৈনন্দিন কাজ সহজ করতে সাহায্য করতে পারে.",
+      "message": "নমনীয়তা ও চলাচলের পরিসর দৈনন্দিন কাজে সহায়ক।",
       "source": {
         "label": "NASS · Exercise",
         "url": "https://nass.co.uk/managing-my-as/exercise/"
@@ -209,7 +209,7 @@
       "id": "physio-02",
       "category": "PHYSIOTHERAPY",
       "headline": "পরিকল্পনা সময়ের সঙ্গে বদলাতে পারে",
-      "message": "axSpA ভিন্ন সময়ে ভিন্নভাবে প্রভাব ফেলতে পারে; ব্যায়াম পরিকল্পনাও প্রয়োজনমতো পর্যালোচনা করুন.",
+      "message": "অবস্থা বদলালে ব্যায়াম পরিকল্পনা পর্যালোচনা করুন।",
       "source": {
         "label": "NASS · Exercise",
         "url": "https://nass.co.uk/managing-my-as/exercise/"
@@ -219,7 +219,7 @@
       "id": "selfcare-02",
       "category": "SELF-CARE",
       "headline": "বাস্তবসম্মত লক্ষ্য ঠিক করুন",
-      "message": "নিরাপদ ও উপভোগ্য কার্যক্রম বেছে নিতে চিকিৎসক বা ফিজিওথেরাপিস্ট সহায়তা করতে পারেন.",
+      "message": "কার্যক্রম বাছতে ফিজিওথেরাপিস্টের পরামর্শ নিন।",
       "source": {
         "label": "Spondylitis Association of America",
         "url": "https://spondylitis.org/about-spondylitis/treatment-information/exercise/"
@@ -229,7 +229,7 @@
       "id": "move-06",
       "category": "MOVEMENT",
       "headline": "কম-প্রভাবের বিকল্পও আছে",
-      "message": "হাঁটা, পানিতে ব্যায়াম বা যোগব্যায়ামের মতো কম-প্রভাবের কাজ কিছু মানুষের জন্য বিকল্প হতে পারে.",
+      "message": "হাঁটা, পানিতে ব্যায়াম বা যোগব্যায়াম বিকল্প হতে পারে।",
       "source": {
         "label": "Arthritis Foundation · axSpA",
         "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
@@ -239,7 +239,7 @@
       "id": "posture-04",
       "category": "POSTURE",
       "headline": "দৈনন্দিন ভঙ্গিও গুরুত্বপূর্ণ",
-      "message": "দীর্ঘক্ষণ বসে কাজ করলে পিঠ, ঘাড় ও কাঁধের আরামদায়ক অবস্থান বজায় রাখার চেষ্টা করুন.",
+      "message": "দীর্ঘক্ষণ বসলে পিঠ, ঘাড় ও কাঁধের আরাম দেখুন।",
       "source": {
         "label": "Arthritis Foundation · axSpA",
         "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
@@ -249,7 +249,7 @@
       "id": "fitness-02",
       "category": "FITNESS",
       "headline": "শক্তি ও ভারসাম্য দুটোই",
-      "message": "সামগ্রিক ব্যায়াম পরিকল্পনায় শক্তি, ভারসাম্য, নমনীয়তা ও সহনশীলতা—সবই বিবেচিত হতে পারে.",
+      "message": "শক্তি, ভারসাম্য, নমনীয়তা ও সহনশীলতা—সবই বিবেচ্য।",
       "source": {
         "label": "Spondylitis Association of America",
         "url": "https://spondylitis.org/about-spondylitis/treatment-information/exercise/"
@@ -259,7 +259,7 @@
       "id": "selfcare-03",
       "category": "SELF-CARE",
       "headline": "ধূমপান ছাড়াও যত্নের অংশ",
-      "message": "ASAS–EULAR রোগ-শিক্ষার পাশাপাশি নিয়মিত ব্যায়াম ও ধূমপান বন্ধের ওপর জোর দেয়.",
+      "message": "ASAS–EULAR ব্যায়াম ও ধূমপান বন্ধের ওপর জোর দেয়।",
       "source": {
         "label": "ASAS–EULAR Recommendations",
         "url": "https://ard.bmj.com/content/early/2022/10/21/ard-2022-223296"
@@ -269,7 +269,7 @@
       "id": "sleep-01",
       "category": "WELLBEING",
       "headline": "ব্যায়াম ঘুমেও সহায়ক হতে পারে",
-      "message": "NASS উল্লেখ করে, নিয়মিত উপযোগী ব্যায়াম ঘুমের মান উন্নত করতে সহায়তা করতে পারে.",
+      "message": "উপযোগী নিয়মিত ব্যায়াম ঘুমের মান উন্নত করতে পারে।",
       "source": {
         "label": "NASS · Exercise",
         "url": "https://nass.co.uk/managing-my-as/exercise/"
@@ -279,7 +279,7 @@
       "id": "knowledge-02",
       "category": "AS KNOWLEDGE",
       "headline": "ব্যক্তিগত মূল্যায়ন গুরুত্বপূর্ণ",
-      "message": "একই ব্যায়াম সবার জন্য সমান উপযোগী নয়; নিজের অবস্থা অনুযায়ী পরামর্শ নিন.",
+      "message": "একই ব্যায়াম সবার জন্য নয়; ব্যক্তিগত পরামর্শ নিন।",
       "source": {
         "label": "NIAMS · Ankylosing Spondylitis",
         "url": "https://www.niams.nih.gov/health-topics/ankylosing-spondylitis/diagnosis-treatment-and-steps-to-take"

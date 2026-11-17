@@ -137,7 +137,7 @@ if (!exists(dailyContentPath)) {
       try {
         if (new URL(item.source.url).protocol !== "https:") fail(`Daily Check-in item ${item.id} must use an HTTPS source URL`);
       } catch { fail(`Daily Check-in item ${item.id} has an invalid source URL`); }
-      if (item.headline.length > 100 || item.message.length > 220) fail(`Daily Check-in item ${item.id} exceeds the supported text length`);
+      if (item.headline.length > 100 || item.message.length > 75) fail(`Daily Check-in item ${item.id} exceeds the supported text length`);
     }
     if (!runtimeModules.map(rel).includes("assets/js/services/daily-content.js")) fail("Daily content service is missing from the service-worker runtime inventory");
     if (!coreShell.map(rel).includes(dailyContentPath)) fail("Daily content JSON is missing from the service-worker core shell");
@@ -155,6 +155,14 @@ if (!exists(dailyContentPath)) {
     fail("Daily Check-in content database is invalid: " + error.message);
   }
 }
+
+const dailyHeroSource = read("assets/js/features/overview/OverviewCards.js");
+if (/overview-welcome-mark|overview-welcome-date/.test(dailyHeroSource)) fail("Daily Check-in hero must not repeat the global brand mark or date");
+else pass("Daily Check-in hero avoids duplicate brand and date elements");
+const dailyHeroStyles = read("assets/css/theme-overrides.css");
+if (!dailyHeroStyles.includes("Daily Check-in final polish") || !dailyHeroStyles.includes("max-height: 150px")) {
+  fail("Daily Check-in compact responsive illustration styles are missing");
+} else pass("Daily Check-in responsive layout and contained illustration styles are present");
 
 // 3. Exercise catalogue, groups, isolated pose modules, per-exercise docs and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");

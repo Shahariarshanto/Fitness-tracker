@@ -84,8 +84,8 @@ function weekCard(state,today) {
 }
 
 function headlineLength(value) {
-  const words = String(value || "").trim().split(" ").filter(Boolean).length;
-  return words > 8 ? "long" : words > 5 ? "medium" : "short";
+  const characters = Array.from(String(value || "").trim()).length;
+  return characters > 30 ? "long" : characters > 22 ? "medium" : "short";
 }
 
 export function renderOverview(state, dailyContent = null) {
@@ -106,9 +106,7 @@ export function renderOverview(state, dailyContent = null) {
     <section class="overview-welcome" aria-labelledby="daily-checkin-title">
       <div class="overview-welcome-copy">
         <div class="overview-welcome-topline">
-          <span class="overview-welcome-mark" aria-hidden="true">a</span>
           <p class="overview-welcome-label">OUR DAILY CHECK-IN</p>
-          <time class="overview-welcome-date" datetime="${today}">${esc(formatDate(today))}</time>
         </div>
         <div class="overview-welcome-content">
           <p class="overview-welcome-category">${esc(content.category || "DAILY CARE")}</p>
