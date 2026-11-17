@@ -389,3 +389,13 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Progress rings and heatmap use saved activity and distinguish no record from zero activity.
 - [ ] New Insights modules are precached and use shared theme tokens in light/dark modes.
 - [ ] Verify narrow mobile layout, persistence, calendar navigation and offline module loading.
+
+
+### Insights Body Map polish regression checks
+- [ ] Body silhouette renders as a proportionate front-view figure on narrow mobile screens.
+- [ ] Hotspots remain aligned to the corresponding body regions at 320px, 360px and desktop widths.
+- [ ] Hotspot colors reflect only the selected calendar date's saved pain score.
+- [ ] Selecting a hotspot shows its label and record for the selected date; no record remains neutral.
+- [ ] Changing calendar date does not break body-region selection or display the region ID as a date.
+- [ ] Light and dark themes retain readable silhouette contrast, marker contrast and keyboard focus.
+- [ ] Existing Insights charts, calendar navigation and service-worker offline cache remain unchanged.
