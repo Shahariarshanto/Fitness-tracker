@@ -89,6 +89,15 @@ for (const cssFile of styles) {
 }
 pass("Local url() assets in linked stylesheets checked");
 
+
+// Explicit submit types keep form semantics accessible and match browser smoke-test selectors.
+const healthMarkup = read("assets/js/features/health/index.js");
+const medicationMarkup = read("assets/js/features/medication/MedicationPanel.js");
+if (!healthMarkup.includes('<button type="submit" class="button-primary">') ||
+    !medicationMarkup.includes('<button type="submit" class="button-primary">')) {
+  fail("Health and medication forms must declare explicit submit button types");
+} else pass("Health and medication form submit buttons declare explicit types");
+
 // 2. Service-worker manifest and complete local import graph.
 const sw = read("sw.js");
 if (!sw.includes("./assets/css/theme-overrides.css")) fail("Theme override stylesheet is missing from the service-worker precache");
