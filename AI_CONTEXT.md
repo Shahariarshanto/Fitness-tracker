@@ -121,5 +121,5 @@ The catalogue's `durationSeconds` values do not consistently equal the sum impli
 - Keep the brand mark at a stable 42px flex basis; do not let the logo shrink when the viewport narrows. The brand-copy column may shrink and the tagline may wrap rather than collide with the date.
 - Brand name uses 16px typography and tagline 10px; neither should visually dominate the logo. Header vertical sizing is content-driven (no oversized fixed/minimum height); horizontal padding uses a responsive clamp.
 - Keep this as one compact header row. Do not move the tagline below the logo or center the brand group unless the product design is explicitly revised.
-- The header markup lives in `index.html`; layout/typography live in `assets/css/base.css`. PWA icon references use `assets/images/as-care-spine-v1.svg`; the Service Worker shell cache is `as-care-shell-v129`.
+- The header markup lives in `index.html`; layout/typography live in `assets/css/base.css`. PWA icon references use `assets/images/as-care-spine-v1.svg`; the Service Worker shell cache is `as-care-shell-v130`.
 - The 2026-11-18 static validation passed for the compact header markup. This does not establish live Pages deployment or visual verification on physical devices; verify narrow Android, wider mobile and desktop widths before marking the header visually approved.
