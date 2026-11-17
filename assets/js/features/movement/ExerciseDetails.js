@@ -17,9 +17,7 @@ export function renderExerciseDetails(id, options = {}) {
   const visual = asanAnimated
     ? `<div class="movement-guide-visual is-asan-animation"><div class="movement-animation-stage"><span class="movement-animation-kicker">MOVEMENT PREVIEW</span><div class="fg" data-id="${id}" data-exercise-animation role="img" aria-label="${esc(animationLabel[0])}"></div></div><span class="movement-animation-caption">${esc(animationLabel[1])}</span></div>`
     : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
-  const completionAction = options.inRoutine
-    ? `<button class="button-primary movement-detail-complete" type="button" data-exercise-done="${id}" aria-pressed="${Boolean(options.completed)}">${options.completed ? "সম্পন্ন হয়েছে · Undo" : "ব্যায়াম সম্পন্ন করুন"}</button>`
-    : `<button class="button-primary movement-detail-complete" type="button" data-routine-toggle="${id}" aria-pressed="false">আমার রুটিনে যোগ করুন</button>`;
+  const completionAction = `<button class="button-primary movement-detail-complete" type="button" data-exercise-done="${id}" aria-pressed="${Boolean(options.completed)}">${options.completed ? "সম্পন্ন হয়েছে · Undo" : "ব্যায়াম সম্পন্ন করুন"}</button>`;
   return `<article class="movement-detail-card">
     <header class="movement-guide-topbar">
       <div class="movement-guide-title"><span class="movement-guide-eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div>
@@ -45,7 +43,6 @@ export function renderExerciseDetails(id, options = {}) {
     <p class="movement-guide-caution"><span class="movement-guide-caution-icon" aria-hidden="true">!</span><span>এই ক্যাটালগের নির্দেশনা ও মাত্রা এখনো ক্লিনিক্যালি যাচাই করা হয়নি। ব্যক্তিগত উপযোগিতা স্বাস্থ্যপেশাজীবীর সঙ্গে মিলিয়ে নিন। ব্যথা বা অস্বস্তি বাড়লে থামুন।</span></p>
     <div class="movement-detail-actions">
       ${completionAction}
-      ${options.nextExerciseId ? `<button class="button-secondary movement-detail-next" type="button" data-exercise-next>পরের ব্যায়াম →</button>` : options.nextLabel ? `<button class="button-secondary movement-detail-next" type="button" data-exercise-close>রুটিনে ফিরুন</button>` : ""}
     </div>
     <p class="movement-stopwatch-note">Stopwatch কেবল সময় মাপে—এটি কোনো নির্ধারিত ব্যায়ামের সময় বা চিকিৎসাগত মাত্রা নির্দেশ করে না।</p>
   </article>`;

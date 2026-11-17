@@ -192,19 +192,18 @@ Add focused module-level and feature-level tests in the same step that implement
 ### Automated checks
 - [ ] Movement entry and all renderer imports resolve.
 - [ ] `ExerciseAnimation.js` imports only the ASAN pose modules and has no imports to deleted legacy SVG factories.
-- [ ] Six active Movement modules are accounted for: `index.js`, `Checklist.js`, `ExerciseDetails.js`, `ExerciseAnimation.js`, `BodyMap.js` and `MovementLogic.js`.
+- [ ] Movement runtime modules and stylesheet are loaded and included in the service-worker shell.
 - [ ] The removed `GuidedSession.js` is not imported or precached.
-- [ ] One shared classic animation engine loads before bootstrap; all 24 exercise pose modules are imported by `ExerciseAnimation.js` and included in the Service Worker inventory.
+- [ ] One shared classic animation engine loads before bootstrap; all 24 exercise pose modules are imported and precached.
 - [ ] Every catalogue exercise ID is unique and maps to exactly one intended animation pose.
-- [ ] Routine IDs are normalized, unique and restricted to known exercise IDs at render time.
-- [ ] Empty, partial and complete routine progress calculations are correct.
-- [ ] Routine selection is persisted through shared state and survives normalization/reload.
-- [ ] Existing version-1 D1 snapshots and backups without the optional `movement` field remain valid.
-- [ ] Malformed `movement.routineExerciseIds` values are rejected by Worker/backup validation.
-- [ ] Daily completion uses local date keys; only IDs in the saved routine affect routine progress.
-- [ ] Stopwatch elapsed-time formatting, start/pause/reset state and manual counter boundaries pass unit checks.
+- [ ] All 24 exercises render by default in the daily library.
+- [ ] Starting-position filters show only the mapped exercises and can return to the full list.
+- [ ] Exercise completion updates the selected day's completed IDs and inline progress; completion can be undone.
+- [ ] Completion status is reflected in the exercise card without a checkbox.
+- [ ] Exercise details expand inline and include animation, instructions, stopwatch, applicable repetition counter, safety notice and completion action.
+- [ ] Stopwatch elapsed-time formatting and start/pause/reset controls pass checks.
 - [ ] Stopwatch is count-up only; no unreviewed `durationSeconds` value is presented as a prescribed countdown.
-- [ ] All local modules, animation assets and styles are included in the service-worker precache.
+- [ ] Existing version-1 D1 snapshots and backups without the optional `movement` field remain valid.
 - [ ] `node scripts/test-movement.mjs` passes.
 - [ ] `node scripts/test-worker-sync.mjs` passes.
 - [ ] `node scripts/validate-project.mjs` passes.
@@ -212,25 +211,22 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Clinician reviews catalogue exercise suitability and dosage; visual alignment does not constitute clinical approval.
 
 ### Browser checks
-- [ ] Exercise groups and all 24 catalogue items render.
-- [ ] Add an exercise from the library to the routine; remove it again.
-- [ ] Routine selection remains after reload and is consistent after Cloudflare sync.
-- [ ] An empty routine displays a clear add-exercise action.
-- [ ] Completion checkbox toggles once per user action, supports undo, and updates progress.
-- [ ] Completed IDs outside the selected routine do not inflate routine progress.
-- [ ] Exercise details open/close and retain their open state after a completion update.
+- [ ] All 24 exercises appear immediately without adding them to a routine.
+- [ ] Position chips filter correctly: standing, seated, hands-and-knees, lying, kneeling and walking.
+- [ ] Selecting “সবগুলো” restores the complete exercise list.
+- [ ] Completed cards show a subtle completed state; the inline progress count updates immediately.
+- [ ] Exercise details open/close within the same card and retain their open state after a completion update.
 - [ ] Stopwatch starts, pauses, resumes and resets without auto-completing an exercise.
 - [ ] Manual repetition counter increments/decrements and never drops below zero.
-- [ ] Details can mark an exercise complete or add it to the routine, depending on its current membership.
-- [ ] From a routine detail, Next opens the following routine exercise; the final item returns to the routine without auto-completing anything.
+- [ ] Every exercise can be marked complete and undone from its own details.
 - [ ] All 24 animation IDs mount the intended pose without clipping or missing parts.
-- [ ] Body-region filter opens and its selected state remains visible.
 - [ ] Existing historical workout records remain available to Overview/Insights.
-- [ ] No new guided-session records are created by the Movement page.
+- [ ] No routine panel, routine selection action, checkbox, search bar or large category board appears.
 
 ### Device/PWA checks
 - [ ] Movement layout fits narrow Android screens without horizontal overflow.
-- [ ] Routine checkboxes and detail controls are reachable above bottom navigation.
+- [ ] Position chips wrap cleanly and remain easy to tap.
+- [ ] Detail controls are reachable above bottom navigation.
 - [ ] Touch targets remain comfortable on mobile.
 - [ ] New modules, classic scripts and stylesheet load from the updated service-worker cache.
 - [ ] Offline Movement tab loads after required assets have actually been cached.
@@ -238,8 +234,8 @@ Add focused module-level and feature-level tests in the same step that implement
 
 **Clinical limitation:** Catalogue text and dose metadata remain legacy reference material and are not clinically reviewed. The custom ASAN stick-figure animations are visual illustrations, not clinical validation or proof that the movement/dosage is appropriate. The stopwatch measures elapsed time only and does not recommend a duration. Assistant static review does not substitute for clinician review or the user's live phone/browser test.
 
-**Verification note:** Automated tests cover pure logic, markup contracts, state normalization and Worker validation. Real browser, Android-device, visual animation and offline behavior must remain unchecked until actually performed.
- 
+**Verification note:** Automated static validation and Movement behavior tests run in GitHub Actions. Real browser, Android-device, visual animation and offline behavior must remain unchecked until actually performed.
+
 ## Step 7 — Insights feature
 
 ### Static checks

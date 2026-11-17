@@ -231,9 +231,14 @@ if (exists("assets/js/features/movement/GuidedSession.js") || movementRuntime.in
   fail("Standalone Guided Session module must be removed from Movement");
 } else pass("Movement no longer mounts a separate Guided Session section");
 if (!runtimeSet.has("assets/js/features/movement/MovementLogic.js")) fail("Movement logic helpers are missing from the service-worker runtime inventory");
-if (!movementRuntime.includes("renderRoutine") || !movementRuntime.includes("getRoutineProgress") ||
-    !movementChecklist.includes("data-routine-toggle") || !movementChecklist.includes("data-exercise-done")) {
-  fail("Movement must render a saved daily routine with add/remove and completion controls");
+if (!movementRuntime.includes("renderChecklist") ||
+    !movementChecklist.includes("data-position-filter") ||
+    !movementChecklist.includes("movement-exercise-card") ||
+    movementChecklist.includes("data-routine-toggle") ||
+    movementChecklist.includes('type="checkbox"') ||
+    movementRuntime.includes("renderBodyMap") ||
+    movementRuntime.includes("toggleRoutine")) {
+  fail("Movement must show all exercises with compact position filters and no routine or checkbox UI");
 }
 if (!movementDetails.includes('data-stopwatch-action="start"') ||
     !movementDetails.includes('data-stopwatch-action="pause"') ||
@@ -247,13 +252,13 @@ if (!movementDetails.includes("data-repetition-action") || !movementDetails.incl
 if (movementRuntime.includes("durationSeconds") || movementDetails.includes("durationSeconds")) {
   fail("Movement UI must not treat unreviewed catalogue duration values as a prescribed countdown");
 }
-if (failures.some(message => message.includes("Movement must render") || message.includes("stopwatch") || message.includes("Exercise details"))) {
+if (failures.some(message => message.includes("Movement must show all exercises") || message.includes("stopwatch") || message.includes("Exercise details"))) {
   // Keep the failure details above; the feature test below provides behavioral coverage.
-} else pass("Movement routine, inline controls and non-prescriptive timer structure are present");
+} else pass("Movement daily exercise library, inline controls and non-prescriptive timer structure are present");
 const movementTest = spawnSync(process.execPath, ["scripts/test-movement.mjs"], { encoding: "utf8" });
 if (movementTest.error || movementTest.status !== 0) {
   fail("Movement behavior tests failed: " + (movementTest.stderr?.trim() || movementTest.error?.message || movementTest.stdout?.trim()));
-} else pass("Movement behavior tests passed: routine, completion, stopwatch, counter and persistence");
+} else pass("Movement behavior tests passed: full library, position filters, completion, stopwatch and counter");
 
 // 4. Settings backup workflow and manifest validation.
 const settingsMarkup = read("assets/js/features/settings/Preferences.js");

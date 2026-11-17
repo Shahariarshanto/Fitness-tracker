@@ -1,24 +1,21 @@
 import { getState, subscribe, updateState } from "../../core/state.js";
 import { dateKey } from "../../core/dates.js";
-import { showToast } from "../../components/Feedback.js";
-import { EXERCISES } from "../../data/exercises.js";
-import { renderRoutine, renderChecklist } from "./Checklist.js";
+import { EXERCISES, EXERCISE_POSITIONS } from "../../data/exercises.js";
+import { renderChecklist } from "./Checklist.js";
 import { renderExerciseDetails } from "./ExerciseDetails.js";
 import { startExerciseAnimation, stopExerciseAnimation } from "./ExerciseAnimation.js";
-import { renderBodyMap } from "./BodyMap.js";
-import { formatElapsedTime, getRoutineProgress, normalizeRoutineExerciseIds, toggleId } from "./MovementLogic.js";
+import { formatElapsedTime } from "./MovementLogic.js";
 
 const EXERCISE_IDS = new Set(EXERCISES.map(item => item.id));
 
 export function initMovement({ root = document.querySelector("[data-movement-content]") } = {}) {
   if (!root) return () => {};
-  let region = "", viewMode = "body", filtersOpen = false, expandedExerciseId = null, expandedSource = "routine";
+  let position = "", expandedExerciseId = null;
   let stopwatch = { elapsedMs: 0, startedAt: null, running: false };
   let stopwatchTick = null, repetitionCount = 0;
 
   const today = () => dateKey();
   const activity = () => getState().dailyActivity[today()] || {};
-  const routineIds = () => normalizeRoutineExerciseIds(getState().movement?.routineExerciseIds, EXERCISE_IDS);
   const elapsedNow = () => stopwatch.elapsedMs + (stopwatch.running && stopwatch.startedAt ? Date.now() - stopwatch.startedAt : 0);
 
   function clearStopwatch(reset = false) {
@@ -70,26 +67,16 @@ export function initMovement({ root = document.querySelector("[data-movement-con
 
   function hydrateExpandedDetail() {
     if (!expandedExerciseId) return;
-    const card = expandedSource === "routine"
-      ? root.querySelector('[data-exercise-source="routine"][data-exercise-card="' + expandedExerciseId + '"]')
-      : root.querySelector('[data-view-content="' + viewMode + '"] [data-exercise-source="library"][data-exercise-card="' + expandedExerciseId + '"]');
+    const card = root.querySelector('[data-exercise-source="library"][data-exercise-card="' + expandedExerciseId + '"]');
     const slot = card?.querySelector("[data-exercise-detail-slot]");
     if (!slot) return;
-    const ids = routineIds();
-    const isInRoutine = ids.includes(expandedExerciseId);
-    const sequenceIndex = expandedSource === "routine" ? ids.indexOf(expandedExerciseId) : -1;
-    const nextExerciseId = sequenceIndex >= 0 ? ids[sequenceIndex + 1] || null : null;
-    const nextLabel = expandedSource === "routine" && isInRoutine && !nextExerciseId ? "return" : "";
     const isComplete = (activity().completedExerciseIds || []).includes(expandedExerciseId);
     slot.hidden = false;
     slot.innerHTML = renderExerciseDetails(expandedExerciseId, {
-      inRoutine: isInRoutine,
       completed: isComplete,
       elapsedMs: elapsedNow(),
       running: stopwatch.running,
-      repetitionCount,
-      nextExerciseId,
-      nextLabel
+      repetitionCount
     });
     card.querySelector("[data-exercise-details]")?.setAttribute("aria-expanded", "true");
     startExerciseAnimation(slot.querySelector("[data-exercise-animation]"), expandedExerciseId);
@@ -97,24 +84,9 @@ export function initMovement({ root = document.querySelector("[data-movement-con
 
   function draw() {
     stopExerciseAnimation();
-    const state = getState();
-    const day = state.dailyActivity[today()] || {};
-    const ids = routineIds();
-    const progress = getRoutineProgress(ids, day.completedExerciseIds || []);
-    root.innerHTML = `<div class="movement-dashboard">
-      <section class="movement-progress" aria-label="আজকের রুটিনের অগ্রগতি">
-        <div><p class="eyebrow">TODAY'S PROGRESS</p><strong>${progress.done} / ${progress.total || "—"}</strong><span>${progress.total ? "আজকের ব্যায়াম সম্পন্ন" : "রুটিনে ব্যায়াম যোগ করুন"}</span></div>
-        <div class="movement-progress-track" role="progressbar" aria-label="রুটিনের অগ্রগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress.percent}"><span style="width:${progress.percent}%"></span></div>
-      </section>
-      ${renderRoutine(today(), day, ids)}
-      <section class="movement-checklist" data-exercise-library>
-        <div class="movement-section-heading"><div><p class="eyebrow">EXPLORE MOVEMENT</p><h3>অন্যান্য ব্যায়াম</h3></div><span>রুটিনে যোগ বা বাদ দিন</span></div>
-        <details class="movement-library-filters" ${filtersOpen ? "open" : ""}>
-          <summary>শরীরের অঞ্চল দিয়ে খুঁজুন</summary>
-          ${renderBodyMap(region)}
-        </details>
-        ${renderChecklist(today(), ids, viewMode, region)}
-      </section>
+    const day = activity();
+    root.innerHTML = `<div class="movement-dashboard movement-dashboard-clean">
+      ${renderChecklist(today(), day.completedExerciseIds || [], position, expandedExerciseId)}
     </div>`;
     hydrateExpandedDetail();
   }
@@ -134,81 +106,34 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     });
   }
 
-  function toggleRoutine(id) {
-    if (!EXERCISE_IDS.has(id)) return;
-    const current = routineIds();
-    const next = toggleId(current, id);
-    updateState(state => ({ ...state, movement: { ...(state.movement || {}), routineExerciseIds: next } }));
-    showToast(next.includes(id) ? "ব্যায়ামটি আপনার দৈনিক রুটিনে যোগ হয়েছে।" : "ব্যায়ামটি রুটিন থেকে সরানো হয়েছে।", "success");
-  }
-
   function toggleDetails(target) {
     const id = target.dataset.exerciseDetails;
-    const card = target.closest("[data-exercise-card]");
-    if (!id || !card) return;
-    const shouldOpen = expandedExerciseId !== id || expandedSource !== card.dataset.exerciseSource;
+    if (!id || !EXERCISE_IDS.has(id)) return;
     stopExerciseAnimation();
     clearStopwatch(true);
     repetitionCount = 0;
-    if (shouldOpen) {
-      expandedExerciseId = id;
-      expandedSource = card.dataset.exerciseSource || "library";
-    } else {
-      expandedExerciseId = null;
-    }
+    expandedExerciseId = expandedExerciseId === id ? null : id;
     draw();
   }
 
   function handleClick(event) {
     const target = event.target.closest("button");
     if (!target) return;
-    if (target.dataset.exerciseView) {
-      viewMode = target.dataset.exerciseView;
-      draw();
-      return;
-    }
-    if (target.hasAttribute("data-scroll-library")) {
-      root.querySelector("[data-exercise-library]")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-    if (target.dataset.bodyRegion) {
-      region = region === target.dataset.bodyRegion ? "" : target.dataset.bodyRegion;
-      filtersOpen = true;
-      if (expandedSource === "library") {
-        expandedExerciseId = null;
-        clearStopwatch(true);
-        repetitionCount = 0;
+    if (target.dataset.positionFilter !== undefined) {
+      position = target.dataset.positionFilter;
+      if (expandedExerciseId && position) {
+        const selected = EXERCISE_POSITIONS.find(item => item.id === position);
+        if (selected && !selected.exerciseIds.includes(expandedExerciseId)) {
+          expandedExerciseId = null;
+          clearStopwatch(true);
+          repetitionCount = 0;
+        }
       }
       draw();
-      return;
-    }
-    if (target.dataset.routineToggle) {
-      toggleRoutine(target.dataset.routineToggle);
       return;
     }
     if (target.dataset.exerciseDetails) {
       toggleDetails(target);
-      return;
-    }
-    if (target.hasAttribute("data-exercise-next")) {
-      const ids = routineIds();
-      const currentIndex = ids.indexOf(expandedExerciseId);
-      const nextId = currentIndex >= 0 ? ids[currentIndex + 1] : null;
-      if (nextId) {
-        expandedExerciseId = nextId;
-        expandedSource = "routine";
-        clearStopwatch(true);
-        repetitionCount = 0;
-        draw();
-        root.querySelector('[data-exercise-source="routine"][data-exercise-card="' + nextId + '"]')?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-      return;
-    }
-    if (target.hasAttribute("data-exercise-close")) {
-      expandedExerciseId = null;
-      clearStopwatch(true);
-      repetitionCount = 0;
-      draw();
       return;
     }
     if (target.dataset.stopwatchAction) {
@@ -230,14 +155,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     }
   }
 
-  function handleChange(event) {
-    const input = event.target.closest('input[type="checkbox"][data-exercise-done]');
-    if (!input) return;
-    setCompletion(input.dataset.exerciseDone, input.checked);
-  }
-
   root.addEventListener("click", handleClick);
-  root.addEventListener("change", handleChange);
   draw();
   const unsubscribe = subscribe(draw);
   return () => {
@@ -245,6 +163,5 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     clearStopwatch(true);
     stopExerciseAnimation();
     root.removeEventListener("click", handleClick);
-    root.removeEventListener("change", handleChange);
   };
 }
