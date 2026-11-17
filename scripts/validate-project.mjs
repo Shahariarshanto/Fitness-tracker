@@ -61,8 +61,6 @@ const requiredThemeTokens = ["--brand-primary", "--brand-secondary", "--brand-su
 const missingThemeTokens = requiredThemeTokens.filter(token => !themeTokens.includes(token));
 if (missingThemeTokens.length) fail(`Central theme is missing tokens: ${missingThemeTokens.join(", ")}`);
 else pass("Central light/dark theme exposes required brand, semantic and chart tokens");
-if (!sw.includes("./assets/css/theme-overrides.css")) fail("Theme override stylesheet is missing from the service-worker precache");
-else pass("Central theme override stylesheet is included in the offline precache");
 
 for (const cssFile of styles) {
   const css = read(cssFile);
@@ -75,6 +73,8 @@ pass("Local url() assets in linked stylesheets checked");
 
 // 2. Service-worker manifest and complete local import graph.
 const sw = read("sw.js");
+if (!sw.includes("./assets/css/theme-overrides.css")) fail("Theme override stylesheet is missing from the service-worker precache");
+else pass("Central theme override stylesheet is included in the offline precache");
 const coreShell = arrayValues(sw, "CORE_SHELL");
 const runtimeModules = arrayValues(sw, "RUNTIME_MODULES");
 const classicRuntime = arrayValues(sw, "CLASSIC_RUNTIME");
