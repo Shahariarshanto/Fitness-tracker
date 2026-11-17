@@ -140,7 +140,7 @@ The canonical app state covers the data actually used by the application. Expect
 | Symptoms | Stiffness, night mobility, fatigue and sleep |
 | Health scores | BASDAI/ASDAS inputs, results and history |
 | Health tracking | Daily symptoms, pain locations, BASDAI and ASDAS-CRP assessments/history |
-| Compatibility-only state | `healthEvents` and `flarePlan` remain required by the current Worker and backup schema; no user-facing Health sections |
+| Compatibility-only state | `healthEvents` and `flarePlan` remain required by the current Worker state schema; no user-facing Health sections |
 | Sessions | Start/end, duration and completed/skipped exercises |
 
 ### Persistence rules
@@ -225,7 +225,7 @@ Work in small, reviewable steps. Before changing code, inspect the current imple
 - Remove the standalone Guided Session UI. Preserve historical `workoutSessions` records for existing Overview/Insights calculations.
 - Keep unreviewed catalogue doses and durations unchanged; the stopwatch is not a prescribed countdown.
 
-**Verification:** routine selection and completion persist; progress counts only selected routine exercises; inline stopwatch/counter work; existing D1/backups remain compatible; mobile and offline checks are recorded separately.
+**Verification:** routine selection and completion persist; progress counts only selected routine exercises; inline stopwatch/counter work; existing D1 snapshots remain compatible; mobile and offline checks are recorded separately.
 ### Step 7 — Insights
 
 - Calendar and day details.
@@ -245,11 +245,10 @@ Overview reads shared state; it does not become the owner of health, medication 
 
 **Verification:** cards update from state changes, quick actions navigate correctly and mobile layout works.
 
-### Step 9 — Cloud persistence, JSON backup and notifications
+### Step 9 — Cloud persistence, HTML report export and notifications
 
 Relevant modules may include:
 - `services/cloudflare.js`
-- `services/backup.js`
 - Notification helpers, if required
 - Core state/storage and bootstrap integration
 - Worker API and D1 schema/migrations
@@ -261,7 +260,7 @@ Work:
 - Verify offline edits remain queued locally and sync after reconnection.
 - Verify retry behavior does not lose or duplicate changes.
 - Verify a pending local edit is not overwritten by stale remote state.
-- Verify JSON export and validated import independently of cloud sync.
+- Verify the readable HTML report export independently of cloud sync; do not treat it as a restorable backup.
 - Keep sync in the background; do not add a visible sync dashboard.
 - Keep the user-facing backup flow simple.
 - Implement notification helpers only where the app requires them and where browser support permits.
@@ -272,8 +271,8 @@ Work:
 - Pending local changes are preserved and reconciled correctly.
 - Successful edits persist remotely.
 - Failed/offline requests retain pending changes.
-- Exported JSON can be imported and restores the expected data.
-- Invalid JSON is rejected without partially changing app state.
+- The HTML report contains readable current records and does not mutate app state.
+- No user-facing JSON import/restore control is present.
 - No unapproved third-party account or backup flow exists in the runtime or UI.
 
 ### Step 10 — Integration, cleanup and final verification
@@ -325,10 +324,10 @@ Do not mark a step complete if a required runtime module is missing from the ser
 
 **Mitigation:** Update the inventory with every runtime change and test offline behavior.
 
-### Manual backup mistakes
-**Risk:** An invalid or older JSON file could replace current records.
+### Report export limitations
+**Risk:** A user may mistake the readable HTML report for a restorable backup.
 
-**Mitigation:** Validate before import, clearly identify the import action and test the restore behavior. The user should export a current JSON file before importing another one if current records matter.
+**Mitigation:** Label the download as a report, explain that it cannot restore app data, and do not present it as an independent backup.
 
 ---
 
@@ -374,7 +373,7 @@ Never claim a phone, browser, offline or deployment test passed unless it was ac
 - [ ] Clear state ownership and controlled updates.
 - [ ] Cloudflare D1 is the permanent primary data store.
 - [ ] Local cache and offline pending queue preserve edits.
-- [ ] Manual JSON export/import validates and restores data.
+- [ ] HTML report export produces a readable document and is not described as a restorable backup.
 - [ ] No unapproved third-party account or backup integration.
 - [ ] Sign Up, Login and Logout use the app's native Worker/D1 account system; no third-party auth provider.
 - [ ] No paid service dependency.
@@ -387,7 +386,7 @@ Never claim a phone, browser, offline or deployment test passed unless it was ac
 - [ ] Health.
 - [ ] Settings.
 - [ ] Cloud persistence and offline recovery.
-- [ ] JSON backup export/import.
+- [ ] Readable HTML report export.
 - [ ] PWA installation and offline launch.
 
 ### Quality and deployment
@@ -410,7 +409,7 @@ This document describes the intended architecture and acceptance criteria; it do
 ### Current repository snapshot (2026-11-17)
 
 - The modular application is the active runtime; `assets/js/bootstrap.js` is imported from `index.html`.
-- The current feature set includes Overview, Movement, Insights, Health, Medication and Settings. Health contains Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and Medication Management. The former Health Timeline and Personal Flare Plan UI were removed; their schema fields remain only for Worker/backup compatibility.
+- The current feature set includes Overview, Movement, Insights, Health, Medication and Settings. Health contains Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and Medication Management. The former Health Timeline and Personal Flare Plan UI were removed; their schema fields remain only for Worker state-schema compatibility.
 - Movement has 24 catalogue entries and 24 custom ASAN pose IDs, defined across the shared engine and six classic pose scripts loaded from `index.html`.
 - The Movement detail card now uses a compact responsive animation stage with per-exercise Bengali captions. The related layout and mobile readability refinements are present in `ExerciseDetails.js` and `movement.css`.
 - The catalogue is still marked `legacy-reference-unreviewed`; the animations are illustrative and do not constitute clinical approval.
