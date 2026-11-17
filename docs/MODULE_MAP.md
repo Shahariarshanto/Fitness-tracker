@@ -9,7 +9,7 @@ Update this file whenever a module is added, removed, or changes ownership. The 
 | `assets/js/bootstrap.js` | Initializes Cloudflare D1 state before mounting feature pages, then starts router, theme, date label, toast listener and service worker | core state, router, dates, events, Cloudflare service | Subscribes to state; listens to theme and toast |
 | `core/state.js` | Owns in-memory state and subscriber notifications | core storage | Publishes ordinary state changes through `subscribe()` |
 | `core/storage.js` | Reads/writes new app state | none | Namespace: `as-care-state-v1` |
-| `core/events.js` | Minimal typed event bus | none | Five approved event categories |
+| `core/events.js` | Minimal typed event bus | none | Two approved event categories |
 | `core/dates.js` | Local date key, parsing, addition, formatting | none | Pure utility |
 | `core/router.js` | Switches visible page panels and selected navigation tab | none | Owns page visibility and nav selection |
 
