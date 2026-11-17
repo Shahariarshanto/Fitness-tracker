@@ -16,7 +16,7 @@ The GitHub Actions workflow runs this check on pull requests and before deployin
 - Service-worker precache paths, manifest composition and local ES-module import closure.
 - Six classic ASAN script references and the service-worker inventory.
 - Exercise catalogue uniqueness, group mappings, one-to-one ASAN pose coverage and Bengali animation captions.
-- Guided-session event emitter shapes and PWA manifest JSON.
+- Movement routine/inline-control behavior tests and PWA manifest JSON.
 - Runtime references to removed legacy animation assets.
 
 This is a static structural check. It does not simulate browser rendering, Android behavior, PWA installation, real offline launch, D1 connectivity or clinical correctness. The e1/e2 timing-policy limitation remains a warning. c3 pose/caption alignment is now covered by a static regression check; visual rendering still requires browser/device review.
