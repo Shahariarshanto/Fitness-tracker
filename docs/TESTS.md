@@ -449,7 +449,7 @@ Verification note: Static source and Node tests do not prove a live Cloudflare d
 ### Static checks
 - [x] Header markup includes the versioned spine logo, `A Square` brand name and `Your Personal AXSpA Companion` tagline.
 - [x] Project validator checks the compact brand-name/tagline grouping and the versioned logo path.
-- [x] Service Worker shell cache name advanced to `as-care-shell-v128`.
+- [x] Service Worker shell cache name advanced to `as-care-shell-v129`.
 - [ ] Confirm all header and manifest icon references resolve to `assets/images/as-care-spine-v1.svg`.
 
 ### Browser/device checks
