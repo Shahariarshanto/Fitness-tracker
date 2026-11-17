@@ -1,4 +1,4 @@
-const CACHE_NAME = "as-care-shell-v106";
+const CACHE_NAME = "as-care-shell-v107";
 
 const CORE_SHELL = [
   "./",
@@ -11,6 +11,7 @@ const CORE_SHELL = [
   "./assets/css/pages.css",
   "./assets/css/movement.css",
   "./assets/css/overview.css",
+  "./assets/css/theme-overrides.css",
 ];
 
 // Complete ES-module dependency graph used by the active modular app.
