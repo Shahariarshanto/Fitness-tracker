@@ -76,3 +76,7 @@ Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `do
 - GitHub Actions runs this validator on pull requests and before GitHub Pages deployment.
 - The validator checks local imports/assets, the service-worker manifest, exercise/group IDs, ASAN pose coverage, animation captions and guided-session event shapes.
 - It is not a substitute for browser, Android, offline, D1 or clinical verification. Known c3 and e1/e2 issues remain warnings until separately resolved.
+
+## Exercise timing data caution
+
+The catalogue's `durationSeconds` values do not consistently equal the sum implied by the instruction holds/repetitions. The known examples and differences are listed in `docs/TESTS.md`. Do not normalize or change those values by guesswork. First define whether the field represents active exercise time, total session estimate, rest/transition time or something else, then review dosage with an appropriate clinical source.

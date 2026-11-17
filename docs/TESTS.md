@@ -11,6 +11,7 @@ node scripts/validate-project.mjs
 ```
 
 The GitHub Actions workflow runs this check on pull requests and before deploying `main`. It validates:
+- JavaScript syntax for all precached ES modules and classic ASAN scripts.
 - HTML/CSS local asset references and stylesheet `url()` paths.
 - Service-worker precache paths, manifest composition and local ES-module import closure.
 - Six classic ASAN script references and the service-worker inventory.
@@ -19,6 +20,21 @@ The GitHub Actions workflow runs this check on pull requests and before deployin
 - Runtime references to removed legacy animation assets.
 
 This is a static structural check. It does not simulate browser rendering, Android behavior, PWA installation, real offline launch, D1 connectivity or clinical correctness. Known c3 and e1/e2 issues are reported as warnings and require separate resolution.
+
+## Timing metadata review
+
+Do not assume `durationSeconds` equals the sum of all holds/repetitions in the Bengali instruction. The current catalogue contains differences that need an explicit timing model (activity time, hold time, repetitions, sides, rest and transitions), for example:
+
+- b1: 40s catalogue duration vs 5s × 5 = 25s in the instruction.
+- b2/b3: 40s vs 5s × 5 on each side/direction.
+- b4: 30s vs 10s × 2 per side.
+- c5: 50s vs 10s × 3 per side.
+- d1: 40s vs 10s × 5.
+- f1: 45s vs 20–30s × 5.
+- f3: 40s vs 15s × 2 per side.
+- f5: 40s vs 20s × 2 per leg.
+
+These may reflect rest/transition estimates, but the current data does not define that. Do not change these values until the project defines what `durationSeconds` represents and the exercise dosage is reviewed.
 
 ## Step 1 — New application foundation
 ## Step 1 — New application foundation

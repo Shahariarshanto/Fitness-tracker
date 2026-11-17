@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 const root = process.cwd();
 const failures = [];
@@ -11,6 +12,14 @@ const read = file => fs.readFileSync(path.join(root, file), "utf8");
 const exists = file => fs.existsSync(path.join(root, file));
 const rel = value => value.replace(/^\.\//, "");
 const localPath = (fromFile, specifier) => path.normalize(path.join(path.dirname(fromFile), specifier));
+
+function checkSyntax(file, source, module = false) {
+  const args = module ? ["--check", "--input-type=module"] : ["--check"];
+  const result = spawnSync(process.execPath, args, { input: source, encoding: "utf8" });
+  if (result.error || result.status !== 0) {
+    fail(`${file}: syntax check failed: ${result.stderr?.trim() || result.error?.message || "unknown syntax error"}`);
+  }
+}
 
 function arrayValues(source, name) {
   const match = source.match(new RegExp(`const\\s+${name}\\s*=\\s*\\[([\\s\\S]*?)\\];`));
@@ -72,6 +81,7 @@ else pass("Service-worker install uses the versioned combined manifest");
 const runtimeSet = new Set(runtimeModules.map(rel));
 for (const modulePath of runtimeModules.map(rel).filter(file => file.endsWith(".js"))) {
   const source = read(modulePath);
+  checkSyntax(modulePath, source, true);
   const specs = [
     ...[...source.matchAll(/\bfrom\s*["']([^"']+)["']/g)].map(m => m[1]),
     ...[...source.matchAll(/\bimport\s*["']([^"']+)["']/g)].map(m => m[1]),
@@ -89,9 +99,11 @@ pass("Local imports in the precached ES-module graph resolve and are precached")
 
 for (const file of classicRuntime.map(rel)) {
   if (!html.includes(`src="./${file}"`)) fail(`Classic runtime script is not loaded by index.html: ${file}`);
+  checkSyntax(file, read(file));
 }
 if (classicRuntime.length !== 6) fail(`Expected 6 classic ASAN scripts, found ${classicRuntime.length}`);
 else pass("All six classic ASAN scripts are precached and loaded by index.html");
+if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
 // 3. Exercise catalogue, groups, pose definitions and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");

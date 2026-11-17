@@ -42,7 +42,7 @@ Before editing, read `AI_CONTEXT.md`, `docs/REBUILD_PLAN.md`, `docs/ARCHITECTURE
 
 ## Validation and reporting
 
-- Run `node scripts/validate-project.mjs` from the repository root. The GitHub Actions workflow also runs it for pull requests and before deployment.
+- Run `node scripts/validate-project.mjs` from the repository root. It syntax-checks the precached JS runtime and validates imports, paths, exercise data and animation mappings. GitHub Actions also runs it for pull requests and before deployment.
 - Check imports, syntax, local asset paths, service-worker inventory and cache version.
 - Test the deployed app when possible.
 - Distinguish code review, syntax checks, deployment confirmation and live browser/device testing.
