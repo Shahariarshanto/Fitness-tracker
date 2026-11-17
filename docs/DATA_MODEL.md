@@ -31,7 +31,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
   symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
   healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
-  healthEvents: [], // retained for existing Worker/backup schema compatibility; no UI
+  healthEvents: [], // retained for Worker state-schema compatibility; no UI
   flarePlan: { warningSigns: "", actions: "", contacts: "" }, // retained for schema compatibility; no UI
   workoutSessions: []
 }
