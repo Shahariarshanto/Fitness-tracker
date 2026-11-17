@@ -21,8 +21,11 @@ export function renderExerciseDetails(id) {
   const dose = parts.join(" · ");
   const illustration = ILLUSTRATIONS[id];
   const duration = item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়";
-  const visual = id === "a1"
-    ? `<div class="movement-guide-visual is-asan-animation"><div class="fg" data-id="a1" data-exercise-animation role="img" aria-label="গভীর শ্বাসের অ্যানিমেশন"></div><span class="movement-animation-caption">ধীরে শ্বাস নিন, তারপর ছাড়ুন</span></div>`
+  const asanAnimated = id === "a1" || /^b[1-5]$/.test(id);
+  const animationLabels = { a1: ["গভীর শ্বাসের অ্যানিমেশন", "ধীরে শ্বাস নিন, তারপর ছাড়ুন"], b1: ["চিন টাকের অ্যানিমেশন", "থুতনি আলতো করে পেছনে নিন"], b2: ["ঘাড় ঘোরানোর অ্যানিমেশন", "ধীরে ডানে ও বামে ঘোরান"], b3: ["ঘাড় পাশে কাত করার অ্যানিমেশন", "কান কাঁধের দিকে আলতো কাত করুন"], b4: ["ডোরওয়ে চেস্ট স্ট্রেচের অ্যানিমেশন", "বুক সামান্য সামনে নিন"], b5: ["ওয়াল অ্যাঞ্জেলসের অ্যানিমেশন", "হাত দেয়ালের পাশে ওপর-নিচে নিন"] };
+  const animationLabel = animationLabels[id];
+  const visual = asanAnimated
+    ? `<div class="movement-guide-visual is-asan-animation"><div class="fg" data-id="${id}" data-exercise-animation role="img" aria-label="${esc(animationLabel[0])}"></div><span class="movement-animation-caption">${esc(animationLabel[1])}</span></div>`
     : illustration
       ? `<div class="movement-guide-visual"${id === "c1" ? ' style="aspect-ratio:3/1;min-height:0;max-height:none"' : ""}><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
       : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
