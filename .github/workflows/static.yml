@@ -26,6 +26,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Validate project structure and runtime dependencies
         run: node scripts/validate-project.mjs
+      - name: Test Cloudflare concurrent-write protection
+        run: node scripts/test-worker-sync.mjs
 
   deploy:
     name: Deploy to GitHub Pages
