@@ -16,6 +16,8 @@ const login = await request("/api/auth/login", "POST", { email, password });
 if (login.status !== 200 || !login.data.token || login.data.user?.email !== email) throw new Error(`LIVE LOGIN FAILED: HTTP ${login.status}, code=${login.data.code || "none"}, response=${JSON.stringify(login.data)}`);
 const session = await request("/api/state", "GET", undefined, login.data.token);
 if (session.status !== 200) throw new Error(`SESSION CHECK FAILED: HTTP ${session.status} ${JSON.stringify(session.data)}`);
+const signupLogout = await request("/api/auth/logout", "POST", {}, signup.data.token);
+if (signupLogout.status !== 200) throw new Error(`SIGN-UP SESSION CLEANUP FAILED: HTTP ${signupLogout.status}`);
 const logout = await request("/api/auth/logout", "POST", {}, login.data.token);
 if (logout.status !== 200) throw new Error(`LOGOUT FAILED: HTTP ${logout.status}`);
 const revoked = await request("/api/state", "GET", undefined, login.data.token);
