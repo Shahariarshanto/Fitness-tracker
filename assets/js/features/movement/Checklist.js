@@ -80,6 +80,6 @@ export function renderChecklist(date, routineIds = [], viewMode = "body", region
       <button type="button" class="movement-view-button ${viewMode === "body" ? "is-active" : ""}" data-exercise-view="body" aria-pressed="${viewMode === "body"}">শরীরের অঞ্চল</button>
       <button type="button" class="movement-view-button ${viewMode === "position" ? "is-active" : ""}" data-exercise-view="position" aria-pressed="${viewMode === "position"}">শুরুর ভঙ্গি</button>
     </div>
-    <div class="movement-view-content" data-view-content="body" ${viewMode === "body" ? "" : "hidden"}>${bodyGroups}</div>
-    <div class="movement-view-content" data-view-content="position" ${viewMode === "position" ? "" : "hidden"}>${positionGroups}</div>`;
+    <div class="movement-view-content" data-view-content="body" ${viewMode === "body" ? "" : "hidden"}>${bodyGroups || '<p class="movement-library-empty">এই অঞ্চলের জন্য তালিকায় কোনো ব্যায়াম নেই।</p>'}</div>
+    <div class="movement-view-content" data-view-content="position" ${viewMode === "position" ? "" : "hidden"}>${positionGroups || '<p class="movement-library-empty">এই ভঙ্গির জন্য তালিকায় কোনো ব্যায়াম নেই।</p>'}</div>`;
 }
