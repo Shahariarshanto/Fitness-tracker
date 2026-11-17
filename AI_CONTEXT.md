@@ -72,7 +72,7 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 
 Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `docs/REBUILD_PLAN.md`.
 
-- Health Timeline and Personal Flare Plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain only because the Worker and version-1 backup validators currently require those top-level fields; do not delete them without a coordinated schema migration. Health still includes Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and Medication Management.
+- Health Timeline and Personal Flare Plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain only because the Worker state validator currently requires those top-level fields; do not delete them without a coordinated schema migration. Health still includes Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and Medication Management.
 
 ## Automated validation
 
