@@ -197,6 +197,23 @@ if (!backupService.includes("validateBackup(payload)") || !backupService.include
   fail("Backup service validation/restore contract is incomplete");
 } else pass("Settings exposes validated JSON backup export and confirmed restore");
 
+// 5. Cloudflare compare-and-swap sync: prevent stale device writes.
+const workerSource = read("worker/index.js");
+const cloudSyncSource = read("assets/js/services/cloudflare.js");
+checkSyntax("worker/index.js", workerSource, true);
+if (!workerSource.includes("payload.expectedVersion") ||
+    !workerSource.includes("WHERE id = ? AND version = ?") ||
+    !workerSource.includes("ON CONFLICT(id) DO NOTHING") ||
+    !workerSource.includes("}, 409, origin)")) {
+  fail("Cloudflare Worker must reject stale writes using an atomic expected-version check");
+}
+if (!cloudSyncSource.includes("expectedVersion, state: snapshot") ||
+    !cloudSyncSource.includes("error.status !== 409") ||
+    !cloudSyncSource.includes("for (let attempt = 0; attempt < 5; attempt += 1)") ||
+    !cloudSyncSource.includes("const remote = await api()")) {
+  fail("Cloudflare client must fetch, merge, and retry when another device has saved a newer version");
+} else pass("Cloudflare client and Worker include version-checked writes and conflict recovery");
+
 JSON.parse(read("manifest.webmanifest"));
 pass("PWA manifest is valid JSON");
 
