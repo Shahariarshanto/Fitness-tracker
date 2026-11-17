@@ -163,7 +163,7 @@ async function handleAuth(request, env, path, origin) {
   return json({ error: "Not found" }, 404, origin);
   } catch (error) {
     console.error("AS Care authentication error:", { stage: authStage, message: String(error?.message || error) });
-    return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি।", code: "AUTH_" + authStage.toUpperCase().replace(/-/g, "_") }, 500, origin);
+    return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি।", code: "AUTH_" + authStage.toUpperCase().replace(/-/g, "_"), errorType: String(error?.name || "Error") }, 500, origin);
   }
 }
 
