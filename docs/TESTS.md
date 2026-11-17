@@ -347,7 +347,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] A second device loads the same cloud state.
 - [ ] A second device receives newer cloud state on refresh/poll without overwriting pending local edits.
 - [ ] Manual JSON export can be imported to restore the state.
-- [ ] Public API exposure is understood: CORS is not authentication and does not make health data private.
+- [ ] Every state API request without a valid bearer session is rejected; CORS is treated only as an origin policy.
 
 ### Device/PWA checks
 - [ ] Android Chrome and installed PWA load the D1 state before rendering data pages.
