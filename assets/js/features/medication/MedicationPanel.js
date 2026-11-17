@@ -20,7 +20,7 @@ function medicationCard(item, log = {}) {
       </div></div>`;
     }).join("")}</div>
     <div class="medication-actions"><button type="button" class="button-secondary" data-med-edit="${esc(item.id)}">সম্পাদনা</button><button type="button" class="button-secondary" data-med-archive="${esc(item.id)}">বন্ধ</button></div>
-    <details class="medication-edit"><summary>তথ্য পরিবর্তন</summary><form data-med-form="edit" data-med-id="${esc(item.id)}">${fields(item)}<button class="button-primary">পরিবর্তন সংরক্ষণ</button></form></details>
+    <details class="medication-edit"><summary>তথ্য পরিবর্তন</summary><form data-med-form="edit" data-med-id="${esc(item.id)}">${fields(item)}<button type="submit" class="button-primary">পরিবর্তন সংরক্ষণ</button></form></details>
   </article>`;
 }
 function fields(item = {}) {
@@ -46,7 +46,7 @@ export function renderMedication(state, today) {
   return `<section class="medication-section">
     <div class="medication-heading"><div><p class="eyebrow">MEDICATION TRACKER</p><h3>ওষুধের তালিকা ও সময়সূচি</h3></div><span class="medication-date">${today}</span></div>
     <div class="medication-summary"><article><strong>${active.length}</strong><span>সক্রিয় ওষুধ</span></article><article><strong>${taken}</strong><span>ডোজ গ্রহণ</span></article><article><strong>${skipped}</strong><span>ডোজ বাদ</span></article></div>
-    <form class="medication-form" data-med-form="add"><h4>নতুন ওষুধ যোগ করুন</h4>${fields()}<button class="button-primary">তালিকায় যোগ করুন</button></form>
+    <form class="medication-form" data-med-form="add"><h4>নতুন ওষুধ যোগ করুন</h4>${fields()}<button type="submit" class="button-primary">তালিকায় যোগ করুন</button></form>
     <div class="medication-list"><h4>আজকের ওষুধ</h4>${active.length ? active.map(item => medicationCard(item,todayLog[item.id] || {})).join("") : '<p class="health-empty">এখনো কোনো ওষুধ যোগ করা হয়নি।</p>'}</div>
     <div class="medication-history"><h4>গ্রহণের ইতিহাস · সর্বশেষ ৭ দিন</h4>${history.length ? history.map(date => {
       const day = logs[date] || {};
