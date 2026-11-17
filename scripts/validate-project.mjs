@@ -105,7 +105,7 @@ if (classicRuntime.length !== 1 || !classicRuntime[0].endsWith("/animation-engin
 else pass("Shared animation engine is loaded once; individual poses are ES modules");
 if (!failures.some(message => message.includes("syntax check failed"))) pass("All precached ES modules and classic ASAN scripts pass Node syntax checks");
 
-// 3. Exercise catalogue, groups, pose definitions and animation labels.
+// 3. Exercise catalogue, groups, isolated pose modules, per-exercise docs and animation labels.
 const exerciseSource = read("assets/js/data/exercises.js");
 const records = exerciseSource.match(/const records\s*=\s*\[([\s\S]*?)\];/);
 if (!records) fail("Could not parse exercise records");
