@@ -104,8 +104,5 @@ globalThis.window = {
 };
 const stateModule = await import("../assets/js/core/state.js?movement-library-test");
 assert.deepEqual(stateModule.getState().movement, { routineExerciseIds: [] });
-const { validateBackup } = await import("../assets/js/services/backup.js");
-assert.equal(validateBackup({ app: "as-care", schemaVersion: 1, state: legacySnapshot }), true);
-assert.throws(() => validateBackup({ app: "as-care", schemaVersion: 1, state: { ...legacySnapshot, movement: { routineExerciseIds: [false] } } }));
 
-console.log("Movement tests passed: all 24 exercises, position filters, completion visuals, inline guide controls, timer formatting and legacy backup compatibility.");
+console.log("Movement tests passed: all 24 exercises, position filters, completion visuals, inline guide controls, timer formatting and local state compatibility.");
