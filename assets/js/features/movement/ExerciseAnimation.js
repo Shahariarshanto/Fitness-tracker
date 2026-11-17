@@ -31,6 +31,9 @@ export function getExerciseAnimation(id) {
   try { return create(); } catch (error) { console.warn("Exercise SVG unavailable:", id, error); return ""; }
 }
 
-// SVG SMIL animates itself; retained exports keep older callers harmless.
-export function startExerciseAnimation() {}
+export function startExerciseAnimation(element, id) {
+  if (id === "a1" && element && window.ASAN) {
+    window.ASAN.mountAll(".fg[data-id='a1']");
+  }
+}
 export function stopExerciseAnimation() {}
