@@ -50,11 +50,13 @@ if (html.includes('class="welcome"') ||
     html.includes("নড়াচড়া, উপসর্গ ও সুস্থতার অগ্রগতি এক জায়গায় রাখুন")) {
   fail("The oversized global welcome/hero section must be removed from every tab");
 } else pass("Global welcome/hero section removed");
-if (!html.includes('class="brand-tagline">Your Personal AXSpA Companion</span>') ||
+if (!html.includes('class="brand-name">A Square</span>') ||
+    !html.includes('class="brand-tagline">Your Personal AXSpA Companion</span>') ||
+    !html.includes('class="brand-copy"') ||
     !html.includes('class="brand-group"') ||
     !html.includes('<img class="brand-logo" src="./assets/images/as-care-spine-v1.svg"')) {
-  fail("Spine SVG logo and compact tagline must appear together in the app header");
-} else pass("Spine SVG logo and compact tagline appear in the app header");
+  fail("Compact responsive brand header must include the spine logo, A Square name and tagline");
+} else pass("Compact responsive brand header includes the spine logo, A Square name and tagline");
 if (html.includes('class="brand-mark"')) fail("Old letter-only brand mark must be removed");
 const htmlRefs = [
   ...[...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)].map(m => m[1]),
