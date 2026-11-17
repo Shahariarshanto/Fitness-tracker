@@ -22,7 +22,7 @@ try {
   await page.locator('[data-auth-form="signup"] input[name="password"]').fill(password);
   await page.locator('[data-auth-form="signup"] input[name="confirmPassword"]').fill(password);
   await page.locator('[data-auth-form="signup"] button[type="submit"]').click();
-  await page.waitForLoadState("domcontentloaded");
+  await page.waitForTimeout(2500);
   await page.locator('button[data-page="settings"]').click();
   await page.locator('[data-page-panel="settings"]').waitFor({state:"visible"});
   await page.locator("[data-account-logout]").waitFor({state:"visible",timeout:30000});
