@@ -75,7 +75,6 @@ export function initMovement({ root = document.querySelector("[data-movement-con
       : root.querySelector('[data-view-content="' + viewMode + '"] [data-exercise-source="library"][data-exercise-card="' + expandedExerciseId + '"]');
     const slot = card?.querySelector("[data-exercise-detail-slot]");
     if (!slot) return;
-    const state = getState();
     const isInRoutine = routineIds().includes(expandedExerciseId);
     const isComplete = (activity().completedExerciseIds || []).includes(expandedExerciseId);
     slot.hidden = false;
@@ -169,6 +168,11 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     if (target.dataset.bodyRegion) {
       region = region === target.dataset.bodyRegion ? "" : target.dataset.bodyRegion;
       filtersOpen = true;
+      if (expandedSource === "library") {
+        expandedExerciseId = null;
+        clearStopwatch(true);
+        repetitionCount = 0;
+      }
       draw();
       return;
     }
