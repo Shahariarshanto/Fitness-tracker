@@ -357,3 +357,13 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] New exercise checklist is followed and cache version increments.
 - [ ] Clinical review status is separate from software test status.
 - [ ] Browser/device visual review is completed before claiming rendering verified.
+
+
+## Daily Check-in content and hero
+- [ ] Daily content JSON parses and has unique IDs, concise headlines/messages and HTTPS source metadata.
+- [ ] The same local date always selects the same item; the next date selects the next item in the rotation.
+- [ ] A source link opens the correct external reference without affecting the app.
+- [ ] The JSON library and SVG illustration are included in the service-worker precache.
+- [ ] The hero expands naturally for longer headlines/messages without clipping or shifting the illustration out of alignment.
+- [ ] Check the hero at narrow mobile widths, tablet and desktop; verify light/dark app themes.
+- [ ] Verify the cached content and illustration remain available offline after the service worker has installed.
