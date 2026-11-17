@@ -43,7 +43,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - Daily symptom values (night mobility, stiffness, fatigue, sleep) are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`. The Health Journal combines these into one daily check-in UI.
 - Daily Check-in uses date-keyed records: saving again on the same date modifies that date's symptom values; other dates remain unchanged. Pain and the remaining symptom values are presented together as one daily entry.
 - BASDAI and ASDAS keep exactly one result per calendar day. Recalculation on the same date updates the existing record, including questionnaire inputs; ASDAS also updates CRP in mg/L. Previous dates remain in history. On state load, duplicate same-day score records are normalized to the last saved record for that date, then sorted by date. BASDAI and ASDAS range controls are prefilled from the saved same-day inputs.
-- The Health event timeline and personal flare-plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain compatibility-only top-level fields because the current Worker state validator and version-1 backup validator require them. State normalization preserves existing values; the Health UI neither renders nor edits them. Do not remove these fields without a coordinated Worker, backup-schema and migration change.
+- The Health event timeline and personal flare-plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain compatibility-only top-level fields because the current Worker state validator requires them. State normalization preserves existing values; the Health UI neither renders nor edits them. Do not remove these fields without a coordinated Worker schema and migration change.
 
 ## 4. Persistence and source of truth
 - Cloudflare D1 is the permanent primary source of truth for the complete AS Care state.
@@ -57,7 +57,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 ## 5. Cloud data contract
 - D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
 - The Worker validates the application identifier, schema version, required state domains and payload size before writing.
-- D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Use the app's manual JSON export for an independent copy; D1 itself is not a backup.
+- D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Settings can produce a readable HTML report, but it is not a restorable data backup; D1 itself is not a backup.
 - The Worker accepts state requests only with a valid bearer session token. CORS remains an origin policy, while authentication and per-user authorization are enforced by the Worker.
 ## 6. Privacy
 The app supports email and password registration and login. Passwords are currently stored as entered in the `password_hash` column and compared directly, by explicit product decision; they are not hashed. The `password_salt` field is currently unused. This is a security limitation. D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
@@ -67,12 +67,12 @@ The app supports email and password registration and login. Passwords are curren
 - Medication definitions are stored in `medication.items` with user-entered name, dose text, `doseCount` (1–4), `doseSlots` (label and optional time per dose), schedule, instructions, active status and timestamps. The app does not recommend or prescribe a medicine or dose.
 - Daily adherence is stored under `medication.dailyLogs[YYYY-MM-DD][medicationId].doses[doseId]`. Each scheduled dose has an independent status, so one dose can be marked taken while another remains pending or is marked skipped.
 - Status values are `taken` or `skipped`; absence means not yet recorded. Overview and Health medication management use the same per-dose service and records. Archiving sets `active: false` and retains prior daily logs for history.
-- Medication records remain local. Automatic notifications are not part of Step 5.
+- Medication records are part of the shared application state and synchronize to Cloudflare D1 when the user is signed in. Automatic notifications are not part of the current feature.
 
 
 ### Movement records
 - The user's chosen routine is stored in `movement.routineExerciseIds` as an ordered array of exercise IDs. It is shared across dates and devices through the normal application state and Cloudflare D1 sync.
-- For backward compatibility, `movement` is optional in older D1 snapshots and version-1 JSON backups. `core/state.js` normalizes a missing or malformed routine to an empty list; the Worker and backup validator accept older snapshots while validating the new field when present.
+- For backward compatibility, `movement` is optional in older D1 snapshots. `core/state.js` normalizes a missing or malformed routine to an empty list; the Worker accepts older snapshots while validating the new field when present.
 - Daily completion is stored in `dailyActivity[YYYY-MM-DD]` as `{ completedExerciseIds: string[], updatedAt: ISO-8601 }`. The Movement checklist only counts completed IDs that also belong to the saved routine when calculating today's routine progress.
 - The stopwatch and manual repetition counter inside Exercise Details are temporary UI controls. They are not saved as clinical dosage, do not auto-complete an exercise, and do not impose a target time or repetition count.
 - `workoutSessions` remains in the state for historical records created by the previous Guided Session implementation and for existing Overview/Insights calculations. The current Movement page no longer creates new guided-session records.
@@ -94,11 +94,11 @@ The app supports email and password registration and login. Passwords are curren
 - The Overview medication card may update today’s existing `medication.dailyLogs[date][medicationId]` status to `taken` or `skipped` through the shared medication service. It does not add, edit, or archive medicine definitions; those actions live in Health → Medication Management.
 
 
-### Backup format — version 1
-- Export envelope: `{ app: "as-care", schemaVersion: 1, exportedAt: ISO-8601, state: <complete app state> }`.
-- Import accepts only this application identifier and schema version. It validates the envelope and state-domain shapes before calling the state store; invalid files are rejected before any state update.
-- Import replaces the current application state after explicit confirmation. Export is a user-triggered JSON download.
-- No R2 bucket, scheduled backup, or paid storage service is configured. Users should periodically export a JSON copy and keep it somewhere safe.
+### Settings HTML report export
+- Settings generates a user-triggered HTML report from the current in-memory application state.
+- The report is formatted for reading and printing; it is not a JSON state dump and cannot be imported to restore records.
+- The export action does not replace or mutate the current state.
+- No user-facing import/restore workflow, R2 bucket, scheduled backup or paid storage service is configured. D1 is the primary cloud database, not an independent backup.
 
 
 ## 7. Daily Check-in content library
