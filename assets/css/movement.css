@@ -1,20 +1,101 @@
-/* Exercise guide card — image-first responsive layout */
-.movement-detail-card{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--surface-soft);display:grid;gap:13px;animation:movement-view-in .18s ease both}
-.movement-guide-visual{width:100%;aspect-ratio:16/9;min-height:150px;max-height:260px;padding:8px;border:1px solid var(--line);border-radius:14px;background:#f2f7ff;display:grid;place-items:center;overflow:hidden}
+/* Exercise guide card — polished infographic layout */
+.movement-detail-card{
+  --guide-blue:#0868d9;--guide-blue-deep:#0753a8;--guide-ink:#17233e;
+  --guide-pale:#eaf4ff;--guide-green:#078a62;--guide-amber:#f5a11b;
+  margin-top:14px;padding:12px;border:1px solid #d8e8fb;border-radius:24px;
+  background:#fff;color:var(--guide-ink);display:grid;gap:14px;overflow:hidden;
+  box-shadow:0 8px 26px rgba(28,83,145,.09)
+}
+.movement-guide-topbar{
+  min-width:0;display:flex;align-items:center;gap:12px;padding:15px 16px;
+  border-radius:18px;background:linear-gradient(115deg,var(--guide-blue-deep),#1479e8);
+  color:#fff
+}
+.movement-guide-mark{
+  flex:0 0 42px;width:42px;height:42px;display:grid;place-items:center;
+  border-right:1px solid rgba(255,255,255,.42);padding-right:10px;
+  font-size:29px;line-height:1;color:#fff
+}
+.movement-guide-title{min-width:0;flex:1}
+.movement-guide-title h4{margin:0;color:#fff;font-size:19px;font-weight:800;line-height:1.35}
+.movement-guide-title p{margin:2px 0 0;color:rgba(255,255,255,.88);font-size:12px;line-height:1.35}
+.movement-guide-duration-pill{
+  flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:9px 11px;
+  border:1px solid rgba(255,255,255,.45);border-radius:999px;
+  background:rgba(255,255,255,.16);font-size:11px;white-space:nowrap
+}
+.movement-guide-duration-pill svg,.movement-guide-meta-icon svg{
+  width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round
+}
+.movement-guide-visual{
+  width:100%;aspect-ratio:16/9;min-height:150px;max-height:310px;
+  border:1px solid #d4e7fb;border-radius:19px;background:linear-gradient(145deg,#eaf4ff,#dcecff);
+  display:grid;place-items:center;overflow:hidden
+}
 .movement-guide-visual img{display:block;width:100%;height:100%;object-fit:contain}
-.movement-guide-visual.is-pending{align-content:center;gap:8px;color:#60738c;font-size:12px;font-weight:600;background:linear-gradient(145deg,#f4f8ff,#eaf2ff)}
-.movement-guide-placeholder-icon{width:38px;height:38px;border:1px dashed #9bb4d4;border-radius:12px;display:grid;place-items:center;font-size:24px;color:#6488b7}
-.movement-guide-heading{min-width:0;padding:0 2px}
-.movement-guide-heading .eyebrow{display:block;margin:0 0 5px;font-size:9px;letter-spacing:.12em;color:var(--accent)}
-.movement-guide-heading h4{margin:0;font-size:18px;line-height:1.35}
-.movement-guide-heading p{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.4}
-.movement-guide-instruction{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:12px;border:1px solid var(--line);border-radius:13px;background:var(--surface)}
-.movement-guide-step{width:27px;height:27px;display:grid;place-items:center;border-radius:9px;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700}
-.movement-guide-instruction strong{display:block;margin:1px 0 5px;font-size:13px}
-.movement-guide-instruction p{margin:0;font-size:13px;line-height:1.65;color:var(--text)}
-.movement-guide-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.movement-guide-meta>span{min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:12px;line-height:1.5}
-.movement-guide-meta strong{display:block;margin:0 0 3px;color:var(--muted);font-size:10px;font-weight:600}
-.movement-guide-caution{margin:0;padding:10px 11px;border-radius:12px;background:var(--surface);color:var(--muted);font-size:11px;line-height:1.55}
-.movement-guide-caution span{color:var(--accent);font-weight:700;margin-right:5px}
-@media(max-width:380px){.movement-detail-card{padding:11px;gap:11px}.movement-guide-visual{min-height:130px;aspect-ratio:4/3}.movement-guide-heading h4{font-size:16px}.movement-guide-meta{grid-template-columns:1fr}}
+.movement-guide-visual.is-pending{align-content:center;gap:9px;color:#52749b;font-size:12px;font-weight:700}
+.movement-guide-placeholder-art{
+  width:56px;height:56px;display:grid;place-items:center;border:2px dashed #91b7e3;
+  border-radius:18px;color:#3c80c9;font-size:32px;background:rgba(255,255,255,.5)
+}
+.movement-guide-instruction{
+  display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:start;
+  padding:2px 7px 3px
+}
+.movement-guide-step{
+  width:46px;height:46px;display:grid;place-items:center;border-radius:15px;
+  background:linear-gradient(145deg,#1479e8,#0758bd);color:#fff;
+  font-size:22px;font-weight:800;box-shadow:0 4px 10px rgba(8,104,217,.18)
+}
+.movement-guide-instruction strong{display:block;margin:2px 0 5px;color:#145aa5;font-size:16px;font-weight:800}
+.movement-guide-instruction p{margin:0;color:#202b43;font-size:14px;line-height:1.7}
+.movement-guide-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.movement-guide-meta>div{
+  min-width:0;display:flex;align-items:center;gap:11px;padding:13px 12px;
+  border:1px solid #c8e1fb;border-radius:17px;background:linear-gradient(140deg,#e8f4ff,#d9ecff)
+}
+.movement-guide-meta .movement-guide-meta-repeat{
+  border-color:#bce9d0;background:linear-gradient(140deg,#e8fff0,#d9f7e2)
+}
+.movement-guide-meta-icon{flex:0 0 38px;width:38px;height:38px;display:grid;place-items:center;color:#0870d8}
+.movement-guide-meta-repeat .movement-guide-meta-icon{color:#07865d}
+.movement-guide-meta-icon svg{width:34px;height:34px;stroke-width:2}
+.movement-guide-meta>div>span:last-child{min-width:0}
+.movement-guide-meta strong{display:block;margin:0 0 3px;color:#285c92;font-size:12px;font-weight:700}
+.movement-guide-meta b{display:block;color:#142544;font-size:15px;line-height:1.45;font-weight:800;overflow-wrap:anywhere}
+.movement-guide-meta-repeat strong{color:#08704f}
+.movement-guide-caution{
+  margin:0;display:flex;align-items:center;gap:11px;padding:13px 14px;
+  border:1px solid #ffe0a0;border-radius:17px;background:linear-gradient(110deg,#fff2ce,#ffedbd);
+  color:#49351b;font-size:12px;line-height:1.65
+}
+.movement-guide-caution-icon{
+  flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;
+  border-radius:50%;background:#f6a21a;color:#fff;font-size:20px;font-weight:900
+}
+@media(max-width:420px){
+  .movement-detail-card{padding:9px;border-radius:20px;gap:11px}
+  .movement-guide-topbar{padding:12px 11px;gap:9px;border-radius:15px}
+  .movement-guide-mark{flex-basis:32px;width:32px;height:36px;padding-right:7px;font-size:24px}
+  .movement-guide-title h4{font-size:16px}
+  .movement-guide-title p{font-size:11px}
+  .movement-guide-duration-pill{gap:4px;padding:7px 8px;font-size:10px}
+  .movement-guide-duration-pill svg{width:18px;height:18px}
+  .movement-guide-visual{aspect-ratio:4/3;min-height:132px}
+  .movement-guide-instruction{grid-template-columns:40px minmax(0,1fr);gap:10px;padding:1px 4px}
+  .movement-guide-step{width:39px;height:39px;border-radius:13px;font-size:19px}
+  .movement-guide-instruction strong{font-size:14px}
+  .movement-guide-instruction p{font-size:13px}
+  .movement-guide-meta{gap:7px}
+  .movement-guide-meta>div{gap:7px;padding:10px 8px;border-radius:14px}
+  .movement-guide-meta-icon{flex-basis:29px;width:29px;height:29px}
+  .movement-guide-meta-icon svg{width:27px;height:27px}
+  .movement-guide-meta b{font-size:13px}
+  .movement-guide-meta strong{font-size:10px}
+  .movement-guide-caution{gap:8px;padding:10px;font-size:11px}
+}
+@media(max-width:340px){
+  .movement-guide-meta{grid-template-columns:1fr}
+  .movement-guide-duration-pill b{max-width:62px;white-space:normal}
+}

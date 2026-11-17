@@ -11,6 +11,9 @@ const ILLUSTRATIONS = Object.freeze({
 
 const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 
+const timerIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9 2h6M12 5V2M18 5l1.5-1.5"/></svg>`;
+const repeatIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"/></svg>`;
+
 export function renderExerciseDetails(id) {
   const item = EXERCISE_BY_ID[id];
   if (!item) return "";
@@ -18,17 +21,25 @@ export function renderExerciseDetails(id) {
   const instruction = parts.shift() || item.instructions || "";
   const dose = parts.join(" · ");
   const illustration = ILLUSTRATIONS[id];
+  const duration = item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়";
   const visual = illustration
     ? `<div class="movement-guide-visual"><img src="./assets/images/exercises/${illustration[0]}" alt="${esc(illustration[1])}" loading="lazy" decoding="async"></div>`
-    : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-icon" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
+    : `<div class="movement-guide-visual is-pending" role="img" aria-label="এই ব্যায়ামের নির্দেশনামূলক ছবি পরে যুক্ত হবে"><span class="movement-guide-placeholder-art" aria-hidden="true">↗</span><span>নির্দেশনামূলক ছবি যুক্ত হবে</span></div>`;
   return `<article class="movement-detail-card">
+    <header class="movement-guide-topbar">
+      <span class="movement-guide-mark" aria-hidden="true">✦</span>
+      <div class="movement-guide-title"><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></div>
+      <span class="movement-guide-duration-pill">${timerIcon}<b>${esc(duration)}</b></span>
+    </header>
     ${visual}
-    <header class="movement-guide-heading"><span class="eyebrow">EXERCISE GUIDE</span><h4>${esc(item.name)}</h4><p>${esc(item.nameEn)}</p></header>
-    <section class="movement-guide-instruction"><span class="movement-guide-step" aria-hidden="true">১</span><div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div></section>
+    <section class="movement-guide-instruction">
+      <span class="movement-guide-step" aria-hidden="true">১</span>
+      <div><strong>যেভাবে করবেন</strong><p>${esc(instruction)}</p></div>
+    </section>
     <div class="movement-guide-meta">
-      <span><strong>সময়</strong><span>${item.durationSeconds ? item.durationSeconds + " সেকেন্ড" : "নিজস্ব সময়"}</span></span>
-      ${dose ? `<span><strong>পুনরাবৃত্তি</strong><span>${esc(dose)}</span></span>` : ""}
+      <div class="movement-guide-meta-time"><span class="movement-guide-meta-icon">${timerIcon}</span><span><strong>সময়</strong><b>${esc(duration)}</b></span></div>
+      ${dose ? `<div class="movement-guide-meta-repeat"><span class="movement-guide-meta-icon">${repeatIcon}</span><span><strong>পুনরাবৃত্তি</strong><b>${esc(dose)}</b></span></div>` : ""}
     </div>
-    <p class="movement-guide-caution"><span aria-hidden="true">ⓘ</span> ধীরে ও নিয়ন্ত্রণ রেখে করুন। ব্যথা বা অস্বস্তি বাড়লে থামুন।</p>
+    <p class="movement-guide-caution"><span class="movement-guide-caution-icon" aria-hidden="true">!</span><span>ধীরে ও নিয়ন্ত্রণ রেখে করুন। ব্যথা বা অস্বস্তি বাড়লে থামুন।</span></p>
   </article>`;
 }
