@@ -417,7 +417,7 @@ This document describes the intended architecture and acceptance criteria; it do
 - The catalogue is still marked `legacy-reference-unreviewed`; the animations are illustrative and do not constitute clinical approval.
 - Known unresolved content issue: c3 is catalogued as a hands-and-knees thoracic rotation but its current animation/caption depicts a lying Open Book movement.
 - Known timer issue: e1 and e2 have `durationSeconds: 0`, so the guided-session timer starts at zero despite the instruction text describing timed activities.
-- The service worker declares `RUNTIME_MODULES`, but the current install/fetch logic does not consume that array. The array also does not list the six classic ASAN scripts. Offline completeness is therefore not established by the inventory alone.
+- The service worker now combines `CORE_SHELL`, `CLASSIC_RUNTIME` and `RUNTIME_MODULES` into `PRECACHE_ASSETS` and uses `cache.addAll()` during install. The six classic ASAN scripts and the static imports retained by `ExerciseAnimation.js` are included. Repository-path validation passed; real browser install/offline verification is still pending.
 - The current cleanup candidates (legacy SVG animation modules, Lottie JSON/vendor files, unused illustration assets and navigation fallback) have not been removed. Confirm all references before deletion; retain the old monolithic `assets/js/app.js` until its reference/retention decision is explicit.
 - Documentation and source inspection are not live browser/device verification. Android rendering, desktop interaction, offline startup and clinical review remain pending.
 

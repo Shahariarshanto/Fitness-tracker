@@ -20,7 +20,7 @@ Update this file whenever a module is added, removed, or changes ownership. The 
 | `index.html` | New semantic application shell and five primary page panels |
 | `assets/css/tokens.css` | Theme tokens and color-scheme variables |
 | `assets/css/base.css` | Reset, shell, navigation, page panel, responsive foundation |
-| `sw.js` | Cache and offline delivery for all Step 1 runtime modules |
+| `sw.js` | Versioned install-time precache for the app shell, six stylesheets, six classic ASAN scripts and the declared ES-module dependency graph; network-first JS with offline cache fallback |
 
 ## Temporary entry-point note
 The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `assets/js/bootstrap.js`. The HTML loads only `bootstrap.js`; the old `app.js` is not loaded or cached as an active runtime. At Step 10, the verified bootstrap is moved into `app.js` and the old monolith is removed.
