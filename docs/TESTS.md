@@ -200,7 +200,11 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Starting-position filters show only the mapped exercises and can return to the full list.
 - [ ] Exercise completion updates the selected day's completed IDs and inline progress; completion can be undone.
 - [ ] Completion status is reflected in the exercise card without a checkbox.
-- [ ] Exercise details expand inline and include animation, instructions, stopwatch, applicable repetition counter, safety notice and completion action.
+- [ ] Exercise details expand inline and include animation, readable high-contrast instructions, applicable repetition counter, elapsed-time stopwatch, concise safety note and completion action.
+- [ ] On mobile, timer and repetition counter appear side by side with matching compact card dimensions; timer spans full width when no counter applies.
+- [ ] Repetition counter has clearly visible count, balanced minus/plus touch controls, distinct increase action and no horizontal overflow.
+- [ ] Stopwatch start/pause/reset controls retain readable text in enabled and disabled states.
+- [ ] Exercise guide labels, instructions, dose, timer and counter maintain readable text contrast against their backgrounds.
 - [ ] Stopwatch elapsed-time formatting and start/pause/reset controls pass checks.
 - [ ] Stopwatch is count-up only; no unreviewed `durationSeconds` value is presented as a prescribed countdown.
 - [ ] Existing version-1 D1 snapshots and backups without the optional `movement` field remain valid.
@@ -225,6 +229,8 @@ Add focused module-level and feature-level tests in the same step that implement
 
 ### Device/PWA checks
 - [ ] Movement layout fits narrow Android screens without horizontal overflow.
+- [ ] Expanded guide text remains crisp/readable at normal mobile zoom; no low-opacity text or washed-out disabled controls.
+- [ ] Timer and repetition cards align at equal height where both are present; their buttons remain easy to tap.
 - [ ] Position chips wrap cleanly and remain easy to tap.
 - [ ] Detail controls are reachable above bottom navigation.
 - [ ] Touch targets remain comfortable on mobile.
