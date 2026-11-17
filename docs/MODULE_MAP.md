@@ -171,6 +171,6 @@ A new exercise requires catalogue/group/position mappings, one pose module, regi
 | `assets/css/base.css` | Controls header spacing, fixed logo sizing, typography hierarchy and narrow-viewport behavior. |
 | `assets/images/as-care-spine-v1.svg` | Versioned spine brand artwork used by the header and PWA icon references. |
 | `manifest.webmanifest` | References the versioned spine artwork for the PWA icon. |
-| `sw.js` | Precaches the shell assets and uses cache name `as-care-shell-v128`. |
+| `sw.js` | Precaches the shell assets and uses cache name `as-care-shell-v129`. |
 
 Header layout contract: 42×42px non-shrinking logo; brand copy immediately to its right; 16px brand name; 10px secondary tagline; date/status on the right. The tagline can wrap if space is constrained. The header height is content-driven and must not reserve unnecessary vertical space. Do not change this hierarchy or move the tagline below the logo without an explicit design decision.
