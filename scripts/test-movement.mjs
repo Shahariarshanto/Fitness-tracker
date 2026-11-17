@@ -50,7 +50,12 @@ assert.match(detail, /ব্যায়াম সম্পন্ন করুন/)
 assert.doesNotMatch(detail, /data-routine-toggle|data-exercise-next|data-exercise-close/);
 const completedDetail = renderExerciseDetails("c1", { completed: true });
 assert.match(completedDetail, /সম্পন্ন হয়েছে · Undo/);
-assert.match(detail, /ক্লিনিক্যালি যাচাই করা হয়নি/);
+assert.match(detail, /EXERCISE GUIDE/);
+assert.match(detail, /movement-guide-name-line/);
+assert.match(detail, /movement-guide-name-en/);
+assert.match(detail, /নির্দেশিত মাত্রা/);
+assert.match(detail, /ব্যথা বা অস্বস্তি বাড়লে ব্যায়াম থামান/);
+assert.doesNotMatch(detail, /MOVEMENT PREVIEW|movement-guide-step|ক্যাটালগে থাকা মাত্রা|নিজের অনুশীলনের সময় মাপার Stopwatch|নিজে সম্পন্ন প্রতিটি বার গুনুন|movement-guide-caution-icon/);
 assert.doesNotMatch(detail, /40 সেকেন্ড/);
 const untimedDetail = renderExerciseDetails("e1", {});
 assert.doesNotMatch(untimedDetail, /data-repetition-action/);

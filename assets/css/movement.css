@@ -764,3 +764,110 @@
 @media(prefers-reduced-motion:reduce){
   .movement-position-chip,.movement-library-progress>span,.movement-exercise-card{transition:none}
 }
+
+
+/* Exercise detail polish — compact hierarchy, AS Care brand colors. */
+.movement-detail-card{
+  gap:10px;padding:10px;border-color:var(--line);border-radius:20px;
+  background:var(--surface);color:var(--text);box-shadow:0 5px 18px rgba(38,24,75,.055)
+}
+.movement-guide-topbar{
+  position:relative;min-height:0;padding:10px 13px 12px;gap:8px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);border-radius:15px;
+  background:linear-gradient(112deg,#4f259f 0%,#713bdb 72%,#8051e7 100%);
+  box-shadow:0 5px 13px rgba(91,49,177,.17)
+}
+.movement-guide-topbar::after{
+  content:"";position:absolute;left:13px;bottom:0;width:42px;height:3px;
+  border-radius:4px 4px 0 0;background:#ff9a55
+}
+.movement-guide-title{display:grid;gap:3px;min-width:0}
+.movement-guide-eyebrow{color:rgba(255,255,255,.72);font-size:8px;font-weight:850;letter-spacing:.16em;line-height:1.2}
+.movement-guide-name-line{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:8px;row-gap:1px;min-width:0}
+.movement-guide-title h4{margin:0;color:#fff;font-size:17px;font-weight:850;line-height:1.35;letter-spacing:-.02em}
+.movement-guide-name-en{color:rgba(255,255,255,.78);font-size:10px;font-weight:600;line-height:1.35}
+.movement-guide-visual{
+  aspect-ratio:16/7;min-height:0;max-height:124px;padding:0;
+  border-color:color-mix(in srgb,var(--accent) 14%,var(--line));
+  border-radius:15px;background:linear-gradient(145deg,#f5f0ff,#eee7ff)
+}
+.movement-guide-visual.is-asan-animation{display:block}
+.movement-guide-visual .movement-animation-stage{
+  display:grid;place-items:center;width:100%;height:100%;min-height:0;padding:4px 8px;
+  background:transparent
+}
+.movement-animation-kicker,.movement-animation-caption{display:none!important}
+.movement-guide-visual .fg{width:min(100%,180px);height:108px;margin:auto}
+.movement-guide-visual .fg svg{display:block;width:100%;height:100%;max-height:108px}
+.movement-guide-instruction{display:block;padding:1px 4px}
+.movement-guide-instruction strong{margin:0 0 3px;color:var(--accent);font-size:12px;line-height:1.3}
+.movement-guide-instruction p{font-size:12px;line-height:1.55}
+.movement-guide-dose{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;
+  padding:8px 11px;border:1px solid var(--line);border-radius:11px;
+  background:var(--surface-soft)
+}
+.movement-guide-dose span{color:var(--muted);font-size:10px;font-weight:700}
+.movement-guide-dose strong{color:var(--text);font-size:12px;font-weight:850;text-align:right;overflow-wrap:anywhere}
+.movement-exercise-tools{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.movement-stopwatch,.movement-repetition-counter{
+  gap:7px;padding:9px 10px;border:1px solid var(--line);border-radius:13px;
+  background:var(--surface-soft)
+}
+.movement-tool-heading{display:flex;align-items:center;justify-content:space-between}
+.movement-tool-heading strong{font-size:11px;font-weight:800}
+.movement-stopwatch-display{font-size:25px;line-height:1.05;letter-spacing:.025em}
+.movement-stopwatch-controls{gap:6px}
+.movement-stopwatch-controls button{min-height:34px;padding:6px;border-radius:9px;font-size:10px}
+.movement-stopwatch-controls [data-stopwatch-action="start"]{
+  border:1px solid #f16d29;background:#ff7a32;color:#fff;
+  box-shadow:0 3px 8px rgba(255,122,50,.2)
+}
+.movement-stopwatch-controls [data-stopwatch-action="start"]:not(:disabled):active{background:#e96825;transform:translateY(1px)}
+.movement-counter-controls{grid-template-columns:34px minmax(0,1fr) 34px;gap:8px}
+.movement-counter-controls button{width:34px;height:33px;border-radius:10px;font-size:17px}
+.movement-counter-controls output{font-size:20px;line-height:1.1}
+.movement-guide-caution{
+  display:block;margin:0;padding:0 3px;border:0;border-radius:0;
+  background:transparent;color:var(--muted);font-size:10px;line-height:1.5
+}
+.movement-guide-caution-icon{display:none}
+.movement-detail-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.movement-detail-actions .movement-detail-complete{
+  width:100%;min-height:43px;padding:10px 14px;border:1px solid #6532c6;
+  border-radius:12px;background:linear-gradient(110deg,#713bdb,#5428b4);
+  color:#fff;font-size:12px;font-weight:850;letter-spacing:.01em;
+  box-shadow:0 5px 12px rgba(92,49,180,.22);
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease
+}
+.movement-detail-actions .movement-detail-complete:hover{
+  filter:brightness(1.07);box-shadow:0 7px 16px rgba(92,49,180,.28)
+}
+.movement-detail-actions .movement-detail-complete:active{transform:translateY(1px) scale(.99)}
+.movement-detail-actions .movement-detail-complete[aria-pressed="true"]{
+  border-color:#21845e;background:linear-gradient(110deg,#23966c,#167653);
+  box-shadow:0 4px 11px rgba(35,150,108,.18)
+}
+.movement-detail-actions .movement-detail-complete:focus-visible{
+  outline:3px solid color-mix(in srgb,var(--accent) 30%,transparent);outline-offset:3px
+}
+.movement-stopwatch-note{font-size:9px;line-height:1.4}
+@media(min-width:520px){
+  .movement-exercise-tools{grid-template-columns:minmax(0,1fr) minmax(0,.82fr);align-items:stretch}
+  .movement-stopwatch,.movement-repetition-counter{align-content:start}
+}
+@media(max-width:420px){
+  .movement-detail-card{padding:9px;gap:9px;border-radius:18px}
+  .movement-guide-topbar{padding:9px 11px 11px;border-radius:13px}
+  .movement-guide-title h4{font-size:16px}
+  .movement-guide-name-en{font-size:9px}
+  .movement-guide-visual{aspect-ratio:16/7;min-height:0;max-height:112px;border-radius:13px}
+  .movement-guide-visual .fg{height:98px}
+  .movement-guide-visual .fg svg{max-height:98px}
+  .movement-guide-instruction p{font-size:11px;line-height:1.55}
+  .movement-stopwatch-display{font-size:23px}
+  .movement-stopwatch-controls button{min-height:33px}
+}
+@media(prefers-reduced-motion:reduce){
+  .movement-detail-actions .movement-detail-complete{transition:none}
+}

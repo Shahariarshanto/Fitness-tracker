@@ -246,7 +246,7 @@ if (!movementDetails.includes('data-stopwatch-action="start"') ||
   fail("Exercise details must expose working stopwatch controls");
 }
 if (!movementDetails.includes("data-repetition-action") || !movementDetails.includes("data-exercise-done") ||
-    !movementDetails.includes("ক্লিনিক্যালি যাচাই করা হয়নি")) {
+    !movementDetails.includes("ব্যক্তিগত উপযোগিতা স্বাস্থ্যপেশাজীবীর সঙ্গে যাচাই করুন")) {
   fail("Exercise details must include a manual repetition counter, completion action and clinical-review notice");
 }
 if (movementRuntime.includes("durationSeconds") || movementDetails.includes("durationSeconds")) {
