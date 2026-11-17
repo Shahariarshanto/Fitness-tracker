@@ -135,7 +135,7 @@ Overview reads the shared state for personal metrics and a separate curated JSON
 | `assets/js/core/storage.js` | Stores temporary local cache and durable pending marker | none | Sole localStorage owner |
 | `assets/js/services/notifications.js` | Optional sound, speech and vibration helpers | browser media APIs | No persisted state or DOM ownership |
 
-D1 is the permanent primary cloud source. R2 and paid storage are not used. Manual JSON export is the independent backup method. Google Drive and Google OAuth are removed. The Worker has no login/authentication; origin checks are CORS policy only and are not a security boundary.
+D1 is the permanent primary cloud source. R2 and paid storage are not used. Manual JSON export is the independent backup method. Google Drive and Google OAuth are removed. The Worker requires a valid bearer session for all state reads/writes and scopes each row to the authenticated user. CORS remains a browser-origin policy, not the authentication mechanism.
 
 
 ## Exercise module standard (2026-11-17)
