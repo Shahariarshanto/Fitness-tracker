@@ -5,13 +5,13 @@
 ## 1. Runtime strategy
 AS Care is being rebuilt as a clean native JavaScript ES Module application. The existing monolithic `assets/js/app.js` is a broken functional reference only and must not be executed, imported, bridged, or run alongside the replacement. The old runtime is removed at final cutover.
 
-The application defines a clean state schema, storage namespace, identifiers, and backup format; obsolete browser storage and backup compatibility remain out of scope. The current D1 snapshot is preserved separately by the account migration and copied to the first registered account.
+The application defines a clean state schema, storage namespace and identifiers; obsolete browser storage compatibility remains out of scope. The current D1 snapshot is preserved separately by the account migration and copied to the first registered account.
 
 ## 2. Layers
 - **Application entry:** bootstrap and high-level initialization only.
 - **Core:** state, events, storage, dates, router.
 - **Data:** static exercise and health mappings.
-- **Services:** Cloudflare persistence, manual backup export/import, calculations, notifications.
+- **Services:** Cloudflare persistence, calculations and notifications; Settings directly generates a readable HTML report.
 - **Components:** reusable, feature-agnostic UI.
 - **Features:** Overview, Movement, Medication, Insights, Health, Settings.
 
@@ -45,7 +45,7 @@ Use relative paths for GitHub Pages deployment under `/Fitness-tracker/`. Every 
 ## 8. Security and clinical boundaries
 - Cloudflare D1 is the primary cloud data store; localStorage is only a temporary cache/outbox.
 - Do not configure R2, paid storage, billing, or scheduled cloud backups.
-- Manual JSON export/import is the independent backup method; remind users that D1 is not itself a backup.
+- Settings provides a readable HTML report only; it is not a restorable backup. D1 is not itself an independent backup.
 - Never commit access tokens, private keys, or personal health exports.
 - This app is for self-monitoring, not diagnosis, prescribing, or emergency care.
 - Clinical guidance changes require appropriate review.
