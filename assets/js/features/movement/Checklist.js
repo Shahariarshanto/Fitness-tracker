@@ -53,26 +53,28 @@ export function renderRoutine(date, activity = {}, routineIds = []) {
   </section>\`;
 }
 
-function renderExerciseGroup(group, routineSet) {
-  const exercises = getExercisesForGroup(group.id);
+function renderExerciseGroup(group, routineSet, region) {
+  const exercises = getExercisesForGroup(group.id).filter(item => !region || item.bodyRegions.includes(region));
+  if (!exercises.length) return "";
   return \`<section class="movement-group" data-group="\${group.id}">
     <header><span class="movement-group-icon">\${group.icon}</span><div><h3>\${esc(group.title)}</h3><p>\${esc(group.subtitle)}</p></div><span class="movement-group-count">\${exercises.length}টি</span></header>
     <div class="movement-exercise-list">\${exercises.map(item => renderLibraryExercise(item, routineSet)).join("")}</div>
   </section>\`;
 }
 
-function renderPositionGroup(group, routineSet) {
-  const exercises = getExercisesForPosition(group.id);
+function renderPositionGroup(group, routineSet, region) {
+  const exercises = getExercisesForPosition(group.id).filter(item => !region || item.bodyRegions.includes(region));
+  if (!exercises.length) return "";
   return \`<section class="movement-group movement-position-group" data-position-group="\${group.id}">
     <header><span class="movement-group-icon">\${group.icon}</span><div><h3>\${esc(group.title)}</h3><p>\${esc(group.subtitle)}</p></div><span class="movement-group-count">\${exercises.length}টি</span></header>
     <div class="movement-exercise-list">\${exercises.map(item => renderLibraryExercise(item, routineSet)).join("")}</div>
   </section>\`;
 }
 
-export function renderChecklist(date, routineIds = [], viewMode = "body") {
+export function renderChecklist(date, routineIds = [], viewMode = "body", region = "") {
   const routineSet = new Set(routineIds);
-  const bodyGroups = EXERCISE_GROUPS.map(group => renderExerciseGroup(group, routineSet)).join("");
-  const positionGroups = EXERCISE_POSITIONS.map(group => renderPositionGroup(group, routineSet)).join("");
+  const bodyGroups = EXERCISE_GROUPS.map(group => renderExerciseGroup(group, routineSet, region)).join("");
+  const positionGroups = EXERCISE_POSITIONS.map(group => renderPositionGroup(group, routineSet, region)).join("");
   return \`<section class="movement-intro"><p class="eyebrow">EXERCISE LIBRARY</p><h3>ব্যায়াম খুঁজুন</h3><p>\${formatDate(date)} · তালিকা থেকে নিজের রুটিনে ব্যায়াম যোগ করুন।</p></section>
     <div class="movement-view-switch" role="group" aria-label="ব্যায়াম সাজানোর পদ্ধতি">
       <button type="button" class="movement-view-button \${viewMode === "body" ? "is-active" : ""}" data-exercise-view="body" aria-pressed="\${viewMode === "body"}">শরীরের অঞ্চল</button>
