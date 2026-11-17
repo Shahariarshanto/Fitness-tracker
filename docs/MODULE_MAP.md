@@ -42,7 +42,7 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 
 | Module | Responsibility | Imports | State/events |
 |---|---|---|---|
-| `assets/js/features/settings/index.js` | Mounts Settings UI, handles preference input, reports PWA status | core state, Preferences, Feedback | Subscribes to state; writes preferences through state API |
+| `assets/js/features/settings/index.js` | Mounts Settings UI, handles preferences, JSON backup export/restore and PWA status | core state, Preferences, Feedback, backup service | Subscribes to state; restores validated backups through the shared state API |
 | `assets/js/features/settings/Preferences.js` | Renders settings controls, validates and saves preferences, reads storage summary | core state, core storage, core events | Owns no duplicate state; emits approved theme event |
 | `assets/css/pages.css` | Responsive page-level Settings layout | design tokens | Styles only |
 
