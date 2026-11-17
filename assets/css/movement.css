@@ -80,22 +80,3 @@
 .movement-guide-caution{margin:0;padding:8px 10px;border-radius:10px;background:var(--surface);color:var(--muted);font-size:11px;line-height:1.5}
 .movement-guide-caution span{color:var(--accent);font-weight:700;margin-right:4px}
 @media(max-width:380px){.movement-detail-card{padding:10px;gap:9px}.movement-guide-top{grid-template-columns:108px minmax(0,1fr);gap:9px}.movement-guide-visual{width:108px;height:92px}.movement-guide-meta{grid-template-columns:1fr}}
-/* Static exercise guide: illustration-led detail card */
-.movement-detail-card{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface-soft);display:grid;gap:10px}
-.movement-guide-top{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;align-items:center}
-.movement-guide-visual{width:128px;height:104px;min-height:0;padding:0;border:1px solid var(--line);border-radius:13px;background:#f5f9ff;display:grid;place-items:center;overflow:hidden}
-.movement-guide-visual img{display:block;width:100%;height:100%;object-fit:contain}
-.movement-guide-heading{min-width:0}
-.movement-guide-heading .eyebrow{display:block;margin:0 0 4px;font-size:9px;letter-spacing:.09em;color:var(--accent)}
-.movement-guide-heading h4{margin:0;font-size:15px;line-height:1.35}
-.movement-guide-heading p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
-.movement-guide-instruction{display:grid;grid-template-columns:23px minmax(0,1fr);gap:8px;align-items:start;padding-top:10px;border-top:1px solid var(--line)}
-.movement-guide-step{width:22px;height:22px;display:grid;place-items:center;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:700}
-.movement-guide-instruction strong{display:block;margin:0 0 3px;font-size:12px}
-.movement-guide-instruction p{margin:0;font-size:13px;line-height:1.6;color:var(--text)}
-.movement-guide-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
-.movement-guide-meta>span{min-width:0;padding:8px 9px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:11px;line-height:1.45}
-.movement-guide-meta strong{display:block;margin:0 0 3px;color:var(--muted);font-size:10px;font-weight:600}
-.movement-guide-caution{margin:0;padding:8px 10px;border-radius:10px;background:var(--surface);color:var(--muted);font-size:11px;line-height:1.5}
-.movement-guide-caution span{color:var(--accent);font-weight:700;margin-right:4px}
-@media(max-width:380px){.movement-detail-card{padding:10px;gap:9px}.movement-guide-top{grid-template-columns:108px minmax(0,1fr);gap:9px}.movement-guide-visual{width:108px;height:92px}.movement-guide-meta{grid-template-columns:1fr}}

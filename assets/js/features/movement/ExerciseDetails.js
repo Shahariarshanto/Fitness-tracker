@@ -1,6 +1,9 @@
 import { EXERCISE_BY_ID } from "../../data/exercises.js";
 
 const ILLUSTRATIONS = Object.freeze({
+  b1: ["chin-tuck.svg", "থুতনি ভেতরে টানার ভঙ্গি"],
+  b2: ["neck-rotation.svg", "ঘাড় ডানে-বামে ঘোরানোর ভঙ্গি"],
+  b3: ["neck-side-tilt.svg", "ঘাড় পাশে কাত করার ভঙ্গি"],
   c1: ["cat-camel.webp", "ক্যাট-ক্যামেল করার ভঙ্গি"],
   c2: ["bird-dog.webp", "বিপরীত হাত ও পা তোলার ভঙ্গি"],
   d2: ["glute-bridge.webp", "ব্রিজ ব্যায়ামের ভঙ্গি"]
