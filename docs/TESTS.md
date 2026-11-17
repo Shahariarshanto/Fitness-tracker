@@ -11,7 +11,7 @@ Record actual results for each implementation step. Do not mark unrun tests as p
 - [ ] All imports resolve.
 - [ ] JavaScript syntax checks pass.
 - [ ] Manifest parses as JSON.
-- [ ] The service-worker asset inventory covers every runtime dependency and the install/fetch strategy actually uses it.
+- [x] The service-worker asset inventory covers the declared runtime dependencies and the install strategy uses it.
 - [ ] Service-worker cache name is incremented.
 
 ### Browser checks
@@ -164,7 +164,8 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] Checklist IDs resolve against the exercise catalogue.
 - [ ] Daily completion uses local date keys and does not overwrite other dates.
 - [ ] Guided-session records match the actual event contract in `EVENTS.md`.
-- [ ] `sw.js` inventory and actual fetch/cache behavior are checked separately; the current `RUNTIME_MODULES` constant is not consumed by install/fetch logic.
+- [x] `RUNTIME_MODULES` and `CLASSIC_RUNTIME` are combined into `PRECACHE_ASSETS`, and install uses `cache.addAll(PRECACHE_ASSETS)`; all declared asset paths were checked against the repository tree.
+- [ ] Verify in a real browser that installation succeeds, every imported module is served from cache offline, and a new version replaces the old cache.
 - [ ] e1/e2 zero-duration guided-session behavior is explicitly tested and resolved before treating those activities as timer-supported.
 - [ ] c3 catalogue position, instruction, animation pose and caption are reconciled after appropriate content/clinical review.
 
