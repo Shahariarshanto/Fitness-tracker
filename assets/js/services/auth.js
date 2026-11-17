@@ -51,6 +51,8 @@ export async function logout() {
   const token = getAuthToken();
   try {
     if (token) await request("/auth/logout", {}, token);
+  } catch (error) {
+    console.warn("Remote session revocation could not be confirmed; local credentials were still cleared.", error);
   } finally {
     clearAppStorage();
   }
