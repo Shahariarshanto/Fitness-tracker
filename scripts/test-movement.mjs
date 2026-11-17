@@ -1,52 +1,57 @@
 import assert from "node:assert/strict";
-import { EXERCISES } from "../assets/js/data/exercises.js";
-import { normalizeRoutineExerciseIds, toggleId, getRoutineProgress, formatElapsedTime } from "../assets/js/features/movement/MovementLogic.js";
+import { EXERCISES, EXERCISE_POSITIONS } from "../assets/js/data/exercises.js";
+import { formatElapsedTime } from "../assets/js/features/movement/MovementLogic.js";
 import { renderRoutine, renderChecklist } from "../assets/js/features/movement/Checklist.js";
 import { renderExerciseDetails } from "../assets/js/features/movement/ExerciseDetails.js";
 
-const validIds = new Set(EXERCISES.map(item => item.id));
-assert.deepEqual(normalizeRoutineExerciseIds(["c1", "c1", "unknown", 12], validIds), ["c1"]);
-assert.deepEqual(toggleId(["c1", "c2"], "c1"), ["c2"]);
-assert.deepEqual(toggleId(["c1"], "c3"), ["c1", "c3"]);
-assert.deepEqual(getRoutineProgress([], ["c1"]), { done: 0, total: 0, percent: 0 });
-assert.deepEqual(getRoutineProgress(["c1", "c2", "c3"], ["c1", "c3", "outside"]), { done: 2, total: 3, percent: 67 });
+const ids = new Set(EXERCISES.map(item => item.id));
+assert.equal(EXERCISES.length, 24);
+assert.equal(ids.size, EXERCISES.length);
+assert.equal(renderRoutine(), "");
+
+const all = renderChecklist("2026-11-17");
+assert.match(all, /আজকের ব্যায়াম/);
+assert.match(all, /24টি/);
+assert.match(all, /0 \/ 24 সম্পন্ন/);
+for (const item of EXERCISES) assert.match(all, new RegExp(`data-exercise-card="${item.id}"`));
+assert.match(all, /data-position-filter=""/);
+assert.match(all, /data-position-filter="standing"/);
+assert.match(all, /data-position-filter="hands-knees"/);
+assert.doesNotMatch(all, /type="checkbox"|data-routine-toggle|data-scroll-library|movement-symbol/);
+
+const completed = renderChecklist("2026-11-17", ["c1", "b1"]);
+assert.match(completed, /2 \/ 24 সম্পন্ন/);
+assert.match(completed, /data-exercise-card="c1"[^>]*is-complete/);
+assert.match(completed, /✓ সম্পন্ন/);
+assert.match(completed, /aria-valuenow="8"/);
+
+for (const position of EXERCISE_POSITIONS) {
+  const filtered = renderChecklist("2026-11-17", [], position.id);
+  assert.match(filtered, new RegExp(`data-position-filter="${position.id}"[^>]*is-active`));
+  for (const id of position.exerciseIds) assert.match(filtered, new RegExp(`data-exercise-card="${id}"`));
+  const outside = EXERCISES.filter(item => !position.exerciseIds.includes(item.id));
+  for (const item of outside) assert.doesNotMatch(filtered, new RegExp(`data-exercise-card="${item.id}"`));
+}
+const expanded = renderChecklist("2026-11-17", [], "", "c1");
+assert.match(expanded, /data-exercise-details="c1" aria-expanded="true"/);
+assert.match(expanded, /id="movement-detail-c1" data-exercise-detail-slot="c1"/);
+
 assert.equal(formatElapsedTime(0), "00:00");
 assert.equal(formatElapsedTime(65000), "01:05");
 assert.equal(formatElapsedTime(3661000), "01:01:01");
 
-const emptyRoutine = renderRoutine("2026-11-17", {}, []);
-assert.match(emptyRoutine, /data-scroll-library/);
-const routine = renderRoutine("2026-11-17", { completedExerciseIds: ["c1"] }, ["c1", "c2"]);
-assert.match(routine, /1\/2 সম্পন্ন/);
-assert.match(routine, /data-exercise-done="c1" checked/);
-assert.match(routine, /data-exercise-details="c1"/);
-
-const library = renderChecklist("2026-11-17", ["c1"], "body");
-assert.match(library, /data-routine-toggle="c1"/);
-assert.match(library, /রুটিন থেকে সরান/);
-assert.match(library, /data-exercise-details="c1"/);
-assert.doesNotMatch(library, /data-session-select|সেশনে নিন/);
-
-const neckLibrary = renderChecklist("2026-11-17", [], "body", "neck");
-assert.match(neckLibrary, /data-group="neck-shoulders"/);
-assert.doesNotMatch(neckLibrary, /data-group="spine"/);
-const noMatchLibrary = renderChecklist("2026-11-17", [], "body", "not-a-region");
-assert.match(noMatchLibrary, /কোনো ব্যায়াম নেই/);
-
-const detail = renderExerciseDetails("c1", { inRoutine: true, completed: false });
+const detail = renderExerciseDetails("c1", { completed: false });
 assert.match(detail, /data-stopwatch-action="start"/);
 assert.match(detail, /data-stopwatch-action="pause"/);
 assert.match(detail, /data-stopwatch-action="reset"/);
 assert.match(detail, /data-repetition-action="increase"/);
 assert.match(detail, /data-exercise-done="c1"/);
-const detailWithNext = renderExerciseDetails("c1", { inRoutine: true, nextExerciseId: "c2", nextLabel: "পরের ব্যায়াম" });
-assert.match(detailWithNext, /data-exercise-next/);
-const lastDetail = renderExerciseDetails("c2", { inRoutine: true, nextLabel: "return" });
-assert.match(lastDetail, /data-exercise-close/);
+assert.match(detail, /ব্যায়াম সম্পন্ন করুন/);
+assert.doesNotMatch(detail, /data-routine-toggle|data-exercise-next|data-exercise-close/);
+const completedDetail = renderExerciseDetails("c1", { completed: true });
+assert.match(completedDetail, /সম্পন্ন হয়েছে · Undo/);
 assert.match(detail, /ক্লিনিক্যালি যাচাই করা হয়নি/);
 assert.doesNotMatch(detail, /40 সেকেন্ড/);
-const libraryDetail = renderExerciseDetails("c1", { inRoutine: false });
-assert.match(libraryDetail, /data-routine-toggle="c1"/);
 const untimedDetail = renderExerciseDetails("e1", {});
 assert.doesNotMatch(untimedDetail, /data-repetition-action/);
 
@@ -65,16 +70,10 @@ globalThis.window = {
     removeItem: key => storage.delete(key)
   }
 };
-const stateModule = await import("../assets/js/core/state.js?movement-routine-test");
+const stateModule = await import("../assets/js/core/state.js?movement-library-test");
 assert.deepEqual(stateModule.getState().movement, { routineExerciseIds: [] });
 const { validateBackup } = await import("../assets/js/services/backup.js");
 assert.equal(validateBackup({ app: "as-care", schemaVersion: 1, state: legacySnapshot }), true);
 assert.throws(() => validateBackup({ app: "as-care", schemaVersion: 1, state: { ...legacySnapshot, movement: { routineExerciseIds: [false] } } }));
-stateModule.updateState(state => ({
-  ...state,
-  movement: { routineExerciseIds: ["c1", "c2"] }
-}));
-assert.deepEqual(stateModule.getState().movement.routineExerciseIds, ["c1", "c2"]);
-assert.deepEqual(JSON.parse(storage.get("as-care-state-v1")).movement.routineExerciseIds, ["c1", "c2"]);
 
-console.log("Movement tests passed: routine selection, completion progress, inline controls, timer formatting and state persistence.");
+console.log("Movement tests passed: all 24 exercises, position filters, completion visuals, inline guide controls, timer formatting and legacy backup compatibility.");
