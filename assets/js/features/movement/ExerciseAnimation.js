@@ -42,8 +42,8 @@ export async function startExerciseAnimation(container, exerciseId) {
     const animation = lottie.loadAnimation({
       container,
       renderer: "svg",
-      loop: true,
-      autoplay: true,
+      loop: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      autoplay: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
       path: REGISTRY[exerciseId] || FALLBACK,
       rendererSettings: { preserveAspectRatio: "xMidYMid meet", progressiveLoad: true }
     });
@@ -52,6 +52,9 @@ export async function startExerciseAnimation(container, exerciseId) {
       return;
     }
     active = animation;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      animation.goToAndStop(0, true);
+    }
     animation.addEventListener("data_failed", () => {
       if (container.isConnected) container.textContent = "অ্যানিমেশন লোড করা যায়নি";
     });
