@@ -22,7 +22,7 @@ The rebuilt application uses a clean modular architecture. The old monolithic `a
 - When offline, changes should remain locally queued and sync when connectivity returns.
 - **Manual JSON export/import is the independent user-controlled backup method.**
 - No automatic third-party backup service is part of the plan.
-- Old test data is not important and does not need a preservation or migration project. Important personal records will be entered after the app is ready for regular use.
+- Preserve the existing D1 snapshot during the account migration. The first registered account receives a copy; the original legacy table remains intact.
 - Do not clear browser storage, delete current records, or perform destructive schema changes without an explicit reason and a safe, clearly explained plan.
 
 ### Explicitly excluded
@@ -155,7 +155,7 @@ The canonical app state covers the data actually used by the application. Expect
 - Handle request failures without silently discarding local pending changes.
 - Do not claim that D1 itself is a backup.
 - No R2 snapshots or automated cloud backup are planned.
-- The endpoint currently has no user authentication by design. Do not describe CORS as authentication or as a security boundary.
+- The Worker now requires bearer authentication for every state request and enforces per-user data access. CORS remains an origin policy, not the authentication mechanism.
 - Do not store credentials, tokens or secrets in the repository.
 
 ### Manual JSON backup
@@ -319,10 +319,10 @@ Do not mark a step complete if a required runtime module is missing from the ser
 
 **Mitigation:** Keep a durable local pending queue, reconcile pending edits before remote hydration can replace state, validate server responses and retain pending changes until a confirmed successful write.
 
-### No authentication
-**Risk:** The current Worker endpoint has no user authentication. CORS is not an access-control substitute.
+### Account authentication and user isolation
+**Risk:** A frontend-only login could leave the Worker state API publicly accessible or allow one account to read another account's data.
 
-**Mitigation:** Do not put secrets or sensitive credentials in client code. Keep the endpoint's current limitations documented and avoid claiming that the database is private or access-controlled by authentication.
+**Mitigation:** Require a verified bearer session for every state request; derive the user ID on the Worker; use per-user state rows; revoke sessions on logout; preserve the legacy snapshot during migration.
 
 ### Service-worker cache completeness
 **Risk:** A module missing from the shell cache can break offline startup.
@@ -380,7 +380,7 @@ Never claim a phone, browser, offline or deployment test passed unless it was ac
 - [ ] Local cache and offline pending queue preserve edits.
 - [ ] Manual JSON export/import validates and restores data.
 - [ ] No unapproved third-party account or backup integration.
-- [ ] No login/account/password flow.
+- [ ] Sign Up, Login and Logout use the app's native Worker/D1 account system; no third-party auth provider.
 - [ ] No paid service dependency.
 
 ### Features
@@ -426,4 +426,9 @@ This document describes the intended architecture and acceptance criteria; it do
 - A Node built-in static validator now runs through GitHub Actions on pull requests and before Pages deployment. It checks local imports/assets, precache coverage, exercise/group IDs, ASAN pose mapping, captions and Movement routine/inline-control behavior. It does not test rendering or runtime behavior.
 - Documentation and source inspection are not live browser/device verification. Android rendering, desktop interaction, offline startup and clinical review remain pending.
 
-Update the feature checklist and current implementation status only after inspecting the latest repository and verifying the relevant behavior. Old test data does not need a migration or preservation phase. The important data-entry period begins when the app is ready for regular use.
+Update the feature checklist and current implementation status only after inspecting the latest repository and verifying the relevant behavior. The existing D1 snapshot is preserved as app_state_legacy and assigned to the first registered account; never delete it as part of the migration.
+
+
+## Account authentication implementation
+
+The app uses its own small Sign Up / Login / Logout flow in Settings → Data Backup. Cloudflare Worker verifies bearer tokens for every state API request and derives the user ID server-side. D1 stores password hashes, token hashes, and one app_state row per user. Sessions remain active until logout. Logout clears app-owned Local Storage and revokes the current session without deleting remote records. Migration 0002_user_accounts.sql preserves the original app_state table as app_state_legacy; the first registered account receives its snapshot and later accounts start independently. No third-party authentication provider or email verification is included.

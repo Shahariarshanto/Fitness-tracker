@@ -46,3 +46,35 @@ export function getStorageInfo() {
     return { key: STORAGE_KEY, bytes: 0, available: false };
   }
 }
+
+
+const AUTH_TOKEN_KEY = "as-care-auth-token-v1";
+const AUTH_USER_KEY = "as-care-auth-user-v1";
+
+export function loadAuthSession() {
+  try {
+    const user = window.localStorage.getItem(AUTH_USER_KEY);
+    return { token: window.localStorage.getItem(AUTH_TOKEN_KEY) || "", user: user ? JSON.parse(user) : null };
+  } catch { return { token: "", user: null }; }
+}
+export function saveAuthSession(token, user) {
+  try {
+    window.localStorage.setItem(AUTH_TOKEN_KEY, token);
+    window.localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+    return true;
+  } catch (error) {
+    console.warn("AS Care could not persist the login session.", error);
+    return false;
+  }
+}
+export function clearAppStorage() {
+  try {
+    for (const key of Object.keys(window.localStorage)) {
+      if (key.startsWith("as-care-")) window.localStorage.removeItem(key);
+    }
+    return true;
+  } catch (error) {
+    console.warn("AS Care app storage could not be cleared.", error);
+    return false;
+  }
+}

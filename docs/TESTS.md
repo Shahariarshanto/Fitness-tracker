@@ -347,7 +347,7 @@ Add focused module-level and feature-level tests in the same step that implement
 - [ ] A second device loads the same cloud state.
 - [ ] A second device receives newer cloud state on refresh/poll without overwriting pending local edits.
 - [ ] Manual JSON export can be imported to restore the state.
-- [ ] Public API exposure is understood: CORS is not authentication and does not make health data private.
+- [ ] Every state API request without a valid bearer session is rejected; CORS is treated only as an origin policy.
 
 ### Device/PWA checks
 - [ ] Android Chrome and installed PWA load the D1 state before rendering data pages.
@@ -417,3 +417,28 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Saved pain scores map to the correct severity colors; empty regions remain neutral.
 - [ ] Selected region and selected calendar date show the matching pain record.
 - [ ] Light and dark themes retain readable contrast and keyboard focus.
+
+
+## Account authentication and per-user Cloudflare data
+
+### Automated checks
+- [ ] node scripts/test-worker-sync.mjs passes account registration, login, invalid password, unauthenticated state rejection, logout revocation, legacy snapshot transfer and user data isolation.
+- [ ] node scripts/validate-project.mjs passes with the new auth module included in the service-worker inventory.
+- [ ] Apply migration 0002_user_accounts.sql against a disposable D1 database and verify the original app_state_legacy row remains unchanged.
+
+### Browser checks
+- [ ] Sign Up validates username, email, password and confirmation; duplicate username/email is rejected.
+- [ ] Login accepts username or email and rejects incorrect passwords.
+- [ ] Reloading the app retains the logged-in state without another login.
+- [ ] First account restores the previous D1 snapshot; a later account cannot see or overwrite it.
+- [ ] Load Previous Data refreshes the current user's remote state.
+- [ ] Logout clears app-owned Local Storage, revokes the session and leaves D1 user/state rows intact.
+- [ ] After logout, state GET/PUT returns 401 until login again.
+- [ ] JSON export/import continues to work independently of cloud login.
+
+### Device/deployment checks
+- [ ] GitHub Pages preflight accepts the Authorization header from the configured origin.
+- [ ] Android PWA reloads with a persistent token and restores only the signed-in user's state.
+- [ ] Apply the D1 migration and deploy the Worker before enabling account registration in the live app.
+
+Verification note: Static source and Node tests do not prove a live Cloudflare deployment, remote migration or Android browser behavior. Mark those checks only after actually running them.

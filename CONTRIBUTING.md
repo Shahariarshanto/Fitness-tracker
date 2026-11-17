@@ -21,7 +21,7 @@ Before editing, read `AI_CONTEXT.md`, `docs/REBUILD_PLAN.md`, `docs/ARCHITECTURE
 - Manual JSON export/import is the independent backup method.
 - Do not add R2, paid storage, billing or scheduled backup services.
 - Do not perform destructive storage or schema changes without a clear need and a safe plan.
-- The current Worker API has no authentication; do not imply that CORS provides authentication or privacy.
+- Worker state endpoints require bearer authentication and enforce per-user data isolation. CORS is still only an origin policy.
 
 ## Engineering rules
 

@@ -5,7 +5,7 @@
 ## 1. Runtime strategy
 AS Care is being rebuilt as a clean native JavaScript ES Module application. The existing monolithic `assets/js/app.js` is a broken functional reference only and must not be executed, imported, bridged, or run alongside the replacement. The old runtime is removed at final cutover.
 
-There is no existing user data to preserve. The new application defines a clean state schema, storage namespace, identifiers, and backup format. Legacy storage and backup compatibility are out of scope.
+The application defines a clean state schema, storage namespace, identifiers, and backup format; obsolete browser storage and backup compatibility remain out of scope. The current D1 snapshot is preserved separately by the account migration and copied to the first registered account.
 
 ## 2. Layers
 - **Application entry:** bootstrap and high-level initialization only.
@@ -49,3 +49,14 @@ Use relative paths for GitHub Pages deployment under `/Fitness-tracker/`. Every 
 - Never commit access tokens, private keys, or personal health exports.
 - This app is for self-monitoring, not diagnosis, prescribing, or emergency care.
 - Clinical guidance changes require appropriate review.
+
+
+## Account authentication and user-scoped persistence
+
+- The Settings → Data Backup card contains Sign Up, Login, connected-account status, Load Previous Data and Logout.
+- assets/js/services/auth.js owns registration/login/logout requests and persistent local token storage. It is a small native JavaScript module; no authentication framework is used.
+- worker/index.js validates credentials, stores PBKDF2-SHA-256 password hashes with unique salts, issues random bearer tokens, and stores only SHA-256 token hashes in auth_sessions.
+- Every /api/state request requires a valid token. The Worker resolves its user ID and accesses only that user's app_state row.
+- Sessions persist until explicit logout. Logout revokes the server-side session and clears app-owned as-care-* Local Storage keys; it does not delete remote records.
+- Migration 0002_user_accounts.sql renames the original table to app_state_legacy and creates user-scoped tables. The legacy snapshot is retained; the first registered account receives a copy. Later accounts start with their own empty state.
+- The existing app remains usable locally without an account, but Cloudflare synchronization and restoration require login.

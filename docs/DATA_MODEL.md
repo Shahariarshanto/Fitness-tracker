@@ -3,7 +3,7 @@
 > This document defines the new application state. It intentionally does not preserve the old app's storage keys, object shape, exercise identifiers, or backup formats.
 
 ## 1. Fresh schema policy
-The rebuild starts with a clean schema because there is no existing user data to preserve. Do not implement compatibility with `spa-daily-v2`, `spa-daily-v1`, or legacy backup envelopes. Define and validate the new model before dependent features are implemented.
+The application state uses its documented versioned schema and does not restore obsolete browser storage formats. The current D1 single-row snapshot is a separate migration concern: preserve it in app_state_legacy and copy it to the first registered account. Do not delete the legacy row.
 
 ## 2. State domains
 | Domain | Purpose |
@@ -58,9 +58,9 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - D1 stores one complete version-1 AS Care state snapshot in the `app_state` table.
 - The Worker validates the application identifier, schema version, required state domains and payload size before writing.
 - D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Use the app's manual JSON export for an independent copy; D1 itself is not a backup.
-- Cloudflare Worker API currently permits requests from the GitHub Pages site origin; CORS origin checks are not authentication and do not protect health data from non-browser callers.
+- The Worker accepts state requests only with a valid bearer session token. CORS remains an origin policy, while authentication and per-user authorization are enforced by the Worker.
 ## 6. Privacy
-Health information is sensitive. The current single-user endpoint has no login or user authentication, as explicitly requested. Origin restrictions are a browser access policy, not a security boundary; anyone who directly calls the public Worker API may be able to access or alter the state. Do not describe the data as private or confidential until an access-control layer is added.
+The app supports username/email and password registration and login. Passwords are PBKDF2-SHA-256 hashes with per-user salts; D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
 
 
 ### Medication records
@@ -108,3 +108,15 @@ Health information is sensitive. The current single-user endpoint has no login o
 - The JSON database and illustration are included in the service-worker precache so the hero remains available offline after the PWA shell has been installed.
 - This library is not stored in the personal-state D1 table and does not call a live third-party API at runtime. Content updates are reviewed and deployed with the app.
 - Messages are short educational paraphrases, not individualized medical advice or instructions to change treatment.
+
+
+## Account and remote persistence model
+
+Migration 0002_user_accounts.sql adds:
+
+- users: UUID-like user ID, unique username/email, PBKDF2 password hash, per-user salt and creation time.
+- auth_sessions: SHA-256 hash of a random bearer token, owning user ID and creation time. There is no automatic expiry; explicit logout deletes the session row.
+- app_state: one JSON state snapshot per user, keyed by user_id with its existing version/update metadata.
+- app_state_legacy: retained copy of the former single-row app_state table. The first registered account receives its data; the legacy row remains preserved.
+
+The Worker must derive user_id from the verified session token. Never accept a user ID from the browser as authority for selecting a data row. Logout clears app-owned browser storage and revokes the session only; it must not delete user or state records.

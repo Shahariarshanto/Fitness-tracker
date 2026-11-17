@@ -20,20 +20,22 @@ AS Care is a mobile-first personal tracking PWA for people managing routines rel
 - The modular native JavaScript ES module application is the active runtime.
 - The old monolithic `assets/js/app.js` is not the active entry point. Keep it only as a temporary reference if still needed; remove it only after checking that all required behavior has been verified and no references remain.
 - Do not execute the old monolith or run it beside the modular application.
-- Old test data does not need a dedicated preservation or migration project. Important personal records will be entered after the app is ready for regular use.
+- Preserve the existing D1 `app_state` snapshot during the account migration. The first registered account must receive that snapshot; keep the legacy table intact.
 - Do not clear browser storage or perform destructive data changes casually.
 
 ## Data and persistence decisions
 
 - Cloudflare D1 is the permanent primary data store.
-- The Cloudflare Worker API is configured in `assets/js/services/cloudflare.js`.
+- The Cloudflare Worker API is configured in `assets/js/services/cloudflare.js`; account calls and persistent token handling live in `assets/js/services/auth.js`.
 - Local Storage is a temporary cache and durable offline pending queue, not the permanent source of truth.
 - Preserve pending local edits during startup and remote-state reconciliation.
 - Changes should sync automatically when connectivity is available; failed writes must remain queued for retry.
 - Manual JSON export/import is the independent user-controlled backup method.
 - D1 is not a backup. No R2 snapshots, scheduled backup service or paid storage service is planned.
-- The current Worker API has no login/authentication. CORS is not authentication; the endpoint is publicly callable. Do not describe the stored health data as private or access-controlled.
-- Do not add third-party account, OAuth or cloud-drive integrations.
+- The Worker uses the app's custom Sign Up / Login / Logout flow. Every /api/state request requires a valid bearer session token and reads/writes only the authenticated user's app_state row.
+- Passwords are PBKDF2-SHA-256 hashes with per-user random salts. D1 stores only SHA-256 hashes of random session tokens. Sessions persist until explicit logout.
+- The frontend stores a persistent token and user summary in app-owned Local Storage. Logout clears all as-care-* keys but never deletes D1 records. Email verification and password reset are not included.
+- Do not add third-party OAuth or cloud-drive integrations.
 
 ## Architecture rules
 

@@ -1,39 +1,87 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { webcrypto } from "node:crypto";
 
+globalThis.crypto ||= webcrypto;
 const source = await readFile(new URL("../worker/index.js", import.meta.url), "utf8");
 const { default: worker } = await import("data:text/javascript;base64," + Buffer.from(source).toString("base64"));
 
 class MemoryD1 {
-  row = null;
+  users = new Map();
+  sessions = new Map();
+  states = new Map();
+  legacy = null;
+
   prepare(sql) {
     return {
       bind: (...values) => ({
         first: async () => {
-          if (sql.startsWith("SELECT state_json")) return this.row ? structuredClone(this.row) : null;
-          if (sql.startsWith("SELECT version")) return this.row ? { version: this.row.version } : null;
-          throw new Error("Unexpected D1 query: " + sql);
+          if (sql.includes("FROM auth_sessions JOIN users")) {
+            const userId = this.sessions.get(values[0]);
+            const user = userId && this.users.get(userId);
+            return user ? { id: user.id, username: user.username, email: user.email } : null;
+          }
+          if (sql.includes("FROM users WHERE username")) {
+            const identity = String(values[0]).toLowerCase();
+            return [...this.users.values()].find(user =>
+              user.username.toLowerCase() === identity || user.email.toLowerCase() === identity
+            ) || null;
+          }
+          if (sql.includes("FROM app_state WHERE user_id")) {
+            const row = this.states.get(values[0]);
+            return row ? structuredClone(row) : null;
+          }
+          throw new Error("Unexpected D1 read: " + sql);
         },
         run: async () => {
-          if (sql.startsWith("INSERT")) {
-            if (this.row) return { meta: { changes: 0 } };
-            this.row = { id: values[0], state_json: values[1], version: 1, updated_at: values[2] };
+          if (sql.startsWith("INSERT INTO users")) {
+            const [id, username, email, password_hash, password_salt, created_at] = values;
+            if ([...this.users.values()].some(user => user.username.toLowerCase() === username.toLowerCase() || user.email.toLowerCase() === email.toLowerCase())) {
+              throw new Error("UNIQUE constraint failed: users.username");
+            }
+            this.users.set(id, { id, username, email, password_hash, password_salt, created_at });
             return { meta: { changes: 1 } };
           }
-          if (sql.startsWith("UPDATE")) {
-            const [state, updatedAt, id, expectedVersion] = values;
-            if (!this.row || this.row.id !== id || this.row.version !== expectedVersion) {
-              return { meta: { changes: 0 } };
+          if (sql.startsWith("INSERT INTO auth_sessions")) {
+            this.sessions.set(values[0], values[1]);
+            return { meta: { changes: 1 } };
+          }
+          if (sql.startsWith("DELETE FROM auth_sessions")) {
+            const existed = this.sessions.delete(values[0]);
+            return { meta: { changes: existed ? 1 : 0 } };
+          }
+          if (sql.includes("FROM app_state_legacy")) {
+            if (this.users.size === 1 && this.legacy) {
+              this.states.set(values[0], structuredClone(this.legacy));
+              return { meta: { changes: 1 } };
             }
-            this.row.state_json = state;
-            this.row.version += 1;
-            this.row.updated_at = updatedAt;
+            return { meta: { changes: 0 } };
+          }
+          if (sql.startsWith("INSERT INTO app_state")) {
+            const [userId, stateJson, updatedAt] = values;
+            if (this.states.has(userId)) return { meta: { changes: 0 } };
+            this.states.set(userId, { user_id: userId, state_json: stateJson, version: 1, updated_at: updatedAt });
+            return { meta: { changes: 1 } };
+          }
+          if (sql.startsWith("UPDATE app_state")) {
+            const [stateJson, updatedAt, userId, expectedVersion] = values;
+            const row = this.states.get(userId);
+            if (!row || row.version !== expectedVersion) return { meta: { changes: 0 } };
+            row.state_json = stateJson;
+            row.version += 1;
+            row.updated_at = updatedAt;
             return { meta: { changes: 1 } };
           }
           throw new Error("Unexpected D1 write: " + sql);
         }
       })
     };
+  }
+
+  async batch(statements) {
+    const results = [];
+    for (const statement of statements) results.push(await statement.run());
+    return results;
   }
 }
 
@@ -50,57 +98,53 @@ const baseState = () => ({
   flarePlan: { warningSigns: "", actions: "", contacts: "" },
   healthEvents: [], workoutSessions: []
 });
-const request = (method, body) => worker.fetch(new Request("https://worker.test/api/state", {
+const send = (path, method, payload, token) => worker.fetch(new Request("https://worker.test" + path, {
   method,
-  headers: { Origin: origin, ...(body ? { "Content-Type": "application/json" } : {}) },
-  ...(body ? { body: JSON.stringify(body) } : {})
+  headers: {
+    Origin: origin,
+    ...(payload ? { "Content-Type": "application/json" } : {}),
+    ...(token ? { Authorization: "Bearer " + token } : {})
+  },
+  ...(payload ? { body: JSON.stringify(payload) } : {})
 }), env);
-const readState = async () => (await (await request("GET")).json());
+const body = async response => response.json();
 
-const empty = await readState();
-assert.equal(empty.version, 0);
-assert.equal(empty.state, null);
+const legacy = baseState();
+legacy.preferences.dailyGoal = 27;
+db.legacy = { state_json: JSON.stringify(legacy), version: 7, updated_at: "2026-11-17T00:00:00.000Z" };
 
-const deviceA = baseState();
-deviceA.preferences.dailyGoal = 25;
-deviceA.movement.routineExerciseIds = ["c1", "c2"];
-const firstWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 0, state: deviceA });
-assert.equal(firstWrite.status, 200);
-assert.equal((await firstWrite.json()).version, 1);
+assert.equal((await send("/api/state", "GET")).status, 401, "state must require login");
+const signupA = await send("/api/auth/signup", "POST", { username: "shanto", email: "shanto@example.com", password: "strong-pass-123" });
+assert.equal(signupA.status, 200);
+const accountA = await body(signupA);
+assert.ok(accountA.token);
+const restoredA = await body(await send("/api/state", "GET", null, accountA.token));
+assert.equal(restoredA.state.preferences.dailyGoal, 27, "first account must receive the preserved legacy snapshot");
+assert.equal(restoredA.version, 7);
 
-const staleDeviceB = baseState();
-staleDeviceB.preferences.dailyGoal = 30;
-const staleWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 0, state: staleDeviceB });
-assert.equal(staleWrite.status, 409);
-assert.equal((await staleWrite.json()).version, 1);
-assert.equal((await readState()).state.preferences.dailyGoal, 25);
-assert.deepEqual((await readState()).state.movement.routineExerciseIds, ["c1", "c2"]);
+const signupB = await send("/api/auth/signup", "POST", { username: "second_user", email: "second@example.com", password: "another-pass-456" });
+assert.equal(signupB.status, 200);
+const accountB = await body(signupB);
+assert.equal((await body(await send("/api/state", "GET", null, accountB.token))).state, null, "a later account must not see the first account's data");
 
-const latest = await readState();
-const mergedDeviceB = structuredClone(latest.state);
-mergedDeviceB.preferences.dailyGoal = 30;
-mergedDeviceB.dailyActivity["2026-11-17"] = { minutes: 15 };
-mergedDeviceB.movement.routineExerciseIds = ["c1", "c2", "c3"];
-const secondWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: latest.version, state: mergedDeviceB });
-assert.equal(secondWrite.status, 200);
-assert.equal((await secondWrite.json()).version, 2);
-const final = await readState();
-assert.equal(final.state.preferences.dailyGoal, 30);
-assert.equal(final.state.dailyActivity["2026-11-17"].minutes, 15);
-assert.deepEqual(final.state.movement.routineExerciseIds, ["c1", "c2", "c3"]);
+const stateB = baseState();
+stateB.preferences.dailyGoal = 44;
+const saveB = await send("/api/state", "PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 0, state: stateB }, accountB.token);
+assert.equal(saveB.status, 200);
+assert.equal((await body(await send("/api/state", "GET", null, accountB.token))).state.preferences.dailyGoal, 44);
+assert.equal((await body(await send("/api/state", "GET", null, accountA.token))).state.preferences.dailyGoal, 27, "user B writes must not affect user A");
 
-const legacyState = baseState();
-delete legacyState.movement;
-const legacyWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 2, state: legacyState });
-assert.equal(legacyWrite.status, 200);
-assert.equal((await readState()).state.movement, undefined);
+const logoutA = await send("/api/auth/logout", "POST", {}, accountA.token);
+assert.equal(logoutA.status, 200);
+assert.equal((await send("/api/state", "GET", null, accountA.token)).status, 401, "logout must revoke the session");
+const loginA = await send("/api/auth/login", "POST", { identity: "shanto@example.com", password: "strong-pass-123" });
+assert.equal(loginA.status, 200);
+const reloggedA = await body(loginA);
+assert.equal((await body(await send("/api/state", "GET", null, reloggedA.token))).state.preferences.dailyGoal, 27);
+assert.equal((await send("/api/auth/login", "POST", { identity: "shanto", password: "wrong-password" })).status, 401);
 
-const invalidMovement = baseState();
-invalidMovement.movement.routineExerciseIds = [12];
-const invalidWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 3, state: invalidMovement });
-assert.equal(invalidWrite.status, 400);
+const badPayload = await send("/api/state", "PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 7, state: { broken: true } }, reloggedA.token);
+assert.equal(badPayload.status, 400);
+assert.equal(db.legacy.state_json, JSON.stringify(legacy), "legacy snapshot must remain preserved");
 
-const missingVersion = await request("PUT", { app: "as-care", schemaVersion: 1, state: baseState() });
-assert.equal(missingVersion.status, 400);
-
-console.log("Cloudflare D1 sync tests passed: routine state persists, malformed IDs are rejected, legacy snapshots remain readable, and stale writes are rejected.");
+console.log("Account + Worker tests passed: unauthenticated access blocked, signup/login, password check, first-account legacy restore, per-user data isolation, logout revocation and state validation.");
