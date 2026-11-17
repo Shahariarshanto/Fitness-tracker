@@ -2,6 +2,8 @@
 const A = window.ASAN;
 if (!A) throw new Error("AS Care animation engine must load before exercise pose modules");
 function J(head, neck, hip, arms, legs) { return [].concat(head, neck, hip, arms, legs); }
+  var FA = [35, 25, 34, 35, 45, 25, 46, 35];
+  var FL = [38, 45, 37, 54, 42, 45, 43, 54];
   var c3 = J([40, 9], [40, 16], [40, 35], FA, FL);
   var l3 = J([33, 11], [40, 16], [40, 35], [35, 25, 34, 35, 45, 26, 46, 37], FL);
   var r3 = J([47, 11], [40, 16], [40, 35], [35, 26, 34, 37, 45, 25, 46, 35], FL);

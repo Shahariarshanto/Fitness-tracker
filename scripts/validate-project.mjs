@@ -131,6 +131,19 @@ for (const file of animationFiles) {
   if (!runtimeSet.has(file)) fail(`Animation module missing from RUNTIME_MODULES: ${file}`);
 }
 if (animationFiles.length !== 24) fail(`Expected 24 independent animation modules, found ${animationFiles.length}`);
+const registry = read("assets/js/features/movement/ExerciseAnimation.js");
+const engineSource = read("assets/js/features/movement/animation-engine.js");
+if (/A\\.POSES\\.[a-z]\\d+\\s*=/.test(engineSource)) fail("Shared animation engine must not contain exercise-specific pose definitions");
+for (const id of exerciseIds) {
+  const file = `assets/js/features/movement/animations/${id}.js`;
+  const doc = `docs/exercises/${id}.md`;
+  const matches = [...read(file).matchAll(/A\\.POSES\\.([a-z]\\d+)\\s*=/g)].map(m => m[1]);
+  if (matches.length !== 1 || matches[0] !== id) fail(`${file}: expected exactly one matching pose registration`);
+  if (!exists(doc)) fail(`Missing per-exercise documentation: ${doc}`);
+  const imports = [...registry.matchAll(new RegExp(`import ["']\\\\./animations/${id}\\\\.js["']`, "g"))];
+  if (imports.length !== 1) fail(`ExerciseAnimation.js must import ${id} exactly once`);
+}
+if (animationFiles.some(file => !exerciseIds.includes(path.basename(file, ".js")))) fail("Unexpected animation module without a catalogue exercise");
 const duplicatePoses = poseIds.filter((id, index) => poseIds.indexOf(id) !== index);
 const missingPoses = exerciseIds.filter(id => !poseIds.includes(id));
 const extraPoses = poseIds.filter(id => !exerciseIds.includes(id));

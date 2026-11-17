@@ -79,7 +79,7 @@ const RUNTIME_MODULES = [
   "./assets/js/features/movement/animations/f5.js",
 ];
 
-// These six scripts define window.ASAN and must execute before the ES-module app.
+// The shared engine defines window.ASAN and must execute before the ES-module app.
 const CLASSIC_RUNTIME = [
   "./assets/js/features/movement/animation-engine.js"
 ];
