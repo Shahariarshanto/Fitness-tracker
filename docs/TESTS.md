@@ -442,3 +442,22 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Apply the D1 migration and deploy the Worker before enabling account registration in the live app.
 
 Verification note: Static source and Node tests do not prove a live Cloudflare deployment, remote migration or Android browser behavior. Mark those checks only after actually running them.
+
+
+## Global brand header — compact responsive layout (2026-11-18)
+
+### Static checks
+- [x] Header markup includes the versioned spine logo, `A Square` brand name and `Your Personal AXSpA Companion` tagline.
+- [x] Project validator checks the compact brand-name/tagline grouping and the versioned logo path.
+- [x] Service Worker shell cache name advanced to `as-care-shell-v128`.
+- [ ] Confirm all header and manifest icon references resolve to `assets/images/as-care-spine-v1.svg`.
+
+### Browser/device checks
+- [ ] At narrow mobile widths (including 320px), the 42px logo remains fixed and does not overlap or collide with the date/status metadata.
+- [ ] The tagline wraps cleanly when necessary; it does not force horizontal page overflow.
+- [ ] `A Square` and tagline remain visually secondary to / no larger in prominence than the logo.
+- [ ] Header height remains content-driven without unnecessary blank vertical space.
+- [ ] Verify layout on Android Chrome, a wider mobile viewport and desktop.
+- [ ] Verify the updated service-worker cache replaces the prior shell and that the new SVG appears in the installed PWA.
+
+**Verification note (2026-11-18):** GitHub Actions static validation passed for the latest compact-header commit. The Cloudflare Worker workflow was still pending when checked; GitHub Pages deployment and live/browser/device visual verification are not confirmed. Do not mark the unchecked visual tests as passed.
