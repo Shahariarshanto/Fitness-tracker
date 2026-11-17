@@ -109,6 +109,7 @@ async function handleAuth(request, env, path, origin) {
   catch (error) { return json({ error: error.message }, error.message === "Payload too large" ? 413 : 400, origin); }
 
   let authStage = "request-validation";
+  try {
   if (path === "/api/auth/signup") {
     const email = String(payload.email || "").trim().toLowerCase();
     const password = String(payload.password || "");
@@ -159,6 +160,10 @@ async function handleAuth(request, env, path, origin) {
     return json({ ok: true }, 200, origin);
   }
   return json({ error: "Not found" }, 404, origin);
+  } catch (error) {
+    console.error("AS Care authentication error:", { stage: authStage, message: String(error?.message || error) });
+    return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি।", code: "AUTH_" + authStage.toUpperCase().replace(/-/g, "_") }, 500, origin);
+  }
 }
 
 export default {
