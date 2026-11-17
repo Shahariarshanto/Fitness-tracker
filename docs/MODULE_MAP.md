@@ -62,7 +62,7 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 | `assets/js/features/health/index.js` | Self-contained Health Journal dashboard: daily symptom check-in, pain location, BASDAI and ASDAS-CRP assessment/history; handles render and delegated interactions | core state, core dates, Feedback | Subscribes to state; owns Health content root |
 | `assets/css/pages.css` | Health journal overview, cards, forms, score history and mobile layout | design tokens | Styles only |
 
-The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Health records remain in local application storage.
+The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Health records use shared application state and sync through the Cloudflare persistence service. The Health UI contains Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and the separate Medication Management panel; the former Health Timeline and Personal Flare Plan UI are removed.
 
 
 ## Step 5 — Medication feature
