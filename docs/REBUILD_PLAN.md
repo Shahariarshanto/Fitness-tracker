@@ -29,7 +29,7 @@ The rebuilt application uses a clean modular architecture. The old monolithic `a
 
 Do not add or reintroduce:
 - Cloudflare R2 snapshots or R2 backup configuration.
-- Login, user accounts, passwords or an account-management flow.
+- Third-party authentication providers, email verification or password-reset infrastructure unless explicitly approved.
 - Paid services, paid plans, billing or payment methods.
 - Visible sync controls or complicated backup workflows.
 - Legacy data migration solely to preserve unimportant test records.
@@ -95,7 +95,7 @@ Fitness-tracker/
 ├── index.html
 ├── sw.js
 ├── manifest.webmanifest
-├── icon.svg
+├── assets/images/as-care-spine-v1.svg
 ├── assets/
 │   ├── css/
 │   └── js/
@@ -431,4 +431,4 @@ Update the feature checklist and current implementation status only after inspec
 
 ## Account authentication implementation
 
-The app uses its own small Sign Up / Login / Logout flow in Settings → Data Backup. Cloudflare Worker verifies bearer tokens for every state API request and derives the user ID server-side. D1 stores password hashes, token hashes, and one app_state row per user. Sessions remain active until logout. Logout clears app-owned Local Storage and revokes the current session without deleting remote records. Migration 0002_user_accounts.sql preserves the original app_state table as app_state_legacy; the first registered account receives its snapshot and later accounts start independently. No third-party authentication provider or email verification is included.
+The app uses its own small Sign Up / Login / Logout flow in Settings → Data Backup. Cloudflare Worker verifies bearer tokens for every state API request and derives the user ID server-side. D1 currently stores passwords as entered in the `password_hash` column (direct comparison, by explicit product decision), SHA-256 hashes of session tokens, and one app_state row per user. The `password_salt` column is unused; this is a security limitation, not a claim of hashed-password storage. Sessions remain active until logout. Logout clears app-owned Local Storage and revokes the current session without deleting remote records. Migration 0002_user_accounts.sql preserves the original app_state table as app_state_legacy; the first registered account receives its snapshot and later accounts start independently. No third-party authentication provider or email verification is included.
