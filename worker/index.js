@@ -85,21 +85,42 @@ async function createSession(user, env, origin) {
   return json({ ok: true, token, user: { id: user.id, email: user.email } }, 200, origin);
 }
 async function handleAuth(request, env, path, origin) {
+  if (path === "/api/auth/health") {
+    if (request.method !== "GET") return json({ error: "Method not allowed" }, 405, origin);
+    try {
+      const result = await env.DB.prepare(
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('users', 'auth_sessions', 'app_state', 'app_state_legacy')"
+      ).all();
+      const found = new Set((result.results || []).map(row => row.name));
+      const required = ["users", "auth_sessions", "app_state", "app_state_legacy"];
+      const missing = required.filter(name => !found.has(name));
+      if (missing.length) return json({ ok: false, code: "AUTH_SCHEMA_INCOMPLETE", missing }, 503, origin);
+      await env.DB.prepare("SELECT id FROM users LIMIT 1").first();
+      await env.DB.prepare("SELECT token_hash FROM auth_sessions LIMIT 1").first();
+      return json({ ok: true, database: "connected", schema: "ready" }, 200, origin);
+    } catch (error) {
+      console.error("AS Care auth health check failed:", error);
+      return json({ ok: false, code: "AUTH_DATABASE_UNAVAILABLE" }, 503, origin);
+    }
+  }
   if (request.method !== "POST") return json({ error: "Method not allowed" }, 405, origin);
   let payload;
   try { payload = await readJson(request); }
   catch (error) { return json({ error: error.message }, error.message === "Payload too large" ? 413 : 400, origin); }
 
+  let authStage = "request-validation";
   if (path === "/api/auth/signup") {
     const email = String(payload.email || "").trim().toLowerCase();
     const password = String(payload.password || "");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return json({ error: "A valid email address is required." }, 400, origin);
     if (password.length < 8 || password.length > 128) return json({ error: "Password must be 8–128 characters." }, 400, origin);
+    authStage = "password-hash";
     const salt = randomToken(16);
     const passwordHash = await hashPassword(password, salt);
     const user = { id: crypto.randomUUID(), email };
     const createdAt = new Date().toISOString();
     try {
+      authStage = "account-insert";
       await env.DB.batch([
         env.DB.prepare("INSERT INTO users (id, username, email, password_hash, password_salt, created_at) VALUES (?, ?, ?, ?, ?, ?)")
           .bind(user.id, email, email, passwordHash, salt, createdAt),
@@ -112,6 +133,7 @@ async function handleAuth(request, env, path, origin) {
       if (/UNIQUE|constraint/i.test(message)) return json({ error: "এই Email দিয়ে অ্যাকাউন্ট আগে থেকেই আছে।" }, 409, origin);
       throw error;
     }
+    authStage = "session-create";
     return createSession(user, env, origin);
   }
 
@@ -119,10 +141,12 @@ async function handleAuth(request, env, path, origin) {
     const email = String(payload.email || "").trim().toLowerCase();
     const password = String(payload.password || "");
     if (!email || !password) return json({ error: "Email and password are required." }, 400, origin);
+    authStage = "account-lookup";
     const user = await env.DB.prepare(
       "SELECT id, email, password_hash, password_salt FROM users WHERE email = ? COLLATE NOCASE"
     ).bind(email).first();
     if (!user) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
+    authStage = "password-verify";
     const candidate = await hashPassword(password, user.password_salt);
     if (!safeEqual(candidate, user.password_hash)) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     return createSession(user, env, origin);
@@ -149,7 +173,7 @@ export default {
 
     if (url.pathname.startsWith("/api/auth/")) {
       try { return await handleAuth(request, env, url.pathname, origin); }
-      catch (error) { console.error("AS Care authentication error:", error); return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি। কিছুক্ষণ পর আবার চেষ্টা করুন।" }, 500, origin); }
+      catch (error) { console.error("AS Care authentication error:", String(error?.message || error)); return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি।", code: "AUTH_INTERNAL" }, 500, origin); }
     }
 
     if (url.pathname !== "/api/state") return json({ error: "Not found" }, 404, origin);
