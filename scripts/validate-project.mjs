@@ -57,7 +57,7 @@ else pass("Seven application stylesheets are linked");
 if (styles.at(-1) !== "assets/css/theme-overrides.css") fail("Central theme override stylesheet must load after all feature stylesheets");
 else pass("Central theme override stylesheet loads last");
 const themeTokens = read("assets/css/tokens.css");
-const requiredThemeTokens = ["--brand-primary", "--brand-secondary", "--brand-success", "--accent-contrast", "--success-soft", "--warning-soft", "--danger-soft", "--chart-1", "--chart-2"];
+const requiredThemeTokens = ["--brand-primary", "--brand-secondary", "--brand-success", "--accent-contrast", "--success-soft", "--warning-soft", "--danger-soft", "--chart-1", "--chart-2"];\nif (!themeTokens.includes("#713BDB") || !themeTokens.includes("#FF7A32") || !themeTokens.includes("#FF5C91")) fail("Vibrant purple/orange/pink brand palette is incomplete");\nelse pass("Vibrant purple, orange and pink brand palette is configured");
 const missingThemeTokens = requiredThemeTokens.filter(token => !themeTokens.includes(token));
 if (missingThemeTokens.length) fail(`Central theme is missing tokens: ${missingThemeTokens.join(", ")}`);
 else pass("Central light/dark theme exposes required brand, semantic and chart tokens");
