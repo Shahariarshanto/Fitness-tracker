@@ -73,7 +73,7 @@ async function authenticate(request, env) {
   if (!match) return null;
   const tokenHash = await sha256(match[1]);
   return env.DB.prepare(
-    "SELECT users.id, users.username, users.email FROM auth_sessions JOIN users ON users.id = auth_sessions.user_id WHERE auth_sessions.token_hash = ?"
+    "SELECT users.id, users.email FROM auth_sessions JOIN users ON users.id = auth_sessions.user_id WHERE auth_sessions.token_hash = ?"
   ).bind(tokenHash).first();
 }
 async function createSession(user, env, origin) {
@@ -82,7 +82,7 @@ async function createSession(user, env, origin) {
   const createdAt = new Date().toISOString();
   await env.DB.prepare("INSERT INTO auth_sessions (token_hash, user_id, created_at) VALUES (?, ?, ?)")
     .bind(tokenHash, user.id, createdAt).run();
-  return json({ ok: true, token, user: { id: user.id, username: user.username, email: user.email } }, 200, origin);
+  return json({ ok: true, token, user: { id: user.id, email: user.email } }, 200, origin);
 }
 async function handleAuth(request, env, path, origin) {
   if (request.method !== "POST") return json({ error: "Method not allowed" }, 405, origin);
@@ -91,42 +91,40 @@ async function handleAuth(request, env, path, origin) {
   catch (error) { return json({ error: error.message }, error.message === "Payload too large" ? 413 : 400, origin); }
 
   if (path === "/api/auth/signup") {
-    const username = String(payload.username || "").trim();
     const email = String(payload.email || "").trim().toLowerCase();
     const password = String(payload.password || "");
-    if (!/^[A-Za-z0-9_]{3,32}$/.test(username)) return json({ error: "Username 3–32 characters; letters, numbers and underscore only." }, 400, origin);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) return json({ error: "A valid email address is required." }, 400, origin);
     if (password.length < 8 || password.length > 128) return json({ error: "Password must be 8–128 characters." }, 400, origin);
     const salt = randomToken(16);
     const passwordHash = await hashPassword(password, salt);
-    const user = { id: crypto.randomUUID(), username, email };
+    const user = { id: crypto.randomUUID(), email };
     const createdAt = new Date().toISOString();
     try {
       await env.DB.batch([
         env.DB.prepare("INSERT INTO users (id, username, email, password_hash, password_salt, created_at) VALUES (?, ?, ?, ?, ?, ?)")
-          .bind(user.id, username, email, passwordHash, salt, createdAt),
+          .bind(user.id, email, email, passwordHash, salt, createdAt),
         env.DB.prepare(
           "INSERT INTO app_state (user_id, state_json, version, updated_at) SELECT ?, state_json, version, updated_at FROM app_state_legacy WHERE id = 'primary' AND (SELECT COUNT(*) FROM users) = 1"
         ).bind(user.id)
       ]);
     } catch (error) {
       const message = String(error && error.message || "");
-      if (/UNIQUE|constraint/i.test(message)) return json({ error: "এই Username বা Email দিয়ে অ্যাকাউন্ট আগে থেকেই আছে।" }, 409, origin);
+      if (/UNIQUE|constraint/i.test(message)) return json({ error: "এই Email দিয়ে অ্যাকাউন্ট আগে থেকেই আছে।" }, 409, origin);
       throw error;
     }
     return createSession(user, env, origin);
   }
 
   if (path === "/api/auth/login") {
-    const identity = String(payload.identity || "").trim();
+    const email = String(payload.email || "").trim().toLowerCase();
     const password = String(payload.password || "");
-    if (!identity || !password) return json({ error: "Username/Email and password are required." }, 400, origin);
+    if (!email || !password) return json({ error: "Email and password are required." }, 400, origin);
     const user = await env.DB.prepare(
-      "SELECT id, username, email, password_hash, password_salt FROM users WHERE username = ? COLLATE NOCASE OR email = ? COLLATE NOCASE"
-    ).bind(identity, identity).first();
-    if (!user) return json({ error: "Username/Email অথবা Password সঠিক নয়।" }, 401, origin);
+      "SELECT id, email, password_hash, password_salt FROM users WHERE email = ? COLLATE NOCASE"
+    ).bind(email).first();
+    if (!user) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     const candidate = await hashPassword(password, user.password_salt);
-    if (!safeEqual(candidate, user.password_hash)) return json({ error: "Username/Email অথবা Password সঠিক নয়।" }, 401, origin);
+    if (!safeEqual(candidate, user.password_hash)) return json({ error: "Email অথবা Password সঠিক নয়।" }, 401, origin);
     return createSession(user, env, origin);
   }
 
@@ -151,7 +149,7 @@ export default {
 
     if (url.pathname.startsWith("/api/auth/")) {
       try { return await handleAuth(request, env, url.pathname, origin); }
-      catch (error) { return json({ error: "Authentication request failed." }, 500, origin); }
+      catch (error) { console.error("AS Care authentication error:", error); return json({ error: "সার্ভারে Authentication সম্পন্ন করা যায়নি। কিছুক্ষণ পর আবার চেষ্টা করুন।" }, 500, origin); }
     }
 
     if (url.pathname !== "/api/state") return json({ error: "Not found" }, 404, origin);

@@ -60,7 +60,7 @@ Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpe
 - D1 is the primary cloud database. No paid object storage or scheduled cloud backup service is configured. Use the app's manual JSON export for an independent copy; D1 itself is not a backup.
 - The Worker accepts state requests only with a valid bearer session token. CORS remains an origin policy, while authentication and per-user authorization are enforced by the Worker.
 ## 6. Privacy
-The app supports username/email and password registration and login. Passwords are PBKDF2-SHA-256 hashes with per-user salts; D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
+The app supports email and password registration and login. Passwords are PBKDF2-SHA-256 hashes with per-user salts; D1 stores only hashes of random session tokens. Every state read/write is scoped to the user ID resolved from the session. Sessions persist until logout, which revokes the current session. The persistent token is stored in browser Local Storage, so protect access to your device. Email verification and password reset are not included.
 
 
 ### Medication records

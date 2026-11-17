@@ -21,13 +21,13 @@ function saveLogin(result) {
   clearAppStorage();
   if (!saveAuthSession(result.token, result.user)) throw new Error("এই ডিভাইসে Login সংরক্ষণ করা যায়নি।");
 }
-export async function signUp({ username, email, password }) {
-  const result = await request("/auth/signup", { username, email, password });
+export async function signUp({ email, password }) {
+  const result = await request("/auth/signup", { email, password });
   saveLogin(result);
   return result.user;
 }
-export async function login({ identity, password }) {
-  const result = await request("/auth/login", { identity, password });
+export async function login({ email, password }) {
+  const result = await request("/auth/login", { email, password });
   saveLogin(result);
   return result.user;
 }
