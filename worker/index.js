@@ -95,9 +95,10 @@ async function handleAuth(request, env, path, origin) {
       const required = ["users", "auth_sessions", "app_state", "app_state_legacy"];
       const missing = required.filter(name => !found.has(name));
       if (missing.length) return json({ ok: false, code: "AUTH_SCHEMA_INCOMPLETE", missing }, 503, origin);
-      await env.DB.prepare("SELECT id FROM users LIMIT 1").first();
+      const userCount = await env.DB.prepare("SELECT COUNT(*) AS count FROM users").first();
+      const legacySnapshot = await env.DB.prepare("SELECT 1 AS present FROM app_state_legacy WHERE id = 'primary'").first();
       await env.DB.prepare("SELECT token_hash FROM auth_sessions LIMIT 1").first();
-      return json({ ok: true, database: "connected", schema: "ready" }, 200, origin);
+      return json({ ok: true, database: "connected", schema: "ready", userCount: userCount?.count || 0, legacySnapshotAvailable: Boolean(legacySnapshot) }, 200, origin);
     } catch (error) {
       console.error("AS Care auth health check failed:", error);
       return json({ ok: false, code: "AUTH_DATABASE_UNAVAILABLE" }, 503, origin);
