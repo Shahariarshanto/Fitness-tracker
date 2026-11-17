@@ -2,6 +2,25 @@
 
 Record actual results for each implementation step. Do not mark unrun tests as passed.
 
+## Automated static validation
+
+Run locally from the repository root:
+
+```bash
+node scripts/validate-project.mjs
+```
+
+The GitHub Actions workflow runs this check on pull requests and before deploying `main`. It validates:
+- HTML/CSS local asset references and stylesheet `url()` paths.
+- Service-worker precache paths, manifest composition and local ES-module import closure.
+- Six classic ASAN script references and the service-worker inventory.
+- Exercise catalogue uniqueness, group mappings, one-to-one ASAN pose coverage and Bengali animation captions.
+- Guided-session event emitter shapes and PWA manifest JSON.
+- Runtime references to removed legacy animation assets.
+
+This is a static structural check. It does not simulate browser rendering, Android behavior, PWA installation, real offline launch, D1 connectivity or clinical correctness. Known c3 and e1/e2 issues are reported as warnings and require separate resolution.
+
+## Step 1 — New application foundation
 ## Step 1 — New application foundation
 
 ### Static checks
