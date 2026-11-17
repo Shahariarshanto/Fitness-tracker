@@ -27,7 +27,7 @@
   --warning-soft: #FFF0DF;
   --danger: #B84242;
   --danger-soft: #FCEAEA;
-  --info: #397CA5;
+  --info: #286B91;
   --info-soft: #E8F2F8;
 
   /* Data visualization */
@@ -48,6 +48,8 @@
   --guide-stage: #EDF5F3;
   --guide-stage-deep: #E3EFEC;
   --guide-stage-text: #607B77;
+  --guide-topbar-start: #13786F;
+  --guide-topbar-end: #16443F;
 
   /* Overview feature surfaces */
   --overview-hero-start: #16443F;
@@ -109,6 +111,8 @@
   --guide-stage: #1D3335;
   --guide-stage-deep: #243E40;
   --guide-stage-text: #A7BCB8;
+  --guide-topbar-start: #164F49;
+  --guide-topbar-end: #123B38;
   --guide-card: var(--surface);
   --guide-border: var(--line);
 
