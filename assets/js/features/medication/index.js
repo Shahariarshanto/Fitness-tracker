@@ -16,10 +16,15 @@ export function initMedication({ root = document.querySelector("[data-medication
     if (!name) return;
     const mode = form.dataset.medForm;
     const id = form.dataset.medId;
+    const doseCount = Math.min(4, Math.max(1, Number(data.get("doseCount")) || 1));
+    const doseSlots = Array.from({ length: doseCount }, (_, index) => ({
+      label: String(data.get("doseLabel" + (index + 1)) || ["সকাল", "দুপুর", "বিকাল", "রাত"][index]).trim(),
+      time: String(data.get("doseTime" + (index + 1)) || "")
+    }));
     const values = {
       name, dose: String(data.get("dose") || "").trim(),
-      schedule: String(data.get("schedule") || "").trim(),
-      time: String(data.get("time") || ""),
+      doseCount, doseSlots,
+      schedule: `দিনে ${doseCount} বার`,
       instructions: String(data.get("instructions") || "").trim()
     };
     updateState(state => {
@@ -31,13 +36,13 @@ export function initMedication({ root = document.querySelector("[data-medication
     });
     showToast(mode === "edit" ? "ওষুধের তথ্য আপডেট হয়েছে।" : "ওষুধ তালিকায় যোগ হয়েছে।", "success");
   }
-  function click(event) {
+  function change(event) {\n    if (event.target.matches("select[name=\\\"doseCount\\\"]")) {\n      const form = event.target.closest("form[data-med-form]");\n      const count = Number(event.target.value);\n      form?.querySelectorAll("[data-dose-slot]").forEach(slot => { slot.hidden = Number(slot.dataset.doseSlot) > count; });\n    }\n  }\n  function click(event) {
     const statusButton = event.target.closest("[data-med-status]");
     if (statusButton) {
-      const { medId, medStatus } = statusButton.dataset;
+      const { medId, medStatus, medDose } = statusButton.dataset;
       const today = dateKey();
-      updateState(state => setMedicationStatus(state, medId, medStatus, today));
-      showToast(medStatus === "taken" ? "আজকের গ্রহণের তথ্য সংরক্ষিত হয়েছে।" : "আজ খাওয়া হয়নি হিসেবে সংরক্ষিত হয়েছে।", "success");
+      updateState(state => setMedicationStatus(state, medId, medDose, medStatus, today));
+      showToast(medStatus === "taken" ? "এই ডোজ গ্রহণ হিসেবে সংরক্ষিত হয়েছে।" : "এই ডোজ না-খাওয়া হিসেবে সংরক্ষিত হয়েছে।", "success");
       return;
     }
     const edit = event.target.closest("[data-med-edit]");
@@ -57,9 +62,9 @@ export function initMedication({ root = document.querySelector("[data-medication
       showToast("ওষুধটি সক্রিয় তালিকা থেকে সরানো হয়েছে।", "success");
     });
   }
-  root.addEventListener("submit", submit);
+  root.addEventListener("submit", submit);\n  root.addEventListener("change", change);
   root.addEventListener("click", click);
   draw();
   const unsubscribe = subscribe(draw);
-  return () => { unsubscribe(); root.removeEventListener("submit", submit); root.removeEventListener("click", click); };
+  return () => { unsubscribe(); root.removeEventListener("submit", submit); root.removeEventListener("change", change); root.removeEventListener("click", click); };
 }
