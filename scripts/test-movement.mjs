@@ -21,7 +21,7 @@ assert.doesNotMatch(all, /type="checkbox"|data-routine-toggle|data-scroll-librar
 
 const completed = renderChecklist("2026-11-17", ["c1", "b1"]);
 assert.match(completed, /2 \/ 24 সম্পন্ন/);
-assert.match(completed, /data-exercise-card="c1"[^>]*is-complete/);
+assert.match(completed, /class="[^"]*is-complete[^"]*" data-exercise-card="c1"/);
 assert.match(completed, /✓ সম্পন্ন/);
 assert.match(completed, /aria-valuenow="8"/);
 
