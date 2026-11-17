@@ -74,12 +74,12 @@ Keep these notes synchronized with `docs/MODULE_MAP.md`, `docs/TESTS.md` and `do
 
 - Run `node scripts/validate-project.mjs` before merging project changes.
 - GitHub Actions runs this validator on pull requests and before GitHub Pages deployment.
-- The validator checks local imports/assets, the service-worker manifest, exercise/group IDs, ASAN pose coverage, animation captions and guided-session event shapes.
-- It is not a substitute for browser, Android, offline, D1 or clinical verification. The e1/e2 timing-policy limitation remains a warning; c3 pose/caption alignment is covered by a static regression check.
+- The validator checks local imports/assets, the service-worker manifest, exercise/group IDs, ASAN pose coverage, animation captions and Movement routine/inline-control behavior.
+- It is not a substitute for browser, Android, offline, D1 or clinical verification. The Movement stopwatch is elapsed-time only; catalogue duration/dose metadata remains unreviewed. c3 pose/caption alignment is covered by a static regression check.
 
 ## Exercise timing data caution
 
-The catalogue's `durationSeconds` values do not consistently equal the sum implied by the instruction holds/repetitions. The known examples and differences are listed in `docs/TESTS.md`. Do not normalize or change those values by guesswork. First define whether the field represents active exercise time, total session estimate, rest/transition time or something else, then review dosage with an appropriate clinical source.
+The catalogue's `durationSeconds` values do not consistently equal the sum implied by instruction holds/repetitions. Do not normalize or change those values by guesswork. The Movement UI now uses a count-up stopwatch that measures elapsed time only and never turns these unreviewed values into a countdown or target. Exercise dose changes still require appropriate clinical review.
 
 ## Exercise module authoring standard (2026-11-17)
 
@@ -101,3 +101,12 @@ The catalogue's `durationSeconds` values do not consistently equal the sum impli
 - Each entry includes a concise Bengali headline/message, category and HTTPS source reference. The hero exposes a compact source link.
 - The content JSON and original SVG illustration are precached by the service worker. This is not a live API feed and does not add educational snippets to the personal-state D1 table.
 - Daily content is educational only; do not imply diagnosis, prescribe treatment, or change medication/exercise dosage.
+
+
+## Movement routine-first update (2026-11-17)
+- Movement now stores the user's ordered routine in the optional `movement.routineExerciseIds` state domain.
+- Older D1 snapshots and version-1 backups without this field remain valid; state normalization supplies an empty routine.
+- The page shows the saved routine first, with one checkbox per exercise and progress based only on the selected routine.
+- The exercise library adds/removes exercises from that routine. Exercise Details owns the animation, instructions, elapsed stopwatch, optional manual repetition counter, safety notice and completion action.
+- The standalone Guided Session module and its events were removed from the active Movement flow. Historical `workoutSessions` records remain available to Overview/Insights.
+- Stopwatch and repetition controls are helpers only; no unreviewed catalogue dose or duration is treated as a prescription.
