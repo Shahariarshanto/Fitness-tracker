@@ -2,11 +2,13 @@ import { getState, subscribe, updateState } from "../../core/state.js";
 import { dateKey } from "../../core/dates.js";
 import { showToast } from "../../components/Feedback.js";
 import { setMedicationStatus } from "../../services/medication.js";
+import { loadDailyContent } from "../../services/daily-content.js";
 import { renderOverview } from "./OverviewCards.js";
 
 export function initOverview({ root = document.querySelector("[data-overview-content]") } = {}) {
   if (!root) return () => {};
-  const draw = () => { root.innerHTML = renderOverview(getState()); };
+  let dailyContent = null;
+  const draw = () => { root.innerHTML = renderOverview(getState(), dailyContent); };
   function click(event) {
     const button = event.target.closest("[data-med-status][data-med-id]");
     if (!button) return;
@@ -17,5 +19,6 @@ export function initOverview({ root = document.querySelector("[data-overview-con
   root.addEventListener("click", click);
   draw();
   const unsubscribe = subscribe(draw);
+  loadDailyContent(dateKey()).then(content => { dailyContent = content; draw(); });
   return () => { unsubscribe(); root.removeEventListener("click", click); root.replaceChildren(); };
 }
