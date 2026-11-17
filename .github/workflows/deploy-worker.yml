@@ -38,5 +38,6 @@ jobs:
           response="$(curl --fail --silent --show-error -H "Origin: https://shahariarshanto.github.io" https://fitnesstracker.sshahariar062.workers.dev/api/auth/health)"
           echo "$response"
           echo "$response" | grep -q '"ok":true'
-      - name: Test live Sign Up, Login, session and Logout
+      - name: Test live Sign Up, Login, session and Logout (opt-in; creates retained test accounts)
+        if: ${{ vars.RUN_PRODUCTION_SMOKE_TESTS == 'true' }}
         run: node scripts/test-live-auth.mjs
