@@ -54,7 +54,7 @@ export function initMovement({ root = document.querySelector("[data-movement-con
     if(target.dataset.exerciseView){viewMode=target.dataset.exerciseView;draw();return;}
     if(target.matches("[data-session-select]")){selected=target.checked?[...new Set([...selected,target.dataset.sessionSelect])]:selected.filter(id=>id!==target.dataset.sessionSelect);draw();return;}
     if(target.dataset.exerciseDone){const id=target.dataset.exerciseDone;updateState(state=>{const day=state.dailyActivity[today()]||{},ids=new Set(day.completedExerciseIds||[]);ids.has(id)?ids.delete(id):ids.add(id);return {...state,dailyActivity:{...state.dailyActivity,[today()]:{...day,completedExerciseIds:[...ids],updatedAt:new Date().toISOString()}}};});return;}
-    if(target.dataset.exerciseDetails){const id=target.dataset.exerciseDetails,slot=root.querySelector(`[data-exercise-detail-slot="${id}"]`);if(slot){slot.hidden=!slot.hidden;slot.innerHTML=slot.hidden?"":renderExerciseDetails(id);target.setAttribute("aria-expanded",String(!slot.hidden));}return;}
+    if(target.dataset.exerciseDetails){const id=target.dataset.exerciseDetails,card=target.closest("[data-exercise-card]"),slot=card?.querySelector(`[data-exercise-detail-slot="${id}"]`);if(slot){slot.hidden=!slot.hidden;slot.innerHTML=slot.hidden?"":renderExerciseDetails(id);target.setAttribute("aria-expanded",String(!slot.hidden));}return;}
     if(target.dataset.bodyRegion){region=region===target.dataset.bodyRegion?"":target.dataset.bodyRegion;draw();return;}
     if(target.hasAttribute("data-session-start")){start();return;}
     if(!session)return;
