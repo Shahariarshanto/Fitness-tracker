@@ -31,12 +31,10 @@ There is no existing user data to preserve. The new application defines a clean 
 
 ## 5. Event bus
 Only these event categories are approved:
-- `workout:started`
-- `workout:finished`
 - `toast:show`
 - `theme:changed`
 
-Adding another event requires an explicit architecture reason and plan update. Prefer state subscriptions.
+Movement routine selection, completion and inline exercise controls use shared state and local feature behavior, not custom events. Adding another event requires an explicit architecture reason and plan update. Prefer state subscriptions.
 
 ## 6. Module size and composition
 Target 40–50 application/runtime files. Aim for ≤150 lines per ordinary functional module and <100 lines for final `app.js`. Combine related single-use UI/services/data definitions. Split modules only along cohesive responsibility boundaries.
