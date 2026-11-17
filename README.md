@@ -18,7 +18,7 @@ The app is designed for Android Chrome and desktop browsers and can be installed
 - Manual JSON export/import is the independent backup and restore method.
 - D1 is the primary database, not a backup. Keep exported JSON copies somewhere safe.
 - Account access is provided by the app's own Sign Up / Login flow. The Worker verifies sessions and scopes each D1 state record to its user ID.
-- Passwords are stored as PBKDF2 hashes; only a hash of each persistent session token is stored in D1.
+- Passwords are currently stored as entered in the `password_hash` column (the Worker performs direct comparison, by explicit product decision); this is not password hashing and is a security limitation. Persistent session tokens are stored only as SHA-256 hashes.
 - Logout revokes the current session and clears app-owned `as-care-*` Local Storage keys. It does not delete the user's D1 data.
 - The first registered account receives the previous single-record D1 snapshot. The migration retains the original table as `app_state_legacy`; it is not deleted.
 - Email verification and password reset are not included. Use a unique password and keep it private.
