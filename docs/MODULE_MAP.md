@@ -31,6 +31,7 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 |---|---|---|
 | `assets/js/data/exercises.js` | Bengali/English exercise catalogue, groups, instructions, timing metadata, body-region mapping and ID lookup | none |
 | `assets/js/data/health-data.js` | Body-region labels and self-tracking metric definitions | none |
+| `assets/data/daily-checkin.json` | Curated, source-linked read-only daily headline and message library | none | Static content; separate from personal health state |
 | `assets/js/components/Navigation.js` | Keyboard navigation and selected-tab helper for the shell tablist | none |
 | `assets/js/components/Feedback.js` | Toast event helper, inline status message and confirmation dialog | core events |
 | `assets/js/components/Progress.js` | Reusable progress bar, ring and donut markup | none |
@@ -133,10 +134,11 @@ Insights is read-only: it does not mutate Health, Medication, or Movement record
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
 | `assets/js/features/overview/index.js` | Mounts Overview and re-renders on state subscription | core state, OverviewCards | Owns `data-overview-content`; derives dashboard data and handles medication check-in |
-| `assets/js/features/overview/OverviewCards.js` | Derives daily movement, pain/symptom, medication, score and 7-day activity summaries; renders quick navigation actions | core dates, exercise catalogue | Pure rendering; no state mutation |
+| `assets/js/features/overview/OverviewCards.js` | Derives dashboard summaries and renders the responsive Daily Check-in hero plus quick navigation actions | core dates, exercise catalogue | Pure rendering; no state mutation |
+| `assets/js/services/daily-content.js` | Loads and validates the curated JSON content library; selects one source-linked item deterministically per local calendar day | static JSON content | Read-only content service; no personal state or DOM access |
 | `assets/css/overview.css` | Responsive Overview cards, progress bars and quick actions | design tokens | Styles only |
 
-Overview reads the shared state only. Medication remains independently mounted and owns its own records; Overview can record today’s taken/skipped status through the shared medication service. All ordinary updates arrive through `state.subscribe()`. No Overview-specific data is persisted.
+Overview reads the shared state for personal metrics and a separate curated JSON content library for the Daily Check-in hero. The content selection is date-stable and precached for offline use. Medication remains independently mounted and owns its own records; Overview can record today’s taken/skipped status through the shared medication service. All ordinary updates arrive through `state.subscribe()`. No Overview-specific data is persisted.
 
 
 ## Cloudflare-first persistence and notifications
