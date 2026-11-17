@@ -36,3 +36,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+      - name: Install Playwright and Chromium for live feature tests
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Test live app features using isolated dummy account and data
+        env:
+          APP_URL: https://shahariarshanto.github.io/Fitness-tracker/
+        run: node scripts/test-ui-features.mjs
