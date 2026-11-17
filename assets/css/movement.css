@@ -451,3 +451,107 @@
 @media(prefers-reduced-motion:reduce){
   .movement-animation-stage,.movement-animation-stage::after{scroll-behavior:auto}
 }
+
+
+/* Final mobile readability pass — keep every detail visible on narrow screens */
+.movement-detail-card{
+  width:100%;
+  min-width:0;
+  overflow:visible;
+}
+.movement-guide-topbar,
+.movement-guide-title,
+.movement-guide-duration-pill{
+  min-width:0;
+}
+.movement-guide-title h4,
+.movement-guide-title p,
+.movement-guide-instruction p,
+.movement-guide-meta b,
+.movement-guide-caution>span:last-child{
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.movement-guide-visual.is-asan-animation{
+  grid-template-rows:auto auto;
+  min-height:0;
+  height:auto;
+  padding:8px;
+}
+.movement-animation-stage{
+  height:clamp(136px,38vw,166px);
+  min-height:136px;
+  max-height:166px;
+}
+.is-asan-animation .fg{
+  width:min(100%,190px);
+  height:124px;
+  margin-top:8px;
+}
+.is-asan-animation .fg svg{
+  width:100%;
+  height:100%;
+  max-height:124px;
+}
+.movement-animation-caption{
+  min-width:0;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.movement-guide-instruction>div,
+.movement-guide-meta>div>span:last-child{
+  min-width:0;
+}
+.movement-guide-meta>div{
+  min-width:0;
+}
+.movement-guide-caution{
+  align-items:flex-start;
+}
+.movement-guide-caution>span:last-child{
+  flex:1;
+  min-width:0;
+}
+@media(max-width:460px){
+  .movement-guide-meta{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .movement-guide-meta>div{
+    min-height:58px;
+    padding:10px 12px;
+  }
+  .movement-guide-meta strong{
+    font-size:11px;
+  }
+  .movement-guide-meta b{
+    font-size:13px;
+    line-height:1.5;
+  }
+}
+@media(max-width:420px){
+  .movement-animation-stage{
+    height:132px;
+    min-height:132px;
+  }
+  .is-asan-animation .fg{
+    width:min(100%,178px);
+    height:112px;
+  }
+  .is-asan-animation .fg svg{
+    max-height:112px;
+  }
+  .movement-guide-caution{
+    padding:11px;
+    line-height:1.65;
+  }
+}
+@media(max-width:350px){
+  .movement-guide-topbar{
+    align-items:flex-start;
+  }
+  .movement-guide-duration-pill{
+    max-width:104px;
+    white-space:normal;
+    text-align:center;
+  }
+}
