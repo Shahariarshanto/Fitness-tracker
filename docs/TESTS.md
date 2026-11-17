@@ -399,3 +399,12 @@ Verification note: Worker source, D1 migration, and frontend integration are com
 - [ ] Changing calendar date does not break body-region selection or display the region ID as a date.
 - [ ] Light and dark themes retain readable silhouette contrast, marker contrast and keyboard focus.
 - [ ] Existing Insights charts, calendar navigation and service-worker offline cache remain unchanged.
+
+
+### Body Map anatomical illustration v2 regression checks
+- [ ] SVG silhouette has balanced head, torso, arms, pelvis, legs and feet at a consistent scale.
+- [ ] All 12 pain hotspots are positioned from the SVG viewBox coordinate system (240 × 520), not arbitrary figure percentages.
+- [ ] Hotspots remain attached to the intended anatomical regions at 320px, 360px and desktop widths.
+- [ ] Empty regions remain neutral; saved scores map to low, medium and high severity colors.
+- [ ] Selected region and selected calendar date continue to display the correct record.
+- [ ] Theme tokens preserve contrast in light and dark modes.
