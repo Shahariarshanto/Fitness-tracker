@@ -903,3 +903,42 @@
   .movement-detail-card .movement-guide-topbar .movement-guide-eyebrow{font-size:7px;padding:4px 5px}
   .movement-detail-card .movement-guide-topbar .movement-guide-section-title{font-size:9px}
 }
+
+
+/* Repetition counter: compact natural-height panel and optical button alignment. */
+.movement-detail-card .movement-exercise-tools{align-items:start}
+.movement-detail-card .movement-repetition-counter{
+  align-content:center;align-self:start;gap:5px;min-height:0;
+  padding:7px 8px;border-radius:11px
+}
+.movement-detail-card .movement-repetition-counter .movement-tool-heading{
+  min-height:14px;align-items:center;margin:0
+}
+.movement-detail-card .movement-counter-controls{
+  display:grid;grid-template-columns:28px minmax(0,1fr) 28px;
+  align-items:center;justify-items:stretch;gap:5px;min-height:30px
+}
+.movement-detail-card .movement-counter-controls button{
+  position:static;inset:auto;align-self:center;justify-self:center;
+  display:grid;place-items:center;box-sizing:border-box;
+  width:28px;height:28px;min-width:28px;min-height:28px;max-width:28px;max-height:28px;
+  margin:0;padding:0;border-width:1px;border-radius:9px;
+  font-family:inherit;font-size:17px;font-weight:800;line-height:1;
+  vertical-align:middle;transform:none;box-shadow:none
+}
+.movement-detail-card .movement-counter-controls button:active{transform:scale(.96)}
+.movement-detail-card .movement-counter-controls output{
+  align-self:center;justify-self:stretch;display:flex;align-items:center;justify-content:center;
+  min-height:28px;margin:0;padding:0;font-size:19px;line-height:1;
+  font-variant-numeric:tabular-nums
+}
+@media(max-width:360px){
+  .movement-detail-card .movement-repetition-counter{padding:6px 7px}
+  .movement-detail-card .movement-counter-controls{
+    grid-template-columns:26px minmax(0,1fr) 26px;gap:4px;min-height:28px
+  }
+  .movement-detail-card .movement-counter-controls button{
+    width:26px;height:26px;min-width:26px;min-height:26px;max-width:26px;max-height:26px
+  }
+  .movement-detail-card .movement-counter-controls output{min-height:26px;font-size:18px}
+}
