@@ -706,3 +706,8 @@
 @media(prefers-reduced-motion:reduce){
   .movement-complete-toggle>span,.movement-exercise,.movement-progress-track span{transition:none}
 }
+
+.movement-detail-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:7px}
+.movement-detail-actions .movement-detail-complete{min-width:0}
+.movement-detail-next{min-height:44px;border-radius:12px;font-size:11px;font-weight:800}
+@media(max-width:380px){.movement-detail-actions{grid-template-columns:minmax(0,1fr)}}
