@@ -38,13 +38,15 @@ async function loadItems() {
 
 export function selectDailyContent(items, dayKey) {
   if (!Array.isArray(items) || !items.length) return FALLBACK_CONTENT;
-  const match = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(String(dayKey || ""));
-  if (!match) return items[0];
-  const ordinal = Math.floor(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])) / 86400000);
+  const parts = String(dayKey || "").split("-").map(Number);
+  if (parts.length !== 3 || parts.some(part => !Number.isInteger(part))) return items[0];
+  const [year, month, day] = parts;
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return items[0];
+  const ordinal = Math.floor(date.getTime() / 86400000);
   const index = ((ordinal % items.length) + items.length) % items.length;
   return items[index];
 }
-
 export async function loadDailyContent(dayKey) {
   return selectDailyContent(await loadItems(), dayKey);
 }
