@@ -161,3 +161,16 @@ A new exercise requires catalogue/group/position mappings, one pose module, regi
 - assets/js/features/settings/Preferences.js — provides the account UI mount point within the existing backup card.
 - worker/index.js — registration, login, logout, session validation and user-scoped state API.
 - worker/migrations/0002_user_accounts.sql — account/session tables and user-scoped state table while retaining the legacy snapshot.
+
+
+## Global shell — compact brand header (2026-11-18)
+
+| File | Responsibility |
+|---|---|
+| `index.html` | Renders the compact global header: fixed spine logo, brand copy (`A Square` and tagline) and right-aligned date/status metadata. |
+| `assets/css/base.css` | Controls header spacing, fixed logo sizing, typography hierarchy and narrow-viewport behavior. |
+| `assets/images/as-care-spine-v1.svg` | Versioned spine brand artwork used by the header and PWA icon references. |
+| `manifest.webmanifest` | References the versioned spine artwork for the PWA icon. |
+| `sw.js` | Precaches the shell assets and uses cache name `as-care-shell-v128`. |
+
+Header layout contract: 42×42px non-shrinking logo; brand copy immediately to its right; 16px brand name; 10px secondary tagline; date/status on the right. The tagline can wrap if space is constrained. The header height is content-driven and must not reserve unnecessary vertical space. Do not change this hierarchy or move the tagline below the logo without an explicit design decision.
