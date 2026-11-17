@@ -83,10 +83,44 @@ function weekCard(state,today) {
   return `<article class="overview-card overview-week-card"><div class="overview-card-top"><span class="overview-icon overview-icon-week">▥</span><div><p class="overview-kicker">LAST 7 DAYS</p><h3>সাপ্তাহিক অগ্রগতি</h3></div></div><div class="week-summary"><strong>${active}<small>/7</small></strong><span>দিন সক্রিয় ছিলে</span><div class="week-minutes"><strong>${minutes}</strong><small>মিনিট</small></div></div><div class="overview-week-bars">${bars}</div><div class="overview-card-foot"><span>আনুমানিক মোট সময়</span><span>দৈনিক লক্ষ্য ${goal} মিনিট</span></div><button type="button" class="overview-link" data-page="insights">সম্পূর্ণ অগ্রগতি দেখুন <span>→</span></button></article>`;
 }
 
-export function renderOverview(state) {
+function headlineLength(value) {
+  const words = String(value || "").trim().split(" ").filter(Boolean).length;
+  return words > 8 ? "long" : words > 5 ? "medium" : "short";
+}
+
+export function renderOverview(state, dailyContent = null) {
   const today = dateKey();
+  const content = dailyContent || {
+    category: "SELF-CARE",
+    headline: "আজ নিজের শরীরের খেয়াল রাখুন।",
+    message: "নিজের সামর্থ্য অনুযায়ী ধীরে এগোন; প্রয়োজন হলে স্বাস্থ্যপেশাজীবীর পরামর্শ নিন।",
+    source: null
+  };
+  const sourceUrl = typeof content.source?.url === "string" && content.source.url.startsWith("https://")
+    ? content.source.url : "";
+  const sourceLabel = content.source?.label || "তথ্যসূত্র";
+  const sourceLink = sourceUrl
+    ? `<a class="overview-welcome-source" href="${esc(sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="তথ্যসূত্র: ${esc(sourceLabel)}">সূত্র <span aria-hidden="true">↗</span></a>`
+    : "";
   return `<div class="overview-dashboard">
-    <section class="overview-welcome"><div class="overview-welcome-copy"><p class="overview-welcome-label">YOUR DAILY CHECK-IN</p><h3>আজকের যত্ন,<br>একটু একটু করে।</h3><p>${esc(formatDate(today))} <span>·</span> প্রতিটি ছোট পদক্ষেপই অগ্রগতি।</p></div><div class="overview-welcome-art" aria-hidden="true"><span class="welcome-orbit orbit-one"></span><span class="welcome-orbit orbit-two"></span><span class="welcome-leaf">✳</span></div></section>
+    <section class="overview-welcome" aria-labelledby="daily-checkin-title">
+      <div class="overview-welcome-copy">
+        <div class="overview-welcome-topline">
+          <span class="overview-welcome-mark" aria-hidden="true">a</span>
+          <p class="overview-welcome-label">OUR DAILY CHECK-IN</p>
+          <time class="overview-welcome-date" datetime="${today}">${esc(formatDate(today))}</time>
+        </div>
+        <div class="overview-welcome-content">
+          <p class="overview-welcome-category">${esc(content.category || "DAILY CARE")}</p>
+          <h3 id="daily-checkin-title" class="overview-welcome-title" data-length="${headlineLength(content.headline)}">${esc(content.headline)}</h3>
+          <p class="overview-welcome-message">${esc(content.message)}</p>
+        </div>
+        <div class="overview-welcome-footer">${sourceLink}</div>
+      </div>
+      <div class="overview-welcome-art" aria-hidden="true">
+        <img src="./assets/images/daily-checkin-illustration.svg" alt="" width="360" height="300" decoding="async">
+      </div>
+    </section>
     <div class="overview-section-heading"><div><p class="overview-section-eyebrow">YOUR DAILY OVERVIEW</p><h3>স্বাস্থ্য ও নড়াচড়ার চিত্র</h3></div><span class="overview-live-dot">আজ</span></div>
     <section class="overview-grid">${movementCard(state,today)}${healthCard(state,today)}${medicationCard(state,today)}${weekCard(state,today)}</section>
     <section class="overview-quick"><div class="overview-quick-heading"><div><p class="overview-section-eyebrow">TAKE A SMALL STEP</p><h3>দ্রুত কাজ</h3></div><span aria-hidden="true">→</span></div><div class="overview-quick-actions"><button type="button" data-page="movement" aria-label="ব্যায়াম শুরু"><span class="quick-action-icon" aria-hidden="true">↗</span><span class="quick-action-label">ব্যায়াম শুরু</span><span class="quick-action-arrow" aria-hidden="true">→</span></button><button type="button" data-page="health" aria-label="উপসর্গ লিখুন"><span class="quick-action-icon" aria-hidden="true">♡</span><span class="quick-action-label">উপসর্গ লিখুন</span><span class="quick-action-arrow" aria-hidden="true">→</span></button><button type="button" data-page="insights" aria-label="অগ্রগতি দেখুন"><span class="quick-action-icon" aria-hidden="true">▥</span><span class="quick-action-label">অগ্রগতি দেখুন</span><span class="quick-action-arrow" aria-hidden="true">→</span></button></div></section>

@@ -93,3 +93,11 @@ The catalogue's `durationSeconds` values do not consistently equal the sum impli
 - Add every new pose to `sw.js` → `RUNTIME_MODULES` and increment cache version.
 - Animation `dur` is visual loop timing only, never prescribed exercise dosage.
 - Clinical review and software validation statuses are separate; current catalogue remains unreviewed.
+
+
+## Daily Check-in content (2026-11-17)
+- The Overview hero uses a separate curated read-only content library at `assets/data/daily-checkin.json`.
+- `assets/js/services/daily-content.js` validates the library and selects one item per local calendar date; same-day reloads remain stable.
+- Each entry includes a concise Bengali headline/message, category and HTTPS source reference. The hero exposes a compact source link.
+- The content JSON and original SVG illustration are precached by the service worker. This is not a live API feed and does not add educational snippets to the personal-state D1 table.
+- Daily content is educational only; do not imply diagnosis, prescribe treatment, or change medication/exercise dosage.

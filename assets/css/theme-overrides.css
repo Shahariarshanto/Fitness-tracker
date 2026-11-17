@@ -308,3 +308,229 @@ input[type="range"] {
     color: #351B12;
   }
 }
+
+
+/* Daily Check-in: expressive wellness hero with content-safe responsive layout. */
+.overview-welcome {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(118px, .82fr);
+  align-items: center;
+  gap: clamp(4px, 2vw, 18px);
+  min-height: 218px;
+  padding: clamp(18px, 3.2vw, 30px);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 83% 19%, rgba(255,92,145,.34), transparent 27%),
+    radial-gradient(circle at 77% 100%, rgba(255,122,50,.28), transparent 35%),
+    linear-gradient(122deg, #32145F 0%, #5726A9 54%, #713BDB 100%);
+  color: #FFFFFF;
+  box-shadow: 0 18px 42px rgba(67, 30, 132, .24);
+}
+.overview-welcome::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 9%;
+  top: -125px;
+  width: 280px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 22px rgba(255,255,255,.035), 0 0 0 52px rgba(255,255,255,.025);
+}
+.overview-welcome::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .18;
+  background-image: radial-gradient(rgba(255,255,255,.8) .8px, transparent .8px);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(90deg, transparent 30%, #000 100%);
+  pointer-events: none;
+}
+.overview-welcome-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+.overview-welcome-topline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+.overview-welcome-mark {
+  display: grid;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 10px;
+  background: rgba(255,255,255,.13);
+  color: #FFFFFF;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
+}
+.overview-welcome-label {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.overview-welcome-date {
+  margin-left: auto;
+  color: #E8D9FF;
+  font-size: 9px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.overview-welcome-content {
+  display: grid;
+  justify-items: start;
+  gap: 7px;
+  min-width: 0;
+}
+.overview-welcome-category {
+  margin: 0;
+  color: #FFB27F;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .17em;
+  line-height: 1.2;
+}
+.overview-welcome-title {
+  max-width: 18ch;
+  margin: 0;
+  color: #FFFFFF;
+  font-size: clamp(1.65rem, 4.8vw, 2.45rem);
+  font-weight: 850;
+  letter-spacing: -.035em;
+  line-height: 1.22;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.overview-welcome-title[data-length="medium"] {
+  font-size: clamp(1.5rem, 4.25vw, 2.15rem);
+}
+.overview-welcome-title[data-length="long"] {
+  font-size: clamp(1.34rem, 3.8vw, 1.85rem);
+  line-height: 1.28;
+}
+.overview-welcome-message {
+  max-width: 38ch;
+  margin: 0;
+  color: #F0E7FF;
+  font-size: 11px;
+  font-weight: 450;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.overview-welcome-footer {
+  display: flex;
+  align-items: center;
+  min-height: 13px;
+}
+.overview-welcome-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #FFD0B8;
+  font-size: 9px;
+  font-weight: 650;
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+.overview-welcome-source:hover,
+.overview-welcome-source:focus-visible {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+.overview-welcome-art {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1;
+  margin-left: auto;
+}
+.overview-welcome-art::before {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.16), rgba(255,255,255,.035) 65%, transparent 70%);
+}
+.overview-welcome-art img {
+  position: relative;
+  display: block;
+  width: 124%;
+  max-width: 255px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 18px rgba(24, 8, 55, .2));
+  animation: daily-checkin-float 7s ease-in-out infinite;
+}
+@keyframes daily-checkin-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@media (min-width: 650px) {
+  .overview-welcome { min-height: 236px; padding: 30px 32px; }
+  .overview-welcome-copy { gap: 15px; }
+  .overview-welcome-art img { max-width: 275px; }
+  .overview-welcome-title { font-size: clamp(2rem, 3.6vw, 2.65rem); }
+  .overview-welcome-title[data-length="medium"] { font-size: clamp(1.8rem, 3.25vw, 2.35rem); }
+  .overview-welcome-title[data-length="long"] { font-size: clamp(1.55rem, 2.8vw, 2rem); }
+  .overview-welcome-message { font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .overview-welcome {
+    grid-template-columns: minmax(0, 1.16fr) minmax(100px, .84fr);
+    min-height: 190px;
+    gap: 3px;
+    padding: 17px 15px;
+    border-radius: 23px;
+  }
+  .overview-welcome-copy { gap: 11px; }
+  .overview-welcome-topline { gap: 6px; }
+  .overview-welcome-mark { flex-basis: 26px; width: 26px; height: 26px; border-radius: 9px; font-size: 19px; }
+  .overview-welcome-label { font-size: 8px; letter-spacing: .105em; }
+  .overview-welcome-date { font-size: 8px; }
+  .overview-welcome-title { font-size: clamp(1.42rem, 6vw, 1.85rem); }
+  .overview-welcome-title[data-length="medium"] { font-size: clamp(1.3rem, 5.3vw, 1.65rem); }
+  .overview-welcome-title[data-length="long"] { font-size: clamp(1.18rem, 4.8vw, 1.48rem); }
+  .overview-welcome-message { font-size: 10px; line-height: 1.52; }
+  .overview-welcome-art img { width: 135%; max-width: 170px; }
+}
+@media (max-width: 360px) {
+  .overview-welcome { grid-template-columns: minmax(0, 1.2fr) minmax(84px, .8fr); padding: 15px 12px; }
+  .overview-welcome-label { font-size: 7px; letter-spacing: .08em; }
+  .overview-welcome-date { font-size: 7px; }
+  .overview-welcome-title { font-size: 1.35rem; }
+  .overview-welcome-title[data-length="medium"] { font-size: 1.22rem; }
+  .overview-welcome-title[data-length="long"] { font-size: 1.1rem; }
+  .overview-welcome-art img { width: 145%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overview-welcome-art img { animation: none; }
+}
