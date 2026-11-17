@@ -10,13 +10,13 @@ https://shahariarshanto.github.io/Fitness-tracker/
 
 The app is designed for Android Chrome and desktop browsers and can be installed as a PWA. Application data is persisted through the Cloudflare Worker API to Cloudflare D1. The browser also keeps a temporary cache and offline pending changes.
 
-## Data and backup
+## Data and export
 
 - Cloudflare D1 is the permanent primary data store.
 - Local browser storage is used as a cache and offline pending queue.
 - Changes are sent to the Worker automatically when connectivity is available.
-- Manual JSON export/import is the independent backup and restore method.
-- D1 is the primary database, not a backup. Keep exported JSON copies somewhere safe.
+- Settings can download a readable HTML report of your health, medication, movement and progress records.
+- The HTML report is for reading/printing only; it cannot restore app data. There is currently no user-facing import or restorable backup feature. D1 is the primary database, not a backup.
 - Account access is provided by the app's own Sign Up / Login flow. The Worker verifies sessions and scopes each D1 state record to its user ID.
 - Passwords are currently stored as entered in the `password_hash` column (the Worker performs direct comparison, by explicit product decision); this is not password hashing and is a security limitation. Persistent session tokens are stored only as SHA-256 hashes.
 - Logout revokes the current session and clears app-owned `as-care-*` Local Storage keys. It does not delete the user's D1 data.
@@ -30,7 +30,6 @@ The app is designed for Android Chrome and desktop browsers and can be installed
 - `assets/js/bootstrap.js` — modular application entry point.
 - `assets/js/core/` — shared state, storage and application utilities.
 - `assets/js/features/` — Overview, Movement, Insights, Health, Medication and Settings.
-- `assets/js/services/backup.js` — manual JSON export/import.
 - `assets/js/services/cloudflare.js` — Worker API and D1 persistence integration.
 - `worker/` — Cloudflare Worker API and D1 migrations.
 - `sw.js` — PWA service worker and offline cache.
@@ -53,7 +52,7 @@ Read `AI_CONTEXT.md`, `CONTRIBUTING.md`, and the relevant documents in `docs/`. 
 
 ## Testing
 
-Run `node scripts/validate-project.mjs` from the repository root for JS syntax, dependency, asset, catalogue, animation-pose and event-contract checks. GitHub Actions runs it on pull requests and before deployment. Static checks are not browser tests: verify the deployed app, data persistence, JSON export/import, mobile layout and offline recovery before calling a release complete. Report only tests actually performed.
+Run `node scripts/validate-project.mjs` from the repository root for JS syntax, dependency, asset, catalogue, animation-pose and event-contract checks. GitHub Actions runs it on pull requests and before deployment. Static checks are not browser tests: verify the deployed app, data persistence, HTML report export, mobile layout and offline recovery before calling a release complete. Report only tests actually performed.
 
 
 ### Account rollout and deployment automation
