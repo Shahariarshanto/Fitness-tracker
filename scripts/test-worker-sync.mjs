@@ -42,6 +42,7 @@ const env = { DB: db };
 const origin = "https://shahariarshanto.github.io";
 const baseState = () => ({
   preferences: { theme: "system", language: "bn", dailyGoal: 20 },
+  movement: { routineExerciseIds: [] },
   dailyActivity: {}, painLogs: {},
   medication: { items: [], dailyLogs: {} },
   symptoms: { daily: {} },
@@ -62,6 +63,7 @@ assert.equal(empty.state, null);
 
 const deviceA = baseState();
 deviceA.preferences.dailyGoal = 25;
+deviceA.movement.routineExerciseIds = ["c1", "c2"];
 const firstWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 0, state: deviceA });
 assert.equal(firstWrite.status, 200);
 assert.equal((await firstWrite.json()).version, 1);
@@ -72,19 +74,33 @@ const staleWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expe
 assert.equal(staleWrite.status, 409);
 assert.equal((await staleWrite.json()).version, 1);
 assert.equal((await readState()).state.preferences.dailyGoal, 25);
+assert.deepEqual((await readState()).state.movement.routineExerciseIds, ["c1", "c2"]);
 
 const latest = await readState();
 const mergedDeviceB = structuredClone(latest.state);
 mergedDeviceB.preferences.dailyGoal = 30;
 mergedDeviceB.dailyActivity["2026-11-17"] = { minutes: 15 };
+mergedDeviceB.movement.routineExerciseIds = ["c1", "c2", "c3"];
 const secondWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: latest.version, state: mergedDeviceB });
 assert.equal(secondWrite.status, 200);
 assert.equal((await secondWrite.json()).version, 2);
 const final = await readState();
 assert.equal(final.state.preferences.dailyGoal, 30);
 assert.equal(final.state.dailyActivity["2026-11-17"].minutes, 15);
+assert.deepEqual(final.state.movement.routineExerciseIds, ["c1", "c2", "c3"]);
+
+const legacyState = baseState();
+delete legacyState.movement;
+const legacyWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 2, state: legacyState });
+assert.equal(legacyWrite.status, 200);
+assert.equal((await readState()).state.movement, undefined);
+
+const invalidMovement = baseState();
+invalidMovement.movement.routineExerciseIds = [12];
+const invalidWrite = await request("PUT", { app: "as-care", schemaVersion: 1, expectedVersion: 3, state: invalidMovement });
+assert.equal(invalidWrite.status, 400);
 
 const missingVersion = await request("PUT", { app: "as-care", schemaVersion: 1, state: baseState() });
 assert.equal(missingVersion.status, 400);
 
-console.log("Cloudflare D1 concurrent-write tests passed: stale writes rejected; latest state retained; versioned retry accepted.");
+console.log("Cloudflare D1 sync tests passed: routine state persists, malformed IDs are rejected, legacy snapshots remain readable, and stale writes are rejected.");
