@@ -109,15 +109,9 @@ try {
   const downloadPath=await download.path();
   const fs=await import("node:fs/promises");
   const backup=JSON.parse(await fs.readFile(downloadPath,"utf8"));
-  check("JSON backup export", backup.app==="as-care" && backup.schemaVersion===1 && backup.state.medication.items.some(x=>x.name==="UI TEST - Dummy Medicine"));
-  const backupFile={name:"as-care-ui-test-backup.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(backup))};
-  await page.locator('[data-preference="dailyGoal"]').fill("50");
-  await page.locator('[data-preference="dailyGoal"]').dispatchEvent("change");
-  await page.locator("[data-backup-file]").setInputFiles(backupFile);
-  await page.getByRole("dialog").getByRole("button",{name:"পুনরুদ্ধার করুন"}).click();
-  await page.locator('[data-preference="dailyGoal"]').waitFor();
-  await page.waitForFunction(()=>document.querySelector('[data-preference="dailyGoal"]')?.value==="35");
-  check("JSON backup validation and restore round-trip");
+  const report=await fs.readFile(downloadPath,"utf8");
+  check("Formatted HTML data export", download.suggestedFilename().endsWith(".html") && report.includes("আমার স্বাস্থ্য ও যত্নের তথ্য") && report.includes("UI TEST - Dummy Medicine"));
+  check("Restore controls removed", await page.locator("[data-backup-choose], [data-backup-file]").count()===0 && await page.getByText("ব্যাকআপ থেকে পুনরুদ্ধার").count()===0);
 
   await page.waitForTimeout(3500);
   const localState=await page.evaluate(()=>JSON.parse(localStorage.getItem("as-care-state-v1")||"null"));
