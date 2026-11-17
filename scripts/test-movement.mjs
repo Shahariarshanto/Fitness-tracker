@@ -23,9 +23,15 @@ assert.match(routine, /data-exercise-details="c1"/);
 
 const library = renderChecklist("2026-11-17", ["c1"], "body");
 assert.match(library, /data-routine-toggle="c1"/);
-assert.match(library, /রুটিনে আছে/);
+assert.match(library, /রুটিন থেকে সরান/);
 assert.match(library, /data-exercise-details="c1"/);
 assert.doesNotMatch(library, /data-session-select|সেশনে নিন/);
+
+const neckLibrary = renderChecklist("2026-11-17", [], "body", "neck");
+assert.match(neckLibrary, /data-group="neck-shoulders"/);
+assert.doesNotMatch(neckLibrary, /data-group="spine"/);
+const noMatchLibrary = renderChecklist("2026-11-17", [], "body", "not-a-region");
+assert.match(noMatchLibrary, /কোনো ব্যায়াম নেই/);
 
 const detail = renderExerciseDetails("c1", { inRoutine: true, completed: false });
 assert.match(detail, /data-stopwatch-action="start"/);
