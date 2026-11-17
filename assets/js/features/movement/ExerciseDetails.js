@@ -43,7 +43,10 @@ export function renderExerciseDetails(id, options = {}) {
       ${hasCounter ? `<div class="movement-repetition-counter"><div class="movement-tool-heading"><strong>পুনরাবৃত্তি গণনা</strong><span>নিজে সম্পন্ন প্রতিটি বার গুনুন</span></div><div class="movement-counter-controls"><button type="button" data-repetition-action="decrease" aria-label="এক কমান">−</button><output data-repetition-count aria-live="polite">${Number(options.repetitionCount) || 0}</output><button type="button" data-repetition-action="increase" aria-label="এক বাড়ান">＋</button></div></div>` : ""}
     </section>
     <p class="movement-guide-caution"><span class="movement-guide-caution-icon" aria-hidden="true">!</span><span>এই ক্যাটালগের নির্দেশনা ও মাত্রা এখনো ক্লিনিক্যালি যাচাই করা হয়নি। ব্যক্তিগত উপযোগিতা স্বাস্থ্যপেশাজীবীর সঙ্গে মিলিয়ে নিন। ব্যথা বা অস্বস্তি বাড়লে থামুন।</span></p>
-    ${completionAction}
+    <div class="movement-detail-actions">
+      ${completionAction}
+      ${options.nextExerciseId ? `<button class="button-secondary movement-detail-next" type="button" data-exercise-next>পরের ব্যায়াম →</button>` : options.nextLabel ? `<button class="button-secondary movement-detail-next" type="button" data-exercise-close>রুটিনে ফিরুন</button>` : ""}
+    </div>
     <p class="movement-stopwatch-note">Stopwatch কেবল সময় মাপে—এটি কোনো নির্ধারিত ব্যায়ামের সময় বা চিকিৎসাগত মাত্রা নির্দেশ করে না।</p>
   </article>`;
 }
