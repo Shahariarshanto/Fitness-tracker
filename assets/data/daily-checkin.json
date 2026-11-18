@@ -1,288 +1,1121 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "title": "AS Care Daily Check-in Content Library",
   "language": "bn",
   "rotation": "one-item-per-local-calendar-day",
-  "note": "Curated educational paraphrases. Not individualized medical advice.",
+  "totalItems": 100,
+  "categories": [
+    "AS KNOWLEDGE",
+    "MOVEMENT",
+    "MOBILITY",
+    "POSTURE",
+    "PHYSIOTHERAPY",
+    "SAFETY",
+    "STRENGTH",
+    "BREATHING",
+    "WELLBEING",
+    "SELF-CARE"
+  ],
+  "note": "Educational paraphrases from cited clinical guidance. Not individualized medical advice.",
   "items": [
     {
-      "id": "move-01",
+      "id": "daily-001",
+      "category": "AS KNOWLEDGE",
+      "headline": "AS একটি দীর্ঘমেয়াদি অবস্থা",
+      "message": "Ankylosing spondylitis axial spondyloarthritis-এর একটি ধরন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-002",
+      "category": "AS KNOWLEDGE",
+      "headline": "সবার উপসর্গ এক রকম নয়",
+      "message": "axial spondyloarthritis-এর লক্ষণ ও প্রভাব ব্যক্তি ভেদে আলাদা হতে পারে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-003",
+      "category": "AS KNOWLEDGE",
+      "headline": "রোগ সম্পর্কে জানা আত্মযত্নের অংশ",
+      "message": "রোগ, উপসর্গ ও চিকিৎসা সম্পর্কে নির্ভরযোগ্য তথ্য জানা সিদ্ধান্তে সাহায্য করে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-004",
+      "category": "AS KNOWLEDGE",
+      "headline": "চিকিৎসা একাধিক দিক নিয়ে গঠিত",
+      "message": "AS ব্যবস্থাপনায় ব্যায়াম, ফিজিওথেরাপি ও প্রয়োজনমতো ওষুধ বিবেচিত হয়।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-005",
+      "category": "AS KNOWLEDGE",
+      "headline": "উপসর্গ ওঠানামা করতে পারে",
+      "message": "উপসর্গের পরিবর্তন নথিবদ্ধ করে চিকিৎসককে জানানো উপকারী।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-006",
+      "category": "AS KNOWLEDGE",
+      "headline": "রোগের ধরন বোঝা জরুরি",
+      "message": "axial spondyloarthritis-এ মেরুদণ্ড ও sacroiliac joint আক্রান্ত হতে পারে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-007",
+      "category": "AS KNOWLEDGE",
+      "headline": "নারী-পুরুষ উভয়েরই হতে পারে",
+      "message": "axial spondyloarthritis নারী ও পুরুষ উভয়ের হতে পারে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-008",
+      "category": "AS KNOWLEDGE",
+      "headline": "HLA-B27 না থাকলেও রোগ হতে পারে",
+      "message": "HLA-B27 নেগেটিভ হলেই axial spondyloarthritis পুরোপুরি বাদ যায় না।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-009",
+      "category": "AS KNOWLEDGE",
+      "headline": "এক্স-রে স্বাভাবিক হলেও সন্দেহ থাকতে পারে",
+      "message": "সাধারণ এক্স-রেতে sacroiliitis না দেখা গেলেও রোগটি থাকতে পারে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-010",
+      "category": "AS KNOWLEDGE",
+      "headline": "ব্যক্তিগত চিকিৎসা পরিকল্পনা দরকার",
+      "message": "উপসর্গ ও সক্ষমতা অনুযায়ী চিকিৎসা পরিকল্পনা ব্যক্তিভেদে সাজানো হয়।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-011",
       "category": "MOVEMENT",
-      "headline": "নিয়মিত নড়াচড়া গুরুত্বপূর্ণ",
-      "message": "নিয়মিত ব্যায়াম চলাচল ও নমনীয়তায় সহায়ক হতে পারে।",
+      "headline": "নিয়মিত ব্যায়াম গুরুত্বপূর্ণ",
+      "message": "axial spondyloarthritis ব্যবস্থাপনায় নিয়মিত ব্যায়ামকে গুরুত্বপূর্ণ ধরা হয়।",
       "source": {
-        "label": "NASS · Exercise",
-        "url": "https://nass.co.uk/managing-my-as/exercise/"
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
       }
     },
     {
-      "id": "move-02",
-      "category": "EXERCISE",
-      "headline": "ব্যায়ামে থাকুক বৈচিত্র্য",
-      "message": "স্ট্রেচিং, শক্তি, শ্বাস ও অ্যারোবিক অনুশীলনও থাকতে পারে।",
+      "id": "daily-012",
+      "category": "MOVEMENT",
+      "headline": "নড়াচড়া চালু রাখুন",
+      "message": "সক্ষমতা অনুযায়ী সক্রিয় থাকা চলাচল ও কার্যক্ষমতা বজায় রাখতে সহায়ক হতে পারে।",
       "source": {
-        "label": "NICE · NG65",
-        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
       }
     },
     {
-      "id": "move-03",
-      "category": "BREATHING",
-      "headline": "শ্বাসের অনুশীলনও গুরুত্বপূর্ণ",
-      "message": "ব্যায়াম পরিকল্পনায় গভীর শ্বাসের অনুশীলনও থাকতে পারে।",
+      "id": "daily-013",
+      "category": "MOVEMENT",
+      "headline": "ব্যায়ামে বৈচিত্র্য রাখুন",
+      "message": "ব্যক্তিগত পরিকল্পনায় নমনীয়তা, শক্তি, ভঙ্গি, শ্বাস ও অ্যারোবিক অনুশীলন থাকতে পারে।",
       "source": {
-        "label": "NICE · NG65",
-        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
       }
     },
     {
-      "id": "posture-01",
-      "category": "POSTURE",
-      "headline": "ভঙ্গির যত্ন নিন",
-      "message": "ভঙ্গির অনুশীলনও ব্যক্তিগত পরিকল্পনার অংশ হতে পারে।",
+      "id": "daily-014",
+      "category": "MOVEMENT",
+      "headline": "হাঁটা হতে পারে একটি বিকল্প",
+      "message": "হাঁটা শারীরিক সক্রিয়তার একটি বিকল্প; নিজের সক্ষমতা অনুযায়ী বেছে নিন।",
       "source": {
-        "label": "NICE · NG65",
-        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
       }
     },
     {
-      "id": "mobility-01",
+      "id": "daily-015",
+      "category": "MOVEMENT",
+      "headline": "পানিতে ব্যায়াম একটি বিকল্প",
+      "message": "হাইড্রোথেরাপি কিছু মানুষের ব্যথা ও কার্যক্ষমতা ব্যবস্থাপনায় সহায়ক হতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-016",
+      "category": "MOVEMENT",
+      "headline": "পছন্দের নিরাপদ কার্যক্রম বেছে নিন",
+      "message": "পছন্দের উপযোগী কার্যক্রম নিয়মিত অভ্যাস বজায় রাখতে সাহায্য করতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-017",
+      "category": "MOVEMENT",
+      "headline": "শুধু স্ট্রেচিং নয়",
+      "message": "ব্যক্তিগত পরিকল্পনায় শক্তি ও cardiovascular অনুশীলনও থাকতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-018",
+      "category": "MOVEMENT",
+      "headline": "দৈনন্দিন কাজেও সক্রিয় থাকুন",
+      "message": "দৈনন্দিন চলাফেরা ও নির্ধারিত ব্যায়াম সক্রিয় জীবনযাপনের অংশ।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-019",
+      "category": "MOVEMENT",
+      "headline": "নিয়মিততার দিকে মন দিন",
+      "message": "উপযোগী ব্যায়াম ধারাবাহিকভাবে করা বাস্তবসম্মত লক্ষ্য হতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-020",
+      "category": "MOVEMENT",
+      "headline": "পরিকল্পনা সময়মতো পর্যালোচনা করুন",
+      "message": "সক্ষমতা বা উপসর্গ বদলালে ফিজিওথেরাপিস্টের সঙ্গে ব্যায়াম পরিকল্পনা পর্যালোচনা করুন।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-021",
       "category": "MOBILITY",
-      "headline": "চলাচলের পরিসর ধরে রাখুন",
-      "message": "মেরুদণ্ডের নড়াচড়ার পরিসর ধরে রাখুন।",
-      "source": {
-        "label": "NICE · NG65",
-        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
-      }
-    },
-    {
-      "id": "move-04",
-      "category": "MOVEMENT",
-      "headline": "নিজের পছন্দের নড়াচড়া বেছে নিন",
-      "message": "পছন্দের কার্যক্রম নিয়মিত চালিয়ে যাওয়া সহজ হতে পারে।",
-      "source": {
-        "label": "NASS · Exercise",
-        "url": "https://nass.co.uk/managing-my-as/exercise/"
-      }
-    },
-    {
-      "id": "safety-01",
-      "category": "SAFETY",
-      "headline": "ধীরে শুরু করুন",
-      "message": "নতুন ব্যায়াম ধীরে শুরু করে সক্ষমতা অনুযায়ী বাড়ান।",
-      "source": {
-        "label": "NASS · Exercising at Home",
-        "url": "https://nass.co.uk/wp-content/uploads/2020/06/Exercising-at-home.pdf"
-      }
-    },
-    {
-      "id": "safety-02",
-      "category": "SAFETY",
-      "headline": "প্রতিদিনের সক্ষমতা এক নয়",
-      "message": "ভালো-মন্দ দিনের সঙ্গে ব্যায়ামের পরিমাণ মানিয়ে নিন।",
-      "source": {
-        "label": "NASS · Safety First",
-        "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
-      }
-    },
-    {
-      "id": "safety-03",
-      "category": "SAFETY",
-      "headline": "নিজের সীমা মেনে চলুন",
-      "message": "অতিরিক্ত চাপ নয়—আরামদায়ক সীমায় ধীরে এগোন।",
-      "source": {
-        "label": "NASS · Safety First",
-        "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
-      }
-    },
-    {
-      "id": "physio-01",
-      "category": "PHYSIOTHERAPY",
-      "headline": "ফিজিওথেরাপিস্টের পরিকল্পনা নিন",
-      "message": "ফিজিওথেরাপিস্ট ব্যক্তিগত ব্যায়াম পরিকল্পনা সাজাতে পারেন।",
+      "headline": "মেরুদণ্ডের নড়াচড়ার পরিসর গুরুত্বপূর্ণ",
+      "message": "পরিকল্পনায় কোমর, বুকের অংশ ও ঘাড়ের range-of-motion অনুশীলন থাকতে পারে।",
       "source": {
         "label": "NASS · Physiotherapy",
-        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/"
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
       }
     },
     {
-      "id": "strength-01",
-      "category": "STRENGTH",
-      "headline": "শক্তিবর্ধক অনুশীলনও দরকার",
-      "message": "শক্তিবর্ধক অনুশীলন পেশির সক্ষমতায় সহায়ক হতে পারে।",
+      "id": "daily-022",
+      "category": "MOBILITY",
+      "headline": "ঘাড়ের নড়াচড়াও পরিকল্পনায় থাকতে পারে",
+      "message": "NICE-এর ব্যায়াম পরিকল্পনায় cervical spine-এর range-of-motion অনুশীলন রয়েছে।",
       "source": {
-        "label": "Arthritis Foundation · axSpA",
-        "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
       }
     },
     {
-      "id": "posture-02",
+      "id": "daily-023",
+      "category": "MOBILITY",
+      "headline": "বুকের মেরুদণ্ডের গতিশীলতা বিবেচনা করুন",
+      "message": "thoracic spine-এর নড়াচড়ার অনুশীলন ব্যক্তিগত প্রোগ্রামের অংশ হতে পারে।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-024",
+      "category": "MOBILITY",
+      "headline": "কোমরের নড়াচড়ার অনুশীলন থাকতে পারে",
+      "message": "lumbar spine-এর range-of-motion অনুশীলন বিশেষজ্ঞের পরিকল্পনায় থাকতে পারে।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-025",
+      "category": "MOBILITY",
+      "headline": "নমনীয়তা অনুশীলনের একটি অংশ",
+      "message": "NASS-এর ব্যায়াম প্রোগ্রামে flexibility আলাদা উপাদান।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-026",
+      "category": "MOBILITY",
+      "headline": "নড়াচড়ার সীমা মূল্যায়ন করা যায়",
+      "message": "ফিজিওথেরাপিস্ট পিঠ, ধড়, ঘাড় ও নিতম্বের নমনীয়তা মূল্যায়ন করতে পারেন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-027",
+      "category": "MOBILITY",
+      "headline": "জোর করে নড়াচড়া করবেন না",
+      "message": "নির্দিষ্ট সীমা ও কৌশল ফিজিওথেরাপিস্টের কাছ থেকে শিখুন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-028",
+      "category": "MOBILITY",
+      "headline": "চলাচলের পরিবর্তন লিখে রাখুন",
+      "message": "চলাচলে পরিবর্তন হলে তা নোট করে ফলোআপে আলোচনা করুন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-029",
+      "category": "MOBILITY",
+      "headline": "মোবিলিটি অনুশীলন পরিকল্পিত হওয়া উচিত",
+      "message": "কোন নড়াচড়া কতটা করবেন তা ব্যক্তিগত মূল্যায়নের ভিত্তিতে ঠিক করুন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-030",
+      "category": "MOBILITY",
+      "headline": "প্রয়োজনে অনুশীলন বদলান",
+      "message": "সক্ষমতা ও প্রয়োজন বদলালে range-of-motion অনুশীলনও পর্যালোচনা করুন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-031",
       "category": "POSTURE",
-      "headline": "এক ভঙ্গিতে বেশি সময় নয়",
-      "message": "এক ভঙ্গিতে দীর্ঘক্ষণ নয়; মাঝে মাঝে অবস্থান বদলান।",
-      "source": {
-        "label": "Arthritis Foundation · axSpA",
-        "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
-      }
-    },
-    {
-      "id": "posture-03",
-      "category": "POSTURE",
-      "headline": "কাজের জায়গা সাজান",
-      "message": "ডেস্ক ও মনিটরের উচ্চতা আরামদায়ক ভঙ্গিতে সহায়ক।",
-      "source": {
-        "label": "Arthritis Foundation · axSpA",
-        "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
-      }
-    },
-    {
-      "id": "selfcare-01",
-      "category": "SELF-CARE",
-      "headline": "কাজ ও বিশ্রামের ভারসাম্য",
-      "message": "কাজের পাশাপাশি বিশ্রামের ভারসাম্যও জরুরি।",
-      "source": {
-        "label": "Arthritis Foundation · axSpA",
-        "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
-      }
-    },
-    {
-      "id": "safety-04",
-      "category": "SAFETY",
-      "headline": "শরীরের সংকেত শুনুন",
-      "message": "মাথা ঘোরা বা শ্বাসকষ্ট হলে থামুন ও পরামর্শ নিন।",
-      "source": {
-        "label": "NASS · Safety First",
-        "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
-      }
-    },
-    {
-      "id": "safety-05",
-      "category": "SAFETY",
-      "headline": "ব্যথা বাড়লে পরামর্শ নিন",
-      "message": "তীব্র ব্যথা থাকলে স্বাস্থ্যপেশাজীবীর পরামর্শ নিন।",
-      "source": {
-        "label": "NASS · Safety First",
-        "url": "https://nass.co.uk/managing-my-as/exercise/safety-first/"
-      }
-    },
-    {
-      "id": "knowledge-01",
-      "category": "AS KNOWLEDGE",
-      "headline": "ব্যায়াম চিকিৎসার একটি অংশ",
-      "message": "AS ব্যবস্থাপনায় ব্যায়াম, ফিজিওথেরাপি ও ওষুধও বিবেচ্য।",
-      "source": {
-        "label": "NHS · AS Treatment",
-        "url": "https://www.nhs.uk/conditions/ankylosing-spondylitis/treatment/"
-      }
-    },
-    {
-      "id": "move-05",
-      "category": "MOVEMENT",
-      "headline": "নিয়মিততা ধরে রাখুন",
-      "message": "ব্যায়াম নিয়মিত ও ধারাবাহিকভাবে চালিয়ে যান।",
-      "source": {
-        "label": "NASS · Exercise",
-        "url": "https://nass.co.uk/managing-my-as/exercise/"
-      }
-    },
-    {
-      "id": "fitness-01",
-      "category": "FITNESS",
-      "headline": "অ্যারোবিক সক্ষমতাও লক্ষ্য",
-      "message": "অ্যারোবিক কাজ হৃদ্‌যন্ত্র ও ফুসফুসের সক্ষমতায় সহায়ক।",
+      "headline": "ভঙ্গির অনুশীলন পরিকল্পনার অংশ",
+      "message": "axial spondyloarthritis-এর structured exercise programme-এ postural exercise থাকে।",
       "source": {
         "label": "NICE · NG65",
-        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations"
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
       }
     },
     {
-      "id": "mobility-02",
-      "category": "MOBILITY",
-      "headline": "নমনীয়তা দৈনন্দিন কাজে সহায়ক",
-      "message": "নমনীয়তা ও চলাচলের পরিসর দৈনন্দিন কাজে সহায়ক।",
-      "source": {
-        "label": "NASS · Exercise",
-        "url": "https://nass.co.uk/managing-my-as/exercise/"
-      }
-    },
-    {
-      "id": "physio-02",
-      "category": "PHYSIOTHERAPY",
-      "headline": "পরিকল্পনা সময়ের সঙ্গে বদলাতে পারে",
-      "message": "অবস্থা বদলালে ব্যায়াম পরিকল্পনা পর্যালোচনা করুন।",
-      "source": {
-        "label": "NASS · Exercise",
-        "url": "https://nass.co.uk/managing-my-as/exercise/"
-      }
-    },
-    {
-      "id": "selfcare-02",
-      "category": "SELF-CARE",
-      "headline": "বাস্তবসম্মত লক্ষ্য ঠিক করুন",
-      "message": "কার্যক্রম বাছতে ফিজিওথেরাপিস্টের পরামর্শ নিন।",
-      "source": {
-        "label": "Spondylitis Association of America",
-        "url": "https://spondylitis.org/about-spondylitis/treatment-information/exercise/"
-      }
-    },
-    {
-      "id": "move-06",
-      "category": "MOVEMENT",
-      "headline": "কম-প্রভাবের বিকল্পও আছে",
-      "message": "হাঁটা, পানিতে ব্যায়াম বা যোগব্যায়াম বিকল্প হতে পারে।",
-      "source": {
-        "label": "Arthritis Foundation · axSpA",
-        "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
-      }
-    },
-    {
-      "id": "posture-04",
+      "id": "daily-032",
       "category": "POSTURE",
-      "headline": "দৈনন্দিন ভঙ্গিও গুরুত্বপূর্ণ",
-      "message": "দীর্ঘক্ষণ বসলে পিঠ, ঘাড় ও কাঁধের আরাম দেখুন।",
+      "headline": "spinal extension অনুশীলন থাকতে পারে",
+      "message": "spinal extension বিশেষজ্ঞের তৈরি প্রোগ্রামের একটি অংশ হতে পারে।",
       "source": {
-        "label": "Arthritis Foundation · axSpA",
-        "url": "https://www.arthritis.org/getcontentasset/dbc72c20-5028-415e-bdab-522b74df5abe/dfc3d011-8f63-43f6-9ed8-4b444333a1d0/factsheet_axspa_arthritisfoundation_04252025.pdf"
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
       }
     },
     {
-      "id": "fitness-02",
-      "category": "FITNESS",
-      "headline": "শক্তি ও ভারসাম্য দুটোই",
-      "message": "শক্তি, ভারসাম্য, নমনীয়তা ও সহনশীলতা—সবই বিবেচ্য।",
+      "id": "daily-033",
+      "category": "POSTURE",
+      "headline": "একই ভঙ্গিতে দীর্ঘক্ষণ থাকবেন না",
+      "message": "দীর্ঘ সময় একই অবস্থায় থাকলে বিরতি ও অবস্থান বদলের উপযোগিতা বিবেচনা করুন।",
       "source": {
-        "label": "Spondylitis Association of America",
-        "url": "https://spondylitis.org/about-spondylitis/treatment-information/exercise/"
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
       }
     },
     {
-      "id": "selfcare-03",
-      "category": "SELF-CARE",
-      "headline": "ধূমপান ছাড়াও যত্নের অংশ",
-      "message": "ASAS–EULAR ব্যায়াম ও ধূমপান বন্ধের ওপর জোর দেয়।",
+      "id": "daily-034",
+      "category": "POSTURE",
+      "headline": "ভঙ্গি নিয়ে মূল্যায়ন নিন",
+      "message": "ফিজিওথেরাপিস্ট প্রাথমিক মূল্যায়নে posture পরীক্ষা করতে পারেন।",
       "source": {
-        "label": "ASAS–EULAR Recommendations",
-        "url": "https://ard.bmj.com/content/early/2022/10/21/ard-2022-223296"
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
       }
     },
     {
-      "id": "sleep-01",
+      "id": "daily-035",
+      "category": "POSTURE",
+      "headline": "কাজের জায়গায় আরামকে গুরুত্ব দিন",
+      "message": "কাজের ভঙ্গিতে সমস্যা হলে ফিজিওথেরাপিস্ট বা occupational therapist-এর পরামর্শ নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-036",
+      "category": "POSTURE",
+      "headline": "ভঙ্গির লক্ষ্য বাস্তবসম্মত রাখুন",
+      "message": "ব্যক্তিগত সক্ষমতা অনুযায়ী postural exercise বেছে নেওয়া উচিত।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-037",
+      "category": "POSTURE",
+      "headline": "ভঙ্গি ও চলাচল একসঙ্গে বিবেচ্য",
+      "message": "ব্যায়াম পরিকল্পনায় posture ও spinal movement দুটোই থাকতে পারে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-038",
+      "category": "POSTURE",
+      "headline": "সহায়ক উপকরণ কাজে লাগতে পারে",
+      "message": "দৈনন্দিন কাজে অসুবিধা হলে বিশেষজ্ঞ থেরাপিস্ট physical aid সম্পর্কে পরামর্শ দিতে পারেন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-039",
+      "category": "POSTURE",
+      "headline": "ভঙ্গির পরিবর্তন লক্ষ্য করুন",
+      "message": "দৈনন্দিন কাজে ভঙ্গি বা চলাচলের সমস্যা বাড়লে তা ফলোআপে জানান।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-040",
+      "category": "POSTURE",
+      "headline": "একই posture exercise সবার জন্য নয়",
+      "message": "ব্যক্তিগত উপযোগিতা যাচাই করে postural exercise বেছে নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-041",
+      "category": "PHYSIOTHERAPY",
+      "headline": "ফিজিওথেরাপিস্টের মূল্যায়ন নিন",
+      "message": "ইতিহাস, ভঙ্গি ও নমনীয়তা দেখে ফিজিওথেরাপিস্ট ব্যক্তিগত পরিকল্পনা তৈরি করতে পারেন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-042",
+      "category": "PHYSIOTHERAPY",
+      "headline": "ব্যক্তিগত ব্যায়াম প্রোগ্রাম গুরুত্বপূর্ণ",
+      "message": "NICE specialist physiotherapist-এর structured individual programme সুপারিশ করে।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-043",
+      "category": "PHYSIOTHERAPY",
+      "headline": "পরিকল্পনায় একাধিক উপাদান থাকা উচিত",
+      "message": "স্ট্রেচিং, শক্তিবর্ধক, posture, শ্বাস, spinal extension ও aerobic অনুশীলন থাকতে পারে।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-044",
+      "category": "PHYSIOTHERAPY",
+      "headline": "ফিজিওথেরাপি শুধু ব্যায়ামের নাম নয়",
+      "message": "ফিজিওথেরাপিস্ট মূল্যায়ন, পরামর্শ ও ব্যায়াম পরিকল্পনা দিতে পারেন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-045",
+      "category": "PHYSIOTHERAPY",
+      "headline": "দৈনন্দিন অসুবিধা জানিয়ে দিন",
+      "message": "কাজকর্মে সীমাবদ্ধতা থাকলে physiotherapist বা occupational therapist-এর সাহায্য নেওয়া যায়।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-046",
+      "category": "PHYSIOTHERAPY",
+      "headline": "প্রয়োজনে পরিকল্পনা বদলানো যায়",
+      "message": "প্রয়োজন বদলালে বিশেষজ্ঞ থেরাপিস্টের সঙ্গে পরিকল্পনা পুনর্মূল্যায়ন করুন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-047",
+      "category": "PHYSIOTHERAPY",
+      "headline": "ঘরে করা ব্যায়ামও পরিকল্পিত হোক",
+      "message": "ঘরে অনুশীলনের আগে সঠিক কৌশল ও উপযোগিতা শিখে নিন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-048",
+      "category": "PHYSIOTHERAPY",
+      "headline": "ব্যায়াম শেখার সময় প্রশ্ন করুন",
+      "message": "কোন অনুশীলন কেন, কীভাবে এবং কখন থামাতে হবে—ফিজিওথেরাপিস্টকে জিজ্ঞেস করুন।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-049",
+      "category": "PHYSIOTHERAPY",
+      "headline": "নির্দেশনামূলক উপকরণ ব্যবহার করুন",
+      "message": "NASS-এর Back to Action-এ লিখিত ও ভিডিও ব্যায়াম নির্দেশনা রয়েছে।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-050",
+      "category": "PHYSIOTHERAPY",
+      "headline": "ফলোআপে অগ্রগতি আলোচনা করুন",
+      "message": "চলাচল, নমনীয়তা ও দৈনন্দিন কাজের পরিবর্তন ফিজিওথেরাপিস্টকে জানান।",
+      "source": {
+        "label": "NASS · Physiotherapy",
+        "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
+        "reference": "Assessment and individual programme"
+      }
+    },
+    {
+      "id": "daily-051",
+      "category": "SAFETY",
+      "headline": "নতুন ব্যায়ামের আগে পরামর্শ নিন",
+      "message": "নতুন খেলা বা ব্যায়াম উপযোগী কি না সন্দেহ হলে ফিজিওথেরাপিস্টকে জিজ্ঞেস করুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-052",
+      "category": "SAFETY",
+      "headline": "নিজের সক্ষমতার মধ্যে অনুশীলন করুন",
+      "message": "ব্যায়ামের ধরন ও মাত্রা ব্যক্তিগত মূল্যায়নের সঙ্গে মানানসই হওয়া দরকার।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-053",
+      "category": "SAFETY",
+      "headline": "ব্যথার পরিবর্তন নথিবদ্ধ করুন",
+      "message": "ব্যায়ামের পর ব্যথা বাড়ে কি না লিখে রেখে পরামর্শে জানান।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-054",
+      "category": "SAFETY",
+      "headline": "পড়ে গেলে অবহেলা করবেন না",
+      "message": "axial spondyloarthritis-এ fracture ঝুঁকি থাকতে পারে; পড়ে গেলে চিকিৎসকের পরামর্শ নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-055",
+      "category": "SAFETY",
+      "headline": "আঘাতের পর নতুন ব্যথা গুরুত্ব দিন",
+      "message": "পড়ে যাওয়া বা আঘাতের পর ব্যথা বাড়লে স্বাস্থ্যপেশাজীবীর সঙ্গে যোগাযোগ করুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-056",
+      "category": "SAFETY",
+      "headline": "ব্যায়ামে অস্বাভাবিক উপসর্গ হলে থামুন",
+      "message": "ব্যায়ামের সময় অস্বাভাবিক উপসর্গ হলে থেমে স্বাস্থ্যপেশাজীবীর পরামর্শ নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-057",
+      "category": "SAFETY",
+      "headline": "ব্যায়াম পরিকল্পনা সবার জন্য এক নয়",
+      "message": "রোগের অবস্থা ও শারীরিক সক্ষমতা বিবেচনা করে ব্যায়াম বেছে নিতে হয়।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-058",
+      "category": "SAFETY",
+      "headline": "ব্যথা বাড়লে নিজে চিকিৎসা বদলাবেন না",
+      "message": "ব্যথা বাড়লে ওষুধের মাত্রা নিজে পরিবর্তন না করে চিকিৎসকের সঙ্গে কথা বলুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-059",
+      "category": "SAFETY",
+      "headline": "ফ্লেয়ার সম্পর্কে আগে থেকে জানুন",
+      "message": "উপসর্গ বেড়ে গেলে কীভাবে সাহায্য পাবেন তা চিকিৎসকের সঙ্গে ঠিক করুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-060",
+      "category": "SAFETY",
+      "headline": "ফ্লেয়ার পরিকল্পনা ব্যক্তিগত হওয়া দরকার",
+      "message": "NICE ব্যক্তির প্রয়োজন ও পরিস্থিতি অনুযায়ী flare management plan তৈরির কথা বলে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-061",
+      "category": "STRENGTH",
+      "headline": "শক্তিবর্ধক ব্যায়াম অন্তর্ভুক্ত হতে পারে",
+      "message": "NICE-এর structured exercise programme-এ strengthening exercise রয়েছে।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-062",
+      "category": "STRENGTH",
+      "headline": "শক্তি ও চলাচল দুটোই লক্ষ্য",
+      "message": "NASS-এর ব্যায়াম প্রোগ্রামে strength এবং mobility আলাদা উপাদান।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-063",
+      "category": "STRENGTH",
+      "headline": "সঠিক কৌশল শিখে অনুশীলন করুন",
+      "message": "ব্যক্তিগত উপযোগিতা ও কৌশল ফিজিওথেরাপিস্টের কাছ থেকে শিখুন।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-064",
+      "category": "STRENGTH",
+      "headline": "সক্ষমতা অনুযায়ী অগ্রসর হন",
+      "message": "শক্তিবর্ধক অনুশীলনের মাত্রা ব্যক্তিগত মূল্যায়ন অনুযায়ী ঠিক করুন।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-065",
+      "category": "STRENGTH",
+      "headline": "শুধু শক্তি নয়, নমনীয়তাও জরুরি",
+      "message": "axial SpA-র ব্যায়াম পরিকল্পনায় শক্তি ও নমনীয়তা দুটোই বিবেচিত হয়।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-066",
+      "category": "STRENGTH",
+      "headline": "অনুশীলনের অগ্রগতি লিখে রাখুন",
+      "message": "কোন ব্যায়াম কতটা করতে পারছেন তা নথিবদ্ধ করলে পরিকল্পনা পর্যালোচনা সহজ হয়।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-067",
+      "category": "STRENGTH",
+      "headline": "সহনশীলতার অনুশীলনও বিবেচ্য",
+      "message": "NASS-এর Back to Action-এ cardiovascular exercise অন্তর্ভুক্ত।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-068",
+      "category": "STRENGTH",
+      "headline": "ভারী ব্যায়াম নিজে থেকে শুরু নয়",
+      "message": "নতুন weight exercise শুরুর আগে নিজের অবস্থা অনুযায়ী পরামর্শ নিন।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-069",
+      "category": "STRENGTH",
+      "headline": "ব্যায়ামের ধরন একসঙ্গে সাজান",
+      "message": "শক্তি, নমনীয়তা ও aerobic অনুশীলনের ভারসাম্য ব্যক্তিগত প্রোগ্রামে বিবেচিত হয়।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-070",
+      "category": "STRENGTH",
+      "headline": "শক্তিবর্ধক অনুশীলনে সহায়তা নিন",
+      "message": "সঠিক কৌশল ও উপযোগী মাত্রা নির্ধারণে ফিজিওথেরাপিস্টের সহায়তা নিন।",
+      "source": {
+        "label": "NASS · Back to Action",
+        "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
+        "reference": "Programme sections"
+      }
+    },
+    {
+      "id": "daily-071",
+      "category": "BREATHING",
+      "headline": "গভীর শ্বাসের অনুশীলন পরিকল্পনায় থাকে",
+      "message": "NICE-এর structured exercise programme-এ deep breathing অন্তর্ভুক্ত।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-072",
+      "category": "BREATHING",
+      "headline": "শ্বাসের অনুশীলন আলাদা উপাদান",
+      "message": "NASS-এর Back to Action প্রোগ্রামে breathing exercise স্বতন্ত্র অংশ।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-073",
+      "category": "BREATHING",
+      "headline": "শ্বাসের কৌশল শিখে নিন",
+      "message": "কোন শ্বাসের অনুশীলন উপযোগী তা ফিজিওথেরাপিস্টের কাছ থেকে শিখুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-074",
+      "category": "BREATHING",
+      "headline": "বুকের নড়াচড়া নিয়ে আলোচনা করুন",
+      "message": "শ্বাস বা বুকের নড়াচড়ায় অসুবিধা থাকলে চিকিৎসককে জানান।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-075",
+      "category": "BREATHING",
+      "headline": "শ্বাসকষ্ট হলে ব্যায়াম চালাবেন না",
+      "message": "ব্যায়ামের সময় নতুন বা তীব্র শ্বাসকষ্ট হলে থামুন এবং চিকিৎসা সহায়তা নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-076",
+      "category": "BREATHING",
+      "headline": "শ্বাসের অনুশীলন ব্যক্তিভেদে মানানসই করুন",
+      "message": "ব্যক্তিগত সক্ষমতা ও উপসর্গ বিবেচনা করে শ্বাসের অনুশীলন বেছে নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-077",
+      "category": "BREATHING",
+      "headline": "শ্বাসের উপসর্গ লিখে রাখুন",
+      "message": "শ্বাস নিতে অসুবিধা কখন হয় তা নোট করে চিকিৎসককে জানান।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-078",
+      "category": "BREATHING",
+      "headline": "ব্যায়াম প্রোগ্রামে শ্বাসও মনে রাখুন",
+      "message": "NICE-এর তালিকায় stretching ও strengthening-এর পাশাপাশি deep breathing রয়েছে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-079",
+      "category": "BREATHING",
+      "headline": "শ্বাসের অনুশীলনে জোর করবেন না",
+      "message": "অস্বস্তি হলে থামুন এবং উপযুক্ত কৌশল সম্পর্কে ফিজিওথেরাপিস্টের পরামর্শ নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-080",
+      "category": "BREATHING",
+      "headline": "শ্বাসের অনুশীলন শেখার সুযোগ নিন",
+      "message": "বিশেষজ্ঞের নির্দেশনায় breathing exercise শেখা নিরাপদ অনুশীলনে সহায়ক।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-081",
       "category": "WELLBEING",
-      "headline": "ব্যায়াম ঘুমেও সহায়ক হতে পারে",
-      "message": "উপযোগী নিয়মিত ব্যায়াম ঘুমের মান উন্নত করতে পারে।",
+      "headline": "ধূমপান বন্ধের বিষয়ে সহায়তা নিন",
+      "message": "ASAS–EULAR axial SpA রোগীদের ধূমপান বন্ধে উৎসাহিত করে।",
       "source": {
-        "label": "NASS · Exercise",
-        "url": "https://nass.co.uk/managing-my-as/exercise/"
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
       }
     },
     {
-      "id": "knowledge-02",
-      "category": "AS KNOWLEDGE",
-      "headline": "ব্যক্তিগত মূল্যায়ন গুরুত্বপূর্ণ",
-      "message": "একই ব্যায়াম সবার জন্য নয়; ব্যক্তিগত পরামর্শ নিন।",
+      "id": "daily-082",
+      "category": "WELLBEING",
+      "headline": "দৈনন্দিন জীবনের প্রভাব জানান",
+      "message": "কাজ বা দৈনন্দিন কাজকর্মে রোগের প্রভাব চিকিৎসককে জানানো গুরুত্বপূর্ণ।",
       "source": {
-        "label": "NIAMS · Ankylosing Spondylitis",
-        "url": "https://www.niams.nih.gov/health-topics/ankylosing-spondylitis/diagnosis-treatment-and-steps-to-take"
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-083",
+      "category": "WELLBEING",
+      "headline": "ক্লান্তির কথাও চিকিৎসককে বলুন",
+      "message": "ব্যথা ও ক্লান্তি flare management আলোচনার অংশ হতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-084",
+      "category": "WELLBEING",
+      "headline": "পরিবারের সহায়তা কাজে লাগান",
+      "message": "পরিবার বা পরিচর্যাকারীকে নির্ভরযোগ্য রোগ-তথ্য দিলে যত্নে সহায়তা হতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-085",
+      "category": "WELLBEING",
+      "headline": "মানসিক চাপের প্রভাব আলোচনা করুন",
+      "message": "দীর্ঘমেয়াদি রোগে দৈনন্দিন সমস্যা হলে চিকিৎসককে জানান ও প্রয়োজনীয় সহায়তা চান।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-086",
+      "category": "WELLBEING",
+      "headline": "ছোট বাস্তবসম্মত লক্ষ্য ঠিক করুন",
+      "message": "নিজের পছন্দ ও প্রয়োজন অনুযায়ী যত্নের লক্ষ্য নির্ধারণ করুন।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-087",
+      "category": "WELLBEING",
+      "headline": "নিজের অগ্রগতি অন্যের সঙ্গে তুলনা নয়",
+      "message": "axial SpA-র উপসর্গ ও সক্ষমতা ব্যক্তি ভেদে আলাদা হতে পারে।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-088",
+      "category": "WELLBEING",
+      "headline": "নিয়মিত যত্নের পরিকল্পনা রাখুন",
+      "message": "ব্যায়াম, ফলোআপ ও উপসর্গ পর্যবেক্ষণকে দৈনন্দিন যত্নের অংশ করুন।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-089",
+      "category": "WELLBEING",
+      "headline": "পরিবারকে রোগ সম্পর্কে জানান",
+      "message": "NICE রোগীর পরিবার বা পরিচর্যাকারীকেও প্রয়োজনমতো তথ্য দেওয়ার পরামর্শ দেয়।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-090",
+      "category": "WELLBEING",
+      "headline": "সহায়তার উৎস বেছে নিন",
+      "message": "NICE রোগী ও পরিবারের জন্য চলমান ও প্রয়োজনমাফিক তথ্য দেওয়ার পরামর্শ দেয়।",
+      "source": {
+        "label": "ASAS–EULAR · 2022",
+        "url": "https://ard.bmj.com/content/82/1/19",
+        "reference": "Recommendation 4"
+      }
+    },
+    {
+      "id": "daily-091",
+      "category": "SELF-CARE",
+      "headline": "চিকিৎসার সব বিকল্প বুঝে নিন",
+      "message": "ওষুধ ও non-drug care-এর সুবিধা-ঝুঁকি চিকিৎসকের সঙ্গে আলোচনা করুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-092",
+      "category": "SELF-CARE",
+      "headline": "ওষুধের পার্শ্বপ্রতিক্রিয়া জানুন",
+      "message": "চলমান ওষুধের সম্ভাব্য পার্শ্বপ্রতিক্রিয়া ও কখন যোগাযোগ করতে হবে জেনে নিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-093",
+      "category": "SELF-CARE",
+      "headline": "ওষুধের পরিবর্তন চিকিৎসকের সঙ্গে",
+      "message": "নিজে থেকে ওষুধ শুরু, বন্ধ বা মাত্রা পরিবর্তন করবেন না।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-094",
+      "category": "SELF-CARE",
+      "headline": "ফ্লেয়ারের সময় করণীয় লিখে রাখুন",
+      "message": "ব্যায়াম, ব্যথা ও চিকিৎসা-যোগাযোগের পরিকল্পনা চিকিৎসকের সঙ্গে তৈরি করুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-095",
+      "category": "SELF-CARE",
+      "headline": "চিকিৎসা-তথ্য সংরক্ষণ করুন",
+      "message": "পরীক্ষার রিপোর্ট, ওষুধের তালিকা ও উপসর্গের নোট ফলোআপে কাজে লাগে।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-096",
+      "category": "SELF-CARE",
+      "headline": "বিশেষজ্ঞ থেরাপিস্টের সাহায্য নিন",
+      "message": "দৈনন্দিন কাজের সমস্যা অনুযায়ী physiotherapist বা occupational therapist সহায়তা করতে পারেন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-097",
+      "category": "SELF-CARE",
+      "headline": "নিয়মিত স্বাস্থ্যপর্যালোচনা রাখুন",
+      "message": "চিকিৎসা কতটা কাজে দিচ্ছে এবং নতুন সমস্যা আছে কি না ফলোআপে আলোচনা করুন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-098",
+      "category": "SELF-CARE",
+      "headline": "চিকিৎসকের কাছে প্রশ্ন নিয়ে যান",
+      "message": "উপসর্গ, ব্যায়াম, ওষুধ ও দৈনন্দিন সীমাবদ্ধতা লিখে নিলে আলোচনা সহজ হয়।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-099",
+      "category": "SELF-CARE",
+      "headline": "চিকিৎসা পরিকল্পনায় নিজের পছন্দ জানান",
+      "message": "চিকিৎসার বিকল্প আলোচনার সময় আপনার প্রয়োজন ও পছন্দ চিকিৎসককে জানান।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
+      }
+    },
+    {
+      "id": "daily-100",
+      "category": "SELF-CARE",
+      "headline": "নির্ভরযোগ্য তথ্যসূত্র ব্যবহার করুন",
+      "message": "রোগ ও চিকিৎসা সম্পর্কে সিদ্ধান্তে স্বীকৃত স্বাস্থ্যপ্রতিষ্ঠানের তথ্যকে অগ্রাধিকার দিন।",
+      "source": {
+        "label": "NICE · NG65",
+        "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
+        "reference": "Recommendations 1.3, 1.5 and 1.8"
       }
     }
   ]
