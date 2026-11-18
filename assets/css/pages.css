@@ -295,3 +295,45 @@
 .account-actions button { flex:1 1 auto; }
 .account-actions button[data-account-logout] { background:var(--surface); }
 @media (max-width:380px) { .account-auth, .account-connected { padding:12px; } .account-actions button { flex:1 1 100%; } }
+
+
+/* Health tab refinements: compact daily tracking and tucked-away assessment. */
+.health-main-content, .health-assessment-content { display:grid; gap:16px; min-width:0; }
+.health-condition { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 8px; padding:0; border:0; }
+.health-condition legend { margin-bottom:8px; font-size:13px; font-weight:650; }
+.health-condition label { position:relative; }
+.health-condition input { position:absolute; opacity:0; pointer-events:none; }
+.health-condition label span { display:block; min-width:76px; padding:9px 12px; border:1px solid var(--line); border-radius:999px; background:var(--surface-soft); color:var(--text); text-align:center; font-size:13px; cursor:pointer; }
+.health-condition input:checked + span { border-color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,var(--surface)); color:var(--accent); font-weight:700; }
+.health-condition input:focus-visible + span { outline:2px solid var(--accent); outline-offset:2px; }
+.health-assessment { overflow:hidden; border:1px solid var(--line); border-radius:var(--radius-md); background:var(--surface); }
+.health-assessment > summary { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 15px; cursor:pointer; list-style:none; }
+.health-assessment > summary::-webkit-details-marker { display:none; }
+.health-assessment > summary span:first-child { display:grid; gap:3px; }
+.health-assessment > summary strong { font-size:14px; }
+.health-assessment > summary small { color:var(--muted); font-size:11px; }
+.assessment-toggle { color:var(--muted); font-size:19px; transition:transform .15s ease; }
+.health-assessment[open] .assessment-toggle { transform:rotate(45deg); }
+.health-assessment-body { padding:0 15px 15px; border-top:1px solid var(--line); }
+.health-assessment-body .health-note { margin-top:12px; }
+.health-assessment-body .health-input { padding:9px 0; }
+.health-assessment-body .form-field { margin:10px 0; }
+.health-assessment-body .button-primary { width:100%; margin-top:6px; }
+[data-medication-content] { display:grid; gap:12px; margin:0; padding:0; border:0; min-width:0; }
+.medication-section { gap:12px; }
+.medication-form, .medication-item { padding:13px; }
+.medication-form { display:grid; gap:8px; }
+.medication-form h4 { margin:0 0 3px; }
+.medication-form .form-field { margin-bottom:7px; gap:5px; }
+.medication-form .form-field input, .medication-form .form-field textarea, .medication-form .form-field select { min-height:39px; padding:8px 10px; }
+.medication-form .medication-slot-fields { display:grid; gap:6px; padding:9px 10px; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); }
+.medication-form .medication-slot-fields > strong { font-size:12px; }
+.medication-form .medication-note { margin:0; color:var(--muted); font-size:11px; line-height:1.5; }
+.medication-form .button-primary { min-height:40px; margin-top:2px; }
+.medication-item { padding:12px; }
+.medication-item .medication-actions { margin-top:9px; }
+.medication-dose-actions button.is-selected { border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); background:color-mix(in srgb,var(--accent) 12%,var(--surface)); color:var(--accent); box-shadow:none; font-weight:650; }
+.medication-dose-actions button.is-selected.is-skipped { border-color:color-mix(in srgb,#a34b35 45%,var(--line)); background:color-mix(in srgb,#a34b35 10%,var(--surface)); color:#a34b35; box-shadow:none; }
+.medication-dose-actions button { min-height:36px; padding:7px 8px; }
+.medication-dose-heading { gap:4px; }
+.medication-dose-heading span { color:var(--muted); font-size:11px; }
