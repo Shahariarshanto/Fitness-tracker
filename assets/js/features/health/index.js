@@ -18,13 +18,11 @@ function render(state) {
   const asdas = state.healthScores.asdas || [];
   const basdaiToday = basdai.find(item => item.date === today);
   const asdasToday = asdas.find(item => item.date === today);
-  const latestB = basdai.length ? [...basdai].sort((a,b) => b.date.localeCompare(a.date))[0].score : "—";
   const latestA = asdas.length ? [...asdas].sort((a,b) => b.date.localeCompare(a.date))[0].score : "—";
   return `
   <section class="health-intro"><p class="eyebrow">PERSONAL HEALTH JOURNAL</p><h3>আপনার স্বাস্থ্যের এক জায়গার ডায়েরি</h3><p>উপসর্গ, ব্যথার স্থান ও রোগ-কার্যকলাপের স্কোর নিয়মিত নথিবদ্ধ করুন।</p></section>
   <section class="health-overview">
     <article><span>আজকের ব্যথা</span><strong>${pain.score == null ? "—" : pain.score + "/১০"}</strong></article>
-    <article><span>সর্বশেষ BASDAI</span><strong>${latestB}</strong></article>
     <article><span>সর্বশেষ ASDAS-CRP</span><strong>${latestA}</strong></article>
   </section>
   <section class="health-card"><div class="health-card-heading"><div><p class="eyebrow">01 · DAILY CHECK-IN</p><h3>আজকের উপসর্গ</h3></div><span class="health-date">${today}</span></div>
