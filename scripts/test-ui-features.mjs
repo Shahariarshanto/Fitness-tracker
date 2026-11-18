@@ -68,7 +68,6 @@ try {
   await assessment.locator("summary").click();
   const asdas=page.locator('form[data-health-form="asdas"]');
   for (const [i,name] of ["backPain","morningDuration","patientGlobal","peripheralPain"].entries()) await setRange(asdas.locator(`input[name="${name}"]`),i+2);
-  await asdas.locator('input[name="assessmentDate"]').fill(new Date().toISOString().slice(0,10));
   await asdas.locator('input[name="crp"]').fill("5.2");
   await asdas.locator("button[type=submit]").click();
   check("ASDAS-CRP calculation and history");
@@ -113,8 +112,9 @@ try {
   check("Restore controls removed", await page.locator("[data-backup-choose], [data-backup-file]").count()===0 && await page.getByText("ব্যাকআপ থেকে পুনরুদ্ধার").count()===0);
 
   await page.waitForTimeout(3500);
+  const healthDate=(await page.locator(".health-date").textContent()).trim();
   const localState=await page.evaluate(()=>JSON.parse(localStorage.getItem("as-care-state-v1")||"null"));
-  check("Local persistence contains seeded feature records", Boolean(localState?.dailyActivity && localState?.symptoms?.daily && localState?.symptoms?.daily[ new Date().toISOString().slice(0,10) ]?.overall==="moderate" && localState?.medication?.items?.some(x=>x.name==="UI TEST - Dummy Medicine") && localState?.healthScores?.asdas?.length && localState?.painLogs));
+  check("Local persistence contains seeded feature records", Boolean(localState?.dailyActivity && localState?.symptoms?.daily && localState?.symptoms?.daily[healthDate]?.overall==="moderate" && localState?.medication?.items?.some(x=>x.name==="UI TEST - Dummy Medicine") && localState?.healthScores?.asdas?.length && localState?.painLogs));
   await page.reload({waitUntil:"networkidle"});
   await page.locator('[data-page="health"]').click();
   await page.locator(".health-overview").getByText("6/১০").waitFor({timeout:20000});
