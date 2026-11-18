@@ -59,17 +59,17 @@ The legacy implementation still occupies `assets/js/app.js`, so Step 1 uses `ass
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/health/index.js` | Self-contained Health Journal dashboard: daily symptom check-in, pain location, BASDAI and ASDAS-CRP assessment/history; handles render and delegated interactions | core state, core dates, Feedback | Subscribes to state; owns Health content root |
+| `assets/js/features/health/index.js` | Self-contained Health Journal dashboard: compact daily condition/pain/stiffness check-in, optional pain location, ASDAS-CRP assessment drawer; mounts Medication management between pain location and clinical assessment | core state, core dates, Feedback | Subscribes to state; owns Health content root |
 | `assets/css/pages.css` | Health journal overview, cards, forms, score history and mobile layout | design tokens | Styles only |
 
-The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Health records use shared application state and sync through the Cloudflare persistence service. The Health UI contains Daily Check-in, Pain Location, BASDAI, ASDAS-CRP and the separate Medication Management panel; the former Health Timeline and Personal Flare Plan UI are removed.
+The previous five Health submodules were removed from the runtime and service-worker inventory. Keeping the Health feature in one isolated entry module also narrows the JavaScript import graph while the reported parser error is being resolved. Health records use shared application state and sync through the Cloudflare persistence service. The Health tab order is Overview, compact Daily Check-in (overall condition, pain and stiffness), optional Pain Location, Today's Medication and Medication List/Schedule, then a collapsed Clinical Assessment drawer containing ASDAS-CRP only. BASDAI is removed from the Health UI and Health Overview; existing BASDAI records remain stored for historical Insights compatibility. Medication management remains mounted inside Health and retains its existing add/edit/archive and per-dose adherence behavior. The former Health Timeline and Personal Flare Plan UI remain removed.
 
 
 ## Step 5 — Medication feature
 
 | Module | Responsibility | Imports | State/DOM ownership |
 |---|---|---|---|
-| `assets/js/features/medication/index.js` | Adds/edits/archives medication entries; records today's taken/skipped status; subscribes and re-renders | core state, core dates, Feedback, MedicationPanel | Owns `data-medication-content` inside Health |
+| `assets/js/features/medication/index.js` | Adds/edits/archives medication entries; records today's taken/skipped status; subscribes and re-renders | core state, core dates, Feedback, MedicationPanel | Owns `data-medication-content` inside the Health tab, between pain location and clinical assessment |
 | `assets/js/features/medication/MedicationPanel.js` | Renders medication form, active list, daily summary, status controls and recent adherence history | none | Pure rendering; no state mutation |
 | `assets/js/services/medication.js` | Shared date-scoped medication adherence state update used by Overview and Medication | none | Pure state transformation; no DOM or persistence access |
 | `assets/css/pages.css` | Responsive medication tracker cards, forms, status and history styles | design tokens | Styles only |
