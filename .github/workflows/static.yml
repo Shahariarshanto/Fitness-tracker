@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Validate project structure and runtime dependencies
         run: node scripts/validate-project.mjs
+      - name: Validate 100-day Daily Check-in library
+        run: node scripts/test-daily-content.mjs
       - name: Test Worker authentication, user isolation and sync
         run: node scripts/test-worker-sync.mjs
       - name: Test movement catalogue, guides, timers and completion rendering
