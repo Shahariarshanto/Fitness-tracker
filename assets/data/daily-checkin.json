@@ -44,7 +44,7 @@
       "id": "daily-003",
       "category": "AS KNOWLEDGE",
       "headline": "রোগ সম্পর্কে জানা আত্মযত্নের অংশ",
-      "message": "রোগ, উপসর্গ ও চিকিৎসা সম্পর্কে নির্ভরযোগ্য তথ্য জানা সিদ্ধান্তে সাহায্য করে।",
+      "message": "রোগ ও চিকিৎসা সম্পর্কে নির্ভরযোগ্য তথ্য সিদ্ধান্তে সাহায্য করে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -154,7 +154,7 @@
       "id": "daily-013",
       "category": "MOVEMENT",
       "headline": "ব্যায়ামে বৈচিত্র্য রাখুন",
-      "message": "ব্যক্তিগত পরিকল্পনায় নমনীয়তা, শক্তি, ভঙ্গি, শ্বাস ও অ্যারোবিক অনুশীলন থাকতে পারে।",
+      "message": "পরিকল্পনায় নমনীয়তা, শক্তি, ভঙ্গি, শ্বাস ও অ্যারোবিক ব্যায়াম থাকতে পারে।",
       "source": {
         "label": "ASAS–EULAR · 2022",
         "url": "https://ard.bmj.com/content/82/1/19",
@@ -231,7 +231,7 @@
       "id": "daily-020",
       "category": "MOVEMENT",
       "headline": "পরিকল্পনা সময়মতো পর্যালোচনা করুন",
-      "message": "সক্ষমতা বা উপসর্গ বদলালে ফিজিওথেরাপিস্টের সঙ্গে ব্যায়াম পরিকল্পনা পর্যালোচনা করুন।",
+      "message": "সক্ষমতা বদলালে ফিজিওথেরাপিস্টের সঙ্গে পরিকল্পনা পর্যালোচনা করুন।",
       "source": {
         "label": "ASAS–EULAR · 2022",
         "url": "https://ard.bmj.com/content/82/1/19",
@@ -352,7 +352,7 @@
       "id": "daily-031",
       "category": "POSTURE",
       "headline": "ভঙ্গির অনুশীলন পরিকল্পনার অংশ",
-      "message": "axial spondyloarthritis-এর structured exercise programme-এ postural exercise থাকে।",
+      "message": "axSpA ব্যায়াম পরিকল্পনায় postural exercise অন্তর্ভুক্ত থাকে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -396,7 +396,7 @@
       "id": "daily-035",
       "category": "POSTURE",
       "headline": "কাজের জায়গায় আরামকে গুরুত্ব দিন",
-      "message": "কাজের ভঙ্গিতে সমস্যা হলে ফিজিওথেরাপিস্ট বা occupational therapist-এর পরামর্শ নিন।",
+      "message": "কাজের ভঙ্গিতে সমস্যা হলে থেরাপিস্টের পরামর্শ নিন।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -429,7 +429,7 @@
       "id": "daily-038",
       "category": "POSTURE",
       "headline": "সহায়ক উপকরণ কাজে লাগতে পারে",
-      "message": "দৈনন্দিন কাজে অসুবিধা হলে বিশেষজ্ঞ থেরাপিস্ট physical aid সম্পর্কে পরামর্শ দিতে পারেন।",
+      "message": "কাজে অসুবিধা হলে বিশেষজ্ঞ physical aid-এর পরামর্শ দিতে পারেন।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -462,7 +462,7 @@
       "id": "daily-041",
       "category": "PHYSIOTHERAPY",
       "headline": "ফিজিওথেরাপিস্টের মূল্যায়ন নিন",
-      "message": "ইতিহাস, ভঙ্গি ও নমনীয়তা দেখে ফিজিওথেরাপিস্ট ব্যক্তিগত পরিকল্পনা তৈরি করতে পারেন।",
+      "message": "ফিজিওথেরাপিস্ট ইতিহাস, ভঙ্গি ও নমনীয়তা মূল্যায়ন করেন।",
       "source": {
         "label": "NASS · Physiotherapy",
         "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
@@ -473,7 +473,7 @@
       "id": "daily-042",
       "category": "PHYSIOTHERAPY",
       "headline": "ব্যক্তিগত ব্যায়াম প্রোগ্রাম গুরুত্বপূর্ণ",
-      "message": "NICE specialist physiotherapist-এর structured individual programme সুপারিশ করে।",
+      "message": "NICE specialist physiotherapist-এর ব্যক্তিগত প্রোগ্রাম সুপারিশ করে।",
       "source": {
         "label": "NASS · Physiotherapy",
         "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
@@ -484,7 +484,7 @@
       "id": "daily-043",
       "category": "PHYSIOTHERAPY",
       "headline": "পরিকল্পনায় একাধিক উপাদান থাকা উচিত",
-      "message": "স্ট্রেচিং, শক্তিবর্ধক, posture, শ্বাস, spinal extension ও aerobic অনুশীলন থাকতে পারে।",
+      "message": "পরিকল্পনায় স্ট্রেচিং, শক্তি, posture, শ্বাস ও aerobic ব্যায়াম থাকে।",
       "source": {
         "label": "NASS · Physiotherapy",
         "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
@@ -506,7 +506,7 @@
       "id": "daily-045",
       "category": "PHYSIOTHERAPY",
       "headline": "দৈনন্দিন অসুবিধা জানিয়ে দিন",
-      "message": "কাজকর্মে সীমাবদ্ধতা থাকলে physiotherapist বা occupational therapist-এর সাহায্য নেওয়া যায়।",
+      "message": "কাজে সীমাবদ্ধতায় থেরাপিস্টের সাহায্য নিতে পারেন।",
       "source": {
         "label": "NASS · Physiotherapy",
         "url": "https://nass.co.uk/managing-my-as/exercise/physiotherapy/",
@@ -605,7 +605,7 @@
       "id": "daily-054",
       "category": "SAFETY",
       "headline": "পড়ে গেলে অবহেলা করবেন না",
-      "message": "axial spondyloarthritis-এ fracture ঝুঁকি থাকতে পারে; পড়ে গেলে চিকিৎসকের পরামর্শ নিন।",
+      "message": "AS-এ fracture ঝুঁকি থাকতে পারে; পড়ে গেলে চিকিৎসকের পরামর্শ নিন।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -671,7 +671,7 @@
       "id": "daily-060",
       "category": "SAFETY",
       "headline": "ফ্লেয়ার পরিকল্পনা ব্যক্তিগত হওয়া দরকার",
-      "message": "NICE ব্যক্তির প্রয়োজন ও পরিস্থিতি অনুযায়ী flare management plan তৈরির কথা বলে।",
+      "message": "NICE ব্যক্তির প্রয়োজন অনুযায়ী flare plan তৈরির কথা বলে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -770,7 +770,7 @@
       "id": "daily-069",
       "category": "STRENGTH",
       "headline": "ব্যায়ামের ধরন একসঙ্গে সাজান",
-      "message": "শক্তি, নমনীয়তা ও aerobic অনুশীলনের ভারসাম্য ব্যক্তিগত প্রোগ্রামে বিবেচিত হয়।",
+      "message": "ব্যক্তিগত প্রোগ্রামে শক্তি, নমনীয়তা ও aerobic ব্যায়াম থাকতে পারে।",
       "source": {
         "label": "NASS · Back to Action",
         "url": "https://nass.co.uk/managing-my-as/exercise/back-to-action-exercise-programme/",
@@ -869,7 +869,7 @@
       "id": "daily-078",
       "category": "BREATHING",
       "headline": "ব্যায়াম প্রোগ্রামে শ্বাসও মনে রাখুন",
-      "message": "NICE-এর তালিকায় stretching ও strengthening-এর পাশাপাশি deep breathing রয়েছে।",
+      "message": "NICE-এর তালিকায় stretching, strengthening ও deep breathing রয়েছে।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -946,7 +946,7 @@
       "id": "daily-085",
       "category": "WELLBEING",
       "headline": "মানসিক চাপের প্রভাব আলোচনা করুন",
-      "message": "দীর্ঘমেয়াদি রোগে দৈনন্দিন সমস্যা হলে চিকিৎসককে জানান ও প্রয়োজনীয় সহায়তা চান।",
+      "message": "দৈনন্দিন সমস্যা হলে চিকিৎসককে জানান এবং সহায়তা চান।",
       "source": {
         "label": "ASAS–EULAR · 2022",
         "url": "https://ard.bmj.com/content/82/1/19",
@@ -1067,7 +1067,7 @@
       "id": "daily-096",
       "category": "SELF-CARE",
       "headline": "বিশেষজ্ঞ থেরাপিস্টের সাহায্য নিন",
-      "message": "দৈনন্দিন কাজের সমস্যা অনুযায়ী physiotherapist বা occupational therapist সহায়তা করতে পারেন।",
+      "message": "কাজে সমস্যা হলে থেরাপিস্টের সহায়তা নিতে পারেন।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
@@ -1111,7 +1111,7 @@
       "id": "daily-100",
       "category": "SELF-CARE",
       "headline": "নির্ভরযোগ্য তথ্যসূত্র ব্যবহার করুন",
-      "message": "রোগ ও চিকিৎসা সম্পর্কে সিদ্ধান্তে স্বীকৃত স্বাস্থ্যপ্রতিষ্ঠানের তথ্যকে অগ্রাধিকার দিন।",
+      "message": "রোগের তথ্যের জন্য স্বীকৃত স্বাস্থ্যপ্রতিষ্ঠানকে অগ্রাধিকার দিন।",
       "source": {
         "label": "NICE · NG65",
         "url": "https://www.nice.org.uk/guidance/ng65/chapter/Recommendations",
