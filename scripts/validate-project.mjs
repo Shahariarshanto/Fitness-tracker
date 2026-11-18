@@ -150,15 +150,21 @@ if (!exists(dailyContentPath)) {
   try {
     const database = JSON.parse(read(dailyContentPath));
     const items = Array.isArray(database.items) ? database.items : [];
-    if (database.schemaVersion !== 1) fail("Daily Check-in database schemaVersion must be 1");
-    if (items.length < 20) fail(`Daily Check-in database should contain at least 20 items; found ${items.length}`);
+    if (database.schemaVersion !== 2) fail("Daily Check-in database schemaVersion must be 2");
+    if (database.totalItems !== 100 || items.length !== 100) fail(`Daily Check-in database must contain exactly 100 items; found ${items.length}`);
+    if (!Array.isArray(database.categories) || database.categories.length !== 10) fail("Daily Check-in database must define 10 categories");
     const ids = items.map(item => item?.id).filter(Boolean);
     if (ids.length !== items.length || new Set(ids).size !== ids.length) fail("Daily Check-in items must have unique, non-empty IDs");
+    const headlines = items.map(item => item?.headline?.trim()).filter(Boolean);
+    const messages = items.map(item => item?.message?.trim()).filter(Boolean);
+    if (new Set(headlines).size !== headlines.length) fail("Daily Check-in headlines must be unique");
+    if (new Set(messages).size !== messages.length) fail("Daily Check-in messages must be unique");
     for (const item of items) {
-      if (![item.category, item.headline, item.message, item.source?.label, item.source?.url].every(value => typeof value === "string" && value.trim())) {
+      if (![item.category, item.headline, item.message, item.source?.label, item.source?.url, item.source?.reference].every(value => typeof value === "string" && value.trim())) {
         fail(`Daily Check-in item ${item.id || "(unknown)"} is missing required text or source metadata`);
         continue;
       }
+      if (!database.categories.includes(item.category)) fail(`Daily Check-in item ${item.id} uses an unknown category`);
       try {
         if (new URL(item.source.url).protocol !== "https:") fail(`Daily Check-in item ${item.id} must use an HTTPS source URL`);
       } catch { fail(`Daily Check-in item ${item.id} has an invalid source URL`); }
