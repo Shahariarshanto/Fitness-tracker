@@ -11,9 +11,32 @@ let contentPromise;
 function isValidItem(item) {
   if (!item || typeof item !== "object") return false;
   if (!["id", "category", "headline", "message"].every(key => typeof item[key] === "string" && item[key].trim())) return false;
-  if (!item.source || typeof item.source.label !== "string" || typeof item.source.url !== "string") return false;
-  try { return new URL(item.source.url).protocol === "https:"; }
-  catch { return false; }
+  if (!item.source || !["label", "url", "reference"].every(key => typeof item.source[key] === "string" && item.source[key].trim())) return false;
+  try {
+    const url = new URL(item.source.url);
+    return url.protocol === "https:" && Boolean(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function validateLibrary(payload) {
+  if (payload?.schemaVersion !== 2 || payload?.rotation !== "one-item-per-local-calendar-day") return false;
+  if (payload?.totalItems !== 100 || !Array.isArray(payload.items) || payload.items.length !== 100) return false;
+  if (!Array.isArray(payload.categories) || !payload.categories.length) return false;
+  const ids = new Set();
+  const headlines = new Set();
+  const messages = new Set();
+  for (const item of payload.items) {
+    if (!isValidItem(item) || !payload.categories.includes(item.category)) return false;
+    const headline = item.headline.trim().toLocaleLowerCase("bn");
+    const message = item.message.trim().toLocaleLowerCase("bn");
+    if (ids.has(item.id) || headlines.has(headline) || messages.has(message)) return false;
+    ids.add(item.id);
+    headlines.add(headline);
+    messages.add(message);
+  }
+  return true;
 }
 
 async function loadItems() {
@@ -24,9 +47,8 @@ async function loadItems() {
         return response.json();
       })
       .then(payload => {
-        const items = Array.isArray(payload?.items) ? payload.items.filter(isValidItem) : [];
-        if (!items.length) throw new Error("Daily Check-in content library is empty or invalid.");
-        return items;
+        if (!validateLibrary(payload)) throw new Error("Daily Check-in content library failed schema validation.");
+        return payload.items;
       })
       .catch(error => {
         console.warn("AS Care is using its safe Daily Check-in fallback.", error);
@@ -47,6 +69,7 @@ export function selectDailyContent(items, dayKey) {
   const index = ((ordinal % items.length) + items.length) % items.length;
   return items[index];
 }
+
 export async function loadDailyContent(dayKey) {
   return selectDailyContent(await loadItems(), dayKey);
 }
