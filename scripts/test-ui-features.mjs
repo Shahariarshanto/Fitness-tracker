@@ -65,7 +65,7 @@ try {
   const basdai=page.locator('form[data-health-form="basdai"]');
   for (const [i,name] of ["fatigue","spinalPain","jointPain","tenderness","morningDuration","morningSeverity"].entries()) await setRange(basdai.locator(`input[name="${name}"]`),i+2);
   await basdai.locator("button[type=submit]").click();
-  await page.locator(".health-overview").getByText(/\d+\.\d+/).first().waitFor();
+  await page.locator(".health-card").filter({has:basdai}).locator(".health-history li").first().waitFor();
   check("BASDAI score calculation and history");
   const asdas=page.locator('form[data-health-form="asdas"]');
   for (const [i,name] of ["backPain","morningDuration","patientGlobal","peripheralPain"].entries()) await setRange(asdas.locator(`input[name="${name}"]`),i+2);
