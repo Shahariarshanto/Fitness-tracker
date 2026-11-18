@@ -13,7 +13,7 @@ The application state uses its documented versioned schema and does not restore 
 | `dailyActivity` | Date-keyed exercise completion and daily activity |
 | `painLogs` | Date-keyed pain ratings |
 | `medication` | Medication definitions and date-keyed adherence |
-| `symptoms` | Night mobility, stiffness, fatigue, sleep |
+| `symptoms` | Date-keyed overall condition and stiffness; older symptom fields remain readable for historical records |
 | `healthScores` | BASDAI and ASDAS inputs/results/history |
 | `healthEvents` | Compatibility-only retained field; no Health UI |
 | `flarePlan` | Compatibility-only retained field; no Health UI |
@@ -29,7 +29,7 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
   dailyActivity: {},
   painLogs: {},
   medication: { items: [{ id, name, dose, schedule, time, instructions, active, createdAt, updatedAt }], dailyLogs: { "YYYY-MM-DD": { medicationId: { status: "taken|skipped", updatedAt } } } },
-  symptoms: { daily: { "YYYY-MM-DD": { nightMobility: 0, stiffness: 0, fatigue: 0, sleep: 0, updatedAt: "ISO-8601" } } },
+  symptoms: { daily: { "YYYY-MM-DD": { overall: "good|moderate|bad", stiffness: 0, updatedAt: "ISO-8601" } } },
   healthScores: { basdai: [{ id, date, inputs, score }], asdas: [{ id, date, inputs, crp, score, method: "ASDAS-CRP" }] },
   healthEvents: [], // retained for Worker state-schema compatibility; no UI
   flarePlan: { warningSigns: "", actions: "", contacts: "" }, // retained for schema compatibility; no UI
@@ -40,9 +40,9 @@ Step 1 starts with this explicit default shape. Feature steps may extend it deli
 Date-keyed records use local calendar date keys in `YYYY-MM-DD` form. Date helpers must avoid UTC date shifts.
 
 ### Health feature records
-- Daily symptom values (night mobility, stiffness, fatigue, sleep) are stored under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`. The Health Journal combines these into one daily check-in UI.
+- The current compact Daily Check-in stores `overall` (`good`, `moderate`, or `bad`) and `stiffness` under `symptoms.daily[YYYY-MM-DD]`; pain is stored in `painLogs[YYYY-MM-DD].score`. Older `nightMobility`, `fatigue`, and `sleep` values are retained as historical fields and are not requested in the current daily form.
 - Daily Check-in uses date-keyed records: saving again on the same date modifies that date's symptom values; other dates remain unchanged. Pain and the remaining symptom values are presented together as one daily entry.
-- BASDAI and ASDAS keep exactly one result per calendar day. Recalculation on the same date updates the existing record, including questionnaire inputs; ASDAS also updates CRP in mg/L. Previous dates remain in history. On state load, duplicate same-day score records are normalized to the last saved record for that date, then sorted by date. BASDAI and ASDAS range controls are prefilled from the saved same-day inputs.
+- Historical BASDAI records remain in state for compatibility and existing Insights history, but BASDAI is no longer offered in the Health assessment UI or Health Overview. ASDAS-CRP is available only inside a collapsed Clinical Assessment drawer. Its record date is the CRP report date; saving a second assessment for the same report date updates that date's record, while previous dates remain in history. CRP is stored in mg/L with the four patient-reported inputs and calculated score.
 - The Health event timeline and personal flare-plan UI were removed on 2026-11-17. `healthEvents` and `flarePlan` remain compatibility-only top-level fields because the current Worker state validator requires them. State normalization preserves existing values; the Health UI neither renders nor edits them. Do not remove these fields without a coordinated Worker schema and migration change.
 
 ## 4. Persistence and source of truth
